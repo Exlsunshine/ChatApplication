@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 public class PackString
 {
+	private JSONObject msg = null;
+	
 	/**
 	 * 将contents转换成JASON类型的字符串<br>
 	 * msgInfo与contents应满足如下格式：<br>
@@ -17,12 +19,12 @@ public class PackString
 	 * 如：<br>
 	 * "friends":[{"name":"bob","age":20},{"name":"Alice","age":30}]
 	 * 
-	 * @param msgInfo 消息描述内容
+	 * @param msgName 消息名称
 	 * @param contents 消息内容
 	 * @return JSON格式的字符串
 	 * @throws JSONException
 	 */
-	public static String generateJsonString(String msgInfo, ArrayList<Map<String, Object>> contents) throws JSONException
+	public static String generateJsonString(String msgName, ArrayList<Map<String, Object>> contents) throws JSONException
 	{
 		if (contents == null)
 		{
@@ -47,9 +49,66 @@ public class PackString
 				obj.put(key, item.get(key));
 			items.put(obj);
 		}
-		result.put(msgInfo, items);
+		result.put(msgName, items);
 
 		return result.toString();
+	}
+	
+	
+	public PackString(String jsonString)
+	{
+		msg = string2Json(jsonString);
+	}
+	
+	private JSONObject string2Json(String jsonString)
+	{
+		if (jsonString == null || jsonString.length() == 0)
+		{
+			System.out.println("Error:\tjsonString is null or size is 0.");
+			return null;
+		}
+		
+		JSONObject json = null;
+		try
+		{
+			json = new JSONObject(jsonString);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return json;
+	}
+	
+	
+	public Object getValue(int index, String key, String msgName)
+	{
+		if (key == null || key.length() == 0)
+		{
+			System.out.println("Error:\tkey is null or size is 0.");
+			return null;
+		}
+		if (msgName == null || msgName.length() == 0)
+		{
+			System.out.println("Error:\tmsgName is null or size is 0.");
+			return null;
+		}
+		if (index < 0)
+		{
+			System.out.println("Error:\tindex illegal.");
+			return null;
+		}
+		
+		Object obj = null;
+		try
+		{
+			JSONArray arr = (JSONArray) msg.get(msgName);
+			JSONObject item = arr.getJSONObject(index);
+			obj = item.get(key);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return obj;
 	}
 	
 	public static void main(String[] args)
@@ -75,11 +134,17 @@ public class PackString
 		item.put("age", 400);
 		items.add(item);
 		
-		try {
-			System.out.println(generateJsonString("friends", items));
+		
+		
+		try
+		{
+			PackString ps = new PackString(generateJsonString("friends", items));
+			System.out.println(ps.getValue(0, "name", "friends"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 }
 
