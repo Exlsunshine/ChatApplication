@@ -2,9 +2,10 @@ package com.Message;
 
 import com.doc.User;
 
+
 /**
- * å¯¹è¯ç±»ï¼šç”¨äºä¿å­˜å’Œç®¡ç†ä¸¤ä¸ªç”¨æˆ·é—´äº’ç›¸å‘é€çš„æ¶ˆæ¯<br>
- * ä¸€ä¸ªå¯¹è¯åŒ…å«ï¼šç”¨æˆ·Aã€ç”¨æˆ·Bã€ABä¹‹é—´äº’ç›¸å‘é€çš„æ¶ˆæ¯è®°å½•<br>
+ * ¶Ô»°Àà£ºÓÃÓÚ±£´æºÍ¹ÜÀíÁ½¸öÓÃ»§¼ä»¥Ïà·¢ËÍµÄÏûÏ¢<br>
+ * Ò»¸ö¶Ô»°°üº¬£ºÓÃ»§A¡¢ÓÃ»§B¡¢ABÖ®¼ä»¥Ïà·¢ËÍµÄÏûÏ¢¼ÇÂ¼<br>
  * @see {@link AbstractMessage}
  * @author EXLsunshine
  *
@@ -18,39 +19,39 @@ class Dialog
 	public Dialog(User currentUser, User another);
 	
 	/**
-	 * è·å¾—å½“å‰ç”¨æˆ·ï¼ˆå³å½“å‰å¤„äºç™»é™†çŠ¶æ€ã€æ­£åœ¨ä½¿ç”¨è¯¥è½¯ä»¶çš„ç”¨æˆ·ï¼‰
-	 * @return å½“å‰ç”¨æˆ·
+	 * »ñµÃµ±Ç°ÓÃ»§£¨¼´µ±Ç°´¦ÓÚµÇÂ½×´Ì¬¡¢ÕıÔÚÊ¹ÓÃ¸ÃÈí¼şµÄÓÃ»§£©
+	 * @return µ±Ç°ÓÃ»§
 	 */
 	public User getCurrentUser();
 	
 	/**
-	 * è·å¾—æ­¤æ¡å¯¹è¯çš„å¦ä¸€ä¸ªç”¨æˆ·
-	 * @return å¦ä¸€ä¸ªç”¨æˆ·
+	 * »ñµÃ´ËÌõ¶Ô»°µÄÁíÒ»¸öÓÃ»§
+	 * @return ÁíÒ»¸öÓÃ»§
 	 */
 	public User getAnotherUser();
 	
 	/**
-	 * è·å¾—æ­¤æ¡å¯¹è¯çš„æ‰€æœ‰å†å²æ¶ˆæ¯
-	 * @return æ­¤æ¡å¯¹è¯æ‰€æœ‰çš„å†å²æ¶ˆæ¯
+	 * »ñµÃ´ËÌõ¶Ô»°µÄËùÓĞÀúÊ·ÏûÏ¢
+	 * @return ´ËÌõ¶Ô»°ËùÓĞµÄÀúÊ·ÏûÏ¢
 	 */
 	public ArrayList<AbstractMessage> getDialogHistory();
 	
 	/**
-	 * è·å¾—æ­¤æ¡å¯¹è¯çš„æœ€åä¸€æ¡æ¶ˆæ¯
-	 * @return æ­¤æ¡å¯¹è¯çš„æœ€åä¸€æ¡æ¶ˆæ¯
+	 * »ñµÃ´ËÌõ¶Ô»°µÄ×îºóÒ»ÌõÏûÏ¢
+	 * @return ´ËÌõ¶Ô»°µÄ×îºóÒ»ÌõÏûÏ¢
 	 */
 	public AbstractMessage getLastMessage();
 	
 	/**
-	 * å‘æ­¤æ¡å¯¹è¯çš„æœ«å°¾æ·»åŠ ä¸€æ¡æ¶ˆæ¯
-	 * @param message å¾…æ·»åŠ çš„æ¶ˆæ¯
+	 * Ïò´ËÌõ¶Ô»°µÄÄ©Î²Ìí¼ÓÒ»ÌõÏûÏ¢
+	 * @param message ´ıÌí¼ÓµÄÏûÏ¢
 	 */
 	public void appendMessage(AbstractMessage message);
 	
 	/**
-	 * å°†æ­¤æ¡å¯¹è¯ä¸­çš„msgè¿™æ¡æ¶ˆæ¯è½¬å‘ç»™otherè¿™ä¸ªç”¨æˆ·
-	 * @param msg å¾…è½¬å‘çš„æ¶ˆæ¯
-	 * @param other ç›®æ ‡ç”¨æˆ·
+	 * ½«´ËÌõ¶Ô»°ÖĞµÄmsgÕâÌõÏûÏ¢×ª·¢¸øotherÕâ¸öÓÃ»§
+	 * @param msg ´ı×ª·¢µÄÏûÏ¢
+	 * @param other Ä¿±êÓÃ»§
 	 */
 	public void forwardTo(AbstractMessage msg, User other);
 }

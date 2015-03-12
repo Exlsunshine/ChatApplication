@@ -3,39 +3,39 @@ package com.game;
 import com.doc.ConstantValues;
 
 /**
- * æ¸¸æˆçš„æŠ½è±¡ç±»
+ * ÓÎÏ·µÄ³éÏóÀà
  */
 public class AbstractGame
 {
 	private int gameType;
 	
 	/**
-	 * é‡æ–°å¼€å§‹æ¸¸æˆ
+	 * ÖØĞÂ¿ªÊ¼ÓÎÏ·
 	 */
 	public void restart();
 	
 	/**
-	 * æ”¾å¼ƒå¹¶é€€å‡ºæ¸¸æˆ
+	 * ·ÅÆú²¢ÍË³öÓÎÏ·
 	 */
 	public void abort();
 	
 	/**
-	 * æŸ¥è¯¢æ˜¯å¦å·²ç»èƒœåˆ©
-	 * @return true å·²ç»èƒœåˆ©<br>
-	 * false å°šæœªèƒœåˆ©
+	 * ²éÑ¯ÊÇ·ñÒÑ¾­Ê¤Àû
+	 * @return true ÒÑ¾­Ê¤Àû<br>
+	 * false ÉĞÎ´Ê¤Àû
 	 */
 	public boolean isWin();
 	
 	/**
-	 * æŸ¥è¯¢æ˜¯å¦è¶…è¿‡è§„å®šçš„æ¸¸æˆæ—¶é—´
-	 * @return true å·²è¶…è¿‡<br>
-	 * false æœªè¶…è¿‡
+	 * ²éÑ¯ÊÇ·ñ³¬¹ı¹æ¶¨µÄÓÎÏ·Ê±¼ä
+	 * @return true ÒÑ³¬¹ı<br>
+	 * false Î´³¬¹ı
 	 */
 	public boolean isTimeout();
 	
 	/**
-	 * è·å–å½“å‰æ¸¸æˆå¯¹è±¡çš„æ¸¸æˆç±»å‹
-	 * @return æ¸¸æˆç±»å‹<br>
+	 * »ñÈ¡µ±Ç°ÓÎÏ·¶ÔÏóµÄÓÎÏ·ÀàĞÍ
+	 * @return ÓÎÏ·ÀàĞÍ<br>
 	 * GAME_TYPE_EIGHTPUZZLE<br>
 	 * GAME_TYPE_QUIZ<br>
 	 * GAME_TYPE_WHAC

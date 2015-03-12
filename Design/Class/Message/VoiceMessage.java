@@ -1,8 +1,10 @@
 package com.Message;
 
+import com.doc.User;
+
 /**
- * è¯­éŸ³ç±»å‹çš„æ¶ˆæ¯ï¼Œç»§æ‰¿è‡ª{@link AbstractMessage}ï¼š<br>
- * éœ€è¦å°†{@link AbstractMessage}ä¸­çš„æ–¹æ³•é‡å†™
+ * ÓïÒôÀàĞÍµÄÏûÏ¢£¬¼Ì³Ğ×Ô{@link AbstractMessage}£º<br>
+ * ĞèÒª½«{@link AbstractMessage}ÖĞµÄ·½·¨ÖØĞ´
  * @author EXLsunshine
  *
  */
@@ -11,12 +13,36 @@ class VoiceMessage extends AbstractMessage
 	Audio voice;
 
 	/**
-	 * æ’­æ”¾æ­¤æ¡æ¶ˆæ¯ä¸­çš„è¯­éŸ³
+	 * ²¥·Å´ËÌõÏûÏ¢ÖĞµÄÓïÒô
 	 */
 	public void play();
 	
 	/**
-	 * åœæ­¢æ’­æ”¾æ­¤æ¡æ¶ˆæ¯ä¸­çš„è¯­éŸ³
+	 * Í£Ö¹²¥·Å´ËÌõÏûÏ¢ÖĞµÄÓïÒô
 	 */
 	public void stop();
+
+	@Override
+	public User getFromUser() { return fromUser; }
+
+	@Override
+	public User getToUser() { return toUser; }
+
+	@Override
+	public Object getContent()
+	{
+		return null;
+	}
+
+	@Override
+	public int getMsgType() { return ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO; }
+
+	@Override
+	public String getDate() { return date; }
+
+	@Override
+	public boolean hasBeenRead() { return isRead; }
+
+	@Override
+	public void setAsRead() { this.isRead = true; }
 }

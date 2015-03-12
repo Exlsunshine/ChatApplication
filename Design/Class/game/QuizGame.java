@@ -4,8 +4,8 @@ import com.doc.ArrayList;
 import com.doc.QuizItem;
 
 /**
- * è°œè¯­é—¯å…³æ¸¸æˆç±»ï¼šç»§æ‰¿è‡ª{@link AbstractGame}<br>
- * ä¸€ä¸ªè°œè¯­æ¸¸æˆä¸­åŒ…å«ï¼šä¸€ä¸ªè°œè¯­å¯¹è±¡åˆ—è¡¨
+ * ÃÕÓï´³¹ØÓÎÏ·Àà£º¼Ì³Ğ×Ô{@link AbstractGame}<br>
+ * Ò»¸öÃÕÓïÓÎÏ·ÖĞ°üº¬£ºÒ»¸öÃÕÓï¶ÔÏóÁĞ±í
  * @author EXLsunshine
  *
  */
@@ -15,34 +15,34 @@ class QuizGame implements AbstractGame
 	private long maxTime;
 	
 	/**
-	 * å½“å‰æ­£åœ¨å°è¯•ç ´è§£çš„è°œè¯­å¯¹åº”çš„åœ¨åˆ—è¡¨ä¸­çš„ç´¢å¼•
+	 * µ±Ç°ÕıÔÚ³¢ÊÔÆÆ½âµÄÃÕÓï¶ÔÓ¦µÄÔÚÁĞ±íÖĞµÄË÷Òı
 	 */
 	private int quizIndex;
 
 	/**
-	 * åˆå§‹åŒ–è°œè¯­é—¯å…³æ¸¸æˆç±»ï¼Œå¹¶å°†å…¶ä¸­çš„è°œè¯­å¯¹è±¡åˆ—è¡¨è®¾ç½®ä¸ºdata
+	 * ³õÊ¼»¯ÃÕÓï´³¹ØÓÎÏ·Àà£¬²¢½«ÆäÖĞµÄÃÕÓï¶ÔÏóÁĞ±íÉèÖÃÎªdata
 	 * @param data
 	 */
 	public QuizGame(ArrayList<QuizItem> data);
 	
 	/**
-	 * è·å¾—å½“å‰æ­£åœ¨å°è¯•ç ´è§£çš„è°œè¯­çš„æç¤º
-	 * @return è°œè¯­çš„æç¤º
+	 * »ñµÃµ±Ç°ÕıÔÚ³¢ÊÔÆÆ½âµÄÃÕÓïµÄÌáÊ¾
+	 * @return ÃÕÓïµÄÌáÊ¾
 	 */
 	public String getCurrentHint();
 	
 	/**
-	 * æ£€æŸ¥å½“å‰æ­£åœ¨å°è¯•ç ´è§£çš„è°œè¯­çš„ç­”æ¡ˆæ˜¯å¦ä¸ºuserAnswer
-	 * @param userAnswer æƒ³è¦å°è¯•çš„ç­”æ¡ˆ
-	 * @return true æ­£ç¡®<br>
-	 * false é”™è¯¯
+	 * ¼ì²éµ±Ç°ÕıÔÚ³¢ÊÔÆÆ½âµÄÃÕÓïµÄ´ğ°¸ÊÇ·ñÎªuserAnswer
+	 * @param userAnswer ÏëÒª³¢ÊÔµÄ´ğ°¸
+	 * @return true ÕıÈ·<br>
+	 * false ´íÎó
 	 */
 	public boolean checkAnswer(String userAnswer);	
 }
 
 /**
- * è°œè¯­ç±»ï¼š<br>
- * ä¸€ä¸ªè°œè¯­å¯¹è±¡åŒ…å«ï¼šä¸€ä¸ªæç¤ºå’Œä¸€ä¸ªç­”æ¡ˆ
+ * ÃÕÓïÀà£º<br>
+ * Ò»¸öÃÕÓï¶ÔÏó°üº¬£ºÒ»¸öÌáÊ¾ºÍÒ»¸ö´ğ°¸
  * @author EXLsunshine
  *
  */
@@ -52,21 +52,21 @@ class QuizItem
 	private String answer;
 
 	/**
-	 * åˆå§‹åŒ–è°œè¯­ç±»å¯¹è±¡ï¼Œå°†æç¤ºè®¾ç½®ä¸ºhintï¼Œç­”æ¡ˆè®¾ç½®ä¸ºanswer
-	 * @param hint è°œè¯­çš„æç¤º
-	 * @param answer è°œè¯­çš„ç­”æ¡ˆ
+	 * ³õÊ¼»¯ÃÕÓïÀà¶ÔÏó£¬½«ÌáÊ¾ÉèÖÃÎªhint£¬´ğ°¸ÉèÖÃÎªanswer
+	 * @param hint ÃÕÓïµÄÌáÊ¾
+	 * @param answer ÃÕÓïµÄ´ğ°¸
 	 */
 	public QuizItem(String hint, String answer);
 	
 	/**
-	 * è·å–æ­¤æ¡è°œè¯­çš„æç¤º
-	 * @return è°œè¯­çš„æç¤º
+	 * »ñÈ¡´ËÌõÃÕÓïµÄÌáÊ¾
+	 * @return ÃÕÓïµÄÌáÊ¾
 	 */
 	public String getHint();
 	
 	/**
-	 * è·å–æ­¤æ¡è°œè¯­çš„ç­”æ¡ˆ
-	 * @return è°œè¯­çš„ç­”æ¡ˆ
+	 * »ñÈ¡´ËÌõÃÕÓïµÄ´ğ°¸
+	 * @return ÃÕÓïµÄ´ğ°¸
 	 */
 	public String getAnswer();
 }

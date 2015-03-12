@@ -3,8 +3,8 @@ package com.game;
 import com.doc.ConstantValues;
 
 /**
- * åå®¹é“æ¸¸æˆç±»ï¼š<br>
- * ç»§æ‰¿è‡ª{@link AbstractGame}
+ * »ªÈİµÀÓÎÏ·Àà£º<br>
+ * ¼Ì³Ğ×Ô{@link AbstractGame}
  * @author EXLsunshine
  *
  */
@@ -16,52 +16,52 @@ public class EightPuzzleGame extends AbstractGame
 	private int [][] board;
 
 	/**
-	 * éšæœºçš„ç”Ÿæˆä¸€ä¸ª3x3çš„åå®¹é“æ£‹ç›˜
+	 * Ëæ»úµÄÉú³ÉÒ»¸ö3x3µÄ»ªÈİµÀÆåÅÌ
 	 */
 	private void generateBoard();
 	
 	/**
-	 * æ£€æŸ¥å½“å‰æ£‹ç›˜æ˜¯å¦å’Œæ£‹(å³æ— è§£)
-	 * @return true æ— è§£<br>
-	 * false æœ‰è§£
+	 * ¼ì²éµ±Ç°ÆåÅÌÊÇ·ñºÍÆå(¼´ÎŞ½â)
+	 * @return true ÎŞ½â<br>
+	 * false ÓĞ½â
 	 */
 	private boolean isTie();
 	
 	/**
-	 * å‘ä¸Šç§»åŠ¨æ£‹ç›˜
+	 * ÏòÉÏÒÆ¶¯ÆåÅÌ
 	 */
 	private void moveUp();
 	
 	/**
-	 * å‘ä¸‹ç§»åŠ¨æ£‹ç›˜
+	 * ÏòÏÂÒÆ¶¯ÆåÅÌ
 	 */
 	private void moveDown();
 	
 	/**
-	 * å‘å·¦ç§»åŠ¨æ£‹ç›˜
+	 * Ïò×óÒÆ¶¯ÆåÅÌ
 	 */
 	private void moveLeft();
 	
 	/**
-	 * å‘å³ç§»åŠ¨æ£‹ç›˜
+	 * ÏòÓÒÒÆ¶¯ÆåÅÌ
 	 */
 	private void moveRight();
 
 	/**
-	 * å¯¹æ£‹ç›˜è¿›è¡Œç§»åŠ¨æ“ä½œ
+	 * ¶ÔÆåÅÌ½øĞĞÒÆ¶¯²Ù×÷
 	 * @param direction <br>
-	 * DIRECTION_UP ä¸Š<br>
-	 * DIRECTION_DOWN ä¸‹<br>
-	 * DIRECTION_LEFT å·¦<br>
-	 * DIRECTION_RIGHT å³<br>
+	 * DIRECTION_UP ÉÏ<br>
+	 * DIRECTION_DOWN ÏÂ<br>
+	 * DIRECTION_LEFT ×ó<br>
+	 * DIRECTION_RIGHT ÓÒ<br>
 	 * @see ConstantValues.InstructionCode
 	 * 
 	 */
 	public void execute(int direction);
 	
 	/**
-	 * è·å¾—å½“å‰çš„æ£‹ç›˜
-	 * @return å½“å‰çš„æ£‹ç›˜
+	 * »ñµÃµ±Ç°µÄÆåÅÌ
+	 * @return µ±Ç°µÄÆåÅÌ
 	 */
 	public int [][] getCurrentBoard();	
 }

@@ -5,199 +5,212 @@ import com.Message.AbstractMessage;
 import com.Message.Dialog;
 import com.game.AbstractGame;
 
-class User
+public class User
 {
 	public User(String loginAccount);
 
 	/**
-	 * è®¾ç½®ç”¨æˆ·å¯†ç 
-	 * @param password å¯†ç 
+	 * ÉèÖÃÓÃ»§ÃÜÂë
+	 * @param password ÃÜÂë
 	 */
 	public void setPassword(String password);
 	
 	/**
-	 * è®¾ç½®ç”¨æˆ·æ˜µç§°
-	 * @param nickName æ˜µç§°
+	 * ÉèÖÃÓÃ»§êÇ³Æ
+	 * @param nickName êÇ³Æ
 	 */
 	public void setNickName(String nickName);
 	
 	/**
-	 * è®¾ç½®ç”¨æˆ·é‚®ç®±
-	 * @param email é‚®ç®±
+	 * ÉèÖÃÓÃ»§ÓÊÏä
+	 * @param email ÓÊÏä
 	 */
 	public void setEmail(String email);
 	
 	/**
-	 * è®¾ç½®ç”¨æˆ·æ€§åˆ«
-	 * @param sex æ€§åˆ«
+	 * ÉèÖÃÓÃ»§ĞÔ±ğ
+	 * @param sex ĞÔ±ğ
 	 */
 	public void setSex(String sex);
 	
 	/**
-	 * è®¾ç½®ç”¨æˆ·ç”Ÿæ—¥
-	 * @param birthday ç”Ÿæ—¥
+	 * ÉèÖÃÓÃ»§ÉúÈÕ
+	 * @param birthday ÉúÈÕ
 	 */
 	public void setBirthday(String birthday);
 	
 	/**
-	 * è®¾ç½®ç”¨æˆ·å¤´åƒ
-	 * @param portraitPath ç”¨æˆ·å¤´åƒçš„è·¯å¾„
+	 * ÉèÖÃÓÃ»§Í·Ïñ
+	 * @param portraitPath ÓÃ»§Í·ÏñµÄÂ·¾¶
 	 */
 	public void setPortrait(String portraitPath);
 	
 	/**
-	 * è®¾ç½®ç”¨æˆ·å®¶ä¹¡
-	 * @param hometown å®¶ä¹¡
+	 * ÉèÖÃÓÃ»§¼ÒÏç
+	 * @param hometown ¼ÒÏç
 	 */
 	public void setHometown(String hometown);
 	
 	/**
-	 * è®¾ç½®ç”¨æˆ·æ‰‹æœºå·
-	 * @param phoneNumber æ‰‹æœºå·
+	 * ÉèÖÃÓÃ»§ÊÖ»úºÅ
+	 * @param phoneNumber ÊÖ»úºÅ
 	 */
 	public void setPhoneNumber(String phoneNumber);
 	
 	/**
-	 * è·å–ç”¨æˆ·æ˜µç§°
-	 * @return æ˜µç§°
+	 * »ñÈ¡ÓÃ»§êÇ³Æ
+	 * @return êÇ³Æ
 	 */
 	public String getNickName();
 	
 	/**
-	 * è·å–ç”¨æˆ·é‚®ç®±
-	 * @return é‚®ç®±
+	 * »ñÈ¡ÓÃ»§ÓÊÏä
+	 * @return ÓÊÏä
 	 */
 	public String getEmail();
 
 	/**
-	 * è·å–ç”¨æˆ·æ€§åˆ«
-	 * @return æ€§åˆ«
+	 * »ñÈ¡ÓÃ»§ĞÔ±ğ
+	 * @return ĞÔ±ğ
 	 */
 	public String getSex();
 	
 	/**
-	 * è·å–ç”¨æˆ·ç”Ÿæ—¥
-	 * @return ç”Ÿæ—¥
+	 * »ñÈ¡ÓÃ»§ÉúÈÕ
+	 * @return ÉúÈÕ
 	 */
 	public String getBirthday();
 	
 	/**
-	 * è·å–ç”¨æˆ·å¤´åƒ
-	 * @return å¤´åƒåœ¨æœåŠ¡å™¨ä¸­çš„è·¯å¾„ï¼ˆå¾…å•†æ¦·ï¼‰
+	 * »ñÈ¡ÓÃ»§Í·Ïñ
+	 * @return Í·ÏñÔÚ·şÎñÆ÷ÖĞµÄÂ·¾¶£¨´ıÉÌÈ¶£©
 	 */
 	public String getPortrait();
 	
 	/**
-	 * è·å–ç”¨æˆ·å®¶ä¹¡
-	 * @return å®¶ä¹¡
+	 * »ñÈ¡ÓÃ»§¼ÒÏç
+	 * @return ¼ÒÏç
 	 */
 	public String getHometown();
 	
 	/**
-	 * è·å–ç”¨æˆ·æ‰‹æœºå·
-	 * @return æ‰‹æœºå·
+	 * »ñÈ¡ÓÃ»§ÊÖ»úºÅ
+	 * @return ÊÖ»úºÅ
 	 */
 	public String getPhoneNumber();
 	
 	/**
-	 * è·å–ç”¨æˆ·ç™»é™†è´¦å·
-	 * @return ç™»é™†è´¦å·
+	 * »ñÈ¡ÓÃ»§µÇÂ½ÕËºÅ
+	 * @return µÇÂ½ÕËºÅ
 	 */
 	public String getLoginAccount();
 
 	/**
-	 * ç™»é™†
+	 * µÇÂ½
 	 */
 	public void signin();
 	
 	/**
-	 * æ³¨é”€
+	 * ×¢Ïú
 	 */
 	public void signoff();
 
 	/**
-	 * å¼€å§‹æ‘‡ä¸€æ‘‡
+	 * ¿ªÊ¼Ò¡Ò»Ò¡
 	 */
 	public void shakeAround();
 	
 	/**
-	 * ä¸otherè¿™ä¸ªç”¨æˆ·å»ºç«‹ä¸€ä¸ªå¯¹è¯
-	 * @param other æƒ³è¦ä¸ä¹‹å»ºç«‹å¯¹è¯çš„ç›®æ ‡ç”¨æˆ·
+	 * ÓëotherÕâ¸öÓÃ»§½¨Á¢Ò»¸ö¶Ô»°
+	 * @param other ÏëÒªÓëÖ®½¨Á¢¶Ô»°µÄÄ¿±êÓÃ»§
 	 */
 	public void loadDialogWith(User other);
 	
 	/**
-	 * å°†msgè¿™æ¡æ¶ˆæ¯å‘é€ä¸ªotherè¿™ä¸ªç”¨æˆ·
-	 * @param other å¾…æ¥æ”¶çš„ç›®æ ‡ç”¨æˆ·
-	 * @param msg å¾…å‘é€çš„æ¶ˆæ¯
-	 * @return true å‘é€æˆåŠŸ<br>
-	 * false å‘é€å¤±è´¥
+	 * ½«msgÕâÌõÏûÏ¢·¢ËÍ¸öotherÕâ¸öÓÃ»§
+	 * @param other ´ı½ÓÊÕµÄÄ¿±êÓÃ»§
+	 * @param msg ´ı·¢ËÍµÄÏûÏ¢
+	 * @return true ·¢ËÍ³É¹¦<br>
+	 * false ·¢ËÍÊ§°Ü
 	 */
 	public boolean sendMsgTo(User other,AbstractMessage msg);
 	
 
 	/**
-	 * é‡æ–°åˆå§‹åŒ–è¯¥å¯¹è±¡ï¼ˆæ‰€æœ‰æ•°æ®ä»æ–°ä»æœåŠ¡å™¨æˆ–æœ¬åœ°è·å–ï¼‰
+	 * ÖØĞÂ³õÊ¼»¯¸Ã¶ÔÏó£¨ËùÓĞÊı¾İ´ÓĞÂ´Ó·şÎñÆ÷»ò±¾µØ»ñÈ¡£©
 	 */
 	public void reloadEverything();
 	
 	/**
-	 * å°†otherè¿™ä¸ªç”¨æˆ·è®¾ç½®ä¸€ä¸ªåˆ«åalias
-	 * @param other å¾…è®¾ç½®çš„ç›®æ ‡ç”¨æˆ·
-	 * @param alias åˆ«å
+	 * ½«otherÕâ¸öÓÃ»§ÉèÖÃÒ»¸ö±ğÃûalias
+	 * @param other ´ıÉèÖÃµÄÄ¿±êÓÃ»§
+	 * @param alias ±ğÃû
 	 */
 	public void setAlias(User other, String alias);
 	
 	/**
-	 * å°†otherè¿™ä¸ªç”¨æˆ·è®¾ç½®åˆ°groupNameè¿™ä¸ªåˆ†ç»„
-	 * @param other å¾…è®¾ç½®çš„ç›®æ ‡ç”¨æˆ·
-	 * @param groupName åˆ†ç»„åç§°
+	 * ½«otherÕâ¸öÓÃ»§ÉèÖÃµ½groupNameÕâ¸ö·Ö×é
+	 * @param other ´ıÉèÖÃµÄÄ¿±êÓÃ»§
+	 * @param groupName ·Ö×éÃû³Æ
 	 */
 	public void moveFriendToGroup(User other, Stirng groupName);
 	
 	/**
-	 * å°†otherè¿™ä¸ªç”¨æˆ·è®¾ä¸ºæ˜Ÿæ ‡ç”¨æˆ·
-	 * @param other å¾…è®¾ç½®çš„ç›®æ ‡ç”¨æˆ·
+	 * ½«otherÕâ¸öÓÃ»§ÉèÎªĞÇ±êÓÃ»§
+	 * @param other ´ıÉèÖÃµÄÄ¿±êÓÃ»§
 	 */
 	public void markCloseFriend(User other);
 	
 	/**
-	 * å°†otherè¿™ä¸ªç”¨æˆ·åŠ å…¥é»‘åå•
-	 * @param other å¾…è®¾ç½®çš„ç›®æ ‡ç”¨æˆ·
+	 * ½«otherÕâ¸öÓÃ»§¼ÓÈëºÚÃûµ¥
+	 * @param other ´ıÉèÖÃµÄÄ¿±êÓÃ»§
 	 */
 	public void blockUser(User other);
 	
 	/**
-	 * å°†otherè¿™ä¸ªç”¨æˆ·è§£é™¤å¥½å‹å…³ç³»
-	 * @param other å¾…è®¾ç½®çš„ç›®æ ‡ç”¨æˆ·
+	 * ½«otherÕâ¸öÓÃ»§½â³ıºÃÓÑ¹ØÏµ
+	 * @param other ´ıÉèÖÃµÄÄ¿±êÓÃ»§
 	 */
 	public void deleteUser(User other);
 	
 	/**
-	 * è·å–å¥½å‹åˆ—è¡¨
-	 * @return å½“å‰ç”¨æˆ·çš„æ‰€æœ‰å¥½å‹
+	 * »ñÈ¡ºÃÓÑÁĞ±í
+	 * @return µ±Ç°ÓÃ»§µÄËùÓĞºÃÓÑ
 	 */
 	public ArrayList<User> getFriendList()
 	{
-		//str = get JSON string from server
-		PackString ps = new PackString(str);
-		JSON
+		//str = get "JSON string" from server
+		try
+		{
+			PackString ps = new PackString(str);
+			ArrayList<Map<String, Object>> result = ps.jsonString2Arrylist("friends");
+			for (int i = 0; i < result.size(); i++)
+			{
+				Map<String, Object> map = result.get(i);
+				for (String key : map.keySet())
+					System.out.print(key + "\t" + map.get(key) + "\t");
+				System.out.println();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
-	 * è·å–æœ€è¿‘èŠå¤©çš„æ‰€æœ‰æœ¬åœ°å¯¹è¯
-	 * @return æœ¬åœ°æ‰€æœ‰å¯¹è¯
+	 * »ñÈ¡×î½üÁÄÌìµÄËùÓĞ±¾µØ¶Ô»°
+	 * @return ±¾µØËùÓĞ¶Ô»°
 	 */
 	public ArrayList<Dialog> getRecentDialog();
 	
 	/**
-	 * ä»æœåŠ¡å™¨éªŒè¯ç”¨æˆ·èº«ä»½
-	 * @return true èº«ä»½éªŒè¯é€šè¿‡<br>
-	 * false èº«ä»½éªŒè¯æœªé€šè¿‡
+	 * ´Ó·şÎñÆ÷ÑéÖ¤ÓÃ»§Éí·İ
+	 * @return true Éí·İÑéÖ¤Í¨¹ı<br>
+	 * false Éí·İÑéÖ¤Î´Í¨¹ı
 	 */
 	public boolean identityVarified();
 
 
 	private ArrayList<User> friendList;
 
-}
+	///////////////////////////////			Constant values			/////////////////////////////
+}}

@@ -1,8 +1,10 @@
 package com.Message;
 
+import com.doc.User;
+
 /**
- * æ–‡å­—ç±»å‹çš„æ¶ˆæ¯ï¼Œç»§æ‰¿è‡ª{@link AbstractMessage}ï¼š<br>
- * éœ€è¦å°†{@link AbstractMessage}ä¸­çš„æ–¹æ³•é‡å†™
+ * ÎÄ×ÖÀàĞÍµÄÏûÏ¢£¬¼Ì³Ğ×Ô{@link AbstractMessage}£º<br>
+ * ĞèÒª½«{@link AbstractMessage}ÖĞµÄ·½·¨ÖØĞ´
  * @author EXLsunshine
  *
  */
@@ -11,7 +13,28 @@ class TextMessage extends AbstractMessage
 	String text;
 
 	/**
-	 * å¤åˆ¶æ­¤æ¡æ¶ˆæ¯ä¸­çš„æ–‡å­—
+	 * ¸´ÖÆ´ËÌõÏûÏ¢ÖĞµÄÎÄ×Öµ½¼ôÌù°å
 	 */
 	public void copy();
+
+	@Override
+	public User getFromUser() { return fromUser; }
+
+	@Override
+	public User getToUser() { return toUser; }
+
+	@Override
+	public String getContent() { return text; }
+
+	@Override
+	public int getMsgType() { return ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT; }
+
+	@Override
+	public String getDate() { return date; }
+
+	@Override
+	public boolean hasBeenRead() { return isRead; }
+
+	@Override
+	public void setAsRead() { this.isRead = true; }
 }

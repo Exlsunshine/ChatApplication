@@ -1,8 +1,8 @@
 package com.game;
 
 /**
- * æ‰“åœ°é¼ æ¸¸æˆç±»ï¼š<br>
- * ç»§æ‰¿è‡ª{@link AbstractGame}
+ * ´òµØÊóÓÎÏ·Àà£º<br>
+ * ¼Ì³Ğ×Ô{@link AbstractGame}
  * @author EXLsunshine
  *
  */
@@ -15,13 +15,13 @@ class WhacAMoleGame implements AbstractGame
 	private int targetScore;
 
 	/**
-	 * åˆå§‹åŒ–ä¸€ä¸ªWhacAMoleGameï¼Œå¹¶å°†å…¶é€šå…³çš„ç›®æ ‡åˆ†æ•°è®¾ç½®ä¸ºtargetScore
-	 * @param targetScore é€šå…³æ‰€éœ€çš„ç›®æ ‡åˆ†æ•°
+	 * ³õÊ¼»¯Ò»¸öWhacAMoleGame£¬²¢½«ÆäÍ¨¹ØµÄÄ¿±ê·ÖÊıÉèÖÃÎªtargetScore
+	 * @param targetScore Í¨¹ØËùĞèµÄÄ¿±ê·ÖÊı
 	 */
 	public WhacAMoleGame(int targetScore);
 	
 	/**
-	 * éšæœºç”Ÿæˆä¸‹ä¸ªåœ°é¼ å‡ºæ¥çš„ä½ç½®ï¼ˆ0-8ä¹‹ä¸€çš„ä¸€ä¸ªæ•´æ•°ï¼‰<br>
+	 * Ëæ»úÉú³ÉÏÂ¸öµØÊó³öÀ´µÄÎ»ÖÃ£¨0-8Ö®Ò»µÄÒ»¸öÕûÊı£©<br>
 	 * 0 1 2<br>
 	 * 3 4 5<br>
 	 * 6 7 8<br>
@@ -30,18 +30,18 @@ class WhacAMoleGame implements AbstractGame
 	public int randomPosition();
 	
 	/**
-	 * ç§»é™¤indexä½ç½®çš„åœ°é¼ 
+	 * ÒÆ³ıindexÎ»ÖÃµÄµØÊó
 	 * @param index
 	 */
 	public void removeMole(int index);
 	
 	/**
-	 * æ‰“ä¸­åœ°é¼ ååŠ ä¸€æ¬¡åˆ†æ•°
+	 * ´òÖĞµØÊóºó¼ÓÒ»´Î·ÖÊı
 	 */
 	public void addScore();
 	
 	/**
-	 * è·å¾—å½“å‰åˆ†æ•°
+	 * »ñµÃµ±Ç°·ÖÊı
 	 * @return
 	 */
 	public int getScore();

@@ -1,17 +1,50 @@
 package com.Message;
 
+import com.doc.User;
+
+import android.graphics.Bitmap;
+
 /**
- * å›¾ç‰‡ç±»å‹çš„æ¶ˆæ¯ï¼Œç»§æ‰¿è‡ª{@link AbstractMessage}ï¼š<br>
- * éœ€è¦å°†{@link AbstractMessage}ä¸­çš„æ–¹æ³•é‡å†™
+ * Í¼Æ¬ÀàĞÍµÄÏûÏ¢£¬¼Ì³Ğ×Ô{@link AbstractMessage}£º<br>
+ * ĞèÒª½«{@link AbstractMessage}ÖĞµÄ·½·¨ÖØĞ´
  * @author EXLsunshine
  *
  */
-class ImageMessage extends AbstractMessage
+public class ImageMessage extends AbstractMessage
 {
 	Bitmap picture;
 
+	public ImageMessage(User from, User to, Bitmap picture, String date)
+	{
+		this.fromUser = from;
+		this.toUser = to;
+		this.picture = picture;
+		this.date = date;
+	}
+	
 	/**
-	 * ä¿å­˜æ­¤æ¡æ¶ˆæ¯ä¸­çš„å›¾ç‰‡åˆ°æ‰‹æœº
+	 * ±£´æ´ËÌõÏûÏ¢ÖĞµÄÍ¼Æ¬µ½ÊÖ»ú
 	 */
-	public void downloadPicture();
+	public void savePicture();
+
+	@Override
+	public User getFromUser() { return fromUser; }
+
+	@Override
+	public User getToUser() { return toUser; }
+
+	@Override
+	public Bitmap getContent() { return picture; }
+
+	@Override
+	public int getMsgType() { return ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE; }
+
+	@Override
+	public String getDate() { return date; }
+
+	@Override
+	public boolean hasBeenRead() { return isRead; }
+
+	@Override
+	public void setAsRead() { this.isRead = true; }
 }

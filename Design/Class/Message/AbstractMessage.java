@@ -1,61 +1,64 @@
 package com.Message;
 
-import com.doc.ConstantValues;
 import com.doc.User;
-import com.doc.ConstantValues.InstructionCode;
 
 /**
- * 	æŠ½è±¡çš„æ¶ˆæ¯ç±»ï¼šä¸€ä¸ªAbstractMessageç±»å‹çš„å¯¹è±¡ä»£è¡¨ä¸€æ¡æ¶ˆæ¯<br>
- *	ä¸€æ¡æ¶ˆæ¯åŒ…å«ï¼šå‘èµ·ç”¨æˆ·ã€æ¥æ”¶ç”¨æˆ·ã€å‘é€æ—¶é—´ã€æ¶ˆæ¯ç±»å‹ä¸æ˜¯å¦å·²è¯»
+ * 	³éÏóµÄÏûÏ¢Àà£ºÒ»¸öAbstractMessageÀàĞÍµÄ¶ÔÏó´ú±íÒ»ÌõÏûÏ¢<br>
+ *	Ò»ÌõÏûÏ¢°üº¬£º·¢ÆğÓÃ»§¡¢½ÓÊÕÓÃ»§¡¢·¢ËÍÊ±¼ä¡¢ÏûÏ¢ÀàĞÍÓëÊÇ·ñÒÑ¶Á
  * @author EXLsunshine<br>
  */
-class AbstractMessage
+public abstract class AbstractMessage
 {
-	private User fromUser;
-	private User toUser;
-	private Date date;
-	private int type;
-	private boolean isRead;
-
+	protected User fromUser;
+	protected User toUser;
+	protected String date;
+	protected int type;
+	protected boolean isRead;
+	
 	/**
-	 * è·å–æ­¤æ¡æ¶ˆæ¯çš„å‘é€è€…
-	 * @return æ¶ˆæ¯çš„å‘é€è€…
+	 * »ñÈ¡´ËÌõÏûÏ¢µÄ·¢ËÍÕß
+	 * @return ÏûÏ¢µÄ·¢ËÍÕß
 	 */
-	public User getFromUser()
+	public abstract User getFromUser();
 
 	/**
 	 * {@link MapActivity}
-	 * è·å–æ­¤æ¡æ¶ˆæ¯çš„æ¥æ”¶è€…
-	 * @return æ¶ˆæ¯çš„æ¥æ”¶è€…
+	 * »ñÈ¡´ËÌõÏûÏ¢µÄ½ÓÊÕÕß
+	 * @return ÏûÏ¢µÄ½ÓÊÕÕß
 	 */
-	public User getToUser();
+	public abstract User getToUser();
 	
 	/**
-	 * è·å–æ­¤æ¡æ¶ˆæ¯çš„å†…å®¹
-	 * @return æ¶ˆæ¯çš„å†…å®¹
+	 * »ñÈ¡´ËÌõÏûÏ¢µÄÄÚÈİ
+	 * @return ÏûÏ¢µÄÄÚÈİ
 	 */
-	public Object getContent();
+	public abstract Object getContent();
 	
 	/**
-	 * è·å–æ­¤æ¡æ¶ˆæ¯çš„ç±»å‹
-	 * @return æ¶ˆæ¯çš„ç±»å‹<br>
-	 * MESSAGE_TYPE_TEXTï¼šæ­¤æ¡æ¶ˆæ¯æ˜¯æ–‡å­—ç±»å‹<br>
-	 * MESSAGE_TYPE_AUDIOï¼šæ­¤æ¡æ¶ˆæ¯æ˜¯è¯­éŸ³ç±»å‹<br>
-	 * MESSAGE_TYPE_IMAGEï¼šæ­¤æ¡æ¶ˆæ¯æ˜¯å›¾ç‰‡ç±»å‹<br>
+	 * »ñÈ¡´ËÌõÏûÏ¢µÄÀàĞÍ
+	 * @return ÏûÏ¢µÄÀàĞÍ<br>
+	 * MESSAGE_TYPE_TEXT£º´ËÌõÏûÏ¢ÊÇÎÄ×ÖÀàĞÍ<br>
+	 * MESSAGE_TYPE_AUDIO£º´ËÌõÏûÏ¢ÊÇÓïÒôÀàĞÍ<br>
+	 * MESSAGE_TYPE_IMAGE£º´ËÌõÏûÏ¢ÊÇÍ¼Æ¬ÀàĞÍ<br>
 	 * @see ConstantValues.InstructionCode
 	 */
-	public int getMsgType();
+	public abstract int getMsgType();
 
 	/**
-	 * è·å–æ­¤æ¡æ¶ˆæ¯çš„æ¥æ”¶æ—¶é—´
-	 * @return æ¶ˆæ¯çš„æ¥æ”¶æ—¶é—´
+	 * »ñÈ¡´ËÌõÏûÏ¢µÄ½ÓÊÕÊ±¼ä
+	 * @return ÏûÏ¢µÄ½ÓÊÕÊ±¼ä
 	 */
-	public Date getDate();
+	public abstract String getDate();
 	
 	/**
-	 * æ£€æŸ¥æ­¤æ¡æ¶ˆæ¯æ˜¯å¦å·²è¢«æ¥æ”¶è€…é˜…è¯»
-	 * @return true å·²è¯»<br>
-	 * false æœªè¯»
+	 * ¼ì²é´ËÌõÏûÏ¢ÊÇ·ñÒÑ±»½ÓÊÕÕßÔÄ¶Á
+	 * @return true ÒÑ¶Á<br>
+	 * false Î´¶Á
 	 */
-	public boolean hasBeenRead();
+	public abstract boolean hasBeenRead();
+	
+	/**
+	 * ±ê¼Ç´ËÌõÏûÏ¢ÎªÒÑ¶Á
+	 */
+	public abstract void setAsRead();
 }
