@@ -1,7 +1,8 @@
-package com.test.packstring;
+package test.json;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -24,7 +25,7 @@ public class PackString
 	 * @return JSON格式的字符串
 	 * @throws JSONException
 	 */
-	public static String generateJsonString(String msgName, ArrayList<Map<String, Object>> contents) throws JSONException
+	public static String arrylist2JsonString(String msgName, ArrayList<Map<String, Object>> contents) throws JSONException
 	{
 		if (contents == null)
 		{
@@ -79,36 +80,39 @@ public class PackString
 		return json;
 	}
 	
-	
-	public Object getValue(int index, String key, String msgName)
+	/**
+	 * 将JSON格式的字符串转换为ArrayList<Map<String, Object>>
+	 * @param msgName 消息名称
+	 * @return 转换后的JSON消息的ArrayList<Map<String, Object>>对象
+	 */
+	public ArrayList<Map<String, Object>> jsonString2Arrylist(String msgName)
 	{
-		if (key == null || key.length() == 0)
-		{
-			System.out.println("Error:\tkey is null or size is 0.");
-			return null;
-		}
-		if (msgName == null || msgName.length() == 0)
-		{
-			System.out.println("Error:\tmsgName is null or size is 0.");
-			return null;
-		}
-		if (index < 0)
-		{
-			System.out.println("Error:\tindex illegal.");
-			return null;
-		}
-		
-		Object obj = null;
+		ArrayList<Map<String, Object>> list = null;
 		try
 		{
 			JSONArray arr = (JSONArray) msg.get(msgName);
-			JSONObject item = arr.getJSONObject(index);
-			obj = item.get(key);
+			list = new ArrayList<Map<String, Object>>();
+			
+			for (int i = 0; i < arr.length(); i++)
+			{
+				JSONObject item = arr.getJSONObject(i);
+				Iterator it = item.keys();
+
+				HashMap<String , Object> map = new HashMap<String, Object>();
+				while (it.hasNext())
+				{
+					String key = (String) it.next();
+					map.put(key, item.get(key));
+				}
+				
+				list.add(map);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		
-		return obj;
+		
+		return list;
 	}
 	
 	public static void main(String[] args)
@@ -134,17 +138,20 @@ public class PackString
 		item.put("age", 400);
 		items.add(item);
 		
-		
-		
 		try
 		{
-			PackString ps = new PackString(generateJsonString("friends", items));
-			System.out.println(ps.getValue(0, "name", "friends"));
+			PackString ps = new PackString(PackString.arrylist2JsonString("friends", items));
+			ArrayList<Map<String, Object>> result = ps.jsonString2Arrylist("friends");
+			for (int i = 0; i < result.size(); i++)
+			{
+				Map<String, Object> map = result.get(i);
+				for (String key : map.keySet())
+					System.out.print(key + "\t" + map.get(key) + "\t");
+				System.out.println();
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 }
 
@@ -153,13 +160,39 @@ public class PackString
 
 
 
+/*
+private Object getValue(int index, String key, String msgName)
+{
+	if (key == null || key.length() == 0)
+	{
+		System.out.println("Error:\tkey is null or size is 0.");
+		return null;
+	}
+	if (msgName == null || msgName.length() == 0)
+	{
+		System.out.println("Error:\tmsgName is null or size is 0.");
+		return null;
+	}
+	if (index < 0)
+	{
+		System.out.println("Error:\tindex illegal.");
+		return null;
+	}
+	
+	Object obj = null;
+	try
+	{
+		JSONArray arr = (JSONArray) msg.get(msgName);
+		JSONObject item = arr.getJSONObject(index);
+		obj = item.get(key);
+	} catch (JSONException e) {
+		e.printStackTrace();
+	}
+	
+	return obj;
+}
 
-
-
-
-
-
-/*public static String generateJsonString(String msgInfo, String [] keys, Object [] values)
+public static String generateJsonString(String msgInfo, String [] keys, Object [] values)
 {
 	if (keys == null || values == null)
 	{

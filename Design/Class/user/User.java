@@ -177,7 +177,12 @@ class User
 	 * 获取好友列表
 	 * @return 当前用户的所有好友
 	 */
-	public ArrayList<User> getFriendList();
+	public ArrayList<User> getFriendList()
+	{
+		//str = get JSON string from server
+		PackString ps = new PackString(str);
+		JSON
+	}
 	
 	/**
 	 * 获取最近聊天的所有本地对话
@@ -191,4 +196,8 @@ class User
 	 * false 身份验证未通过
 	 */
 	public boolean identityVarified();
+
+
+	private ArrayList<User> friendList;
+
 }
