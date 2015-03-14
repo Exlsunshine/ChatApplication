@@ -1,4 +1,4 @@
-package com.example.testmobiledatabase;
+package com.ui;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.database.AbstractMessage;
-import com.database.ConvertUtil;
-import com.database.DatabaseHandler;
-import com.database.TextMessage;
+import com.example.testmobiledatabase.R;
+import com.message.AbstractMessage;
+import com.message.ConvertUtil;
+import com.message.DatabaseHandler;
+import com.message.TextMessage;
 
 import android.os.Bundle;
 import android.app.Activity;

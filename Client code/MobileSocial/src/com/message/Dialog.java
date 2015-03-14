@@ -1,6 +1,8 @@
-package com.database;
+package com.message;
 
 import java.util.ArrayList;
+
+import com.user.User;
 
 
 /**

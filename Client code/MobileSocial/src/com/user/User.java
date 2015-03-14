@@ -1,6 +1,9 @@
-package com.database;
+package com.user;
 
 import java.util.ArrayList;
+
+import com.message.AbstractMessage;
+import com.message.Dialog;
 
 
 public class User

@@ -1,4 +1,6 @@
-package com.database;
+package com.message;
+
+import com.configs.ConstantValues;
 
 /**
  * 	抽象的消息类：一个AbstractMessage类型的对象代表一条消息<br>

@@ -1,4 +1,6 @@
-package com.database;
+package com.message;
+
+import com.configs.ConstantValues;
 
 /**
  * 文字类型的消息，继承自{@link AbstractMessage}：<br>

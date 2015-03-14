@@ -1,4 +1,4 @@
-package com.database;
+package com.message;
 
 import java.io.File;
 import java.io.IOException;

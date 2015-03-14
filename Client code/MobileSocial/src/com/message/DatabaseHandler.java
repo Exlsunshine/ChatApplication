@@ -1,6 +1,9 @@
-package com.database;
+package com.message;
 
 import java.util.ArrayList;
+
+import com.configs.ConstantValues;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -107,7 +110,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 			switch (msgType) 
 			{
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
-				message = new VoiceMessage(msgID, fromID, toID, content, date, isRead);
+				message = new AudioMessage(msgID, fromID, toID, content, date, isRead);
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
 				message = new ImageMessage(msgID, fromID, toID, content, date, isRead);
@@ -181,7 +184,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				switch (msgType) 
 				{
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
-					message = new VoiceMessage(msgID, fromID, toID, content, date, isRead);
+					message = new AudioMessage(msgID, fromID, toID, content, date, isRead);
 					break;
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
 					message = new ImageMessage(msgID, fromID, toID, content, date, isRead);

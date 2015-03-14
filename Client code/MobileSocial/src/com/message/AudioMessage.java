@@ -1,7 +1,9 @@
-package com.database;
+package com.message;
 
 import java.io.File;
 import java.io.IOException;
+
+import com.configs.ConstantValues;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -12,13 +14,13 @@ import android.media.MediaPlayer;
  * @author EXLsunshine
  *
  */
-public class VoiceMessage extends AbstractMessage
+public class AudioMessage extends AbstractMessage
 {
 	private MediaPlayer mPlayer;
 	private Context context;
 	private byte [] voice;
 	
-	public VoiceMessage(int msgID, int fromID, int toID, byte [] content, String date, boolean isRead)
+	public AudioMessage(int msgID, int fromID, int toID, byte [] content, String date, boolean isRead)
 	{
 		this.fromUserID = fromID;
 		this.toUserID = toID;

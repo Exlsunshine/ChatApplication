@@ -1,4 +1,4 @@
-package com.database;
+package com.message;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,7 +52,7 @@ public class ConvertUtil
 		return new BitmapDrawable(context.getResources(), bmp); 
 	}
 	
-	protected byte [] amr2Bytes(String amrFilePath) throws IOException
+	public byte [] amr2Bytes(String amrFilePath) throws IOException
 	{
 		FileInputStream fis = new FileInputStream(amrFilePath);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

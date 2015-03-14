@@ -1,4 +1,6 @@
-package com.database;
+package com.message;
+
+import com.configs.ConstantValues;
 
 import android.graphics.Bitmap;
 
@@ -42,7 +44,7 @@ public class ImageMessage extends AbstractMessage
 	public byte [] getContent() { return ConvertUtil.bitmap2Bytes(image); }
 
 	@Override
-	public int getMessageType() { return 0; }
+	public int getMessageType() { return ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE; }
 
 	@Override
 	public String getDate() { return date; }

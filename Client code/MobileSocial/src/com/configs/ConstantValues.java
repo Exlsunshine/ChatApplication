@@ -1,4 +1,4 @@
-package com.database;
+package com.configs;
 
 /**
  * 
