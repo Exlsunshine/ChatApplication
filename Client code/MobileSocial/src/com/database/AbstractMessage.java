@@ -1,6 +1,4 @@
-package com.Message;
-
-import com.doc.User;
+package com.database;
 
 /**
  * 	抽象的消息类：一个AbstractMessage类型的对象代表一条消息<br>
@@ -9,8 +7,8 @@ import com.doc.User;
  */
 public abstract class AbstractMessage
 {
-	protected User fromUser;
-	protected User toUser;
+	protected int fromUserID;
+	protected int toUserID;
 	protected String date;
 	protected int type;
 	protected boolean isRead;
@@ -20,20 +18,20 @@ public abstract class AbstractMessage
 	 * 获取此条消息的发送者
 	 * @return 消息的发送者
 	 */
-	public abstract User getFromUser();
+	public abstract int getFromUserID();
 
 	/**
 	 * {@link MapActivity}
 	 * 获取此条消息的接收者
 	 * @return 消息的接收者
 	 */
-	public abstract User getToUser();
+	public abstract int getToUserID();
 	
 	/**
 	 * 获取此条消息的内容
 	 * @return 消息的内容
 	 */
-	public abstract Object getContent();
+	public abstract byte [] getContent();
 	
 	/**
 	 * 获取此条消息的类型
@@ -43,7 +41,7 @@ public abstract class AbstractMessage
 	 * MESSAGE_TYPE_IMAGE：此条消息是图片类型<br>
 	 * @see ConstantValues.InstructionCode
 	 */
-	public abstract int getMsgType();
+	public abstract int getMessageType();
 
 	/**
 	 * 获取此条消息的接收时间
@@ -62,4 +60,12 @@ public abstract class AbstractMessage
 	 * 标记此条消息为已读
 	 */
 	public abstract void setAsRead();
+	
+	/**
+	 * 获取此条消息的ID
+	 * @return 消息ID
+	 */
+	public abstract int getID();
+	
+	public abstract void setID(int id);
 }
