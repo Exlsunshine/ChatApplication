@@ -18,7 +18,7 @@ public class AudioMessage extends AbstractMessage
 {
 	private MediaPlayer mPlayer;
 	private Context context;
-	private byte [] voice;
+	private byte [] audio;
 	
 	public AudioMessage(int msgID, int fromID, int toID, byte [] content, String date, boolean isRead)
 	{
@@ -28,7 +28,17 @@ public class AudioMessage extends AbstractMessage
 		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO;
 		this.isRead = isRead;
 		this.id = msgID;
-		this.voice = content;
+		this.audio = content;
+	}
+	
+	public AudioMessage(int fromID, int toID, byte [] content, String date, boolean isRead)
+	{
+		this.fromUserID = fromID;
+		this.toUserID = toID;
+		this.date = date;
+		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO;
+		this.isRead = isRead;
+		this.audio = content;
 	}
 	
 	/**
@@ -38,7 +48,7 @@ public class AudioMessage extends AbstractMessage
 	{
 		this.context = context;
 		try {
-			playFromBytes(this.voice, this.context);
+			playFromBytes(this.audio, this.context);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +80,7 @@ public class AudioMessage extends AbstractMessage
 	public int getToUserID() { return toUserID; }
 
 	@Override
-	public byte [] getContent() { return voice; }
+	public byte [] getContent() { return audio; }
 
 	@Override
 	public int getMessageType() { return ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO; }

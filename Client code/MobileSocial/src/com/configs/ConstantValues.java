@@ -37,7 +37,5 @@ public class ConstantValues
 		public static final String MESSAGE_TEXT_HEAD = "0x213";
 		public static final String MESSAGE_AUDIO_HEAD = "0x213";
 		public static final String MESSAGE_IMAGE_HEAD = "0x213";
-		
-		
 	}
 }

@@ -52,7 +52,7 @@ public class ConvertUtil
 		return new BitmapDrawable(context.getResources(), bmp); 
 	}
 	
-	public byte [] amr2Bytes(String amrFilePath) throws IOException
+	public static byte [] amr2Bytes(String amrFilePath) throws IOException
 	{
 		FileInputStream fis = new FileInputStream(amrFilePath);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

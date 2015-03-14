@@ -81,7 +81,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		String query = "select * FROM SQLITE_SEQUENCE";
 		Cursor cursor = db.rawQuery(query, null);
 		
-		int id = 5;
+		int id = 1;
 		if (cursor.moveToFirst())
 			id = cursor.getInt(1) + 1;
 		cursor.close();
@@ -161,7 +161,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	{
 		ArrayList<AbstractMessage> messageList = new ArrayList<AbstractMessage>();
 		
-		String selectQuery = String.format("SELECT * FROM %s WHERE %s = %s AND %s = %s ", 
+		String selectQuery = String.format("SELECT * FROM %s WHERE %s = %s AND %s = %s", 
 				TABLE_NAME, KEY_FROM_USER_ID, String.valueOf(fromUserID), KEY_TO_USER_ID, 
 				String.valueOf(toUserID));
 		SQLiteDatabase db = this.getReadableDatabase();

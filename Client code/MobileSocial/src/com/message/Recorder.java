@@ -7,12 +7,12 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 
 /**
- * manifest permission <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-				 	    <uses-permission android:name="android.permission.RECORD_AUDIO" />  
-				    	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />  
-				    	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ * manifest permissions :
+ * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />\
+ * <uses-permission android:name="android.permission.RECORD_AUDIO" />
+ * <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+ * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
  * @author EXLsunshine
- *	
  */
 public class Recorder
 { 
@@ -23,14 +23,13 @@ public class Recorder
 	
     //音频输入-麦克风
     public final static int AUDIO_INPUT = MediaRecorder.AudioSource.MIC;
-    //采用频率
-    //44100是目前的标准，但是某些设备仍然支持22050，16000，11025
-    public final static int AUDIO_SAMPLE_RATE = 44100;  //44.1KHz,普遍使用的频率   
+    //采用频率 44100是目前普遍使用的频率标准，但是某些设备仍然支持22050 16000 11025
+    public final static int AUDIO_SAMPLE_RATE = 44100;
     //录音输出文件
     public final static String AUDIO_AMR_FILENAME = "FinalAudio.amr";
 	
     private boolean isRecord = false;
-    private MediaRecorder mMediaRecorder;
+    private MediaRecorder mMediaRecorder = null;
     private Recorder() { }
     private static Recorder mInstance;
 
@@ -70,7 +69,6 @@ public class Recorder
             return E_NOSDCARD;            
     }
      
-     
     public void stopRecordAndFile()
     {
     	if (mMediaRecorder != null) 
@@ -82,20 +80,25 @@ public class Recorder
             mMediaRecorder = null;
         }  
     }
-     
+    
+    /**
+     * 获取文件大小
+     * @return
+     */
     public long getRecordFileSize()
     {
-        return getFileSize(getAMRFilePath());
+    	File mFile = new File(getAMRFilePath());
+        if(!mFile.exists())
+            return -1;
+        return mFile.length();
     }
-     
-     
+
     private void createMediaRecord()
     {
-         /* Initial：实例化MediaRecorder对象 */
         mMediaRecorder = new MediaRecorder();
-         
-        /* setAudioSource/setVedioSource*/
-        mMediaRecorder.setAudioSource(AUDIO_INPUT);//设置麦克风
+      
+        //设置麦克风
+        mMediaRecorder.setAudioSource(AUDIO_INPUT);
          
         /* 设置输出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default
          * THREE_GPP(3gp格式，H263视频/ARM音频编码)、MPEG-4、RAW_AMR(只支持音频且音频编码要求为AMR_NB)
@@ -129,13 +132,14 @@ public class Recorder
      * 获取编码后的AMR格式音频文件路径
      * @return
      */
-    private String getAMRFilePath()
+    public String getAMRFilePath()
     {
         String mAudioAMRPath = "";
         if(isSdcardExist())
         {
-            //String fileBasePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            String fileBasePath ="/mnt/sdcard/TestMobileDatabase/voice/";
+            String fileBasePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+            System.out.println(fileBasePath);
+            //String fileBasePath ="/mnt/sdcard/TestMobileDatabase/voice/";
             File forlder = new File(fileBasePath);
     		if (!forlder.exists())
     			forlder.mkdir();
@@ -144,17 +148,4 @@ public class Recorder
         }
         return mAudioAMRPath;
     } 
-    
-    /**
-     * 获取文件大小
-     * @param path,文件的绝对路径
-     * @return
-     */
-    private long getFileSize(String path)
-    {
-        File mFile = new File(path);
-        if(!mFile.exists())
-            return -1;
-        return mFile.length();
-    }
 }

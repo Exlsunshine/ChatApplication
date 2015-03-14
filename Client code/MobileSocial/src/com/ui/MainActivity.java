@@ -1,21 +1,32 @@
 package com.ui;
 
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
+import com.dialog.Dialog;
 import com.example.testmobiledatabase.R;
 import com.message.AbstractMessage;
+import com.message.AudioMessage;
 import com.message.ConvertUtil;
 import com.message.DatabaseHandler;
+import com.message.Recorder;
 import com.message.TextMessage;
+import com.user.ClientUser;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,7 +36,8 @@ public class MainActivity extends Activity
 	private static final String DEBUG_TAG = "______MainActivity";
 	TextView tv;
 	ImageView iv;
-	Button start, stop, play, pause;
+	Button start, stop, play, pause, load;
+	MediaPlayer mPlayer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -33,6 +45,8 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		ClientUser user = new ClientUser(null, this);
+		user.getFriendList();
 		
 		tv = (TextView)findViewById(R.id.show);
 		iv = (ImageView)findViewById(R.id.img);
@@ -40,35 +54,112 @@ public class MainActivity extends Activity
 		stop = (Button)findViewById(R.id.btn_stop);
 		play = (Button)findViewById(R.id.btn_play);
 		pause = (Button)findViewById(R.id.btn_pause);
+		load = (Button)findViewById(R.id.btn_load);
 		
-		generateData();
-		getData();
+		start.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				Thread td = new Thread(new Runnable()
+				{
+					@Override
+					public void run() 
+					{
+						Recorder.getInstance().startRecordAndFile();
+					}
+				});
+				td.start();
+			}
+		});
+		stop.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				Recorder.getInstance().stopRecordAndFile();
+			}
+		});
+		play.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				mPlayer = new MediaPlayer();  
+				try
+				{  
+					mPlayer.setDataSource(Recorder.getInstance().getAMRFilePath());  
+					mPlayer.prepare();  
+					mPlayer.start();  
+				} catch (IOException e) {  
+					Log.e("___________", "prepare() failed");  
+				}
+			}
+		});
+		pause.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				 mPlayer.release();  
+				 mPlayer = null;  
+			}
+		});
+		load.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				generateData();
+				getData(getDialog(2, 3));
+			}
+		});
+		
+		
 	}
 	
-	
-	private void getData()
+	private ArrayList<AbstractMessage> getDialog(int userID1, int userID2)
 	{
-		DatabaseHandler db = new DatabaseHandler(this);
-		ArrayList<AbstractMessage> list = db.getAllMsg(1, 2);
-		
+		Dialog dialog = new Dialog(userID1, userID2, this);
+		return dialog.getDialogHistory();
+	}
+	
+	private void getData(ArrayList<AbstractMessage> list)
+	{
 		for (int i = 0; i <list.size(); i++)
 		{
-			Log.i(DEBUG_TAG, "Message id: " + String.valueOf(list.get(i).getID()));
-			Log.i(DEBUG_TAG, "From: " + String.valueOf(list.get(i).getFromUserID()));
-			Log.i(DEBUG_TAG, "To: " + String.valueOf(list.get(i).getToUserID()));
-			Log.i(DEBUG_TAG, "Content: " + String.valueOf(ConvertUtil.bytes2String(list.get(i).getContent())));
+			Log.i(DEBUG_TAG, "Message id:\r\t" + String.valueOf(list.get(i).getID()));
+			Log.i(DEBUG_TAG, "From:\r\t" + String.valueOf(list.get(i).getFromUserID()));
+			Log.i(DEBUG_TAG, "To:\r\t" + String.valueOf(list.get(i).getToUserID()));
+			Log.i(DEBUG_TAG, "Date:\r\t" + String.valueOf(list.get(i).getDate()));
 		}
+	}
+	
+	public static String now()
+	{
+		Calendar cal = Calendar.getInstance();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.CHINA);
+	    Log.i(DEBUG_TAG, "After insert id is: " + "\t" + sdf.format(cal.getTime()));
+	    /*
+	    DateFormat df;
+	    df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.CHINA);
+	    Log.i(DEBUG_TAG, "Full is: " + "\t" + df.format(cal.getTime()));
+	    */
+	    return sdf.format(cal.getTime());
 	}
 	
 	private void generateData()
 	{
 		DatabaseHandler db = new DatabaseHandler(this);
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.CHINA);
 		
-		TextMessage tm = new TextMessage(1, 2, ConvertUtil.string2Bytes("1->2This is another test.这是一个测试。"), dateFormat.format(date), false);
-		db.insertMessage(tm);
-		Log.i(DEBUG_TAG, "After insert id is: " + "\t" + String.valueOf(tm.getID()));
+		try {
+			AudioMessage tm = new AudioMessage(2, 3, ConvertUtil.amr2Bytes(Recorder.getInstance().getAMRFilePath()), dateFormat.format(new Date()), false);
+			db.insertMessage(tm);
+			Log.i(DEBUG_TAG, "After insert id is: " + "\t" + String.valueOf(tm.getID()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -93,8 +184,6 @@ public class MainActivity extends Activity
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-        
 	}
 	
 	private void playMp3(byte[] mp3SoundByteArray) 
@@ -125,7 +214,6 @@ public class MainActivity extends Activity
 	    }
 	}
 	
-	
 	MediaPlayer mPlayer;
 	private void startPlaying() 
 	 {
@@ -145,8 +233,6 @@ public class MainActivity extends Activity
 	        mPlayer = null;  
 	    } 
 	
-	
-	
 	private String getAMRFilePath()
     {
 		String fileBasePath ="/mnt/sdcard/TestMobileDatabase/voice/";
@@ -156,11 +242,8 @@ public class MainActivity extends Activity
 			boolean res = forlder.mkdir();
 			System.out.println(String.valueOf(res) + "\t" + "mkdir");
 		}
-            
     		System.out.println("OK");
     		fileBasePath = fileBasePath + "FinalAudio.amr";
-    		
-    		
 
     		Log.w("_______________", fileBasePath);
         return fileBasePath;
