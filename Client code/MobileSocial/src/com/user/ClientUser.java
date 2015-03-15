@@ -216,12 +216,16 @@ public class ClientUser extends AbstractUser
 	 * 获取最近聊天的所有本地对话
 	 * @return 本地所有对话
 	 */
-	public ArrayList<Dialog> getRecentDialog()
+	public ArrayList<Dialog> getRecentDialogs()
 	{
 		dialogList = new ArrayList<Dialog>();
 		
 		for (int i = 0; i < friendList.size(); i++)
-			dialogList.add(new Dialog(id, friendList.get(i).getID(), context));
+		{
+			Dialog dialog = new Dialog(id, friendList.get(i).getID(), context);
+			if (dialog.getMessageNum() > 0)
+				dialogList.add(dialog);
+		}
 		
 		return dialogList;
 	}
@@ -229,9 +233,42 @@ public class ClientUser extends AbstractUser
 	/**
 	 * 与other这个用户建立一个对话
 	 * @param other 想要与之建立对话的目标用户
+	 * @return 建立好的对话
 	 */
 	public Dialog loadDialogWith(AbstractUser other)
 	{
-		return new Dialog(id, other.getID(), context);
+		Dialog dialog = null;
+		
+		if (dialogList != null)
+		{
+			dialog = getDialogWith(other.getID());
+			if (dialog != null)
+				return dialog;
+		}
+		else
+			dialogList = new ArrayList<Dialog>();
+			
+		dialog = new Dialog(id, other.getID(), context);
+		dialogList.add(dialog);
+			
+		return dialog;
+	}
+	
+	/**
+	 * 从本地对话中查找：当前用户与ID为targetUserID的用户之间的对话
+	 * @param targetUserID 另一用户ID
+	 * @return 当前用户与ID为targetUserID的用户之间的对话<br>
+	 * null 表示本地不存在与targetUserID用户的对话记录
+	 */
+	private Dialog getDialogWith(int targetUserID)
+	{
+		if (dialogList == null || dialogList.size() == 0)
+			return null;
+		
+		for (int i = 0; i < dialogList.size(); i++)
+			if (dialogList.get(i).getAnotherUserID() == targetUserID)
+				return dialogList.get(i);
+		
+		return null;
 	}
 }

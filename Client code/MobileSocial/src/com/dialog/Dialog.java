@@ -38,6 +38,12 @@ public class Dialog
 	}
 	
 	/**
+	 * 获得此条对话总共包含的{@link AbstractMessage}数量，即词条对话的消息数
+	 * @return 消息数量
+	 */
+	public int getMessageNum() { return dialogHistory.size(); }
+	
+	/**
 	 * 获得当前用户的ID（即当前处于登陆状态、正在使用该软件的用户）
 	 * @return 当前用户的ID
 	 */
