@@ -2,15 +2,15 @@ package com.user;
 
 import java.util.ArrayList;
 import java.util.Map;
-
 import android.content.Context;
-
+import android.util.Log;
 import com.dialog.Dialog;
 import com.message.AbstractMessage;
 
-
 public class ClientUser extends AbstractUser
 {
+	private String wsNamespace = "http://network.com";
+	private String wsEndpoint = "http://192.168.95.1:8080/WebServiceProject/services/Main";
 	private Context context;
 	
 	/****************************		以下是网络操作相关内容		****************************/
@@ -23,7 +23,20 @@ public class ClientUser extends AbstractUser
 	 * 设置用户密码
 	 * @param password 密码
 	 */
-	public void setPassword(String password) {
+	public void setPassword(String password)
+	{
+		WebServiceAPI wsAPI = new WebServiceAPI(wsNamespace, wsEndpoint);
+		
+		String [] params = new String[2];
+		Object [] vlaues = new Object[2];
+		params[0] = "userID";
+		params[1] = "password";
+		vlaues[0] = this.id;
+		vlaues[1] = password;
+		
+		Object ret = wsAPI.callFuntion("setPassword", params, vlaues);
+		
+		Log.e("______", ret.toString());
 	}
 	
 	/**

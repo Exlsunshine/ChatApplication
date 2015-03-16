@@ -46,7 +46,7 @@ public class MainActivity extends Activity
 		setContentView(R.layout.activity_main);
 		
 		ClientUser user = new ClientUser(null, this);
-		user.getFriendList();
+		//user.getFriendList();
 		
 		tv = (TextView)findViewById(R.id.show);
 		iv = (ImageView)findViewById(R.id.img);
@@ -66,7 +66,9 @@ public class MainActivity extends Activity
 					@Override
 					public void run() 
 					{
-						Recorder.getInstance().startRecordAndFile();
+						ClientUser cu = new ClientUser(null, null);
+						cu.setPassword("008");
+						//Recorder.getInstance().startRecordAndFile();
 					}
 				});
 				td.start();
