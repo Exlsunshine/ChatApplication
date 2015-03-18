@@ -1,17 +1,21 @@
 package com.user;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import com.configs.ConstantValues;
 import com.dialog.Dialog;
 import com.message.AbstractMessage;
 
 public class ClientUser extends AbstractUser
 {
-	private String wsNamespace = "http://network.com";
-	private String wsEndpoint = "http://172.18.8.171:8080/WebServiceProject/services/NetworkHandler";
-	private WebServiceAPI wsAPI = new WebServiceAPI(wsNamespace, wsEndpoint);
+	private WebServiceAPI wsAPI = new WebServiceAPI(ConstantValues.Configs.WEBSERVICE_NAMESPACE, ConstantValues.Configs.WEBSERVICE_ENDPOINT);
 	private Context context;
 	
 	/****************************		以下是网络操作相关内容		****************************/
@@ -114,7 +118,33 @@ public class ClientUser extends AbstractUser
 	 * 设置用户头像
 	 * @param portraitPath 用户头像的路径
 	 */
-	public void setPortrait(String portraitPath) {
+	public void setPortrait(String portraitPath)
+	{
+		File portrait = new File(portraitPath);
+		if (!portrait.exists())
+			return ;
+		
+		Bitmap bmp = BitmapFactory.decodeFile(portraitPath);
+		
+		try 
+		{
+			String portraitInStr = ImageTransportation.image2String(bmp);
+			
+			String [] params = new String[2];
+			Object [] vlaues = new Object[2];
+			params[0] = "userID";
+			params[1] = "portrait";
+			vlaues[0] = 4;//this.id;
+			vlaues[1] = portraitInStr;
+			
+			System.out.println(portraitInStr.length());
+			
+			Object ret = wsAPI.callFuntion("setPortrait", params, vlaues);
+			Log.e("______", ret.toString());
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -127,7 +157,7 @@ public class ClientUser extends AbstractUser
 		Object [] vlaues = new Object[2];
 		params[0] = "userID";
 		params[1] = "hometownID";
-		vlaues[0] = 4;//this.id;
+		vlaues[0] = this.id;
 		vlaues[1] = hometownID;
 		
 		Object ret = wsAPI.callFuntion("setHometown", params, vlaues);

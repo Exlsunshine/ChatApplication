@@ -37,5 +37,9 @@ public class ConstantValues
 		public static final String MESSAGE_TEXT_HEAD = "0x213";
 		public static final String MESSAGE_AUDIO_HEAD = "0x213";
 		public static final String MESSAGE_IMAGE_HEAD = "0x213";
+		
+		public static final String WEBSERVICE_NAMESPACE = "http://network.com";
+		public static final String WEBSERVICE_ENDPOINT = "http://172.18.8.171:8080/WebServiceProject/services/NetworkHandler";
+		
 	}
 }
