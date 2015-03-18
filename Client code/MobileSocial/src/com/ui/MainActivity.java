@@ -18,6 +18,7 @@ import com.message.DatabaseHandler;
 import com.message.Recorder;
 import com.message.TextMessage;
 import com.user.ClientUser;
+import com.user.FriendUser;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -67,7 +68,7 @@ public class MainActivity extends Activity
 					public void run() 
 					{
 						ClientUser cu = new ClientUser(null, null);
-						cu.setPassword("008");
+						cu.setHometown(3);
 						//Recorder.getInstance().startRecordAndFile();
 					}
 				});
