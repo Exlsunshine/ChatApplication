@@ -25,7 +25,7 @@ public class SQLServerEnd
 		TABLE_NAME = tableName;
 		USERNAME = "sa";
 		PASSWORD = "007";
-		DATABASE_URL = "jdbc:sqlserver://172.18.8.235:1433"+";databaseName=" + DATABASE_NAME;
+		DATABASE_URL = "jdbc:sqlserver://172.18.8.171:1433"+";databaseName=" + DATABASE_NAME;
 		connect();
 	}
 	
@@ -191,7 +191,7 @@ public class SQLServerEnd
 			Statement s1 = connection.createStatement();
 			s1.executeUpdate("UPDATE " + TABLE_NAME + " SET "
 			+ joinConditionStatement(updateCol, updateVal, ",")
-			+ " WHERE " + joinConditionStatement(condition, conditionVal, "="));
+			+ " WHERE " + joinConditionStatement(condition, conditionVal, "and"));
 			System.out.println("Update success.");
 		} catch (SQLException e) {
 			e.printStackTrace();
