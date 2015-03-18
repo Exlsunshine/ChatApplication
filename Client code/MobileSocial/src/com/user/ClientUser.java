@@ -10,7 +10,7 @@ import com.message.AbstractMessage;
 public class ClientUser extends AbstractUser
 {
 	private String wsNamespace = "http://network.com";
-	private String wsEndpoint = "http://192.168.95.1:8080/WebServiceProject/services/Main";
+	private String wsEndpoint = "http://172.18.8.171:8080/WebServiceProject/services/NetworkHandler";
 	private WebServiceAPI wsAPI = new WebServiceAPI(wsNamespace, wsEndpoint);
 	private Context context;
 	

@@ -2,8 +2,10 @@ package com.network;
 
 public class NetworkHandler
 {
-	public void setPassword(int userID, String password)
+	public int setPassword(int userID, String password)
 	{
+		return 0;
+		//return "your id is " + String.valueOf(userID) + " your password is " + password;
 	}
 	
 	public void setNickName(int userID, String nickName) 
