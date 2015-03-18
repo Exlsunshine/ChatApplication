@@ -20,6 +20,8 @@ import com.message.TextMessage;
 import com.user.ClientUser;
 import com.user.FriendUser;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -68,7 +70,8 @@ public class MainActivity extends Activity
 					public void run() 
 					{
 						ClientUser cu = new ClientUser(null, null);
-						cu.setHometown(3);
+						cu.setPortrait("/mnt/sdcard/DCIM/Camera/test.jpg");
+						
 						//Recorder.getInstance().startRecordAndFile();
 					}
 				});

@@ -1,6 +1,7 @@
 package com.network;
 
 import com.database.SQLServerEnd;
+import com.image.process.PortraitTransmit;
 
 public class NetworkHandler
 {
@@ -37,6 +38,36 @@ public class NetworkHandler
 		
 		return errorCode;
 	}
+	
+	public int setPortrait(int userID, String portrait)
+	{
+		PortraitTransmit pt = new PortraitTransmit(userID, portrait);
+		String portraitPath = pt.getSavedImgPath();
+		
+		if (portraitPath == null)
+		{
+			System.out.println("setPortrait failed.");
+			return 4;
+		}
+		else
+		{
+			initUserBasicInfoTB();
+			
+			String [] updateCol = {"portrait_path"};
+			String [] updateVal = { portraitPath };
+			String [] condition = { "id" };
+			String [] conditionVal = { String.valueOf(userID) };
+			
+			int errorCode = userBasicInfoTB.update(updateCol, updateVal, condition, conditionVal);
+			
+			if (errorCode == 0)
+				System.out.println("setPortrait success.");
+			else
+				System.out.println("setPortrait failed.");
+			
+			return errorCode;
+		}
+	} 
 	
 	public int setNickName(int userID, String nickName) 
 	{
