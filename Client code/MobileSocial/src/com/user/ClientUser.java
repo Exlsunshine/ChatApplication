@@ -121,14 +121,14 @@ public class ClientUser extends AbstractUser
 	 * 设置用户家乡
 	 * @param hometown 家乡
 	 */
-	public void setHometown(String hometown)
+	public void setHometown(int hometownID)
 	{
 		String [] params = new String[2];
 		Object [] vlaues = new Object[2];
 		params[0] = "userID";
-		params[1] = "hometown";
-		vlaues[0] = this.id;
-		vlaues[1] = hometown;
+		params[1] = "hometownID";
+		vlaues[0] = 4;//this.id;
+		vlaues[1] = hometownID;
 		
 		Object ret = wsAPI.callFuntion("setHometown", params, vlaues);
 		
@@ -194,16 +194,16 @@ public class ClientUser extends AbstractUser
 	 * @param other 待设置的目标用户
 	 * @param alias 别名
 	 */
-	public void setAlias(ClientUser other, String alias) 
+	public void setAlias(FriendUser other, String alias) 
 	{
 		String [] params = new String[3];
 		Object [] vlaues = new Object[3];
 		params[0] = "userID";
 		params[1] = "anotherUserID";
-		params[3] = "alias";
+		params[2] = "alias";
 		vlaues[0] = this.id;
 		vlaues[1] = other.getID();
-		vlaues[1] = alias;
+		vlaues[2] = alias;
 		
 		Object ret = wsAPI.callFuntion("setAlias", params, vlaues);
 		
@@ -215,16 +215,16 @@ public class ClientUser extends AbstractUser
 	 * @param other 待设置的目标用户
 	 * @param groupName 分组名称
 	 */
-	public void moveFriendToGroup(ClientUser other, String groupName)
+	public void moveFriendToGroup(FriendUser other, String groupName)
 	{
 		String [] params = new String[3];
 		Object [] vlaues = new Object[3];
 		params[0] = "userID";
 		params[1] = "anotherUserID";
-		params[3] = "groupName";
-		vlaues[0] = this.id;
-		vlaues[1] = other.getID();
-		vlaues[1] = groupName;
+		params[2] = "groupName";
+		vlaues[0] = 4;//this.id;
+		vlaues[1] = 5;//other.getID();
+		vlaues[2] = groupName;
 		
 		Object ret = wsAPI.callFuntion("moveFriendToGroup", params, vlaues);
 		
@@ -232,19 +232,22 @@ public class ClientUser extends AbstractUser
 	}
 	
 	/**
-	 * 将other这个用户设为星标用户
+	 * 将other这个用户标记为星标用户或取消其星标标记
 	 * @param other 待设置的目标用户
+	 * @param enable 使能选项  true 表示设置为星标好友;false 表示取消设置星标好友
 	 */
-	public void markCloseFriend(ClientUser other)
+	public void setAsCloseFriend(FriendUser other, boolean enable)
 	{
-		String [] params = new String[2];
-		Object [] vlaues = new Object[2];
+		String [] params = new String[3];
+		Object [] vlaues = new Object[3];
 		params[0] = "userID";
 		params[1] = "anotherUserID";
-		vlaues[0] = this.id;
-		vlaues[1] = other.getID();
+		params[2] = "enable";
+		vlaues[0] = 4;//this.id;
+		vlaues[1] = 5;//other.getID();
+		vlaues[2] = enable;
 		
-		Object ret = wsAPI.callFuntion("markCloseFriend", params, vlaues);
+		Object ret = wsAPI.callFuntion("setAsCloseFriend", params, vlaues);
 		
 		Log.e("______", ret.toString());
 	}
@@ -253,14 +256,14 @@ public class ClientUser extends AbstractUser
 	 * 将other这个用户加入黑名单
 	 * @param other 待设置的目标用户
 	 */
-	public void blockUser(ClientUser other)
+	public void blockUser(FriendUser other)
 	{
 		String [] params = new String[2];
 		Object [] vlaues = new Object[2];
 		params[0] = "userID";
 		params[1] = "anotherUserID";
-		vlaues[0] = this.id;
-		vlaues[1] = other.getID();
+		vlaues[0] = 4;//this.id;
+		vlaues[1] = 5;//other.getID();
 		
 		Object ret = wsAPI.callFuntion("blockUser", params, vlaues);
 		
@@ -271,7 +274,7 @@ public class ClientUser extends AbstractUser
 	 * 将other这个用户解除好友关系
 	 * @param other 待设置的目标用户
 	 */
-	public void deleteUser(ClientUser other)
+	public void deleteUser(FriendUser other)
 	{
 		String [] params = new String[2];
 		Object [] vlaues = new Object[2];
