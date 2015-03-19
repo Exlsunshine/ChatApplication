@@ -55,6 +55,47 @@ public class PackString
 		return result.toString();
 	}
 	
+	/**
+	 * 将contents转换成JASON类型的字符串<br>
+	 * msgInfo与contents应满足如下格式：<br>
+	 * msgInfo: [{map1.key:map1.value}, {map2.key:map2.value}, {map3.key:map3.value}...]<br>
+	 * 如：<br>
+	 * "friends":[{"name":"bob","age":20},{"name":"Alice","age":30}]
+	 * 
+	 * @param msgName 消息名称
+	 * @param contents 消息内容
+	 * @return JSON格式的字符串
+	 * @throws JSONException
+	 */
+	public static String arrylist2JsonString(String msgName, ArrayList<Map<String, String>> contents, int _i) throws JSONException
+	{
+		if (contents == null)
+		{
+			System.out.println("Error:\tMap null.");
+			return null;
+		}
+		
+		if (contents.size() == 0)
+		{
+			System.out.println("Error:\tMap size is 0.");
+			return null;
+		}
+		
+		JSONObject result = new JSONObject();
+		JSONArray items = new JSONArray();
+		for (int i = 0; i < contents.size(); i++)
+		{
+			Map<String, String> item = contents.get(i);
+			
+			JSONObject obj = new JSONObject();
+			for (String key : item.keySet())
+				obj.put(key, item.get(key));
+			items.put(obj);
+		}
+		result.put(msgName, items);
+
+		return result.toString();
+	}
 	
 	public PackString(String jsonString)
 	{
