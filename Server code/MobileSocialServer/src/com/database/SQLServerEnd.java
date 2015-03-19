@@ -16,6 +16,7 @@ public class SQLServerEnd
 	private String USERNAME = null;
 	private String PASSWORD = null;
 	private String DATABASE_URL = null;
+	private boolean DEBUG_MODEL = true;
 	
 	private Connection connection = null;
 	
@@ -79,12 +80,12 @@ public class SQLServerEnd
 	{
 		if (column == null || value == null)
 		{
-			System.out.println("Error:\tColumns or values null.");
+			System.out.println(DEBUG_MODEL ? "Error:\tColumns or values null." : "");
 			return 1;
 		}
 		if (column.length != value.length)
 		{
-			System.out.println("Error:\tColumns length and values length are not equal.");
+			System.out.println(DEBUG_MODEL ? "Error:\tColumns length and values length are not equal." : "");
 			return 2;
 		}
 		
@@ -94,7 +95,7 @@ public class SQLServerEnd
 			s1.executeUpdate("INSERT INTO " + TABLE_NAME
 					+ "(" + joinStatement(column, ",", false) + ")"
 					+ "VALUES (" + joinStatement(value, ",", true) + ")");
-			System.out.println("Insert success.");
+			System.out.println(DEBUG_MODEL ? "Insert success." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 3;
@@ -103,12 +104,12 @@ public class SQLServerEnd
 		return 0;
 	}
 	
-	private String joinConditionStatement(String [] condition, String [] value, String seperator)
+	private String joinConditionStatement(String [] condition, String [] value, String seperator, String operator)
 	{
 		String sentence = "";
 		
 		for (int i = 0; i < condition.length - 1; i++)
-			sentence += condition[i] + " = " + "'" + value[i] + "'" + " " + seperator + " ";
+			sentence += condition[i] + " " + operator + " " + "'" + value[i] + "'" + " " + seperator + " ";
 
 		sentence += condition[condition.length - 1]  + " = " + "'" + value[condition.length - 1] + "'";
 		return sentence;
@@ -128,20 +129,20 @@ public class SQLServerEnd
 	{
 		if (condition == null || value == null)
 		{
-			System.out.println("Error:\tConditions or values null.");
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
 			return 1;
 		}
 		if (condition.length != value.length)
 		{
-			System.out.println("Error:\tConditions length and values length are not equal.");
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
 			return 2;
 		}
 		
 		try
 		{
 			Statement s1 = connection.createStatement();
-			s1.executeUpdate("DELETE FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, value, "and"));
-			System.out.println("Delete success.");
+			s1.executeUpdate("DELETE FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, value, "and", "="));
+			System.out.println(DEBUG_MODEL ? "Delete success." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 3;
@@ -167,22 +168,22 @@ public class SQLServerEnd
 	{
 		if (updateCol == null || updateVal == null)
 		{
-			System.out.println("Error:\tUpdate columns or update values null.");
+			System.out.println(DEBUG_MODEL ? "Error:\tUpdate columns or update values null." : "");
 			return 1;
 		}
 		if (updateCol.length != updateVal.length)
 		{
-			System.out.println("Error:\tUpdate columns length and update values length are not equal.");
+			System.out.println(DEBUG_MODEL ? "Error:\tUpdate columns length and update values length are not equal." : "");
 			return 2;
 		}
 		if (condition == null || conditionVal == null)
 		{
-			System.out.println("Error:\tConditions or values null.");
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
 			return 1;
 		}
 		if (condition.length != conditionVal.length)
 		{
-			System.out.println("Error:\tConditions length and values length are not equal.");
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
 			return 2;
 		}
 		
@@ -190,9 +191,9 @@ public class SQLServerEnd
 		{
 			Statement s1 = connection.createStatement();
 			s1.executeUpdate("UPDATE " + TABLE_NAME + " SET "
-			+ joinConditionStatement(updateCol, updateVal, ",")
-			+ " WHERE " + joinConditionStatement(condition, conditionVal, "and"));
-			System.out.println("Update success.");
+			+ joinConditionStatement(updateCol, updateVal, ",", "=")
+			+ " WHERE " + joinConditionStatement(condition, conditionVal, "and", "="));
+			System.out.println(DEBUG_MODEL ? "Update success." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 3;
@@ -204,7 +205,7 @@ public class SQLServerEnd
 	/**
 	 * 查询记录：将符合condition[i] == conditionVal[i] 条件的记录的query[i]列的值 全部返回<br>
 	 * 将查询结果返回到ArrayList<HashMap<String, String>>中，其中HashMap的Key[i]等于query[i]<br>
-	 * @param query 待查询的列
+	 * @param query 待查询的列(输入new String [] { "*" }则相当于选择所有列)
 	 * @param condition 条件(数据库中的列名)
 	 * @param conditionVal 条件值，与condition应一 一对应
 	 * @return
@@ -213,14 +214,14 @@ public class SQLServerEnd
 	 */
 	public ArrayList<HashMap<String, String>> select(String [] query, String [] condition, String [] conditionVal)
 	{
-		if (query == null || condition == null || conditionVal == null)
+		if (condition == null || conditionVal == null)
 		{
-			System.out.println("Error:\tQuery, conditions or values null.");
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
 			return null;
 		}
 		if (condition.length != conditionVal.length)
 		{
-			System.out.println("Error:\tConditions length and values length are not equal.");
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
 			return null;
 		}
 		
@@ -228,8 +229,14 @@ public class SQLServerEnd
 		
 		try
 		{
+			String request = null;
+			if (query.length == 1 && query[0].equals("*"))
+				request = "*";
+			else
+				request = joinStatement(query, ",", false);
+				
 			Statement s1 = connection.createStatement();
-			ResultSet rs = s1.executeQuery("SELECT " + joinStatement(query, ",", false) + " FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, conditionVal, "and"));
+			ResultSet rs = s1.executeQuery("SELECT " + request + " FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, conditionVal, "and", "="));
 			
 			if (rs != null)
 			{
@@ -249,13 +256,117 @@ public class SQLServerEnd
 				}
 			}
 			
-			System.out.println("Select success. Return " + list.size() + " results.");
+			System.out.println(DEBUG_MODEL ? "Select success. Return " + list.size() + " results." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 		
 		return list;
+	}
+	
+	/**
+	 * 
+	 * @param condition 条件(数据库中的列名)
+	 * @param conditionVal 条件值，与condition应一 一对应
+	 * @return false 表示查询的条件不成立，或查询的参数有误<br>
+	 * true 表示查询的条件成立
+	 */
+	public boolean isConditionExist(String [] condition, String [] conditionVal)
+	{
+		if (condition == null || conditionVal == null)
+		{
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
+			return false;
+		}
+		if (condition.length != conditionVal.length)
+		{
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
+			return false;
+		}
+		
+		ArrayList<HashMap<String, String>> list = select(new String [] { "*" }, condition, conditionVal);
+		if (list.size() == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	
+	/**
+	 * 查询记录：将符合condition[i] == conditionVal[i] 条件的记录的query[i]列的值 全部返回<br>
+	 * 将查询结果返回到ArrayList<HashMap<String, String>>中，其中HashMap的Key[i]等于query[i]<br>
+	 * @param query 待查询的列(输入new String [] { "*" }则相当于选择所有列)
+	 * @param condition 条件(数据库中的列名)
+	 * @param conditionVal 条件值，与condition应一 一对应
+	 * @param operator 表condition与conditionVal的关系，示如"=",">",">="<br>
+	 * 当operator设置为"="时，相当于调用{@link #select(String[], String[], String[])}}
+	 * @return
+	 * null 失败：表示 一个或多个参数为null、传入的成对的数组长度不一致、数据库操作错误<br>
+	 * not null 成功<br>
+	 */
+	public ArrayList<HashMap<String, String>> select(String [] query, String [] condition, String [] conditionVal, String operator)
+	{
+		if (query == null || condition == null || conditionVal == null)
+		{
+			System.out.println(DEBUG_MODEL ? "Error:\tQuery, conditions or values null." : "");
+			return null;
+		}
+		if (condition.length != conditionVal.length)
+		{
+			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
+			return null;
+		}
+		
+		if (operator == null)
+		{
+			operator = "=";
+			System.out.println(DEBUG_MODEL ? "Warning: Default operator is used \"=\"" : "");
+		}
+		
+		ArrayList<HashMap<String, String>> list = null;
+		
+		try
+		{
+			Statement s1 = connection.createStatement();
+			ResultSet rs = s1.executeQuery("SELECT " + joinStatement(query, ",", false) + " FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, conditionVal, "and", operator));
+			
+			if (rs != null)
+			{
+				list = new ArrayList<HashMap<String, String>>();
+				
+				while (rs.next())
+				{
+					HashMap<String, String> map = new HashMap<String, String>();
+					
+					for (int i = 0; i < query.length; i++)
+					{
+						map.put(query[i], rs.getString(query[i]));
+						map.put(query[i], rs.getString(query[i]));
+					}
+					
+					list.add(map);
+				}
+			}
+			
+			System.out.println(DEBUG_MODEL ? "Select success. Return " + list.size() + " results." : "");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return list;
+	}
+	
+	
+	/**
+	 * 设置debug模式
+	 * @param en true表示设置为debug模式，将<b>会</b>打印出所有调试信息<br>
+	 * false 表示禁止debug模式，将<b>不会</b>打印任何调试信息
+	 */
+	public void enableDebugModel(boolean en)
+	{
+		this.DEBUG_MODEL = en;
 	}
 	
 	public static void main(String[] args)
