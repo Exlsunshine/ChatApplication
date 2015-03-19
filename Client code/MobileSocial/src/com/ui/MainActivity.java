@@ -2,7 +2,6 @@ package com.ui;
 
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,13 +15,8 @@ import com.message.AudioMessage;
 import com.message.ConvertUtil;
 import com.message.DatabaseHandler;
 import com.message.Recorder;
-import com.message.TextMessage;
+import com.network.openfire.OpenfireHandler;
 import com.user.ClientUser;
-import com.user.FriendUser;
-
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
@@ -59,6 +53,9 @@ public class MainActivity extends Activity
 		pause = (Button)findViewById(R.id.btn_pause);
 		load = (Button)findViewById(R.id.btn_load);
 		
+		
+		OpenfireHandler.createuser("238", "pwd238");
+		final OpenfireHandler of = new OpenfireHandler(String.valueOf(238), "pwd238");
 		start.setOnClickListener(new OnClickListener()
 		{
 			@Override
@@ -69,9 +66,7 @@ public class MainActivity extends Activity
 					@Override
 					public void run() 
 					{
-						ClientUser cu = new ClientUser(null, null);
-						cu.setPortrait("/mnt/sdcard/DCIM/Camera/test.jpg");
-						
+						of.signin();
 						//Recorder.getInstance().startRecordAndFile();
 					}
 				});
@@ -83,7 +78,8 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				Recorder.getInstance().stopRecordAndFile();
+				of.signoff();
+				//Recorder.getInstance().stopRecordAndFile();
 			}
 		});
 		play.setOnClickListener(new OnClickListener()
@@ -91,7 +87,8 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				mPlayer = new MediaPlayer();  
+				of.send("aloha", "admin");
+				/*mPlayer = new MediaPlayer();  
 				try
 				{  
 					mPlayer.setDataSource(Recorder.getInstance().getAMRFilePath());  
@@ -99,7 +96,7 @@ public class MainActivity extends Activity
 					mPlayer.start();  
 				} catch (IOException e) {  
 					Log.e("___________", "prepare() failed");  
-				}
+				}*/
 			}
 		});
 		pause.setOnClickListener(new OnClickListener()
