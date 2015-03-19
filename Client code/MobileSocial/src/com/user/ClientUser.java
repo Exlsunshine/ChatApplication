@@ -1,6 +1,9 @@
 package com.user;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -411,7 +414,7 @@ public class ClientUser extends AbstractUser
 					(String) map.get(JSON_INFO_KEY_USER_PHONE_NO), 
 					(String) map.get(JSON_INFO_KEY_USER_SEX), 
 					(String) map.get(JSON_INFO_KEY_USER_BIRTHDAY), 
-					ConvertUtil.object2Bytes(map.get(JSON_INFO_KEY_USER_PORTRAIT)),
+					object2Bytes(map.get(JSON_INFO_KEY_USER_PORTRAIT)),
 					(String) map.get(JSON_INFO_KEY_USER_HOMETOWN));
 			friendList.add(friend);
 		}
@@ -440,6 +443,20 @@ public class ClientUser extends AbstractUser
 		}
 		
 		return friendList;*/
+	}
+	
+	private byte [] object2Bytes(Object obj)
+	{
+		try
+		{
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(bos);
+			oos.writeObject(obj);
+			return bos.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	private String JSON_MSG_KEY_FRIENDS_LIST = "friends_list";

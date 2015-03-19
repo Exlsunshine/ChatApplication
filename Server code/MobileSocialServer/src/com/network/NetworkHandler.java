@@ -1,5 +1,8 @@
 package com.network;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.database.SQLServerEnd;
 import com.image.process.PortraitTransmit;
 
@@ -263,5 +266,37 @@ public class NetworkHandler
 			System.out.println("deleteUser failed.");
 		
 		return errorCode1 == 0? errorCode2 : errorCode1;
+	}
+	
+	public String getFriendList(int userID)
+	{
+		initUserBasicInfoTB();
+		
+		/*
+		 
+		select a.login_account, a.nick_name, a.email, a.sex, a.birthday, a.portrait_path, a.hometown_id, a.phone_number, b.second_userid, b.group_name, b.alias, b.close_friend_flag
+		from user_basic_info as a,	(
+								select second_userid, group_name, alias, close_friend_flag
+								from user_relationship
+								where first_userid = userID
+							)as b
+		where a.id = b.second_userid
+		 
+		 * */
+		String[] query = {};
+		String[] condition = {};
+		String[] conditionVal = {};
+		ArrayList<HashMap<String, String>> result = userBasicInfoTB.select(query, condition, conditionVal);
+		
+		if (result == null)
+			System.out.println("setHometown success.");
+		else
+			System.out.println("setHometown failed.");
+		
+		
+		
+		
+		String str = "{\"friends_list\":[{\"birthday\":\"1992-12-02\",\"loginAccount\":\"Xiao Account\",\"hometown\":\"Beijing\",\"phoneNumber\":\"13587649098\",\"user_id\":1,\"nickName\":\"Xiao ming\",\"sex\":\"male\",\"portrait\":[1,2,3],\"email\":\"aaa@sina.com\"},{\"birthday\":\"1991-02-12\",\"loginAccount\":\"Li Account\",\"hometown\":\"Chongqing\",\"phoneNumber\":\"17587649098\",\"user_id\":2,\"nickName\":\"Li ying\",\"sex\":\"male\",\"portrait\":[16,26,36],\"email\":\"bbb@sina.com\"},{\"birthday\":\"1993-05-12\",\"loginAccount\":\"Sun Account\",\"hometown\":\"Shanghai\",\"phoneNumber\":\"19587649098\",\"user_id\":3,\"nickName\":\"Sun ming\",\"sex\":\"male\",\"portrait\":[2,3,4],\"email\":\"ccc@sina.com\"}]}";
+		return str;
 	}
 }

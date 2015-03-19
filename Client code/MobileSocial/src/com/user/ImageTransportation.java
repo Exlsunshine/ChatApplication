@@ -9,10 +9,8 @@ import android.graphics.BitmapFactory;
 /**
  * LJ
  */
-
 public class ImageTransportation 
 {
-	
 	//图像压缩比 30 保留30%
 	private final static int QUALITY = 30;
 	//webservice 待调用包名
@@ -84,6 +82,4 @@ public class ImageTransportation
 		bitmap = string2Bitmap(result.toString());
 		return bitmap;
 	}
-	
-	
 }

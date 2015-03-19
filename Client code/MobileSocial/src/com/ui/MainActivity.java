@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import com.dialog.Dialog;
 import com.example.testmobiledatabase.R;
 import com.message.AbstractMessage;
@@ -15,10 +14,14 @@ import com.message.AudioMessage;
 import com.message.ConvertUtil;
 import com.message.DatabaseHandler;
 import com.message.Recorder;
-import com.network.openfire.OpenfireHandler;
+import com.message.TextMessage;
 import com.user.ClientUser;
+import com.user.FriendUser;
+
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
@@ -36,14 +39,21 @@ public class MainActivity extends Activity
 	Button start, stop, play, pause, load;
 	MediaPlayer mPlayer;
 	
+	Dialog dialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		ClientUser user = new ClientUser(null, this);
-		//user.getFriendList();
+		
+		//user | password
+		//238  | pwd238
+		//89   | 89
+		final ClientUser user = new ClientUser(89, "89", null, this);
+		final FriendUser friend = new FriendUser(238, null, null, null, null, null, null, null, null);
+		
 		
 		tv = (TextView)findViewById(R.id.show);
 		iv = (ImageView)findViewById(R.id.img);
@@ -54,8 +64,6 @@ public class MainActivity extends Activity
 		load = (Button)findViewById(R.id.btn_load);
 		
 		
-		OpenfireHandler.createuser("238", "pwd238");
-		final OpenfireHandler of = new OpenfireHandler(String.valueOf(238), "pwd238");
 		start.setOnClickListener(new OnClickListener()
 		{
 			@Override
@@ -66,7 +74,7 @@ public class MainActivity extends Activity
 					@Override
 					public void run() 
 					{
-						of.signin();
+						user.signin();
 						//Recorder.getInstance().startRecordAndFile();
 					}
 				});
@@ -78,7 +86,7 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				of.signoff();
+				user.signoff();
 				//Recorder.getInstance().stopRecordAndFile();
 			}
 		});
@@ -87,7 +95,8 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				of.send("aloha", "admin");
+				TextMessage txtMsg = new TextMessage(user.getID(), friend.getID(), ConvertUtil.string2Bytes("alohaaµÄÊ¢´ó¸»ÎÌ!" + now()), now(), false);
+				user.sendMsgTo(friend, txtMsg);
 				/*mPlayer = new MediaPlayer();  
 				try
 				{  
@@ -104,8 +113,20 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				 mPlayer.release();  
-				 mPlayer = null;  
+				String str = "";
+				
+				ArrayList<AbstractMessage> list = dialog.getDialogHistory();
+				for (int i = 0; i < list.size(); i++)
+				{
+					TextMessage textMsg = (TextMessage)(list.get(i));
+					str += String.valueOf(textMsg.getFromUserID()) + "->" + String.valueOf(textMsg.getToUserID()) 
+							+ " : " + textMsg.getText() + " at " + textMsg.getDate() + "\n";
+				}
+				
+				tv.setText(str);
+				
+				/* mPlayer.release();  
+				 mPlayer = null;  */
 			}
 		});
 		load.setOnClickListener(new OnClickListener()
@@ -113,8 +134,9 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				generateData();
-				getData(getDialog(2, 3));
+				dialog = user.makeDialogWith(friend);
+				/*generateData();
+				getData(getDialog(2, 3));*/
 			}
 		});
 		
@@ -142,7 +164,6 @@ public class MainActivity extends Activity
 	{
 		Calendar cal = Calendar.getInstance();
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.CHINA);
-	    Log.i(DEBUG_TAG, "After insert id is: " + "\t" + sdf.format(cal.getTime()));
 	    /*
 	    DateFormat df;
 	    df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.CHINA);
