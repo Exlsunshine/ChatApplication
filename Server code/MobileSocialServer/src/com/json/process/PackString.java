@@ -1,8 +1,10 @@
-package com.user;
+package com.json.process;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +25,7 @@ public class PackString
 	 * @return JSON格式的字符串
 	 * @throws JSONException
 	 */
-	public static String arrylist2JsonString(String msgName, ArrayList<HashMap<String, Object>> contents) throws JSONException
+	public static String arrylist2JsonString(String msgName, ArrayList<Map<String, Object>> contents) throws JSONException
 	{
 		if (contents == null)
 		{
@@ -41,7 +43,7 @@ public class PackString
 		JSONArray items = new JSONArray();
 		for (int i = 0; i < contents.size(); i++)
 		{
-			HashMap<String, Object> item = contents.get(i);
+			Map<String, Object> item = contents.get(i);
 			
 			JSONObject obj = new JSONObject();
 			for (String key : item.keySet())
@@ -96,6 +98,7 @@ public class PackString
 		return result.toString();
 	}
 	
+	
 	public PackString(String jsonString)
 	{
 		msg = string2Json(jsonString);
@@ -121,17 +124,17 @@ public class PackString
 	}
 	
 	/**
-	 * 将JSON格式的字符串转换为ArrayList<HashMap<String, Object>>
+	 * 将JSON格式的字符串转换为ArrayList<Map<String, Object>>
 	 * @param msgName 消息名称
-	 * @return 转换后的JSON消息的ArrayList<HashMap<String, Object>>对象
+	 * @return 转换后的JSON消息的ArrayList<Map<String, Object>>对象
 	 */
-	public ArrayList<HashMap<String, Object>> jsonString2Arrylist(String msgName)
+	public ArrayList<Map<String, Object>> jsonString2Arrylist(String msgName)
 	{
-		ArrayList<HashMap<String, Object>> list = null;
+		ArrayList<Map<String, Object>> list = null;
 		try
 		{
 			JSONArray arr = (JSONArray) msg.get(msgName);
-			list = new ArrayList<HashMap<String, Object>>();
+			list = new ArrayList<Map<String, Object>>();
 			
 			for (int i = 0; i < arr.length(); i++)
 			{
@@ -157,8 +160,8 @@ public class PackString
 	
 	public static void main(String[] args)
 	{
-		ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
-		HashMap<String, Object> item = new HashMap<String, Object>();
+		ArrayList<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+		Map<String, Object> item = new HashMap<String, Object>();
 		item.put("name", "bob");
 		item.put("age", 100);
 		items.add(item);
@@ -181,10 +184,10 @@ public class PackString
 		try
 		{
 			PackString ps = new PackString(PackString.arrylist2JsonString("friends", items));
-			ArrayList<HashMap<String, Object>> result = ps.jsonString2Arrylist("friends");
+			ArrayList<Map<String, Object>> result = ps.jsonString2Arrylist("friends");
 			for (int i = 0; i < result.size(); i++)
 			{
-				HashMap<String, Object> map = result.get(i);
+				Map<String, Object> map = result.get(i);
 				for (String key : map.keySet())
 					System.out.print(key + "\t" + map.get(key) + "\t");
 				System.out.println();
@@ -246,7 +249,7 @@ public static String generateJsonString(String msgInfo, String [] keys, Object [
 		return null;
 	}
 	
-	HashMap<String, Object> map = new HashMap<String, Object>();
+	Map<String, Object> map = new HashMap<String, Object>();
 	
 	for (int i = 0; i < keys.length; i++)
 		map.put(keys[i], values[i]);
