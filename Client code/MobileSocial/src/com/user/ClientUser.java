@@ -2,6 +2,7 @@ package com.user;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
@@ -12,16 +13,24 @@ import android.util.Log;
 import com.configs.ConstantValues;
 import com.dialog.Dialog;
 import com.message.AbstractMessage;
+import com.message.ImageMessage;
+import com.message.TextMessage;
+import com.network.openfire.OpenfireHandler;
 
 public class ClientUser extends AbstractUser
 {
+	private final static String DEBUG_TAG = "______ClientUser";
 	private WebServiceAPI wsAPI = new WebServiceAPI(ConstantValues.Configs.WEBSERVICE_NAMESPACE, ConstantValues.Configs.WEBSERVICE_ENDPOINT);
 	private Context context;
+	private OpenfireHandler ofhandler;
 	
 	/****************************		以下是网络操作相关内容		****************************/
-	public ClientUser(String loginAccount, Context context)
+	public ClientUser(int userID, String password, String loginAccount, Context context)
 	{
-		super(0, null, null, null, null, null, null, null, null);
+		super(89, null, null, null, null, null, null, null, null);
+		
+		this.context = context;
+		ofhandler = new OpenfireHandler(String.valueOf(getID()), password);
 	}
 	
 	/**
@@ -134,7 +143,7 @@ public class ClientUser extends AbstractUser
 			Object [] vlaues = new Object[2];
 			params[0] = "userID";
 			params[1] = "portrait";
-			vlaues[0] = 4;//this.id;
+			vlaues[0] = this.id;
 			vlaues[1] = portraitInStr;
 			
 			System.out.println(portraitInStr.length());
@@ -186,13 +195,17 @@ public class ClientUser extends AbstractUser
 	/**
 	 * 登陆
 	 */
-	public void signin() {
+	public void signin()
+	{
+		ofhandler.signin();
 	}
 	
 	/**
 	 * 注销
 	 */
-	public void signoff() {
+	public void signoff()
+	{
+		ofhandler.signoff();
 	}
 
 	/**
@@ -205,13 +218,49 @@ public class ClientUser extends AbstractUser
 	 * 将msg这条消息发送个other这个用户
 	 * @param other 待接收的目标用户
 	 * @param msg 待发送的消息
-	 * @return true 发送成功<br>
-	 * false 发送失败
 	 */
-	public boolean sendMsgTo(ClientUser other,AbstractMessage msg) {
-		return false;
+	public void sendMsgTo(FriendUser other,AbstractMessage msg)
+	{
+		for (int i = 0; i < dialogList.size(); i++)
+		{
+			if (dialogList.get(i).getAnotherUserID() == other.getID())
+			{
+				switch (msg.getMessageType())
+				{
+				case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
+					ofhandler.send(((TextMessage)msg).getText(), String.valueOf(other.getID()));
+					break;
+				case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
+					break;
+				case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
+					break;
+				default:
+					break;
+				}
+				
+				dialogList.get(i).appendMessage(msg);
+				return ;
+			}
+		}
+		
+		Log.e(DEBUG_TAG, "Send abort: You mast call makeDialogWith(FriendUser other) first"
+				+ ", then call sendMsgTo(FriendUser other,AbstractMessage msg)");
 	}
 	
+	private int uploadMessageToServer(AbstractMessage msg)
+	{
+		if (msg.getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE)
+		{
+			ImageMessage imgMsg = (ImageMessage) msg;
+			
+		}
+		else if (msg.getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO)
+		{
+			
+		}
+		
+		return 0;
+	}
 
 	/**
 	 * 重新初始化该对象（所有数据从新从服务器或本地获取）
@@ -252,8 +301,8 @@ public class ClientUser extends AbstractUser
 		params[0] = "userID";
 		params[1] = "anotherUserID";
 		params[2] = "groupName";
-		vlaues[0] = 4;//this.id;
-		vlaues[1] = 5;//other.getID();
+		vlaues[0] = this.id;
+		vlaues[1] = other.getID();
 		vlaues[2] = groupName;
 		
 		Object ret = wsAPI.callFuntion("moveFriendToGroup", params, vlaues);
@@ -273,8 +322,8 @@ public class ClientUser extends AbstractUser
 		params[0] = "userID";
 		params[1] = "anotherUserID";
 		params[2] = "enable";
-		vlaues[0] = 4;//this.id;
-		vlaues[1] = 5;//other.getID();
+		vlaues[0] = this.id;
+		vlaues[1] = other.getID();
 		vlaues[2] = enable;
 		
 		Object ret = wsAPI.callFuntion("setAsCloseFriend", params, vlaues);
@@ -292,8 +341,8 @@ public class ClientUser extends AbstractUser
 		Object [] vlaues = new Object[2];
 		params[0] = "userID";
 		params[1] = "anotherUserID";
-		vlaues[0] = 4;//this.id;
-		vlaues[1] = 5;//other.getID();
+		vlaues[0] = this.id;
+		vlaues[1] = other.getID();
 		
 		Object ret = wsAPI.callFuntion("blockUser", params, vlaues);
 		
@@ -322,10 +371,14 @@ public class ClientUser extends AbstractUser
 	 * 从服务器验证用户身份
 	 * @return true 身份验证通过<br>
 	 * false 身份验证未通过
-	 */
-	public boolean identityVarified() {
+	public boolean identityVarified()
+	{
+		Log.e(DEBUG_TAG, "****************************");
+		Log.e(DEBUG_TAG, "identityVarified() not supported yet!");
+		Log.e(DEBUG_TAG, "****************************");
 		return false;
 	}
+	*/
 
 	/**
 	 * 获取好友列表
@@ -334,7 +387,39 @@ public class ClientUser extends AbstractUser
 	public ArrayList<AbstractUser> getFriendList()
 	{
 		/**********		str应从服务器处获取		**********/
-		String str = "{\"friends_list\":[{\"birthday\":\"1992-12-02\",\"loginAccount\":\"Xiao Account\",\"hometown\":\"Beijing\",\"phoneNumber\":\"13587649098\",\"user_id\":1,\"nickName\":\"Xiao ming\",\"sex\":\"male\",\"portrait\":[1,2,3],\"email\":\"aaa@sina.com\"},{\"birthday\":\"1991-02-12\",\"loginAccount\":\"Li Account\",\"hometown\":\"Chongqing\",\"phoneNumber\":\"17587649098\",\"user_id\":2,\"nickName\":\"Li ying\",\"sex\":\"male\",\"portrait\":[16,26,36],\"email\":\"bbb@sina.com\"},{\"birthday\":\"1993-05-12\",\"loginAccount\":\"Sun Account\",\"hometown\":\"Shanghai\",\"phoneNumber\":\"19587649098\",\"user_id\":3,\"nickName\":\"Sun ming\",\"sex\":\"male\",\"portrait\":[2,3,4],\"email\":\"ccc@sina.com\"}]}";
+		String [] params = new String[1];
+		Object [] vlaues = new Object[1];
+		params[0] = "userID";
+		vlaues[0] = this.id;
+		
+		Object ret = wsAPI.callFuntion("getFriendList", params, vlaues);
+		String str = ret.toString();
+		Log.e("______", str);
+		
+		PackString ps = new PackString(str);
+		ArrayList<HashMap<String, Object>> result = ps.jsonString2Arrylist(JSON_MSG_KEY_FRIENDS_LIST);
+		friendList = new ArrayList<AbstractUser>();
+		for (int i = 0; i < result.size(); i++)
+		{
+			Map<String, Object> map = result.get(i);
+			
+			FriendUser friend = new FriendUser(
+					Integer.parseInt(map.get(JSON_INFO_KEY_USER_ID).toString()),
+					(String) map.get(JSON_INFO_KEY_USER_LOGIN_ACNT), 
+					(String) map.get(JSON_INFO_KEY_USER_NICK_NAME),
+					(String) map.get(JSON_INFO_KEY_USER_EMAIL), 
+					(String) map.get(JSON_INFO_KEY_USER_PHONE_NO), 
+					(String) map.get(JSON_INFO_KEY_USER_SEX), 
+					(String) map.get(JSON_INFO_KEY_USER_BIRTHDAY), 
+					ConvertUtil.object2Bytes(map.get(JSON_INFO_KEY_USER_PORTRAIT)),
+					(String) map.get(JSON_INFO_KEY_USER_HOMETOWN));
+			friendList.add(friend);
+		}
+		
+		return friendList;
+		
+		/**********		str应从服务器处获取(本地测试版本)		**********/
+		/*//String str = "{\"friends_list\":[{\"birthday\":\"1992-12-02\",\"loginAccount\":\"Xiao Account\",\"hometown\":\"Beijing\",\"phoneNumber\":\"13587649098\",\"user_id\":1,\"nickName\":\"Xiao ming\",\"sex\":\"male\",\"portrait\":[1,2,3],\"email\":\"aaa@sina.com\"},{\"birthday\":\"1991-02-12\",\"loginAccount\":\"Li Account\",\"hometown\":\"Chongqing\",\"phoneNumber\":\"17587649098\",\"user_id\":2,\"nickName\":\"Li ying\",\"sex\":\"male\",\"portrait\":[16,26,36],\"email\":\"bbb@sina.com\"},{\"birthday\":\"1993-05-12\",\"loginAccount\":\"Sun Account\",\"hometown\":\"Shanghai\",\"phoneNumber\":\"19587649098\",\"user_id\":3,\"nickName\":\"Sun ming\",\"sex\":\"male\",\"portrait\":[2,3,4],\"email\":\"ccc@sina.com\"}]}";
 
 		PackString ps = new PackString(str);
 		ArrayList<Map<String, Object>> result = ps.jsonString2Arrylist(JSON_MSG_KEY_FRIENDS_LIST);
@@ -354,7 +439,7 @@ public class ClientUser extends AbstractUser
 			friendList.add(friend);
 		}
 		
-		return friendList;
+		return friendList;*/
 	}
 	
 	private String JSON_MSG_KEY_FRIENDS_LIST = "friends_list";
@@ -405,7 +490,7 @@ public class ClientUser extends AbstractUser
 	 * @param other 想要与之建立对话的目标用户
 	 * @return 建立好的对话
 	 */
-	public Dialog loadDialogWith(AbstractUser other)
+	public Dialog makeDialogWith(FriendUser other)
 	{
 		Dialog dialog = null;
 		
