@@ -13,8 +13,8 @@ public class PackString
 	
 	/**
 	 * 将contents转换成JASON类型的字符串<br>
-	 * msgInfo与contents应满足如下格式：<br>
-	 * msgInfo: [{map1.key:map1.value}, {map2.key:map2.value}, {map3.key:map3.value}...]<br>
+	 * msgName与contents应满足如下格式：<br>
+	 * msgName: [{map1.key:map1.value}, {map2.key:map2.value}, {map3.key:map3.value}...]<br>
 	 * 如：<br>
 	 * "friends":[{"name":"bob","age":20},{"name":"Alice","age":30}]
 	 * 
@@ -55,8 +55,8 @@ public class PackString
 	
 	/**
 	 * 将contents转换成JASON类型的字符串<br>
-	 * msgInfo与contents应满足如下格式：<br>
-	 * msgInfo: [{map1.key:map1.value}, {map2.key:map2.value}, {map3.key:map3.value}...]<br>
+	 * msgName与contents应满足如下格式：<br>
+	 * msgName: [{map1.key:map1.value}, {map2.key:map2.value}, {map3.key:map3.value}...]<br>
 	 * 如：<br>
 	 * "friends":[{"name":"bob","age":20},{"name":"Alice","age":30}]
 	 * 
