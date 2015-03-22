@@ -16,6 +16,7 @@ import android.util.Log;
 import com.configs.ConstantValues;
 import com.dialog.Dialog;
 import com.message.AbstractMessage;
+import com.message.AudioMessage;
 import com.message.ImageMessage;
 import com.message.TextMessage;
 import com.network.openfire.OpenfireHandler;
@@ -230,12 +231,25 @@ public class ClientUser extends AbstractUser
 			{
 				switch (msg.getMessageType())
 				{
+				//如果消息类型是文本，则直接用Openfire传输给other
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 					ofhandler.send(((TextMessage)msg).getText(), String.valueOf(other.getID()));
 					break;
+				
+				//如果消息类型是图片：
+				//1	首先上传图片到服务器，并且获取一个图片在数据库中存放的id
+				//2 发送给other一条消息文本消息:"_img_download_request_at_%d_id",其中%d是图片在数据库中存放的id
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
+					int imgID = uploadImageToServer((ImageMessage)msg, other);
+					ofhandler.send("_img_download_request_at_" + String.valueOf(imgID) + "_id", String.valueOf(other.getID()));
 					break;
+				
+				//如果消息类型是音频：
+				//1	首先上传音频到服务器，并且获取一个音频在数据库中存放的id
+				//2 发送给other一条消息文本消息:"_audio_download_request_at_%d_id",其中%d是图片在数据库中存放的id
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
+					int audioID = uploadAudioToServer((AudioMessage)msg, other);
+					ofhandler.send("_audio_download_request_at_" + String.valueOf(audioID) + "_id", String.valueOf(other.getID()));
 					break;
 				default:
 					break;
@@ -250,19 +264,33 @@ public class ClientUser extends AbstractUser
 				+ ", then call sendMsgTo(FriendUser other,AbstractMessage msg)");
 	}
 	
-	private int uploadMessageToServer(AbstractMessage msg)
+	private int uploadAudioToServer(AudioMessage msg, FriendUser other)
 	{
-		if (msg.getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE)
-		{
-			ImageMessage imgMsg = (ImageMessage) msg;
-			
+		AudioTransportation audioTransport = new AudioTransportation();
+		int audioID = -1;
+		
+		try {
+			audioID = audioTransport.uploadAduio(getID(), other.getID(), msg.getAudioPath());
+		} catch (Exception e) {
+			audioID = -1;
+			e.printStackTrace();
 		}
-		else if (msg.getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO)
+		return audioID;
+	}
+	
+	private int uploadImageToServer(ImageMessage msg, FriendUser other)
+	{
+		ImageTransportation imgTransport = new ImageTransportation();
+		int imgID = -1;
+		try
 		{
-			
+			imgID = imgTransport.uploadImage(getID(), other.getID(), msg.getImage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			imgID = -1;
 		}
 		
-		return 0;
+		return imgID;
 	}
 
 	/**
