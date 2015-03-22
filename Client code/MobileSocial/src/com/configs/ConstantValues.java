@@ -17,6 +17,8 @@ public class ConstantValues
 		public static final int MESSAGE_TYPE_TEXT = 0x00aa;
 		public static final int MESSAGE_TYPE_AUDIO = 0x00bb;
 		public static final int MESSAGE_TYPE_IMAGE = 0x00cc;
+		public static final String MESSAGE_IMAGE_FLAG = "___msg_type_img_download_request_id_is_";
+		public static final String MESSAGE_AUDIO_FLAG = "___msg_type_audio_download_request_id_is_";
 		
 		public static final int GAME_TYPE_EIGHTPUZZLE = 0x00;
 		public static final int GAME_TYPE_QUIZ = 0x00;

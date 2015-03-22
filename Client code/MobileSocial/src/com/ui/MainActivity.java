@@ -7,6 +7,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import android.app.Activity;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.dialog.Dialog;
 import com.example.testmobiledatabase.R;
 import com.message.AbstractMessage;
@@ -17,19 +29,6 @@ import com.message.Recorder;
 import com.message.TextMessage;
 import com.user.ClientUser;
 import com.user.FriendUser;
-
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.app.Activity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class MainActivity extends Activity
 {
@@ -46,7 +45,6 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 		
 		//user | password
 		//238  | pwd238

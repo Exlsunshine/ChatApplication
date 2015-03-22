@@ -11,6 +11,8 @@ import java.util.Map;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.configs.ConstantValues;
@@ -27,6 +29,7 @@ public class ClientUser extends AbstractUser
 	private WebServiceAPI wsAPI = new WebServiceAPI(ConstantValues.Configs.WEBSERVICE_NAMESPACE, ConstantValues.Configs.WEBSERVICE_ENDPOINT);
 	private Context context;
 	private OpenfireHandler ofhandler;
+	private Handler msgHandler;
 	
 	/****************************		以下是网络操作相关内容		****************************/
 	public ClientUser(int userID, String password, String loginAccount, Context context)
@@ -34,7 +37,30 @@ public class ClientUser extends AbstractUser
 		super(89, null, null, null, null, null, null, null, null);
 		
 		this.context = context;
-		ofhandler = new OpenfireHandler(String.valueOf(getID()), password);
+		ofhandler = new OpenfireHandler(String.valueOf(getID()), password, msgHandler);
+		msgHandler = new Handler(new IncomingMessageHandlerCallback());
+	}
+	
+	private class IncomingMessageHandlerCallback implements Handler.Callback
+	{
+		@Override
+		public boolean handleMessage(Message msg)
+		{
+			switch (msg.what) {
+			case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
+				
+				break;
+			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE: 
+				break;
+				
+			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
+				break;
+			default:
+				Log.e(DEBUG_TAG, "Message handler error: Unkonwn type message " + String.valueOf(msg.what) + ".");
+				break;
+			}
+			return false;
+		}
 	}
 	
 	/**
@@ -238,18 +264,20 @@ public class ClientUser extends AbstractUser
 				
 				//如果消息类型是图片：
 				//1	首先上传图片到服务器，并且获取一个图片在数据库中存放的id
-				//2 发送给other一条消息文本消息:"_img_download_request_at_%d_id",其中%d是图片在数据库中存放的id
+				//2 发送给other一条消息文本消息:"___msg_type_img_download_request_id_is_%d",其中%d是图片在数据库中存放的id
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
 					int imgID = uploadImageToServer((ImageMessage)msg, other);
-					ofhandler.send("_img_download_request_at_" + String.valueOf(imgID) + "_id", String.valueOf(other.getID()));
+					ofhandler.send(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG + String.valueOf(imgID)
+							, String.valueOf(other.getID()));
 					break;
 				
 				//如果消息类型是音频：
 				//1	首先上传音频到服务器，并且获取一个音频在数据库中存放的id
-				//2 发送给other一条消息文本消息:"_audio_download_request_at_%d_id",其中%d是图片在数据库中存放的id
+				//2 发送给other一条消息文本消息:"___msg_type_audio_download_request_id_is_%d",其中%d是音频文件在数据库中存放的id
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
 					int audioID = uploadAudioToServer((AudioMessage)msg, other);
-					ofhandler.send("_audio_download_request_at_" + String.valueOf(audioID) + "_id", String.valueOf(other.getID()));
+					ofhandler.send(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG + String.valueOf(audioID)
+							, String.valueOf(other.getID()));
 					break;
 				default:
 					break;

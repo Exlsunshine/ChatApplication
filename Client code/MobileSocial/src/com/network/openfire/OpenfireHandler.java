@@ -1,6 +1,9 @@
 package com.network.openfire;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.jivesoftware.smack.AccountManager;
@@ -13,22 +16,27 @@ import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.util.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.configs.ConstantValues;
 
+import android.os.Handler;
 import android.util.Log;
 
 public class OpenfireHandler
 {
 	private String userName = null;
 	private String password = null;
-
+	private Handler msgHandler = null;
+	
 	private XMPPConnection connection = null;
 	
-	public OpenfireHandler(final String userName, final String password)
+	public OpenfireHandler(final String userName, final String password, Handler msgHandler)
 	{
 		this.userName = userName;
 		this.password = password;
+		this.msgHandler = msgHandler;
 	}
 	
 	//µÇÂ½
@@ -94,10 +102,58 @@ public class OpenfireHandler
 				{
 					String fromName = StringUtils.parseBareAddress(msg.getFrom());
 					Log.i("XMPPChatDemoActivity", "Text Recieved: " + msg.getBody() + " from " + fromName );
+					
+					notifyMsgHandler(msg);
 				}
 			}
 		}, filter);
 	}
+
+	private String packMsg2JsonString(Message msg) throws JSONException
+	{
+		JSONObject json = new JSONObject();
+		json.put("from", StringUtils.parseBareAddress(msg.getFrom()));
+		json.put("body", msg.getBody());
+		json.put("date", now());
+		
+		return json.toString();
+	}
+	
+	private static String now()
+	{
+		Calendar cal = Calendar.getInstance();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.CHINA);
+	    return sdf.format(cal.getTime());
+	}
+	
+	private void notifyMsgHandler(Message msg)
+	{
+		String str = null;
+		try {
+			str = packMsg2JsonString(msg);
+		} catch (JSONException e) {
+			str = null;
+			e.printStackTrace();
+		}
+		
+		String msgBody = msg.getBody();
+		android.os.Message androidMsg = new android.os.Message();
+		androidMsg.what = getMessageType(msgBody);
+		androidMsg.obj = str;
+		
+		msgHandler.sendMessage(androidMsg);
+	}
+	
+	private int getMessageType(String msg)
+	{
+		if (msg.contains(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG))
+			return ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE;
+		if (msg.contains(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG))
+			return ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO;
+		else
+			return ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT;
+	}
+	
 	
 	private boolean establishConnection()
 	{
