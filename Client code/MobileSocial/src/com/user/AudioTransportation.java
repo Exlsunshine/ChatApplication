@@ -5,10 +5,13 @@ import java.io.FileInputStream;
 
 import org.kobjects.base64.Base64;
 
+/**
+ * LJ
+ */
 public class AudioTransportation 
 {
 	//webservice 待调用包名
-	private final String WEBSERVICE_AUDIO_PACKAGE = "audioPackage";
+	private final String WEBSERVICE_AUDIO_PACKAGE = "network.com";
 	//webservice 待调用类名
 	private final String WEBSERVICE_AUDIO_CLASS = "AudioTransmit";
 		

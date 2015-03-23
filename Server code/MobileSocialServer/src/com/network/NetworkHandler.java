@@ -7,9 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.database.SQLServerEnd;
-import com.file.image.ImageTransmit;
-import com.file.image.PortraitTransmit;
 import com.json.process.PackString;
+import com.util.PortraitTransmit;
 
 public class NetworkHandler
 {

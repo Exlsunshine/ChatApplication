@@ -8,6 +8,8 @@ import com.commons.ConstantValues;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Environment;
+import android.util.Log;
 
 /**
  * 语音类型的消息，继承自{@link AbstractMessage}：<br>
@@ -17,7 +19,8 @@ import android.media.MediaPlayer;
  */
 public class AudioMessage extends AbstractMessage
 {
-	private static String AUDIO_CACHE_DIR = "/mnt/sdcard/MobileSocial/audio/";
+	private static String DEBUG_TAG = "______AudioMessage";
+	private static String AUDIO_CACHE_DIR = Environment.getExternalStorageDirectory() + "/MobileSocial/audio/";//"/mnt/sdcard/MobileSocial/audio/";
 	private MediaPlayer mPlayer;
 	private Context context;
 	private byte [] audio;
@@ -70,9 +73,15 @@ public class AudioMessage extends AbstractMessage
 	private void generateAudioCache() throws IOException
 	{
 		// create temp file that will hold byte array
+		File dir = new File(AUDIO_CACHE_DIR);
+		if (!dir.exists())
+			if (!dir.mkdirs())
+				Log.e("DEBUG_TAG", "Make audio cache dir failed.");
+		Log.i(DEBUG_TAG, "Cache dir is " + dir.getAbsolutePath());
+		
         File tempMp3 = File.createTempFile("audio_" + String.valueOf(fromUserID)
-        		+ "_" + String.valueOf(toUserID) + getDate(), "amr", new File(AUDIO_CACHE_DIR));
-        audioPath = AUDIO_CACHE_DIR + "audio_" + String.valueOf(fromUserID) + "_" + String.valueOf(toUserID) + getDate() + ".amr";
+        		+ "_" + String.valueOf(toUserID) + "_" + getDate(), ".amr", dir);
+        audioPath = tempMp3.getAbsolutePath();
         FileOutputStream fos = new FileOutputStream(tempMp3);
         fos.write(audio);
         fos.close();

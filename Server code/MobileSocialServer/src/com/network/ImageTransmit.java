@@ -1,10 +1,13 @@
-package com.file.image;
+package com.network;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.database.SQLServerEnd;
@@ -18,23 +21,25 @@ import Decoder.BASE64Encoder;
 public class ImageTransmit 
 {
 	//存储上传图像的路径
-	private final String Dir_PATH = "D:\\image\\";
+	private final String SAVED_DIRECTORY = "C:/Users/USER007/Desktop/IM/data/image_transportation/";
 	//数据库名
-	private final String DATABASE_NAME = "StrangerDB";
+	private final String DATABASE_NAME = "JMMSRDB";
 	//表名
 	private final String TABLE_NAME = "picture_transportation";
-
 	private SQLServerEnd sql = new SQLServerEnd(DATABASE_NAME, TABLE_NAME);
 
 	/**
 	 * 生成图像名称（唯一）
 	 * @return 图像名称
 	 */
-	private String generateImageName()
+	private String generateImageName(int fromUserID, int toUserID)
 	{
-		return "b.jpg";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		Date date = new Date();
+		
+		return "picture_transportation_fromUserID_" + String.valueOf(fromUserID) + "_" + String.valueOf(toUserID)
+				+ "_" + dateFormat.format(date) + ".jpg";
 	}
-	
 	
 	private byte[] string2Byte(String imageBuffer) throws Exception
 	{
@@ -47,13 +52,13 @@ public class ImageTransmit
 	 * @return 保存路径
 	 * @throws Exception
 	 */
-	private String saveImage(String imageBuffer) throws Exception
+	private String saveImage(String imageBuffer, int fromUserID, int toUserID) throws Exception
 	{
-		File destDir = new File(Dir_PATH); 
+		File destDir = new File(SAVED_DIRECTORY); 
 		if(!destDir.exists())
             destDir.mkdir();    
-		String imageName = generateImageName();
-		String imagePath = Dir_PATH + imageName;
+		String imageName = generateImageName(fromUserID, toUserID);
+		String imagePath = SAVED_DIRECTORY + imageName;
 		FileOutputStream fos = null;
 		byte[] buffer = string2Byte(imageBuffer);
 		fos = new FileOutputStream(new File(destDir, imageName));
@@ -72,7 +77,6 @@ public class ImageTransmit
 	
 	private void updateDataBaseWhenUpload(int from_userid, int to_userid, String imagePath)
 	{
-		
 		String[] column = {"from_userid", "to_userid", "pic_path"};
 	    String[] value = {String.valueOf(from_userid), String.valueOf(to_userid), imagePath};
 	    sql.insert(column, value);
@@ -103,11 +107,10 @@ public class ImageTransmit
 	public int uploadImage(int from_userid, int to_userid, String imageBuffer) throws Exception
 	{	
 		System.out.println("User [" + from_userid + "] send Image to User [" + to_userid + "]");
-		String imagePath = saveImage(imageBuffer);
+		String imagePath = saveImage(imageBuffer, from_userid, to_userid);
         updateDataBaseWhenUpload(from_userid, to_userid, imagePath);
         String imageId = getImageId(imagePath);
         return Integer.parseInt(imageId);
-        
 	}
 	
 	/**

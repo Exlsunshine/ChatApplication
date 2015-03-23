@@ -1,43 +1,33 @@
 package com.user;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-public class WebServiceAPI
+public class WebServiceAPI_m
 {
 	private String nameSpace;
 	private String endPoint;
 	private SoapSerializationEnvelope envelope;
-	private final String host = "http://172.18.8.239:8080/WebServiceProject/services/";
-	private final String space = "http://";
 
-	/**
-	 * API构造函数
-	 * @param packagename webservice 服务 包名
-	 * @param classname   webservice 服务 类名
-	 */
-	WebServiceAPI(String packagename, String classname)
+	WebServiceAPI_m(String nameSpace, String endPoint)
 	{
-		nameSpace = space + packagename;
-		endPoint = host + classname;
+		this.nameSpace = nameSpace;
+		this.endPoint = endPoint;
 		envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = false;
 	}
 	
-	/**
-	 * webservice 服务调用函数
-	 * @param methodName 被调用的函数名
-	 * @param parameters 函数 参数名与实值的映射表
-	 * @return 函数返回结果
-	 */
 	public Object callFuntion(String methodName, String[] name, Object[] values)
 	{
 		SoapObject rpc = new SoapObject(nameSpace, methodName);  
 		for (int i = 0; i < name.length; i++)
 			rpc.addProperty(name[i], values[i]);
-		
+		  
 	    envelope.bodyOut = rpc;
 	    
 	    envelope.setOutputSoapObject(rpc);
@@ -68,5 +58,13 @@ public class WebServiceAPI
 			return 0xffff;
 		}
 	    return result;
+	}
+	
+	public static Map<String,Object> creatParametersMap(String[] name, Object[] value) 
+	{
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		for (int i = 0; i < name.length; i++)
+			parameters.put(name[i], value[i]);
+		return parameters;
 	}
 }

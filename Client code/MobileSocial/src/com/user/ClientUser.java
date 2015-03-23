@@ -26,10 +26,11 @@ import com.network.openfire.OpenfireHandler;
 public class ClientUser extends AbstractUser
 {
 	private final static String DEBUG_TAG = "______ClientUser";
-	private WebServiceAPI wsAPI = new WebServiceAPI(ConstantValues.Configs.WEBSERVICE_NAMESPACE, ConstantValues.Configs.WEBSERVICE_ENDPOINT);
+	//private WebServiceAPI_m wsAPI = new WebServiceAPI_m(ConstantValues.Configs.WEBSERVICE_NAMESPACE, ConstantValues.Configs.WEBSERVICE_ENDPOINT);
 	private Context context;
 	private OpenfireHandler ofhandler;
 	private Handler msgHandler;
+	private WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
 	
 	public ClientUser(int userID, String password, String loginAccount, Context context)
 	{
@@ -529,6 +530,7 @@ public class ClientUser extends AbstractUser
 		}
 		printFriendlist();
 	}
+	
 	/**
 	 * 获取好友列表
 	 * @return 当前用户的所有好友

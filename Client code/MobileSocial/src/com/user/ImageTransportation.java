@@ -14,7 +14,7 @@ public class ImageTransportation
 	//图像压缩比 30 保留30%
 	private final static int QUALITY = 30;
 	//webservice 待调用包名
-	private final String WEBSERVICE_IMAGE_PACKAGE = "imagePackage";
+	private final String WEBSERVICE_IMAGE_PACKAGE = "network.com";
 	//webservice 待调用类名
 	private final String WEBSERVICE_IMAGE_CLASS = "ImageTransmit";
 	

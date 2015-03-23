@@ -8,8 +8,11 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +29,7 @@ import com.message.AbstractMessage;
 import com.message.AudioMessage;
 import com.message.ConvertUtil;
 import com.message.DatabaseHandler;
+import com.message.ImageMessage;
 import com.message.Recorder;
 import com.message.TextMessage;
 import com.user.ClientUser;
@@ -52,7 +56,7 @@ public class MainActivity extends Activity
 		//user1: 238  | pwd238
 		//user2: 89   | 89
 		final ClientUser user = new ClientUser(4, "4", null, this);
-		final FriendUser friend = new FriendUser(238, null, null, null, null, null, null, null, null);
+		final FriendUser friend = new FriendUser(5, null, null, null, null, null, null, null, null);
 		
 		tv = (TextView)findViewById(R.id.show);
 		iv = (ImageView)findViewById(R.id.img);
@@ -94,6 +98,8 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
+				user.setPassword("008++");
+				/*getFriendList unit test
 				Thread td = new Thread(new Runnable()
 				{
 					@Override
@@ -102,7 +108,7 @@ public class MainActivity extends Activity
 						user.getFriendList();
 					}
 				});
-				td.start();
+				td.start();*/
 				//Recorder.getInstance().stopRecordAndFile();
 			}
 		});
@@ -111,8 +117,29 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
+				/*
+				//send TextMessage unit test
 				TextMessage txtMsg = new TextMessage(user.getID(), friend.getID(), ConvertUtil.string2Bytes("alohaµÄÊ¢´ó¸»ÎÌ!"), CommonUtil.now(), false);
 				user.sendMsgTo(friend, txtMsg);
+				*/
+				
+				/*
+				//send ImageMessage unit test
+				Bitmap bmp = BitmapFactory.decodeFile("/mnt/sdcard/DCIM/Camera/test.jpg");
+				ImageMessage imgMsg = new ImageMessage(user.getID(), friend.getID(), bmp, CommonUtil.now(), false);
+				user.sendMsgTo(friend, imgMsg);
+				*/
+				
+				
+				/*//send AudioMessage unit test
+				try {
+					AudioMessage audioMsg = new AudioMessage(user.getID(), friend.getID(), ConvertUtil.amr2Bytes("/mnt/sdcard/TestMobileDatabase/voice/FinalAudio.amr"), CommonUtil.now(), false);
+					user.sendMsgTo(friend, audioMsg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}*/
+				
+				
 				/*mPlayer = new MediaPlayer();  
 				try
 				{  
@@ -156,7 +183,8 @@ public class MainActivity extends Activity
 			}
 		});
 		
-		
+		StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
 	}
 	
 	private ArrayList<AbstractMessage> getDialog(int userID1, int userID2)
