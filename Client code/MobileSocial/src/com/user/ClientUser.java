@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,7 +18,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.configs.ConstantValues;
+import com.commons.ConstantValues;
 import com.dialog.Dialog;
 import com.message.AbstractMessage;
 import com.message.AudioMessage;
@@ -37,8 +40,8 @@ public class ClientUser extends AbstractUser
 		super(89, null, null, null, null, null, null, null, null);
 		
 		this.context = context;
-		ofhandler = new OpenfireHandler(String.valueOf(getID()), password, msgHandler);
 		msgHandler = new Handler(new IncomingMessageHandlerCallback());
+		ofhandler = new OpenfireHandler(String.valueOf(getID()), password, msgHandler);
 	}
 	
 	private class IncomingMessageHandlerCallback implements Handler.Callback
@@ -46,14 +49,46 @@ public class ClientUser extends AbstractUser
 		@Override
 		public boolean handleMessage(Message msg)
 		{
-			switch (msg.what) {
+			Log.w(DEBUG_TAG, "Get a message.");
+			
+			JSONObject json;
+			int fromUserID = 0;
+			String body = null;
+			String date = null;
+			Dialog dialog = null;
+			
+			try
+			{
+				json = new JSONObject((String) msg.obj);
+				fromUserID = Integer.parseInt(((String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_FROM_USERID)).replace("@" + ConstantValues.Configs.OPENFIRE_SERVER_NAME, ""));
+				body = (String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_BODY);
+				date = (String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_DATE);
+				dialog = makeDialogWith(getFriendByID(fromUserID));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			switch (msg.what) 
+			{
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
-				
+				AudioTransportation audioTransport = new AudioTransportation();
+				int audioID = Integer.parseInt(body.replace(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG, ""));
+				byte [] content = audioTransport.downloadAudio(audioID);
+				AudioMessage audioMsg = new AudioMessage(fromUserID, getID(), content, date, false);
+				dialog.appendMessage(audioMsg);
 				break;
-			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE: 
+				
+			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
+				ImageTransportation imgTransport = new ImageTransportation();
+				int imgID = Integer.parseInt(body.replace(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG, ""));
+				Bitmap bmp = imgTransport.downloadImage(imgID);
+				ImageMessage imgMsg = new ImageMessage(fromUserID, getID(), bmp, date, false);
+				dialog.appendMessage(imgMsg);
 				break;
 				
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
+				TextMessage txtMsg = new TextMessage(fromUserID, getID(), body, date, false);
+				dialog.appendMessage(txtMsg);
 				break;
 			default:
 				Log.e(DEBUG_TAG, "Message handler error: Unkonwn type message " + String.valueOf(msg.what) + ".");
@@ -61,6 +96,53 @@ public class ClientUser extends AbstractUser
 			}
 			return false;
 		}
+	}
+	
+	
+	/*******************************************
+	 * 
+	 * 
+	 * Codes below this part are NOLY for test!
+	 * 
+	 * 
+	 * *******************************************/
+	private boolean init = false;
+	private void removeAfterTest()
+	{
+		if (init)
+			return;
+		init = true;
+		friendList  = new ArrayList<FriendUser>();
+		FriendUser friend = new FriendUser(238, null, null, null, null, null, null, null, null);
+		friendList.add(friend);
+	}
+	/*******************************************
+	 * 
+	 * 
+	 * Codes above this part are NOLY for test!
+	 * 
+	 * 
+	 * *******************************************/
+	
+	/**
+	 * 获取指定userID的用户
+	 * @param userID 用户ID
+	 * @return 指定的userID用户<br>null 表示好友列表中不存在此用户，或好友列表尚未初始化
+	 */
+	private FriendUser getFriendByID(int userID)
+	{
+		FriendUser friend = null;
+		if (friendList != null)
+		{
+			for (int i = 0 ; i < friendList.size(); i++)
+				if (friendList.get(i).getID() == userID)
+				{
+					friend = friendList.get(i);
+					break;
+				}
+		}
+		
+		return friend;
 	}
 	
 	/**
@@ -262,7 +344,7 @@ public class ClientUser extends AbstractUser
 					ofhandler.send(((TextMessage)msg).getText(), String.valueOf(other.getID()));
 					break;
 				
-				//如果消息类型是图片：
+				//如果消息类型是图片
 				//1	首先上传图片到服务器，并且获取一个图片在数据库中存放的id
 				//2 发送给other一条消息文本消息:"___msg_type_img_download_request_id_is_%d",其中%d是图片在数据库中存放的id
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
@@ -283,6 +365,7 @@ public class ClientUser extends AbstractUser
 					break;
 				}
 				
+				//更新dialog数据
 				dialogList.get(i).appendMessage(msg);
 				return ;
 			}
@@ -443,7 +526,7 @@ public class ClientUser extends AbstractUser
 	 * 获取好友列表
 	 * @return 当前用户的所有好友
 	 */
-	public ArrayList<AbstractUser> getFriendList()
+	public ArrayList<FriendUser> getFriendList()
 	{
 		/**********		str应从服务器处获取		**********/
 		String [] params = new String[1];
@@ -457,7 +540,7 @@ public class ClientUser extends AbstractUser
 		
 		PackString ps = new PackString(str);
 		ArrayList<HashMap<String, Object>> result = ps.jsonString2Arrylist(JSON_MSG_KEY_FRIENDS_LIST);
-		friendList = new ArrayList<AbstractUser>();
+		friendList = new ArrayList<FriendUser>();
 		for (int i = 0; i < result.size(); i++)
 		{
 			Map<String, Object> map = result.get(i);
@@ -526,7 +609,7 @@ public class ClientUser extends AbstractUser
 	private String JSON_INFO_KEY_USER_PORTRAIT = "portrait";
 	private String JSON_INFO_KEY_USER_HOMETOWN = "hometown";
 	
-	private ArrayList<AbstractUser> friendList;
+	private ArrayList<FriendUser> friendList;
 	private ArrayList<Dialog> dialogList;
 	
 	
@@ -561,10 +644,14 @@ public class ClientUser extends AbstractUser
 	/**
 	 * 与other这个用户建立一个对话
 	 * @param other 想要与之建立对话的目标用户
-	 * @return 建立好的对话
+	 * @return 建立好的对话<br>
+	 * null 表示无法与other这个用户建立对话，因为传入的参数为null
 	 */
 	public Dialog makeDialogWith(FriendUser other)
 	{
+		if (other == null)
+			return null;
+		
 		Dialog dialog = null;
 		
 		if (dialogList != null)

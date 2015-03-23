@@ -1,9 +1,6 @@
 package com.network.openfire;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.jivesoftware.smack.AccountManager;
@@ -19,13 +16,15 @@ import org.jivesoftware.smack.util.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.configs.ConstantValues;
-
 import android.os.Handler;
 import android.util.Log;
 
+import com.commons.CommonUtil;
+import com.commons.ConstantValues;
+
 public class OpenfireHandler
 {
+	private static final String DEBUG_TAG = "______OpenfireHandler";
 	private String userName = null;
 	private String password = null;
 	private Handler msgHandler = null;
@@ -103,31 +102,16 @@ public class OpenfireHandler
 					String fromName = StringUtils.parseBareAddress(msg.getFrom());
 					Log.i("XMPPChatDemoActivity", "Text Recieved: " + msg.getBody() + " from " + fromName );
 					
-					notifyMsgHandler(msg);
+					notifyClientUser(msg);
 				}
 			}
 		}, filter);
 	}
 
-	private String packMsg2JsonString(Message msg) throws JSONException
+	private void notifyClientUser(Message msg)
 	{
-		JSONObject json = new JSONObject();
-		json.put("from", StringUtils.parseBareAddress(msg.getFrom()));
-		json.put("body", msg.getBody());
-		json.put("date", now());
+		Log.w(DEBUG_TAG, "Nofity client user.");
 		
-		return json.toString();
-	}
-	
-	private static String now()
-	{
-		Calendar cal = Calendar.getInstance();
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.CHINA);
-	    return sdf.format(cal.getTime());
-	}
-	
-	private void notifyMsgHandler(Message msg)
-	{
 		String str = null;
 		try {
 			str = packMsg2JsonString(msg);
@@ -141,7 +125,18 @@ public class OpenfireHandler
 		androidMsg.what = getMessageType(msgBody);
 		androidMsg.obj = str;
 		
+		Log.w(DEBUG_TAG, "Str is " + str);
 		msgHandler.sendMessage(androidMsg);
+	}
+	
+	private String packMsg2JsonString(Message msg) throws JSONException
+	{
+		JSONObject json = new JSONObject();
+		json.put(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_FROM_USERID, StringUtils.parseBareAddress(msg.getFrom()));
+		json.put(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_BODY, msg.getBody());
+		json.put(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_DATE, CommonUtil.now());
+		
+		return json.toString();
 	}
 	
 	private int getMessageType(String msg)

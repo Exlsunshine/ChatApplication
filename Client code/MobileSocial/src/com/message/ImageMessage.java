@@ -1,6 +1,6 @@
 package com.message;
 
-import com.configs.ConstantValues;
+import com.commons.ConstantValues;
 
 import android.graphics.Bitmap;
 
@@ -23,6 +23,28 @@ public class ImageMessage extends AbstractMessage
 		this.isRead = isRead;
 		this.id = msgID;
 		this.image = ConvertUtil.bytes2Bitmap(content);
+	}
+	
+	public ImageMessage(int fromID, int toID, byte [] content, String date, boolean isRead)
+	{
+		this.fromUserID = fromID;
+		this.toUserID = toID;
+		this.date = date;
+		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE;
+		this.isRead = isRead;
+		this.id = -1;
+		this.image = ConvertUtil.bytes2Bitmap(content);
+	}
+	
+	public ImageMessage(int fromID, int toID, Bitmap bitmap, String date, boolean isRead)
+	{
+		this.fromUserID = fromID;
+		this.toUserID = toID;
+		this.date = date;
+		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE;
+		this.isRead = isRead;
+		this.id = -1;
+		this.image = bitmap;
 	}
 	
 	/**

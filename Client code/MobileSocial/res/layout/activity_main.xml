@@ -50,6 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearlayout"
         android:text="@string/hello_world"
-        android:id="@+id/show"/>
+        android:id="@+id/show"
+        android:maxLines = "15"
+		android:scrollbars = "vertical"/>
 
 </RelativeLayout>

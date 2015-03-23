@@ -1,4 +1,4 @@
-package com.image.process;
+package com.file.image;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

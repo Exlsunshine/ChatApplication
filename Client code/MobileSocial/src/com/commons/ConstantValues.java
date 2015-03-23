@@ -1,4 +1,4 @@
-package com.configs;
+package com.commons;
 
 /**
  * @author LiJian
@@ -19,6 +19,9 @@ public class ConstantValues
 		public static final int MESSAGE_TYPE_IMAGE = 0x00cc;
 		public static final String MESSAGE_IMAGE_FLAG = "___msg_type_img_download_request_id_is_";
 		public static final String MESSAGE_AUDIO_FLAG = "___msg_type_audio_download_request_id_is_";
+		public static final String MESSAGE_RECEIVEED_FROM_USERID = "received_message_from_userID";
+		public static final String MESSAGE_RECEIVEED_BODY = "received_message_body";
+		public static final String MESSAGE_RECEIVEED_DATE = "received_message_date";
 		
 		public static final int GAME_TYPE_EIGHTPUZZLE = 0x00;
 		public static final int GAME_TYPE_QUIZ = 0x00;
@@ -33,7 +36,7 @@ public class ConstantValues
 	{
 		public static final String WEBSERVICE_NAMESPACE = "http://network.com";
 		public static final String WEBSERVICE_ENDPOINT = "http://172.18.8.171:8080/WebServiceProject/services/NetworkHandler";
-		public static final String OPENFIRE_SERVER_IP = "172.18.8.171";
+		public static final String OPENFIRE_SERVER_IP = "172.18.8.239";
 		public static final int OPENFIRE_SERVER_PORT = 5222;
 		public static final String OPENFIRE_SERVER_NAME = "user007-pc";
 		

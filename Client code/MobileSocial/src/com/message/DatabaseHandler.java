@@ -2,7 +2,7 @@ package com.message;
 
 import java.util.ArrayList;
 
-import com.configs.ConstantValues;
+import com.commons.ConstantValues;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.commons.CommonUtil;
 import com.dialog.Dialog;
 import com.example.testmobiledatabase.R;
 import com.message.AbstractMessage;
@@ -60,8 +61,8 @@ public class MainActivity extends Activity
 		play = (Button)findViewById(R.id.btn_play);
 		pause = (Button)findViewById(R.id.btn_pause);
 		load = (Button)findViewById(R.id.btn_load);
-		
-		
+		tv.setMovementMethod(new ScrollingMovementMethod());
+
 		start.setOnClickListener(new OnClickListener()
 		{
 			@Override
@@ -93,7 +94,7 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				TextMessage txtMsg = new TextMessage(user.getID(), friend.getID(), ConvertUtil.string2Bytes("alohaa的盛大富翁!" + now()), now(), false);
+				TextMessage txtMsg = new TextMessage(user.getID(), friend.getID(), ConvertUtil.string2Bytes("aloha的盛大富翁!"), CommonUtil.now(), false);
 				user.sendMsgTo(friend, txtMsg);
 				/*mPlayer = new MediaPlayer();  
 				try
@@ -156,18 +157,6 @@ public class MainActivity extends Activity
 			Log.i(DEBUG_TAG, "To:\r\t" + String.valueOf(list.get(i).getToUserID()));
 			Log.i(DEBUG_TAG, "Date:\r\t" + String.valueOf(list.get(i).getDate()));
 		}
-	}
-	
-	public static String now()
-	{
-		Calendar cal = Calendar.getInstance();
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss", Locale.CHINA);
-	    /*
-	    DateFormat df;
-	    df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.CHINA);
-	    Log.i(DEBUG_TAG, "Full is: " + "\t" + df.format(cal.getTime()));
-	    */
-	    return sdf.format(cal.getTime());
 	}
 	
 	private void generateData()

@@ -1,6 +1,6 @@
 package com.message;
 
-import com.configs.ConstantValues;
+import com.commons.ConstantValues;
 
 /**
  * 文字类型的消息，继承自{@link AbstractMessage}：<br>
@@ -32,6 +32,17 @@ public class TextMessage extends AbstractMessage
 		this.isRead = isRead;
 		this.id = -1;
 		this.text = ConvertUtil.bytes2String(content);
+	}
+	
+	public TextMessage(int fromID, int toID, String content, String date, boolean isRead)
+	{
+		this.fromUserID = fromID;
+		this.toUserID = toID;
+		this.date = date;
+		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT;
+		this.isRead = isRead;
+		this.id = -1;
+		this.text = content;
 	}
 	
 	/**

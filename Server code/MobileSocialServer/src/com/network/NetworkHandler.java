@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.database.SQLServerEnd;
-import com.image.process.PortraitTransmit;
+import com.file.image.PortraitTransmit;
 
 public class NetworkHandler
 {

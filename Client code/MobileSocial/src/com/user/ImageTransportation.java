@@ -52,7 +52,7 @@ public class ImageTransportation
 		String[] name = {"from_userid", "to_userid", "imageBuffer"};
 		Object[] values = {from_userid, to_userid, imageBuffer};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);
-//		int a = (Integer)result;
+		//int a = (Integer)result;
 		return Integer.parseInt(result.toString());
 	}
 	

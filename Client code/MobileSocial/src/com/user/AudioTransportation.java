@@ -1,9 +1,7 @@
 package com.user;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 
 import org.kobjects.base64.Base64;
 
@@ -51,17 +49,12 @@ public class AudioTransportation
 		return buffer;
 	}
 	
-	public void downloadAudio(int audioId) throws Exception
+	public byte[] downloadAudio(int audioId)
 	{
 		String[] name = {"audioId"};
 		Object[] values = {audioId};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
 		byte[] buffer = string2Byte(result.toString());
-		File destDir = new File("/storage/sdcard0/wandoujia/music"); 
-		FileOutputStream fos = null;
-		fos = new FileOutputStream(new File(destDir, "lj.mp3"));
-		fos.write(buffer);    
-		fos.flush();    
-        fos.close();
+		return buffer;
 	}
 }

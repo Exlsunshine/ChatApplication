@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.configs.ConstantValues;
+import com.commons.ConstantValues;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -17,7 +17,7 @@ import android.media.MediaPlayer;
  */
 public class AudioMessage extends AbstractMessage
 {
-	private static String AUDIO_CACHE_DIR = "mnt/sdcard/MobileSocial/audio/";
+	private static String AUDIO_CACHE_DIR = "/mnt/sdcard/MobileSocial/audio/";
 	private MediaPlayer mPlayer;
 	private Context context;
 	private byte [] audio;
