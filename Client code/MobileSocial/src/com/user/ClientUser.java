@@ -1,12 +1,8 @@
 package com.user;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +18,7 @@ import com.commons.ConstantValues;
 import com.dialog.Dialog;
 import com.message.AbstractMessage;
 import com.message.AudioMessage;
+import com.message.ConvertUtil;
 import com.message.ImageMessage;
 import com.message.TextMessage;
 import com.network.openfire.OpenfireHandler;
@@ -34,10 +31,9 @@ public class ClientUser extends AbstractUser
 	private OpenfireHandler ofhandler;
 	private Handler msgHandler;
 	
-	/****************************		以下是网络操作相关内容		****************************/
 	public ClientUser(int userID, String password, String loginAccount, Context context)
 	{
-		super(89, null, null, null, null, null, null, null, null);
+		super(userID, null, null, null, null, null, null, null, null);
 		
 		this.context = context;
 		msgHandler = new Handler(new IncomingMessageHandlerCallback());
@@ -97,32 +93,6 @@ public class ClientUser extends AbstractUser
 			return false;
 		}
 	}
-	
-	
-	/*******************************************
-	 * 
-	 * 
-	 * Codes below this part are NOLY for test!
-	 * 
-	 * 
-	 * *******************************************/
-	private boolean init = false;
-	private void removeAfterTest()
-	{
-		if (init)
-			return;
-		init = true;
-		friendList  = new ArrayList<FriendUser>();
-		FriendUser friend = new FriendUser(238, null, null, null, null, null, null, null, null);
-		friendList.add(friend);
-	}
-	/*******************************************
-	 * 
-	 * 
-	 * Codes above this part are NOLY for test!
-	 * 
-	 * 
-	 * *******************************************/
 	
 	/**
 	 * 获取指定userID的用户
@@ -522,11 +492,7 @@ public class ClientUser extends AbstractUser
 	}
 	*/
 
-	/**
-	 * 获取好友列表
-	 * @return 当前用户的所有好友
-	 */
-	public ArrayList<FriendUser> getFriendList()
+	private void getFriendListFromServer()
 	{
 		/**********		str应从服务器处获取		**********/
 		String [] params = new String[1];
@@ -536,55 +502,72 @@ public class ClientUser extends AbstractUser
 		
 		Object ret = wsAPI.callFuntion("getFriendList", params, vlaues);
 		String str = ret.toString();
-		Log.e("______", str);
+		Log.i(DEBUG_TAG, "Friend list is: " + str);
 		
 		PackString ps = new PackString(str);
-		ArrayList<HashMap<String, Object>> result = ps.jsonString2Arrylist(JSON_MSG_KEY_FRIENDS_LIST);
+		ArrayList<HashMap<String, Object>> result = ps.jsonString2Arrylist(JSON_INFO_KEY_USER_FRIENDS_LIST);
 		friendList = new ArrayList<FriendUser>();
 		for (int i = 0; i < result.size(); i++)
 		{
-			Map<String, Object> map = result.get(i);
+			HashMap<String, Object> map = result.get(i);
 			
-			FriendUser friend = new FriendUser(
-					Integer.parseInt(map.get(JSON_INFO_KEY_USER_ID).toString()),
-					(String) map.get(JSON_INFO_KEY_USER_LOGIN_ACNT), 
-					(String) map.get(JSON_INFO_KEY_USER_NICK_NAME),
-					(String) map.get(JSON_INFO_KEY_USER_EMAIL), 
-					(String) map.get(JSON_INFO_KEY_USER_PHONE_NO), 
-					(String) map.get(JSON_INFO_KEY_USER_SEX), 
-					(String) map.get(JSON_INFO_KEY_USER_BIRTHDAY), 
-					object2Bytes(map.get(JSON_INFO_KEY_USER_PORTRAIT)),
-					(String) map.get(JSON_INFO_KEY_USER_HOMETOWN));
+			FriendUser friend = new FriendUser(Integer.parseInt(map.get(JSON_INFO_KEY_USER_ID).toString()),
+							(String) map.get(JSON_INFO_KEY_USER_LOGIN_ACNT),
+							(String) map.get(JSON_INFO_KEY_USER_NICK_NAME),
+							(String) map.get(JSON_INFO_KEY_USER_EMAIL),
+							(String) map.get(JSON_INFO_KEY_USER_PHONE_NO),
+							(String) map.get(JSON_INFO_KEY_USER_SEX),
+							(String) map.get(JSON_INFO_KEY_USER_BIRTHDAY),
+							ConvertUtil.bitmap2Bytes(ImageTransportation.string2Bitmap((String) map.get(JSON_INFO_KEY_USER_PORTRAIT))),
+							null,
+							(String) map.get(JSON_INFO_KEY_USER_GROUP_NAME), 
+							(String) map.get(JSON_INFO_KEY_USER_ALIAS),
+							Integer.parseInt((String) map.get(JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG)) == 1, 
+							(String) map.get(JSON_INFO_KEY_USER_HOMETOWN_CITY), 
+							(String) map.get(JSON_INFO_KEY_USER_HOMETOWN_PROVINCE));
 			friendList.add(friend);
 		}
+		printFriendlist();
+	}
+	/**
+	 * 获取好友列表
+	 * @return 当前用户的所有好友
+	 */
+	public ArrayList<FriendUser> getFriendList()
+	{
+		if (friendList != null)
+			return friendList;
+		
+		getFriendListFromServer();
 		
 		return friendList;
-		
-		/**********		str应从服务器处获取(本地测试版本)		**********/
-		/*//String str = "{\"friends_list\":[{\"birthday\":\"1992-12-02\",\"loginAccount\":\"Xiao Account\",\"hometown\":\"Beijing\",\"phoneNumber\":\"13587649098\",\"user_id\":1,\"nickName\":\"Xiao ming\",\"sex\":\"male\",\"portrait\":[1,2,3],\"email\":\"aaa@sina.com\"},{\"birthday\":\"1991-02-12\",\"loginAccount\":\"Li Account\",\"hometown\":\"Chongqing\",\"phoneNumber\":\"17587649098\",\"user_id\":2,\"nickName\":\"Li ying\",\"sex\":\"male\",\"portrait\":[16,26,36],\"email\":\"bbb@sina.com\"},{\"birthday\":\"1993-05-12\",\"loginAccount\":\"Sun Account\",\"hometown\":\"Shanghai\",\"phoneNumber\":\"19587649098\",\"user_id\":3,\"nickName\":\"Sun ming\",\"sex\":\"male\",\"portrait\":[2,3,4],\"email\":\"ccc@sina.com\"}]}";
+	}
 
-		PackString ps = new PackString(str);
-		ArrayList<Map<String, Object>> result = ps.jsonString2Arrylist(JSON_MSG_KEY_FRIENDS_LIST);
-		for (int i = 0; i < result.size(); i++)
+	
+	private void printFriendlist()
+	{
+		for (int i = 0; i < friendList.size(); i++)
 		{
-			Map<String, Object> map = result.get(i);
-			
-			FriendUser friend = new FriendUser(Integer.parseInt((String) map.get(JSON_INFO_KEY_USER_ID)),
-					(String) map.get(JSON_INFO_KEY_USER_LOGIN_ACNT), 
-					(String) map.get(JSON_INFO_KEY_USER_NICK_NAME),
-					(String) map.get(JSON_INFO_KEY_USER_EMAIL), 
-					(String) map.get(JSON_INFO_KEY_USER_PHONE_NO), 
-					(String) map.get(JSON_INFO_KEY_USER_SEX), 
-					(String) map.get(JSON_INFO_KEY_USER_BIRTHDAY), 
-					(byte[]) map.get(JSON_INFO_KEY_USER_PORTRAIT),
-					(String) map.get(JSON_INFO_KEY_USER_HOMETOWN));
-			friendList.add(friend);
+			Log.i(DEBUG_TAG, " **************** " + String.valueOf(i) + " **************** ");
+
+			Log.i(DEBUG_TAG, "id: " + String.valueOf(friendList.get(i).getID()));
+			Log.i(DEBUG_TAG, "longinAccount: " +  friendList.get(i).getLoginAccount());
+			Log.i(DEBUG_TAG, "nickname: " +  friendList.get(i).getNickName());
+			Log.i(DEBUG_TAG, "email: " +  friendList.get(i).getEmail());
+			Log.i(DEBUG_TAG, "phone: " +  friendList.get(i).getPhoneNumber());
+			Log.i(DEBUG_TAG, "sex: " +  friendList.get(i).getSex());
+			Log.i(DEBUG_TAG, "birthday: " +  friendList.get(i).getBirthday());
+
+			Log.i(DEBUG_TAG, "group: " +  friendList.get(i).getGroupName());
+			Log.i(DEBUG_TAG, "alias: " + friendList.get(i).getAlias());
+			Log.i(DEBUG_TAG, "close?: " +  String.valueOf(friendList.get(i).isCloseFriend()));
+			Log.i(DEBUG_TAG, "hometown: " +  friendList.get(i).getHometown());
+			Log.i(DEBUG_TAG, "city: " +  friendList.get(i).getCity());
+			Log.i(DEBUG_TAG, "province: " +  friendList.get(i).getProvince());
 		}
-		
-		return friendList;*/
 	}
 	
-	private byte [] object2Bytes(Object obj)
+/*	private byte [] object2Bytes(Object obj)
 	{
 		try
 		{
@@ -596,20 +579,24 @@ public class ClientUser extends AbstractUser
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	private String JSON_MSG_KEY_FRIENDS_LIST = "friends_list";
+	}*/
+	private String JSON_INFO_KEY_USER_FRIENDS_LIST = "friends_list";
 	private String JSON_INFO_KEY_USER_ID = "user_id";
-	private String JSON_INFO_KEY_USER_LOGIN_ACNT = "loginAccount";
-	private String JSON_INFO_KEY_USER_NICK_NAME = "nickName";
+	private String JSON_INFO_KEY_USER_LOGIN_ACNT = "login_account";
+	private String JSON_INFO_KEY_USER_NICK_NAME = "nick_name";
 	private String JSON_INFO_KEY_USER_EMAIL = "email";
-	private String JSON_INFO_KEY_USER_PHONE_NO = "phoneNumber";
 	private String JSON_INFO_KEY_USER_SEX = "sex";
 	private String JSON_INFO_KEY_USER_BIRTHDAY = "birthday";
 	private String JSON_INFO_KEY_USER_PORTRAIT = "portrait";
-	private String JSON_INFO_KEY_USER_HOMETOWN = "hometown";
+	private String JSON_INFO_KEY_USER_PHONE_NO = "phone_number";
+	private String JSON_INFO_KEY_USER_HOMETOWN_CITY = "hometown_city";
+	private String JSON_INFO_KEY_USER_HOMETOWN_PROVINCE = "hometown_province";
+	private String JSON_INFO_KEY_USER_GROUP_NAME = "group_name";
+	private String JSON_INFO_KEY_USER_ALIAS = "alias";
+	private String JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG = "close_friend_flag";
 	
-	private ArrayList<FriendUser> friendList;
+	
+	private ArrayList<FriendUser> friendList = null;
 	private ArrayList<Dialog> dialogList;
 	
 	

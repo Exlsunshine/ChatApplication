@@ -26,7 +26,7 @@ public class SQLServerEnd
 		TABLE_NAME = tableName;
 		USERNAME = "sa";
 		PASSWORD = "007";
-		DATABASE_URL = "jdbc:sqlserver://172.18.8.171:1433"+";databaseName=" + DATABASE_NAME;
+		DATABASE_URL = "jdbc:sqlserver://172.18.8.239:1433"+";databaseName=" + DATABASE_NAME;
 		connect();
 	}
 	
@@ -296,7 +296,7 @@ public class SQLServerEnd
 	/**
 	 * 查询记录：将符合condition[i] == conditionVal[i] 条件的记录的query[i]列的值 全部返回<br>
 	 * 将查询结果返回到ArrayList<HashMap<String, String>>中，其中HashMap的Key[i]等于query[i]<br>
-	 * @param query 待查询的列(输入new String [] { "*" }则相当于选择所有列)
+	 * @param query 待查询的列
 	 * @param condition 条件(数据库中的列名)
 	 * @param conditionVal 条件值，与condition应一 一对应
 	 * @param operator 表condition与conditionVal的关系，示如"=",">",">="<br>
@@ -367,6 +367,54 @@ public class SQLServerEnd
 	public void enableDebugModel(boolean en)
 	{
 		this.DEBUG_MODEL = en;
+	}
+	
+	/**
+	 * 执行原始的SQL语句
+	 * @param rawSqlStatment SQL语句
+	 * @param query 待查询的列列名
+	 * @return 查询结果<br>
+	 * null 失败：表示 一个或多个参数为null、传入的成对的数组长度不一致、数据库操作错误<br>
+	 * not null 成功<br>
+	 */
+	public ArrayList<HashMap<String, String>> excecuteRawQuery(String rawSqlStatment, String [] query)
+	{
+		if (rawSqlStatment == null || query == null)
+		{
+			System.out.println(DEBUG_MODEL ? "Error:\tRawSqlStatment or query null." : "");
+			return null;
+		}
+		
+		ArrayList<HashMap<String, String>> list = null;
+		
+		try
+		{
+			Statement s1 = connection.createStatement();
+			ResultSet rs = s1.executeQuery(rawSqlStatment);
+			
+			if (rs != null)
+			{
+				list = new ArrayList<HashMap<String, String>>();
+				
+				while (rs.next())
+				{
+					HashMap<String, String> map = new HashMap<String, String>();
+					
+					for (int i = 0; i < query.length; i++)
+					{
+						map.put(query[i], rs.getString(query[i]));
+						map.put(query[i], rs.getString(query[i]));
+					}
+					
+					list.add(map);
+				}
+			}
+		} catch (SQLException e) {
+			list = null;
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 	
 	public static void main(String[] args)

@@ -130,9 +130,9 @@ public class ImageTransmit
 	 * @return 转完结果
 	 * @throws Exception
 	 */
-	private String image2String(String imagePath) throws Exception
+	public static String image2String(String imagePath) throws Exception
 	{
-		@SuppressWarnings("resource")
+		//@SuppressWarnings("resource")
 		FileInputStream fis = new FileInputStream(imagePath);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
 		byte[] buffer = new byte[1024]; 

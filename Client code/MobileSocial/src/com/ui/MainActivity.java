@@ -39,6 +39,7 @@ public class MainActivity extends Activity
 	Button start, stop, play, pause, load;
 	MediaPlayer mPlayer;
 	
+	private int index = 0;
 	Dialog dialog;
 	
 	@Override
@@ -47,12 +48,11 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		//user | password
-		//238  | pwd238
-		//89   | 89
-		final ClientUser user = new ClientUser(89, "89", null, this);
+		//		 user | password
+		//user1: 238  | pwd238
+		//user2: 89   | 89
+		final ClientUser user = new ClientUser(4, "4", null, this);
 		final FriendUser friend = new FriendUser(238, null, null, null, null, null, null, null, null);
-		
 		
 		tv = (TextView)findViewById(R.id.show);
 		iv = (ImageView)findViewById(R.id.img);
@@ -63,6 +63,15 @@ public class MainActivity extends Activity
 		load = (Button)findViewById(R.id.btn_load);
 		tv.setMovementMethod(new ScrollingMovementMethod());
 
+		iv.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				iv.setBackground(ConvertUtil.bitmap2Drawable(ConvertUtil.bytes2Bitmap(user.getFriendList().get(index).getPortrait()), MainActivity.this));
+				index = (index + 1) % user.getFriendList().size();
+			}
+		});
 		start.setOnClickListener(new OnClickListener()
 		{
 			@Override
@@ -85,7 +94,15 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				user.signoff();
+				Thread td = new Thread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						user.getFriendList();
+					}
+				});
+				td.start();
 				//Recorder.getInstance().stopRecordAndFile();
 			}
 		});

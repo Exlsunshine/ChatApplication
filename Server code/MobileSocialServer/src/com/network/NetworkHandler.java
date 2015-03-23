@@ -3,8 +3,13 @@ package com.network;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import com.database.SQLServerEnd;
+import com.file.image.ImageTransmit;
 import com.file.image.PortraitTransmit;
+import com.json.process.PackString;
 
 public class NetworkHandler
 {
@@ -281,22 +286,70 @@ public class NetworkHandler
 								where first_userid = userID
 							)as b
 		where a.id = b.second_userid
+		
+		
+		select login_account, nick_name, email, sex, birthday, portrait_path, hometown_id, phone_number, group_name, alias, close_friend_flag
+		from user_basic_info
+		inner join 	(
+						select second_userid, group_name, alias, close_friend_flag
+						from user_relationship
+						where first_userid = 4
+					)as b
+		on user_basic_info.id = b.second_userid
+		
+		select user_basic_info.id, login_account, nick_name, email, sex, birthday, portrait_path, city, province, phone_number, group_name, alias, close_friend_flag
+		from user_basic_info
+			inner join ( select second_userid, group_name, alias, close_friend_flag from user_relationship where first_userid = 4 )as b
+				on user_basic_info.id = b.second_userid
+			inner join ( select * from hometown_data )as c
+				on user_basic_info.hometown_id = c.id
 		 
-		 * */
-		String[] query = {};
-		String[] condition = {};
-		String[] conditionVal = {};
-		ArrayList<HashMap<String, String>> result = userBasicInfoTB.select(query, condition, conditionVal);
+		 * 
+		String sql = 
+				  "select id, login_account, nick_name, email, sex, birthday, portrait_path, hometown_id, phone_number, group_name, alias, close_friend_flag "
+				+ "from user_basic_info "
+				+ "inner join ("
+								+ "select second_userid, group_name, alias, close_friend_flag "
+								+ "from user_relationship "
+								+ "where first_userid = " + String.valueOf(userID) + " "
+							+ ")as b "
+				+ "on user_basic_info.id = b.second_userid ";
+		*/
+		String sql = "select user_basic_info.id as user_id, login_account, nick_name, email, sex, birthday, portrait_path, city as hometown_city, province as hometown_province, phone_number, group_name, alias, close_friend_flag "
+				+ "from user_basic_info "
+				+ "inner join ( select second_userid, group_name, alias, close_friend_flag from user_relationship where first_userid = 4 )as b "
+				+ "on user_basic_info.id = b.second_userid "
+				+ "inner join ( select * from hometown_data )as c "
+				+ "on user_basic_info.hometown_id = c.id ";
+		String[] query = {"user_id", "login_account", "nick_name", "email", "sex", "birthday", "portrait_path", "phone_number", "hometown_city", "hometown_province", "group_name", "alias", "close_friend_flag"};
+		ArrayList<HashMap<String, String>> result = userBasicInfoTB.excecuteRawQuery(sql, query);
 		
-		if (result == null)
-			System.out.println("setHometown success.");
+		if (result != null)
+		{
+			for (int i = 0; i < result.size(); i++)
+			{
+				try {
+					String img = ImageTransmit.image2String(result.get(i).get("portrait_path"));
+					result.get(i).remove("portrait_path");
+					result.get(i).put("portrait", img);
+					
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		else
-			System.out.println("setHometown failed.");
+			System.out.println("getFriendList failed.");
 		
+		String str = null;
+		try 
+		{
+			str = PackString.arrylist2JsonString("friends_list", result, 0);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		
-		
-		
-		String str = "{\"friends_list\":[{\"birthday\":\"1992-12-02\",\"loginAccount\":\"Xiao Account\",\"hometown\":\"Beijing\",\"phoneNumber\":\"13587649098\",\"user_id\":1,\"nickName\":\"Xiao ming\",\"sex\":\"male\",\"portrait\":[1,2,3],\"email\":\"aaa@sina.com\"},{\"birthday\":\"1991-02-12\",\"loginAccount\":\"Li Account\",\"hometown\":\"Chongqing\",\"phoneNumber\":\"17587649098\",\"user_id\":2,\"nickName\":\"Li ying\",\"sex\":\"male\",\"portrait\":[16,26,36],\"email\":\"bbb@sina.com\"},{\"birthday\":\"1993-05-12\",\"loginAccount\":\"Sun Account\",\"hometown\":\"Shanghai\",\"phoneNumber\":\"19587649098\",\"user_id\":3,\"nickName\":\"Sun ming\",\"sex\":\"male\",\"portrait\":[2,3,4],\"email\":\"ccc@sina.com\"}]}";
 		return str;
 	}
 }
