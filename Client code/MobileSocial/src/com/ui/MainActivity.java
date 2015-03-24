@@ -90,8 +90,9 @@ public class MainActivity extends Activity
 					@Override
 					public void run() 
 					{
-						user.signin();
-						
+						Intent it = new Intent(MainActivity.this, Login.class);
+						startActivity(it);
+						//user.signin();
 						//Recorder.getInstance().startRecordAndFile();
 					}
 				});

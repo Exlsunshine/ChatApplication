@@ -32,6 +32,18 @@
             android:name="com.ui.ClientUserUnitTest"
             android:label="@string/title_activity_client_user_unit_test" >
         </activity>
+        <activity
+            android:name="com.ui.Register"
+            android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name="com.ui.Login"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="com.ui.Forget"
+            android:label="@string/title_activity_forget" >
+        </activity>
     </application>
 
 </manifest>

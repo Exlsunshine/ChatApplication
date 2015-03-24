@@ -350,4 +350,15 @@ public class NetworkHandler
 		
 		return str;
 	}
+	
+	public int validateIdentity(String loginAccount, String password)
+	{
+		initUserBasicInfoTB();
+		
+		ArrayList<HashMap<String, String>> result = userBasicInfoTB.select(new String [] {"id"}, new String [] {"login_account" , "login_pwd"},  new String [] {loginAccount, password});
+		if (result.size() == 0)
+			return -1;
+		else
+			return Integer.parseInt(result.get(0).get("id"));
+	}
 }

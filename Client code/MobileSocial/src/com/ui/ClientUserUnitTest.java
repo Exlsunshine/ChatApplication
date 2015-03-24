@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.commons.CommonUtil;
 import com.commons.ConstantValues;
@@ -98,6 +99,7 @@ public class ClientUserUnitTest extends Activity
 				{
 					audioMsg = (AudioMessage)(list.get(audioIndex));
 					Log.i(DEBUG_TAG, "Get audio message at " + String.valueOf(audioIndex) + " \nTotal message number is " + String.valueOf(list.size()));
+					Toast.makeText(ClientUserUnitTest.this, "Hit" + String.valueOf(audioIndex) + " \nTotal message number is " + String.valueOf(list.size()), Toast.LENGTH_LONG);
 				}	
 				audioIndex = (audioIndex + 1) % list.size();
 			}
@@ -200,7 +202,6 @@ public class ClientUserUnitTest extends Activity
 		recvAudio = (Button)findViewById(R.id.receive_audio);
 		play = (Button)findViewById(R.id.play);
 		stop = (Button)findViewById(R.id.stop);
-
 		iv = (ImageView)findViewById(R.id.iv);
 		tv = (TextView)findViewById(R.id.tv);
 		tv.setMovementMethod(new ScrollingMovementMethod());

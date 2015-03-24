@@ -158,6 +158,7 @@ public class ImageTransmit
 	{
 		String imagePath = getImagePath(imageId);
 		String imageBuffer = image2String(imagePath);
+		System.out.println("Get ImageID:" + imageId + " " + imageBuffer.length());
 		return imageBuffer;
 	}
 }
