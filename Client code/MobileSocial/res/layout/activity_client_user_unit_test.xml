@@ -1,0 +1,100 @@
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent"
+	android:layout_height="match_parent">
+    
+    <LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    tools:context=".ClientUserUnitTest" >
+	
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal">
+	    	
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Signin"
+		        android:id="@+id/signin"/>
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Get friend list"
+		        android:id="@+id/get_friend_list"/>
+	    </LinearLayout>
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal">
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="SendText"
+		        android:id="@+id/send_text"/>
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Check receive txt"
+		        android:id="@+id/receive_text"/>
+	    </LinearLayout>
+	    
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/hello_world"
+	        android:id="@+id/tv"
+	        android:maxLines = "15"
+			android:scrollbars = "vertical"/>
+	    
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal">
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="SendImg"
+		        android:id="@+id/send_image"/>
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Check receive img"
+		        android:id="@+id/receive_img"/>
+	    </LinearLayout>
+	    <ImageView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/ic_launcher"
+	        android:id="@+id/iv" />
+	    
+	     <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal">
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="SendAudio"
+		        android:id="@+id/send_audio"/>
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Check audio"
+		        android:id="@+id/receive_audio"/>
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="play"
+		        android:id="@+id/play"/>
+			<Button 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="stop"
+		        android:id="@+id/stop"/>
+	    </LinearLayout>
+	</LinearLayout>
+</ScrollView>

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.commons.CommonUtil;
+import com.commons.ConstantValues;
 import com.dialog.Dialog;
 import com.example.testmobiledatabase.R;
 import com.message.AbstractMessage;
@@ -34,6 +36,7 @@ import com.message.Recorder;
 import com.message.TextMessage;
 import com.user.ClientUser;
 import com.user.FriendUser;
+import com.user.ImageTransportation;
 
 public class MainActivity extends Activity
 {
@@ -44,6 +47,7 @@ public class MainActivity extends Activity
 	MediaPlayer mPlayer;
 	
 	private int index = 0;
+	private int inner = 0;
 	Dialog dialog;
 	
 	@Override
@@ -87,6 +91,7 @@ public class MainActivity extends Activity
 					public void run() 
 					{
 						user.signin();
+						
 						//Recorder.getInstance().startRecordAndFile();
 					}
 				});
@@ -98,8 +103,7 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				user.setPassword("008++");
-				/*getFriendList unit test
+				//getFriendList unit test
 				Thread td = new Thread(new Runnable()
 				{
 					@Override
@@ -108,7 +112,7 @@ public class MainActivity extends Activity
 						user.getFriendList();
 					}
 				});
-				td.start();*/
+				td.start();
 				//Recorder.getInstance().stopRecordAndFile();
 			}
 		});
@@ -123,12 +127,12 @@ public class MainActivity extends Activity
 				user.sendMsgTo(friend, txtMsg);
 				*/
 				
-				/*
+				
 				//send ImageMessage unit test
 				Bitmap bmp = BitmapFactory.decodeFile("/mnt/sdcard/DCIM/Camera/test.jpg");
 				ImageMessage imgMsg = new ImageMessage(user.getID(), friend.getID(), bmp, CommonUtil.now(), false);
 				user.sendMsgTo(friend, imgMsg);
-				*/
+				
 				
 				
 				/*//send AudioMessage unit test
@@ -151,22 +155,46 @@ public class MainActivity extends Activity
 				}*/
 			}
 		});
+		
+		
 		pause.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0)
 			{
+				Intent it = new Intent(MainActivity.this, ClientUserUnitTest.class);
+				startActivity(it);
+				/*
+				//receive ImageMessage unit test
 				String str = "";
+				ArrayList<AbstractMessage> list = dialog.getDialogHistory();
+				Log.i(DEBUG_TAG, String.valueOf(inner) + "/" + String.valueOf(list.size()));
+				if (list.get(inner).getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE)
+				{
+					ImageMessage imgMsg = (ImageMessage)(list.get(inner));
+					str = String.valueOf(imgMsg.getFromUserID()) + "->" + String.valueOf(imgMsg.getToUserID()) 
+							+ " at " + imgMsg.getDate() + "\n";
+					iv.setBackground(ConvertUtil.bitmap2Drawable(imgMsg.getImage(), MainActivity.this));
+					Log.i(DEBUG_TAG, str);
+				}
+				inner = (inner + 1) % list.size();
+				*/
 				
+				/*
+				//receive TextMessage unit test
+				String str = "";
 				ArrayList<AbstractMessage> list = dialog.getDialogHistory();
 				for (int i = 0; i < list.size(); i++)
 				{
+					if (list.get(i).getMessageType() != ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT)
+						continue;
+					
 					TextMessage textMsg = (TextMessage)(list.get(i));
 					str += String.valueOf(textMsg.getFromUserID()) + "->" + String.valueOf(textMsg.getToUserID()) 
 							+ " : " + textMsg.getText() + " at " + textMsg.getDate() + "\n";
 				}
-				
 				tv.setText(str);
+				*/
 				
 				/* mPlayer.release();  
 				 mPlayer = null;  */
@@ -177,7 +205,15 @@ public class MainActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				dialog = user.makeDialogWith(friend);
+				Thread td = new Thread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						dialog = user.makeDialogWith(friend);
+					}
+				});
+				td.start();
 				/*generateData();
 				getData(getDialog(2, 3));*/
 			}

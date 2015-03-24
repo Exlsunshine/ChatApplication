@@ -103,12 +103,17 @@ public class ClientUser extends AbstractUser
 	private FriendUser getFriendByID(int userID)
 	{
 		FriendUser friend = null;
+		
+		if (friendList == null)
+			getFriendListFromServer();
+		
 		if (friendList != null)
 		{
 			for (int i = 0 ; i < friendList.size(); i++)
 				if (friendList.get(i).getID() == userID)
 				{
 					friend = friendList.get(i);
+					Log.i(DEBUG_TAG, "Get friend successful.");
 					break;
 				}
 		}
@@ -304,6 +309,10 @@ public class ClientUser extends AbstractUser
 	 */
 	public void sendMsgTo(FriendUser other,AbstractMessage msg)
 	{
+		if (dialogList == null)
+			getRecentDialogs();
+		makeDialogWith(other);
+		
 		for (int i = 0; i < dialogList.size(); i++)
 		{
 			if (dialogList.get(i).getAnotherUserID() == other.getID())
@@ -609,9 +618,6 @@ public class ClientUser extends AbstractUser
 	
 	
 	
-	
-	
-	
 	/**
 	 * 获取最近聊天的所有本地对话
 	 * @return 本地所有对话
@@ -639,7 +645,10 @@ public class ClientUser extends AbstractUser
 	public Dialog makeDialogWith(FriendUser other)
 	{
 		if (other == null)
+		{
+			Log.i(DEBUG_TAG, "Friend is null.");
 			return null;
+		}
 		
 		Dialog dialog = null;
 		
@@ -652,7 +661,7 @@ public class ClientUser extends AbstractUser
 		else
 			dialogList = new ArrayList<Dialog>();
 			
-		dialog = new Dialog(id, other.getID(), context);
+		dialog = new Dialog(this.getID(), other.getID(), context);
 		dialogList.add(dialog);
 			
 		return dialog;

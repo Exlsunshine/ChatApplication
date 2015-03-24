@@ -110,7 +110,7 @@ public class OpenfireHandler
 
 	private void notifyClientUser(Message msg)
 	{
-		Log.w(DEBUG_TAG, "Nofity client user.");
+		Log.i(DEBUG_TAG, "Message has been received, notifing ClientUser.");
 		
 		String str = null;
 		try {

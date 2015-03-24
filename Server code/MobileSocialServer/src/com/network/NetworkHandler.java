@@ -3,7 +3,6 @@ package com.network;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.database.SQLServerEnd;
@@ -316,7 +315,7 @@ public class NetworkHandler
 		*/
 		String sql = "select user_basic_info.id as user_id, login_account, nick_name, email, sex, birthday, portrait_path, city as hometown_city, province as hometown_province, phone_number, group_name, alias, close_friend_flag "
 				+ "from user_basic_info "
-				+ "inner join ( select second_userid, group_name, alias, close_friend_flag from user_relationship where first_userid = 4 )as b "
+				+ "inner join ( select second_userid, group_name, alias, close_friend_flag from user_relationship where first_userid = " + String.valueOf(userID) + " )as b "
 				+ "on user_basic_info.id = b.second_userid "
 				+ "inner join ( select * from hometown_data )as c "
 				+ "on user_basic_info.hometown_id = c.id ";
