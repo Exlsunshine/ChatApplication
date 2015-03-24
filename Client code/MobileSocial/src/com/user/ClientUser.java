@@ -684,4 +684,22 @@ public class ClientUser extends AbstractUser
 		
 		return null;
 	}
+	
+	public static int validateIdentity(String loginAccount, String password)
+	{
+		Log.i(DEBUG_TAG, loginAccount + "-" + password);
+		
+		String [] params = new String[2];
+		Object [] vlaues = new Object[2];
+		params[0] = "loginAccount";
+		params[1] = "password";
+		vlaues[0] = loginAccount;
+		vlaues[1] = password;
+		
+		WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
+		Object ret = wsAPI.callFuntion("validateIdentity", params, vlaues);
+		
+		Log.e("______", ret.toString());
+		return Integer.parseInt(ret.toString());
+	}
 }
