@@ -80,12 +80,12 @@ public class SQLServerEnd
 	{
 		if (column == null || value == null)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tColumns or values null." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tColumns or values null." : "");
 			return 1;
 		}
 		if (column.length != value.length)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tColumns length and values length are not equal." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tColumns length and values length are not equal." : "");
 			return 2;
 		}
 		
@@ -95,7 +95,7 @@ public class SQLServerEnd
 			s1.executeUpdate("INSERT INTO " + TABLE_NAME
 					+ "(" + joinStatement(column, ",", false) + ")"
 					+ "VALUES (" + joinStatement(value, ",", true) + ")");
-			System.out.println(DEBUG_MODEL ? "Insert success." : "");
+			System.out.print(DEBUG_MODEL ? "Insert success." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 3;
@@ -129,12 +129,12 @@ public class SQLServerEnd
 	{
 		if (condition == null || value == null)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
 			return 1;
 		}
 		if (condition.length != value.length)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
 			return 2;
 		}
 		
@@ -142,7 +142,7 @@ public class SQLServerEnd
 		{
 			Statement s1 = connection.createStatement();
 			s1.executeUpdate("DELETE FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, value, "and", "="));
-			System.out.println(DEBUG_MODEL ? "Delete success." : "");
+			System.out.print(DEBUG_MODEL ? "Delete success." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 3;
@@ -168,22 +168,22 @@ public class SQLServerEnd
 	{
 		if (updateCol == null || updateVal == null)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tUpdate columns or update values null." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tUpdate columns or update values null." : "");
 			return 1;
 		}
 		if (updateCol.length != updateVal.length)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tUpdate columns length and update values length are not equal." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tUpdate columns length and update values length are not equal." : "");
 			return 2;
 		}
 		if (condition == null || conditionVal == null)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
 			return 1;
 		}
 		if (condition.length != conditionVal.length)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
 			return 2;
 		}
 		
@@ -193,7 +193,7 @@ public class SQLServerEnd
 			s1.executeUpdate("UPDATE " + TABLE_NAME + " SET "
 			+ joinConditionStatement(updateCol, updateVal, ",", "=")
 			+ " WHERE " + joinConditionStatement(condition, conditionVal, "and", "="));
-			System.out.println(DEBUG_MODEL ? "Update success." : "");
+			System.out.print(DEBUG_MODEL ? "Update success." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 3;
@@ -216,12 +216,12 @@ public class SQLServerEnd
 	{
 		if (condition == null || conditionVal == null)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
 			return null;
 		}
 		if (condition.length != conditionVal.length)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
 			return null;
 		}
 		
@@ -237,6 +237,9 @@ public class SQLServerEnd
 				
 			Statement s1 = connection.createStatement();
 			ResultSet rs = s1.executeQuery("SELECT " + request + " FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, conditionVal, "and", "="));
+			
+			
+			System.out.println("SELECT " + request + " FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, conditionVal, "and", "="));
 			
 			if (rs != null)
 			{
@@ -256,7 +259,7 @@ public class SQLServerEnd
 				}
 			}
 			
-			System.out.println(DEBUG_MODEL ? "Select success. Return " + list.size() + " results." : "");
+			System.out.print(DEBUG_MODEL ? "Select success. Return " + list.size() + " results." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -276,12 +279,12 @@ public class SQLServerEnd
 	{
 		if (condition == null || conditionVal == null)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions or values null." : "");
 			return false;
 		}
 		if (condition.length != conditionVal.length)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
 			return false;
 		}
 		
@@ -309,19 +312,19 @@ public class SQLServerEnd
 	{
 		if (query == null || condition == null || conditionVal == null)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tQuery, conditions or values null." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tQuery, conditions or values null." : "");
 			return null;
 		}
 		if (condition.length != conditionVal.length)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tConditions length and values length are not equal." : "");
 			return null;
 		}
 		
 		if (operator == null)
 		{
 			operator = "=";
-			System.out.println(DEBUG_MODEL ? "Warning: Default operator is used \"=\"" : "");
+			System.out.print(DEBUG_MODEL ? "Warning: Default operator is used \"=\"" : "");
 		}
 		
 		ArrayList<HashMap<String, String>> list = null;
@@ -349,7 +352,7 @@ public class SQLServerEnd
 				}
 			}
 			
-			System.out.println(DEBUG_MODEL ? "Select success. Return " + list.size() + " results." : "");
+			System.out.print(DEBUG_MODEL ? "Select success. Return " + list.size() + " results." : "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -383,7 +386,7 @@ public class SQLServerEnd
 	{
 		if (rawSqlStatment == null || query == null)
 		{
-			System.out.println(DEBUG_MODEL ? "Error:\tRawSqlStatment or query null." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tRawSqlStatment or query null." : "");
 			return null;
 		}
 		
@@ -410,11 +413,11 @@ public class SQLServerEnd
 					
 					list.add(map);
 				}
-				System.out.println(DEBUG_MODEL ? "\tRawSqlStatment success." : "");
+				System.out.print(DEBUG_MODEL ? "\tRawSqlStatment success." : "");
 			}
 		} catch (SQLException e) {
 			list = null;
-			System.out.println(DEBUG_MODEL ? "Error:\tRawSqlStatment failed." : "");
+			System.out.print(DEBUG_MODEL ? "Error:\tRawSqlStatment failed." : "");
 			e.printStackTrace();
 		}
 		
@@ -434,7 +437,7 @@ public class SQLServerEnd
 		ArrayList<HashMap<String, String>> list = se.select(new String [] {"id", "name"}, tableColumns, values);
 		
 		for (int i = 0; i < list.size(); i++)
-			System.out.println(list.get(i).get("id") + "\t" + list.get(i).get("name"));
+			System.out.print(list.get(i).get("id") + "\t" + list.get(i).get("name"));
 	}
 }
 
@@ -483,7 +486,7 @@ public class SQLServerEnd
     {
         while (rs.next())
         {
-        	System.out.println(rs.getString("username") + "\t" + rs.getString("plainPassword") + "\t" 
+        	System.out.print(rs.getString("username") + "\t" + rs.getString("plainPassword") + "\t" 
         			+rs.getString("encryptedPassword") + "\t" + rs.getString("name") + "\t"
         			+rs.getString("email") + "\t" + rs.getString("creationDate") + "\t"
         			+rs.getString("modificationDate"));
