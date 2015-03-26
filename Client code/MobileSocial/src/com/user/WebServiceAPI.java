@@ -20,7 +20,7 @@ public class WebServiceAPI
 	 * @param packagename webservice 服务 包名
 	 * @param classname   webservice 服务 类名
 	 */
-	WebServiceAPI(String packagename, String classname)
+	public WebServiceAPI(String packagename, String classname)
 	{
 		nameSpace = space + packagename;
 		endPoint = host + classname;

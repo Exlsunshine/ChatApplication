@@ -1,6 +1,5 @@
 package com.ui;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +37,17 @@ public class Login extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
+				if (loginAccount.getText().toString() == null)
+				{
+					Toast.makeText(Login.this, "Please specify login account first.", Toast.LENGTH_SHORT).show();
+					return ;
+				}
+				if (password.getText().toString() == null)
+				{
+					Toast.makeText(Login.this, "Please specify password.", Toast.LENGTH_SHORT).show();
+					return ;
+				}
+				
 				int id = ClientUser.validateIdentity(loginAccount.getText().toString(), password.getText().toString());
 				if (id != -1)
 				{

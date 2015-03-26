@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import com.database.SQLServerEnd;
 import com.json.process.PackString;
+import com.mail.SendMailDemo;
 import com.util.PortraitTransmit;
 
 public class NetworkHandler
@@ -360,5 +361,16 @@ public class NetworkHandler
 			return -1;
 		else
 			return Integer.parseInt(result.get(0).get("id"));
+	}
+	
+	public int sendResetPwdRequestMail(String email)
+	{
+		initUserBasicInfoTB();
+		
+		ArrayList<HashMap<String, String>> result = userBasicInfoTB.select(new String [] {"id"}, new String [] {"email" },  new String [] {email});
+		if (result.size() == 0)
+			return -1;
+		else
+			return SendMailDemo.sendEmail("New password: 14XV3jio", email);
 	}
 }
