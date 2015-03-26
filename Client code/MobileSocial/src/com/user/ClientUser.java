@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -73,6 +74,7 @@ public class ClientUser extends AbstractUser
 				byte [] content = audioTransport.downloadAudio(audioID);
 				AudioMessage audioMsg = new AudioMessage(fromUserID, getID(), content, date, false);
 				dialog.appendMessage(audioMsg);
+				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT, getID(), fromUserID);
 				break;
 				
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
@@ -81,11 +83,13 @@ public class ClientUser extends AbstractUser
 				Bitmap bmp = imgTransport.downloadImage(imgID);
 				ImageMessage imgMsg = new ImageMessage(fromUserID, getID(), bmp, date, false);
 				dialog.appendMessage(imgMsg);
+				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE, getID(), fromUserID);
 				break;
 				
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 				TextMessage txtMsg = new TextMessage(fromUserID, getID(), body, date, false);
 				dialog.appendMessage(txtMsg);
+				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_AUDIO, getID(), fromUserID);
 				break;
 			default:
 				Log.e(DEBUG_TAG, "Message handler error: Unkonwn type message " + String.valueOf(msg.what) + ".");
@@ -93,6 +97,14 @@ public class ClientUser extends AbstractUser
 			}
 			return false;
 		}
+	}
+	
+	private void sendBroadcast(String broadcastType, int fromUserID, int toUserID)
+	{
+		Intent intent = new Intent(broadcastType); 
+		intent.putExtra("fromUserID", fromUserID);
+		intent.putExtra("toUserID", toUserID);
+		context.sendBroadcast(intent);
 	}
 	
 	/**

@@ -22,6 +22,10 @@ public class ConstantValues
 		public static final String MESSAGE_RECEIVEED_FROM_USERID = "received_message_from_userID";
 		public static final String MESSAGE_RECEIVEED_BODY = "received_message_body";
 		public static final String MESSAGE_RECEIVEED_DATE = "received_message_date";
+		public static final String MESSAGE_BROADCAST_RECV_TEXT = "text_message_received";
+		public static final String MESSAGE_BROADCAST_RECV_AUDIO = "audio_message_received";
+		public static final String MESSAGE_BROADCAST_RECV_IMAGE = "image_message_received";
+		
 		
 		public static final int GAME_TYPE_EIGHTPUZZLE = 0x00;
 		public static final int GAME_TYPE_QUIZ = 0x00;
