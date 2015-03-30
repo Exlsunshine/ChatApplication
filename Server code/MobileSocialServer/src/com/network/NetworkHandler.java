@@ -8,6 +8,7 @@ import org.json.JSONException;
 import com.database.SQLServerEnd;
 import com.json.process.PackString;
 import com.mail.SendMailDemo;
+import com.util.HometownHandler;
 import com.util.PortraitTransmit;
 
 public class NetworkHandler
@@ -367,18 +368,59 @@ public class NetworkHandler
 	{
 		initUserBasicInfoTB();
 		
+		System.out.println("Got sendResetPwdRequestMail from " + email);
+		
 		ArrayList<HashMap<String, String>> result = userBasicInfoTB.select(new String [] {"id"}, new String [] {"email" },  new String [] {email});
 		if (result.size() == 0)
 			return -1;
 		else
 		{
-			int status = userBasicInfoTB.update(new String [] {"email"}, new String [] {"14XV3jio"}, new String [] {"id"}, new String [] {result.get(0).toString()});
+			int status = userBasicInfoTB.update(new String [] {"login_pwd"}, new String [] {"14XV3jio"}, new String [] {"id"}, new String [] {result.get(0).get("id").toString()});
 			status = (status == 0)? 0 : -1;
 			
 			if (status == 0)
-				return SendMailDemo.sendEmail("New password: 14XV3jio", email);
+			{
+				int code = SendMailDemo.sendEmail("New password: 14XV3jio", email);
+				return code;
+			}
 			else
 				return status;
 		}
+	}
+	
+	public String getDistrictList(String province, String city)
+	{
+		String districts [] = HometownHandler.getInstance().getDistricts(province, city);
+		String result = "";
+		
+		for (int i = 0; i < districts.length - 1; i++)
+			result += districts[i] + "-";
+		result += districts[districts.length - 1];
+		
+		return result;
+	}
+	
+	public String getCityList(String province)
+	{
+		String cities [] = HometownHandler.getInstance().getCities(province);
+		String result = "";
+		
+		for (int i = 0; i < cities.length - 1; i++)
+			result += cities[i] + "-";
+		result += cities[cities.length - 1];
+		
+		return result;
+	}
+	
+	public String getProvienceList()
+	{
+		String provinces [] = HometownHandler.getInstance().getProvinces();
+		String result = "";
+		
+		for (int i = 0; i < provinces.length - 1; i++)
+			result += provinces[i] + "-";
+		result += provinces[provinces.length - 1];
+		
+		return result;
 	}
 }

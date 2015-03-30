@@ -37,18 +37,21 @@ public class Login extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				if (loginAccount.getText().toString() == null)
+				String accountVal = loginAccount.getText().toString();
+				String pwdVal = password.getText().toString();
+				
+				if (accountVal == null || accountVal.length() == 0)
 				{
 					Toast.makeText(Login.this, "Please specify login account first.", Toast.LENGTH_SHORT).show();
 					return ;
 				}
-				if (password.getText().toString() == null)
+				if (pwdVal == null || pwdVal.length() == 0)
 				{
 					Toast.makeText(Login.this, "Please specify password.", Toast.LENGTH_SHORT).show();
 					return ;
 				}
 				
-				int id = ClientUser.validateIdentity(loginAccount.getText().toString(), password.getText().toString());
+				int id = ClientUser.validateIdentity(accountVal, pwdVal);
 				if (id != -1)
 				{
 					Toast.makeText(Login.this, "Ok!", Toast.LENGTH_SHORT).show();
@@ -65,6 +68,8 @@ public class Login extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
+				Intent it = new Intent(Login.this, Register.class);
+				startActivity(it);
 			}
 		});
 		

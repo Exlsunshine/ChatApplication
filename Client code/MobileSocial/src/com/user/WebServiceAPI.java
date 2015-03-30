@@ -5,14 +5,14 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-
+import com.commons.ConstantValues;
 
 public class WebServiceAPI
 {
 	private String nameSpace;
 	private String endPoint;
 	private SoapSerializationEnvelope envelope;
-	private final String host = "http://172.18.8.239:8080/WebServiceProject/services/";
+	private final String host = "http://172.18.8.142:8080/WebServiceProject/services/";
 	private final String space = "http://";
 
 	/**
@@ -50,7 +50,7 @@ public class WebServiceAPI
 			result = envelope.getResponse();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return 0xffff;
+			return ConstantValues.InstructionCode.ERROR_NETWORK;
 		}
 	    return result;
 	}

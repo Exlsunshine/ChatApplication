@@ -3,6 +3,7 @@ package com.mail;
 
 import java.util.Date;
 import java.util.Properties;
+
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -28,7 +29,7 @@ public class SimpleMailSender
 			// 如果需要身份认证，则创建一个密码验证器
 			authenticator = new MyAuthenticator(mailInfo.getUserName(), mailInfo.getPassword());
 		}
-		
+
 		// 根据邮件会话属性和密码验证器构造一个发送邮件的session
 		Session sendMailSession = Session.getDefaultInstance(pro, authenticator);
 		try
@@ -43,19 +44,21 @@ public class SimpleMailSender
 			Address to = new InternetAddress(mailInfo.getToAddress());
 			mailMessage.setRecipient(Message.RecipientType.TO, to);
 			// 设置邮件消息的主题
+
 			mailMessage.setSubject(mailInfo.getSubject());
 			// 设置邮件消息发送的时间
 			mailMessage.setSentDate(new Date());
 			// 设置邮件消息的主要内容
 			String mailContent = mailInfo.getContent();
 			mailMessage.setText(mailContent);
+
 			// 发送邮件
 			Transport.send(mailMessage);
 			return true;
 		  } catch (MessagingException ex) {
 			  ex.printStackTrace();
 		  }
-	
+
 		return false;
 	 }
 	 

@@ -5,6 +5,8 @@ public class SendMailDemo
 {
 	public static int sendEmail(String content, String email)
 	{
+		System.out.println("Resting password for " + email);
+		
 		// 设置邮件服务器信息
 		MailSenderInfo mailInfo = new MailSenderInfo();
 		mailInfo.setMailServerHost("smtp.126.com");
@@ -12,7 +14,7 @@ public class SendMailDemo
 		mailInfo.setValidate(true);
 		  
 		// 邮箱用户名
-		mailInfo.setUserName("jmmsrbjut@126.com");
+		mailInfo.setUserName("jmmsrbjut");
 		// 邮箱密码
 		mailInfo.setPassword("jmmsr123456");
 		// 发件人邮箱
@@ -26,7 +28,7 @@ public class SendMailDemo
 		buffer.append(content);
 		//buffer.append("JAF 1.1.1 jar包下载地址：http://www.oracle.com/technetwork/java/javase/downloads/index-135046.html");
 		mailInfo.setContent(buffer.toString());
-		  
+		
 		// 发送邮件
 		SimpleMailSender sms = new SimpleMailSender();
 		// 发送文体格式
@@ -35,5 +37,9 @@ public class SendMailDemo
 		//SimpleMailSender.sendHtmlMail(mailInfo);
 		System.out.println("邮件发送完毕");
 		return 0;
+	}
+	
+	public static void main(String[] args) {
+		SendMailDemo.sendEmail("sss", "jmmsrbjut@126.com");
 	}
 }

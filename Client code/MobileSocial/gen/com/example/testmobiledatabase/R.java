@@ -24,13 +24,15 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f08001c;
+        public static final int action_settings=0x7f080020;
         public static final int btn_load=0x7f080019;
         public static final int btn_pause=0x7f080018;
         public static final int btn_play=0x7f080017;
         public static final int btn_start=0x7f080015;
         public static final int btn_stop=0x7f080016;
+        public static final int cities=0x7f08001e;
         public static final int confirm=0x7f08000e;
+        public static final int districts=0x7f08001f;
         public static final int email=0x7f08000d;
         public static final int forget=0x7f080013;
         public static final int get_friend_list=0x7f080001;
@@ -42,6 +44,8 @@ public final class R {
         public static final int login_account=0x7f08000f;
         public static final int password=0x7f080010;
         public static final int play=0x7f08000a;
+        public static final int proviences=0x7f08001d;
+        public static final int pwd=0x7f08001c;
         public static final int receive_audio=0x7f080009;
         public static final int receive_img=0x7f080006;
         public static final int receive_text=0x7f080003;
