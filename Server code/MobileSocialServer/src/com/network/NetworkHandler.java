@@ -397,6 +397,8 @@ public class NetworkHandler
 			result += districts[i] + "-";
 		result += districts[districts.length - 1];
 		
+		System.out.println("getDistrictList(): Return " + result.length() + " results.");
+		
 		return result;
 	}
 	
@@ -408,6 +410,8 @@ public class NetworkHandler
 		for (int i = 0; i < cities.length - 1; i++)
 			result += cities[i] + "-";
 		result += cities[cities.length - 1];
+		
+		System.out.println("getCityList(): Return " + result.length() + " results.");
 		
 		return result;
 	}
@@ -421,6 +425,23 @@ public class NetworkHandler
 			result += provinces[i] + "-";
 		result += provinces[provinces.length - 1];
 		
+		System.out.println("getProvienceList(): Return " + result.length() + " results.");
 		return result;
+	}
+	
+	public int createNewUser(String loginAccount, String pwd, String nickname, String email, String sex, String birthday, 
+							 String portrait, String hometown, String phoneNumber)
+	{
+		initUserBasicInfoTB();
+
+		int prevID = userBasicInfoTB.getLatestID();
+		userBasicInfoTB.insert( new String [] {"login_account", "login_pwd", "nick_name", "email", "sex", "birthday", "portrait_path", "hometown", "phone_number"},
+								new String [] {loginAccount, pwd, nickname, email, sex, birthday, "temp", hometown, phoneNumber});
+		int currentID = userBasicInfoTB.getLatestID();
+		
+		if (Math.abs(prevID - currentID) == 1)
+			return setPortrait(currentID, portrait);
+		else
+			return -1;
 	}
 }

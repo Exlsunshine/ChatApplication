@@ -424,6 +424,35 @@ public class SQLServerEnd
 		return list;
 	}
 	
+	/**
+	 * 查找当前表中的最新的ID值
+	 * @return 最新的ID值<br>
+	 * -1表示查找失败
+	 */
+	public int getLatestID()
+	{
+		String sql = "SELECT IDENT_CURRENT('" + TABLE_NAME + "') as id";
+		
+		try 
+		{
+			Statement s1 = connection.createStatement();
+			ResultSet rs = s1.executeQuery(sql);
+
+			if (rs != null)
+			{
+				while (rs.next())
+				{
+					return rs.getInt("id");
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
+	
 	public static void main(String[] args)
 	{
 		SQLServerEnd se = new SQLServerEnd("test_smack_db", "mytest");

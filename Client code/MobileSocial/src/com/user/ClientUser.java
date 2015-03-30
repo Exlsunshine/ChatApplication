@@ -714,4 +714,31 @@ public class ClientUser extends AbstractUser
 		Log.e("______", ret.toString());
 		return Integer.parseInt(ret.toString());
 	}
+	
+	public static int createNewUser(String loginAccount, String pwd, String nickname,
+			String email, String sex, String birthday, String portraitPath, String hometown, String phoneNumber)
+	{
+		File portrait = new File(portraitPath);
+		if (!portrait.exists())
+			return -1;
+		
+		Bitmap bmp = BitmapFactory.decodeFile(portraitPath);
+		
+		try {
+			String portraitStr = ImageTransportation.image2String(bmp);
+			String [] params = new String[] {	"loginAccount", "pwd", "nickname",
+												"email", "sex", "birthday", 
+												"portrait", "hometown", "phoneNumber"};
+			Object [] vlaues = new Object[] {loginAccount, pwd, nickname, email, sex, birthday,
+					portraitStr, hometown, phoneNumber};
+			
+			WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
+			Object ret = wsAPI.callFuntion("createNewUser", params, vlaues);
+			return 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -2;
+	}
 }

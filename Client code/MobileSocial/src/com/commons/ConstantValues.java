@@ -35,6 +35,11 @@ public class ConstantValues
 		public static final int DIRECTION_DOWN = 0x00;
 		public static final int DIRECTION_LEFT = 0x00;
 		public static final int DIRECTION_RIGHT = 0x00;
+		
+		public static final int REQUESTCODE_GALLERY = 0x200;
+		public static final int REQUESTCODE_CAMERA = 0x201;
+		public static final int REQUESTCODE_CROP = 0x202;
+		public static final String USERSET_PORTRAIT = "portrait.jpg";
 	}
 	public class Configs
 	{

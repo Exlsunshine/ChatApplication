@@ -1,5 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+
+<RelativeLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -18,16 +24,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Login account:" />
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Register with email" >
+                android:hint="Register with email"
+				android:inputType="textEmailAddress"
+				android:id="@+id/reg_email" >
             </EditText>
         </LinearLayout>
 
@@ -35,17 +41,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Password:"
                 android:id="@+id/pwd"/>
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Set your password">
+                android:hint="Set your password"
+				android:inputType="textPassword"
+                android:id="@+id/reg_pwd">
             </EditText>
         </LinearLayout>
 
@@ -53,16 +59,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Confirm password" />
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Confirm password" >
+                android:hint="Confirm password"
+				android:inputType="textPassword"
+                android:id="@+id/reg_pwd_confirm" >
             </EditText>
         </LinearLayout>
 
@@ -70,33 +76,60 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nick name" />
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Nick name" >
+                android:hint="Nick name"
+                android:id="@+id/reg_nick_name" >
             </EditText>
+        </LinearLayout>
+        
+		<LinearLayout
+			android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <TextView
+				android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sex" />
+			<RadioGroup
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:id="@+id/reg_sex"
+			    android:contentDescription="性别">
+     			<RadioButton
+     			    android:layout_width="wrap_content"
+     			    android:layout_height="wrap_content"
+     			    android:id="@+id/radioMale"
+     			    android:text="male"
+     			    android:checked="true">
+     			</RadioButton>
+     			<RadioButton
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/radioFemale"
+					android:text="female">
+     			</RadioButton>    
+  			</RadioGroup>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone number" />
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Phone number" >
+                android:hint="Phone number" 
+                android:id="@+id/reg_phone_number">
             </EditText>
         </LinearLayout>
         
@@ -104,42 +137,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Birthday" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Set your birthday"/>
+                android:hint="Set your birthday"
+                android:id="@+id/reg_birthday"/>
         </LinearLayout>
+        
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hometown" />
         
        	<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hometown" />
-
+            android:orientation="vertical" >
             <Spinner 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/proviences"/>
+                android:id="@+id/reg_proviences"/>
             <Spinner 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/cities"/>
+                android:id="@+id/reg_cities"/>
             <Spinner 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/districts"/>
+                android:id="@+id/reg_districts"/>
         </LinearLayout>
         
-        
+       	<ImageView 
+       	    android:layout_width="wrap_content"
+         	android:layout_height="wrap_content"
+     		android:id="@+id/reg_protrait"
+     		android:background="@drawable/ic_launcher"/>
+       	
+       	<Button 
+       	    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+       		android:id="@+id/reg_signup"/>
     </LinearLayout>
 </RelativeLayout>
+</ScrollView>
