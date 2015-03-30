@@ -371,6 +371,14 @@ public class NetworkHandler
 		if (result.size() == 0)
 			return -1;
 		else
-			return SendMailDemo.sendEmail("New password: 14XV3jio", email);
+		{
+			int status = userBasicInfoTB.update(new String [] {"email"}, new String [] {"14XV3jio"}, new String [] {"id"}, new String [] {result.get(0).toString()});
+			status = (status == 0)? 0 : -1;
+			
+			if (status == 0)
+				return SendMailDemo.sendEmail("New password: 14XV3jio", email);
+			else
+				return status;
+		}
 	}
 }
