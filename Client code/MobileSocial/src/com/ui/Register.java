@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -119,8 +121,25 @@ public class Register extends Activity
 				phoneNumber = etPhoneNumber.getText().toString();
 				hometown = hometownDataset.currentProvince + " " + hometownDataset.currentCity + " " + hometownDataset.currentDistrict;
 				
-				ClientUser.createNewUser(loginAccount, password, nickName, email, sex, birthday, portraitPath, hometown, phoneNumber);
-				
+				if (0 == ClientUser.createNewUser(loginAccount, password, nickName, email, sex, birthday, portraitPath, hometown, phoneNumber))
+				{
+					Toast.makeText(Register.this, "Success", Toast.LENGTH_SHORT).show();
+					
+					new Handler().postDelayed(new Runnable()
+					{
+						@Override
+						public void run() 
+						{
+							Intent it = new Intent(Register.this, Login.class);
+							startActivity(it);
+							Register.this.finish();
+						}
+					}, 2000);
+				}
+				else
+				{
+					Toast.makeText(Register.this, "Failed try again.", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
     	
