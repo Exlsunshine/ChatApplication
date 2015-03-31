@@ -541,12 +541,10 @@ public class ClientUser extends AbstractUser
 							(String) map.get(JSON_INFO_KEY_USER_SEX),
 							(String) map.get(JSON_INFO_KEY_USER_BIRTHDAY),
 							ConvertUtil.bitmap2Bytes(ImageTransportation.string2Bitmap((String) map.get(JSON_INFO_KEY_USER_PORTRAIT))),
-							null,
+							(String) map.get(JSON_INFO_KEY_USER_HOMETOWN),
 							(String) map.get(JSON_INFO_KEY_USER_GROUP_NAME), 
 							(String) map.get(JSON_INFO_KEY_USER_ALIAS),
-							Integer.parseInt((String) map.get(JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG)) == 1, 
-							(String) map.get(JSON_INFO_KEY_USER_HOMETOWN_CITY), 
-							(String) map.get(JSON_INFO_KEY_USER_HOMETOWN_PROVINCE));
+							Integer.parseInt((String) map.get(JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG)) == 1);
 			friendList.add(friend);
 		}
 		printFriendlist();
@@ -585,8 +583,6 @@ public class ClientUser extends AbstractUser
 			Log.i(DEBUG_TAG, "alias: " + friendList.get(i).getAlias());
 			Log.i(DEBUG_TAG, "close?: " +  String.valueOf(friendList.get(i).isCloseFriend()));
 			Log.i(DEBUG_TAG, "hometown: " +  friendList.get(i).getHometown());
-			Log.i(DEBUG_TAG, "city: " +  friendList.get(i).getCity());
-			Log.i(DEBUG_TAG, "province: " +  friendList.get(i).getProvince());
 		}
 	}
 	
@@ -612,8 +608,7 @@ public class ClientUser extends AbstractUser
 	private String JSON_INFO_KEY_USER_BIRTHDAY = "birthday";
 	private String JSON_INFO_KEY_USER_PORTRAIT = "portrait";
 	private String JSON_INFO_KEY_USER_PHONE_NO = "phone_number";
-	private String JSON_INFO_KEY_USER_HOMETOWN_CITY = "hometown_city";
-	private String JSON_INFO_KEY_USER_HOMETOWN_PROVINCE = "hometown_province";
+	private String JSON_INFO_KEY_USER_HOMETOWN = "hometown";
 	private String JSON_INFO_KEY_USER_GROUP_NAME = "group_name";
 	private String JSON_INFO_KEY_USER_ALIAS = "alias";
 	private String JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG = "close_friend_flag";

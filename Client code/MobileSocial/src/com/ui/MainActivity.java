@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.commons.CommonUtil;
-import com.commons.ConstantValues;
 import com.dialog.Dialog;
 import com.example.testmobiledatabase.R;
 import com.message.AbstractMessage;
@@ -33,10 +32,8 @@ import com.message.ConvertUtil;
 import com.message.DatabaseHandler;
 import com.message.ImageMessage;
 import com.message.Recorder;
-import com.message.TextMessage;
 import com.user.ClientUser;
 import com.user.FriendUser;
-import com.user.ImageTransportation;
 
 public class MainActivity extends Activity
 {

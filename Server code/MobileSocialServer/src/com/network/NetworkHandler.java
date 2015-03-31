@@ -314,14 +314,21 @@ public class NetworkHandler
 								+ "where first_userid = " + String.valueOf(userID) + " "
 							+ ")as b "
 				+ "on user_basic_info.id = b.second_userid ";
-		*/
+		
 		String sql = "select user_basic_info.id as user_id, login_account, nick_name, email, sex, birthday, portrait_path, city as hometown_city, province as hometown_province, phone_number, group_name, alias, close_friend_flag "
 				+ "from user_basic_info "
 				+ "inner join ( select second_userid, group_name, alias, close_friend_flag from user_relationship where first_userid = " + String.valueOf(userID) + " )as b "
 				+ "on user_basic_info.id = b.second_userid "
 				+ "inner join ( select * from hometown_data )as c "
 				+ "on user_basic_info.hometown_id = c.id ";
-		String[] query = {"user_id", "login_account", "nick_name", "email", "sex", "birthday", "portrait_path", "phone_number", "hometown_city", "hometown_province", "group_name", "alias", "close_friend_flag"};
+		*/
+		
+		String sql = "select user_basic_info.id as user_id, login_account, nick_name, email, sex, birthday, portrait_path, hometown, phone_number, group_name, alias, close_friend_flag "
+				+ "from user_basic_info "
+				+ "inner join ( select second_userid, group_name, alias, close_friend_flag from user_relationship where first_userid = " + String.valueOf(userID) + " )as b "
+				+ "on user_basic_info.id = b.second_userid ";
+		
+		String[] query = {"user_id", "login_account", "nick_name", "email", "sex", "birthday", "portrait_path", "phone_number", "hometown", "group_name", "alias", "close_friend_flag"};
 		ArrayList<HashMap<String, String>> result = userBasicInfoTB.excecuteRawQuery(sql, query);
 		
 		if (result != null)
@@ -375,6 +382,7 @@ public class NetworkHandler
 			{
 				String portrait;
 				portrait = ImageTransmit.image2String(list.get(0).get("portrait_path"));list.get(0).remove("portrait_path");
+				list.get(0).remove("portrait_path");
 				list.get(0).put("portrait", portrait);
 				System.out.println(list.get(0).get("birthday"));
 				System.out.println("===");
