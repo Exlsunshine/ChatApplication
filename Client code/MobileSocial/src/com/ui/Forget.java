@@ -60,7 +60,7 @@ public class Forget extends Activity
 					
 					Object ret = wsAPI.callFuntion("sendResetPwdRequestMail", params, vlaues);
 					int code = Integer.parseInt(ret.toString());
-					if (code == -1)
+					if (code != 0)
 						Toast.makeText(Forget.this, "This email has not been registered.", Toast.LENGTH_SHORT).show();
 					else
 						Toast.makeText(Forget.this, "Reset instruction has been sent to " + emailAccount, Toast.LENGTH_SHORT).show();

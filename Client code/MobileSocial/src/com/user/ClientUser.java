@@ -734,7 +734,7 @@ public class ClientUser extends AbstractUser
 			
 			WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
 			Object ret = wsAPI.callFuntion("createNewUser", params, vlaues);
-			return 0;
+			return Integer.parseInt(ret.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
