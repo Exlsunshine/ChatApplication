@@ -353,15 +353,39 @@ public class NetworkHandler
 		return str;
 	}
 	
-	public int validateIdentity(String loginAccount, String password)
+	/**
+	 * 验证用户的身份
+	 * @param loginAccount 登陆账号
+	 * @param password 登陆密码
+	 * @return 用户信息(Json格式)<br>
+	 * null表示身份认证失败或数据有误
+	 */
+	public String validateIdentity(String loginAccount, String password)
 	{
 		initUserBasicInfoTB();
 		
-		ArrayList<HashMap<String, String>> result = userBasicInfoTB.select(new String [] {"id"}, new String [] {"login_account" , "login_pwd"},  new String [] {loginAccount, password});
-		if (result.size() == 0)
-			return -1;
+		String[] query = {"id", "login_account", "nick_name", "email", "portrait_path", "sex", "birthday", "phone_number", "hometown"};
+		
+		ArrayList<HashMap<String, String>> list = userBasicInfoTB.select(query , new String [] {"login_account" , "login_pwd"},  new String [] {loginAccount, password});
+		if (list.size() == 0)
+			return null;
 		else
-			return Integer.parseInt(result.get(0).get("id"));
+		{
+			try 
+			{
+				String portrait;
+				portrait = ImageTransmit.image2String(list.get(0).get("portrait_path"));list.get(0).remove("portrait_path");
+				list.get(0).put("portrait", portrait);
+				System.out.println(list.get(0).get("birthday"));
+				System.out.println("===");
+				System.out.println(PackString.arrylist2JsonString("userProfile", list, 0));
+				
+				return PackString.arrylist2JsonString("userProfile", list, 0);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
 	}
 	
 	public int sendResetPwdRequestMail(String email)

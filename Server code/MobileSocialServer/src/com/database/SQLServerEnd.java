@@ -238,7 +238,6 @@ public class SQLServerEnd
 			Statement s1 = connection.createStatement();
 			ResultSet rs = s1.executeQuery("SELECT " + request + " FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, conditionVal, "and", "="));
 			
-			
 			System.out.println("SELECT " + request + " FROM " + TABLE_NAME + " WHERE " + joinConditionStatement(condition, conditionVal, "and", "="));
 			
 			if (rs != null)

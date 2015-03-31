@@ -1,24 +1,33 @@
 package com.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
+import com.message.ConvertUtil;
 import com.user.ClientUser;
+import com.user.ImageTransportation;
+import com.user.PackString;
 
 public class Login extends Activity
 {
 	EditText password, loginAccount;
 	Button login, register;
 	TextView forget;
+	ImageView portrait;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -36,7 +45,7 @@ public class Login extends Activity
 		{
 			@Override
 			public void onClick(View arg0)
-			{
+			{			
 				String accountVal = loginAccount.getText().toString();
 				String pwdVal = password.getText().toString();
 				
@@ -51,10 +60,24 @@ public class Login extends Activity
 					return ;
 				}
 				
-				int id = ClientUser.validateIdentity(accountVal, pwdVal);
-				if (id != -1)
+				final String profile = ClientUser.validateIdentity(accountVal, pwdVal);
+				if (profile != null)
 				{
 					Toast.makeText(Login.this, "Ok!", Toast.LENGTH_SHORT).show();
+					Log.i("___________", profile);
+					
+					runOnUiThread(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							PackString ps = new PackString(profile);
+							ArrayList<HashMap<String, Object>> list = ps.jsonString2Arrylist("userProfile");
+							portrait.setBackground(ConvertUtil.bitmap2Drawable(
+											ImageTransportation.string2Bitmap((String) list.get(0).get("portrait")),
+											Login.this));
+						}
+					});
 				}
 				else
 				{
@@ -91,6 +114,7 @@ public class Login extends Activity
 		login  = (Button)findViewById(R.id.login);
 		register  = (Button)findViewById(R.id.register);
 		forget  = (TextView)findViewById(R.id.forget);
+		portrait = (ImageView)findViewById(R.id.login_portrait);
 	}
 
 	@Override

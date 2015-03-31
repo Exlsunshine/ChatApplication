@@ -697,7 +697,14 @@ public class ClientUser extends AbstractUser
 		return null;
 	}
 	
-	public static int validateIdentity(String loginAccount, String password)
+	/**
+	 * 验证用户的身份
+	 * @param loginAccount 登陆账号
+	 * @param password 登陆密码
+	 * @return 用户信息(Json格式)<br>
+	 * null表示身份认证失败或数据有误
+	 */
+	public static String validateIdentity(String loginAccount, String password)
 	{
 		Log.i(DEBUG_TAG, loginAccount + "-" + password);
 		
@@ -712,7 +719,8 @@ public class ClientUser extends AbstractUser
 		Object ret = wsAPI.callFuntion("validateIdentity", params, vlaues);
 		
 		Log.e("______", ret.toString());
-		return Integer.parseInt(ret.toString());
+		
+		return ret == null ? null : ret.toString();
 	}
 	
 	public static int createNewUser(String loginAccount, String pwd, String nickname,
