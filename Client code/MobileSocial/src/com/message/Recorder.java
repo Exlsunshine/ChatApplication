@@ -137,7 +137,7 @@ public class Recorder
         String mAudioAMRPath = "";
         if(isSdcardExist())
         {
-            String fileBasePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+            String fileBasePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
             System.out.println(fileBasePath);
             //String fileBasePath ="/mnt/sdcard/TestMobileDatabase/voice/";
             File forlder = new File(fileBasePath);
