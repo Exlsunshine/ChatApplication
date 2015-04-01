@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.ui.MainActivity"
+            android:name="com.yg.ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,19 +29,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ui.ClientUserUnitTest"
+            android:name="com.yg.ui.ClientUserUnitTest"
             android:label="@string/title_activity_client_user_unit_test" >
         </activity>
         <activity
-            android:name="com.ui.Register"
+            android:name="com.yg.ui.Register"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="com.ui.Login"
+            android:name="com.yg.ui.Login"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name="com.ui.Forget"
+            android:name="com.yg.ui.Forget"
             android:label="@string/title_activity_forget" >
         </activity>
     </application>
