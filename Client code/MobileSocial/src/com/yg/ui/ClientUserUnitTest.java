@@ -189,7 +189,7 @@ public class ClientUserUnitTest extends Activity
 	
 	private void init()
 	{
-		user = new ClientUser(4, "4", "4", this);
+		user = null;//new ClientUser(4, "4", "4", this);
 		friend = new FriendUser(5, null, null, null, null, null, null, null, null);
 		
 		sendTxt = (Button)findViewById(R.id.send_text);

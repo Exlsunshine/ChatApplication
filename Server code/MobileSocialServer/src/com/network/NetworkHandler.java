@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import org.json.JSONException;
 
+import com.commonapi.PackString;
 import com.database.SQLServerEnd;
-import com.json.process.PackString;
 import com.mail.SendMailDemo;
 import com.util.HometownHandler;
 import com.util.PortraitTransmit;
@@ -446,7 +446,7 @@ public class NetworkHandler
 		System.out.println("getCityList(): Return " + result.length() + " results.");
 		
 		return result;
-	}
+	} 
 	
 	public String getProvienceList()
 	{

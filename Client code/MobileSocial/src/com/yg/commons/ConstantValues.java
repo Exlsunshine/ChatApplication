@@ -1,10 +1,14 @@
 package com.yg.commons;
 
+import com.yg.user.ClientUser;
+
 /**
  * @author LiJian
  */
 public class ConstantValues
 {
+	public static ClientUser user = null;
+	
 	public class InstructionCode
 	{
 		public static final int SUCCESS = 0xff00;
@@ -39,8 +43,60 @@ public class ConstantValues
 		public static final int REQUESTCODE_GALLERY = 0x200;
 		public static final int REQUESTCODE_CAMERA = 0x201;
 		public static final int REQUESTCODE_CROP = 0x202;
-		public static final String USERSET_PORTRAIT = "portrait.jpg";
+
+		public static final int GAME_NOT_SET = 0x0023;
+
+		public static final int HANDLER_WAIT_FOR_DATA = 0x0100;
+		public static final int HANDLER_SUCCESS_GET_DATA = 0x101;
+
+		//shake activity
+		public static final int THRESHOLD_SPEED = 17;
+		public static final int VIBRATE_TIME = 1000;
+		public static final int MAP_ZOOM_INITIALIZATION = 16;
+		public static final double MAP_ZOOM_CHANGE_VALUE = 0.00001;
+		public static final float MAP_MOVE_MAX_SPEED = 500;
+		
+		public static final int SHAKE_HANDLER_USER_GAME_NOT_SET = 1;
+		public static final int SHAKE_HANDLER_SHAKE_SENSOR = 2;
+		public static final int SHAKE_HANDLER_MARKER_CLICK = 3;
+		public static final int SHAKE_HANDLER_MAP_STATUS_CHANGE = 4;
+		public static final int SHAKE_HANDLER_MAP_TOUCH_DOWN = 5;
+		public static final int SHAKE_HANDLER_MAP_TOUCH_MOVE = 6;
+		public static final int SHAKE_HANDLER_MAP_FAST_MOVE = 7;
+		
+		//game setting activity
+		public static final int GAMESET_HANDLER_DOWNLOAD_IMAGE = 1;
+		public static final int GAMESET_HANDLER_INIT_SONG = 2;
+		public static final int GAMESET_HANDLER_INIT_MOLE = 3;
+		public static final int GAMESET_REQUESTCODE_SONG = 3;
+
+		public static final String GAMESET_IMAGE_NAME = "EightPuzzleGame.jpg";
+		
+		public static final String GAMESET_SONG_PUZZLE_FOR_SINGER = "0";
+		public static final String GAMESET_SONG_PUZZLE_FOR_SONG = "1";
+		public static final String GAMESET_KEY_SINGER = "singer";
+		public static final String GAMESET_KEY_SONG = "song";
+		public static final String GAMESET_KEY_LYRIC = "lyric";
+		public static final String GAMESET_KEY_ANSWERTYPE = "puzzle_answer";
+		public static final String GAMESET_DEFAULT_SINGER = "∏Ë ÷";
+		
+		//user basic setting Activity
+		public static final String USERSET_PORTRAIT = "Portrait.jpg";
+		public static final int USERSET_HANDLER_PROVINCE = 1;
+		public static final int USERSET_HANDLER_CITY = 2;
+		public static final int USERSET_HANDLER_DISTRICT = 3;
+		public static final int USERSET_HANDLER_HOMETOWN = 4;
+		public static final int USERSET_HANDLER_SET_NICKNAME = 5;
+		public static final int USERSET_HANDLER_SET_BIRTHDAY = 6;
+		public static final int USERSET_HANDLER_SET_PHONE = 7;
+		public static final int USERSET_HANDLER_SET_SEX = 8;
+		
+		//webservice package name
+		public static final String PACKAGE_NETWORK = "network.com";
+		public static final String PACKAGE_GAME_SETTING = "gameSettingPackage.lj.com";
+		public static final String PACKAGE_GAME = "gamePackage.lj.com";
 	}
+	
 	public class Configs
 	{
 		public static final String WEBSERVICE_NAMESPACE = "http://network.com";

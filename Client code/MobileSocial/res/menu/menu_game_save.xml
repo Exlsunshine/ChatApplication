@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	 <item
+        android:id="@+id/eightpuzzle"
+        android:orderInCategory="100"
+        android:title="8Puzzle"/>
+	 <item
+        android:id="@+id/song"
+        android:orderInCategory="100"
+        android:title="Song"/>
+	 <item
+        android:id="@+id/hit"
+        android:orderInCategory="100"
+        android:title="hit"/>
+</menu>

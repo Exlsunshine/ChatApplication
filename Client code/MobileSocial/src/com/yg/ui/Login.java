@@ -6,6 +6,8 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
+import com.yg.commons.ConstantValues;
 import com.yg.message.ConvertUtil;
 import com.yg.user.ClientUser;
 import com.yg.user.ImageTransportation;
@@ -29,6 +32,8 @@ public class Login extends Activity
 	TextView forget;
 	ImageView portrait;
 	
+	Handler handler;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -37,6 +42,41 @@ public class Login extends Activity
 		
 		initLayout();
 		initClickListeners();
+		
+		handler = new Handler()
+		{
+			@Override
+			public void handleMessage(Message msg)
+			{
+				super.handleMessage(msg);
+
+				Bundle bundle = msg.getData();
+				String profile = bundle.getString("profile");
+				String pwdVal = bundle.getString("pwdVal");
+				String accountVal = bundle.getString("accountVal");
+				Log.i("___________", profile);
+				
+				PackString ps = new PackString(profile);
+				ArrayList<HashMap<String, Object>> list = ps.jsonString2Arrylist("userProfile");
+
+				int userID = Integer.parseInt((String) list.get(0).get("id"));
+				String password = pwdVal;
+				String loginAccount = accountVal;
+				String nickName = (String) list.get(0).get("nick_name");
+				String email = (String) list.get(0).get("email");
+				byte [] portrait = ConvertUtil.bitmap2Bytes(ImageTransportation.string2Bitmap((String) list.get(0).get("portrait")));
+				String sex = (String) list.get(0).get("sex");
+				String birthday = (String) list.get(0).get("birthday");
+				String phoneNumber = (String) list.get(0).get("phone_number");
+				String hometown = (String) list.get(0).get("hometown");
+				
+				ConstantValues.user = new ClientUser(userID, password, loginAccount, nickName, email, portrait, sex, birthday, phoneNumber, hometown, null);
+				ConstantValues.user.signin();
+						
+				Intent intent = new Intent(Login.this, MainActivity.class);
+				startActivity(intent);
+			}
+		};
 	}
 	
 	private void initClickListeners()
@@ -46,8 +86,8 @@ public class Login extends Activity
 			@Override
 			public void onClick(View arg0)
 			{			
-				String accountVal = loginAccount.getText().toString();
-				String pwdVal = password.getText().toString();
+				final String accountVal = loginAccount.getText().toString();
+				final String pwdVal = password.getText().toString();
 				
 				if (accountVal == null || accountVal.length() == 0)
 				{
@@ -60,29 +100,28 @@ public class Login extends Activity
 					return ;
 				}
 				
-				final String profile = ClientUser.validateIdentity(accountVal, pwdVal);
-				if (profile != null)
+				Thread td = new Thread(new Runnable()
 				{
-					Toast.makeText(Login.this, "Ok!", Toast.LENGTH_SHORT).show();
-					Log.i("___________", profile);
-					
-					runOnUiThread(new Runnable()
+					@Override
+					public void run()
 					{
-						@Override
-						public void run()
+						final String profile = ClientUser.validateIdentity(accountVal, pwdVal);
+						if (profile != null)
 						{
-							PackString ps = new PackString(profile);
-							ArrayList<HashMap<String, Object>> list = ps.jsonString2Arrylist("userProfile");
-							portrait.setBackground(ConvertUtil.bitmap2Drawable(
-											ImageTransportation.string2Bitmap((String) list.get(0).get("portrait")),
-											Login.this));
+							Message msg = new Message();
+							Bundle bundle = new Bundle();
+							bundle.putString("profile", profile);
+							bundle.putString("pwdVal", pwdVal);
+							bundle.putString("accountVal", accountVal);
+							msg.setData(bundle);
+							
+							handler.sendMessage(msg);
 						}
-					});
-				}
-				else
-				{
-					Toast.makeText(Login.this, "Password or login account error.", Toast.LENGTH_SHORT).show();
-				}
+						else
+							Toast.makeText(Login.this, "Password or login account error.", Toast.LENGTH_SHORT).show();
+					}
+				});
+				td.start();
 			}
 		});
 		
@@ -115,6 +154,9 @@ public class Login extends Activity
 		register  = (Button)findViewById(R.id.register);
 		forget  = (TextView)findViewById(R.id.forget);
 		portrait = (ImageView)findViewById(R.id.login_portrait);
+		
+		loginAccount.setText("UserG@126.com");
+		password.setText("10");
 	}
 
 	@Override

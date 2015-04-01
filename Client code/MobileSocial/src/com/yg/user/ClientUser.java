@@ -33,13 +33,18 @@ public class ClientUser extends AbstractUser
 	private Handler msgHandler;
 	private WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
 	
-	public ClientUser(int userID, String password, String loginAccount, Context context)
+	public ClientUser(int userID, String password, String loginAccount, String nickName, String email, byte [] portrait, String sex, String birthday, String phoneNumber, String hometown, Context context)
 	{
-		super(userID, null, null, null, null, null, null, null, null);
+		super(userID, loginAccount, nickName, email, phoneNumber, sex, birthday, portrait, hometown);
 		
 		this.context = context;
 		msgHandler = new Handler(new IncomingMessageHandlerCallback());
 		ofhandler = new OpenfireHandler(String.valueOf(getID()), password, msgHandler);
+	}
+	
+	public void setContext(Context context)
+	{
+		this.context = context;
 	}
 	
 	private class IncomingMessageHandlerCallback implements Handler.Callback

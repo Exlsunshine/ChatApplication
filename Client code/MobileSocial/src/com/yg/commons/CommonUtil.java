@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import android.os.Handler;
+import android.os.Message;
+
 import com.yg.user.WebServiceAPI;
 
 public class CommonUtil
@@ -20,7 +23,20 @@ public class CommonUtil
 	    */
 	    return sdf.format(cal.getTime());
 	}
+	public static void sendNetWorkErrorMessage(Handler handle)
+	{
+		Message msg = new Message();
+		msg.what = ConstantValues.InstructionCode.ERROR_NETWORK;
+		handle.sendMessage(msg);
+	}
 	
+	public static boolean isNetWorkError(Object result)
+	{
+		if (result.getClass().equals(Integer.class) && Integer.valueOf(result.toString()) == ConstantValues.InstructionCode.ERROR_NETWORK)
+			return true;
+		else
+			return false;
+	}
 	public static String [] getDistrictList(String province, String city)
 	{
 		String [] params = new String[2];

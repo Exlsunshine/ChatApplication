@@ -56,7 +56,7 @@ public class MainActivity1 extends Activity
 		//		 user | password
 		//user1: 238  | pwd238
 		//user2: 89   | 89
-		final ClientUser user = new ClientUser(4, "4", null, this);
+		final ClientUser user = null;//new ClientUser(4, "4", null, this);
 		final FriendUser friend = new FriendUser(5, null, null, null, null, null, null, null, null);
 		
 		tv = (TextView)findViewById(R.id.show);
@@ -87,12 +87,11 @@ public class MainActivity1 extends Activity
 					@Override
 					public void run() 
 					{
-						
-						Intent it = new Intent(MainActivity1.this, MainActivity.class);
-						startActivity(it);
-						
-						/*Intent it = new Intent(MainActivity1.this, Login.class);
+						/*Intent it = new Intent(MainActivity1.this, MainActivity.class);
 						startActivity(it);*/
+						
+						Intent it = new Intent(MainActivity1.this, Login.class);
+						startActivity(it);
 						//user.signin();
 						//Recorder.getInstance().startRecordAndFile();
 					}

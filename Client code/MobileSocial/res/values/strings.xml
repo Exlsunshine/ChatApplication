@@ -11,5 +11,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_friend_list">FriendListActivity</string>
     <string name="title_activity_recent_dialog">RecentDialogActivity</string>
+    <string name="title_activity_activity_shake">ActivityShake</string>
 
 </resources>
