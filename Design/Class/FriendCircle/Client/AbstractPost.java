@@ -1,27 +1,34 @@
+package com.friendcircle;
+
 import java.util.ArrayList;
 
 public abstract class AbstractPost
 {
 	/**
-	 * 当前Post ID
+	 * 当前Post的ID
 	 */
 	private int postID;
+	
 	/**
-	 * 当前Post发布者的User ID
+	 * 当前Post发布者的UserID
 	 */
 	private int postUserID;
+	
 	/**
 	 * 当前Post被赞数量
 	 */
 	private int likedNumber;
+	
 	/**
 	 * 当前Post的发布时间
 	 */
 	private String postDate;
+	
 	/**
 	 * 当前Post的内容
 	 */
 	private byte [] content;
+	
 	/**
 	 * 当前Post的评论集合
 	 */
@@ -29,12 +36,14 @@ public abstract class AbstractPost
 
 	/**
 	 * 发布当前Post的地理位置(如：北京，上海...)<br>
-	 * 默认为null
+	 * <b>默认为null<br>
 	 */
 	private String location;
 	
 	/**
-	 * 当前Post的类型
+	 * 当前Post的类型<br>
+	 * 1表示文字类型Post<br>
+	 * 2表示图片类型Post
 	 */
 	private int postType;
 	
@@ -44,89 +53,105 @@ public abstract class AbstractPost
 	 * 1、在本地构造一条Post<br>
 	 * 2、将构造完的Post自动发布到服务器<br>
 	 * 3、将发布成功后获取的ID设置到本地的Post中
-	 * @param postUserID
-	 * @param postDate
-	 * @param content
-	 * @param location
+	 * @param postUserID Post所属的User的ID
+	 * @param postDate Post发布的日期
+	 * @param content Post的内容
+	 * @param location 发布Post时所在的地点
 	 */
-	AbstractPost(int postUserID, String postDate, byte [] content, String location)
+	public AbstractPost(int postUserID, String postDate, byte [] content, String location)
 	{
 	}
 
 	/**
 	 * 从服务器获取已有的Post时调用此构造函数<br>
 	 * 构造完成后，从服务器获取评论列表{@link #getCommentsFromServer(int)}
-	 * @param postID
-	 * @param postUserID
-	 * @param likedNumber
-	 * @param postDate
-	 * @param content
-	 * @param location
+	 * @param postID Post的ID
+	 * @param postUserID Post所属的User的ID
+	 * @param likedNumber Post被赞数
+	 * @param postDate Post发布的日期
+	 * @param content Post的内容
+	 * @param location 发布Post时所在的地点
 	 */
-	AbstractPost(int postID, int postUserID, int likedNumber, String postDate, byte [] content, String location)
+	public AbstractPost(int postID, int postUserID, int likedNumber, String postDate, byte [] content, String location)
 	{
 	}
 	
-	public int getPostID() {
+	public int getPostID()
+	{
 		return 0;
 	}
 
-	public int getPostUserID() {
+	public int getPostUserID()
+	{
 		return 0;
 	}
 
-	public int getLikedNumber() {
+	public int getLikedNumber()
+	{
 		return 0;
 	}
 
-	public String getPostDate() {
+	public String getPostDate()
+	{
 		return null;
 	}
 
-	public byte [] getContent() {
+	public byte [] getContent() 
+	{
 		return null;
 	}
 	
-	public String getLocation() {
+	public String getLocation()
+	{
 		return null;
 	}
 	
+	/**
+	 * 获取当前Post的类型
+	 * @see postType
+	 */
 	public abstract int getPostType();
 
-	public ArrayList<Comment> getComments() {
+	public ArrayList<Comment> getComments()
+	{
 		return null;
 	}
 	
 	/**
 	 * 用户点赞后调用此函数，被赞数+1
 	 */
-	public void increaseLikedNumber() {
+	public void increaseLikedNumber() 
+	{
 	}
 
 	/**
 	 * 用户撤销点赞后调用此函数，被赞数-1
 	 */
-	public void decreaseLikedNumber() {
+	public void decreaseLikedNumber()
+	{
 	}
 
 	/**
 	 * 向当前Post添加一条Comment
 	 * @param comment 被添加的Comment
 	 */
-	public void appendComment(Comment comment) {
+	public void appendComment(Comment comment)
+	{
 	}
 
 	/**
 	 * 根据给定commentID，从当前Post中删除该Comment
 	 * @param commentID 被删除的comment对应的commentID 
 	 */
-	public void deleteCommentByID(int commentID) {
+	public void deleteCommentByID(int commentID) 
+	{
 	}
 	
 	/**
 	 * 从服务器获取当前Post的Comment集合
 	 * @param postID 当前Post的postID
 	 */
-	private void getCommentsFromServer(int postID) {
+	private void getCommentsFromServer(int postID) 
+	{
 	}
 }

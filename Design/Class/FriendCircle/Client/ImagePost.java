@@ -1,3 +1,5 @@
+package com.friendcircle;
+
 import android.graphics.Bitmap;
 
 class ImagePost extends AbstractPost
@@ -10,6 +12,7 @@ class ImagePost extends AbstractPost
 
 	/**
 	 * 新建ImagePost时调用<br>
+	 * <b>用法参看AbstractPost<br>
 	 * @see AbstractPost
 	 * @param postUserID
 	 * @param postDate
@@ -23,6 +26,7 @@ class ImagePost extends AbstractPost
 
 	/**
 	 * 从服务器获取已存在的ImagePost时调用<br>
+	 * <b>用法参看AbstractPost<br>
 	 * @see AbstractPost
 	 * @param postID
 	 * @param postUserID
@@ -49,7 +53,8 @@ class ImagePost extends AbstractPost
 	}
 
 	@Override
-	public int getPostType() {
+	public int getPostType()
+	{
 		return 0;
 	}
 }

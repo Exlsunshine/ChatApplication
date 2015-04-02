@@ -92,6 +92,10 @@ public class AudioTransmit
 		String[] condition = {"id"};
 		String[] conditionVal = {String.valueOf(audioId)};
 		ArrayList<HashMap<String, String>> map = sql.select(query, condition, conditionVal);
+		
+		System.out.println("map size: " + map.size());
+		System.out.println("file path: " + map.get(0).get("file_path").toString());
+		
 		return map.get(0).get("file_path").toString();
 	}
 	
@@ -113,6 +117,10 @@ public class AudioTransmit
 	{
 		String audioPath = getAudioPath(audioId);
 		String audioBuffer = audio2String(audioPath);
+		
+		System.out.println("audioBuffer length: " + audioBuffer.length());
+		//System.out.println("audioBuffer: " + audioBuffer);
+		
 		return audioBuffer;
 	}
 }

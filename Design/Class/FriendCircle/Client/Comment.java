@@ -1,3 +1,5 @@
+package com.friendcircle;
+
 public class Comment
 {
 	/**
@@ -6,7 +8,7 @@ public class Comment
 	private int commentID;
 	
 	/**
-	 * 当前评论所属的Post ID
+	 * 当前评论所属的Post的ID
 	 */
 	private int postID;
 	
@@ -32,27 +34,27 @@ public class Comment
 
 	/**
 	 * 从服务器获取已有的Comment时调用此构造函数
-	 * @param commentID
-	 * @param postID
-	 * @param postUserID
-	 * @param commentUserID
-	 * @param comment
-	 * @param commentDate
+	 * @param commentID 评论ID
+	 * @param postID 评论所属的Post的ID
+	 * @param postUserID 评论所属的Post的User的ID
+	 * @param commentUserID 发起评论的User的ID
+	 * @param comment 评论内容
+	 * @param commentDate 评论发起的日期
 	 */
 	public Comment(int commentID, int postID, int postUserID, int commentUserID, String comment, String commentDate)
 	{}
 
 	/**
-	 * 用户发布新Comment时，调用此构造函数。<br>
+	 * 用户发布新Comment时，调用此构造函数<br>
 	 * 该构造函数应完成的功能：<br>
 	 * 1、在本地构造一条Comment<br>
 	 * 2、将构造完的Comment自动发布到服务器<br>
 	 * 3、将发布成功后获取的ID设置到本地的Comment中
-	 * @param postID
-	 * @param postUserID
-	 * @param commentUserID
-	 * @param comment
-	 * @param commentDate
+	 * @param postID 评论所属的Post的ID
+	 * @param postUserID 评论所属的Post的User的ID
+	 * @param commentUserID 发起评论的User的ID
+	 * @param comment 评论内容
+	 * @param commentDate 评论发起的日期
 	 */
 	public Comment(int postID, int postUserID, int commentUserID, String comment, String commentDate)
 	{}
@@ -72,25 +74,31 @@ public class Comment
 	 * 设置{@link #publish()}返回的commentID
 	 */
 	private void setCommentID()
-	{}
+	{
+	}
 	
 	public int getCommentID()
 	{
-		return 0;}
+		return 0;
+	}
 	
 	public int getPostID()
 	{
-		return 0;}
+		return 0;
+	}
 	
 	public int getPostUserID()
 	{
-		return 0;}
+		return 0;
+	}
 	
 	public int getCommentUserID()
 	{
-		return 0;}
+		return 0;
+	}
 	
-	public String getComment() {
+	public String getComment() 
+	{
 		return null;
 	}
 	

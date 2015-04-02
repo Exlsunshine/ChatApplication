@@ -1,3 +1,5 @@
+package com.friendcircle;
+
 class TextPost extends AbstractPost
 {
 	/**
@@ -7,6 +9,7 @@ class TextPost extends AbstractPost
 
 	/**
 	 * 新建TextPost时调用<br>
+	 * <b>用法参看AbstractPost<br>
 	 * @see AbstractPost
 	 * @param postUserID
 	 * @param postDate
@@ -15,11 +18,12 @@ class TextPost extends AbstractPost
 	 */
 	public TextPost(int postUserID, String postDate, String text, String location)
 	{
-		super(-1, null, null, null);
+		super(0, null, null, null);
 	}
 
 	/**
 	 * 从服务器获取已存在的TextPost时调用<br>
+	 * <b>用法参看AbstractPost<br>
 	 * @see AbstractPost
 	 * @param postID
 	 * @param postUserID
@@ -37,16 +41,9 @@ class TextPost extends AbstractPost
 		return null;
 	}
 
-	/**
-	 * 将当前TextPost的内容复制到剪贴板中将
-	 */
-	public void copyToClipboard()
-	{
-	}
-
 	@Override
-	public int getPostType() {
-		// TODO Auto-generated method stub
+	public int getPostType() 
+	{
 		return 0;
 	}
 }
