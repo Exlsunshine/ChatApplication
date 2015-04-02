@@ -2,28 +2,20 @@ package com.lj.gameSetting;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.json.JSONException;
-
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.user.PackString;
 import com.yg.user.WebServiceAPI;
 
-
-
-public class SongPuzzleSetting {
-
+public class SongPuzzleSetting 
+{
 	private static WebServiceAPI webserviceSong = new WebServiceAPI(ConstantValues.InstructionCode.PACKAGE_GAME_SETTING, "GameSong");
-	
-	
 	
 	public static ArrayList<HashMap<String, Object>> getInitSongSetting(int userID)
 	{
 		String[] name = {"userID"};
 		Object[] values = {userID};
 		Object result = webserviceSong.callFuntion("getSongSetting", name, values);
-		
 		if (result == null)
 		{
 			ArrayList<HashMap<String, Object>> r = new ArrayList<HashMap<String,Object>>();
@@ -55,6 +47,7 @@ public class SongPuzzleSetting {
 		}
 		return str;
 	}
+	
 	public static String[] getSongList(String singer)
 	{
 		String[] name = {"singer"};

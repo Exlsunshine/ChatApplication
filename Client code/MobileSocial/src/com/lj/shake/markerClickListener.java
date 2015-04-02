@@ -1,14 +1,11 @@
 package com.lj.shake;
 
-import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
 
 import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.Marker;
-import com.baidu.mapapi.model.LatLng;
 import com.yg.commons.ConstantValues;
-
 
 public class markerClickListener implements OnMarkerClickListener
 {
@@ -18,6 +15,7 @@ public class markerClickListener implements OnMarkerClickListener
 	{
 		myHandler = handler;
 	}
+	
 	@Override
 	public boolean onMarkerClick(Marker marker)
 	{

@@ -15,23 +15,29 @@ public class mapTouchListener implements OnMapTouchListener
 	float viewX = 0;
     float viewY = 0;
 	private Handler myHandler;
-	private VelocityTracker mVelocityTracker ;
+	private VelocityTracker mVelocityTracker;
+	
 	public mapTouchListener(Handler handler)
 	{
 		myHandler = handler;
 	}
+	
 	private void obtainVelocityTracker(MotionEvent event) 
 	{
         if (mVelocityTracker == null) 
-                mVelocityTracker = VelocityTracker.obtain();
+        	mVelocityTracker = VelocityTracker.obtain();
         mVelocityTracker.addMovement(event);
 	}
-	private void releaseVelocityTracker() {
-        if (mVelocityTracker != null) {
-                mVelocityTracker.recycle();
-                mVelocityTracker = null; 
+	
+	private void releaseVelocityTracker() 
+	{
+        if (mVelocityTracker != null) 
+        {
+        	mVelocityTracker.recycle();
+         	mVelocityTracker = null; 
         }
 	}
+	
 	@Override
 	public void onTouch(MotionEvent event) 
 	{
@@ -71,5 +77,4 @@ public class mapTouchListener implements OnMapTouchListener
         	}
 		}
 	}
-
 }

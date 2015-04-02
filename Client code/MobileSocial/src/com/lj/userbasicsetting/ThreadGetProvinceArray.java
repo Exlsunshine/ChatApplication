@@ -1,6 +1,5 @@
 package com.lj.userbasicsetting;
 
-
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
@@ -10,6 +9,7 @@ import android.os.Message;
 public class ThreadGetProvinceArray extends Thread
 {
 	private Handler myHandler;
+	
 	public ThreadGetProvinceArray(Handler handle) 
 	{
 		myHandler = handle;
@@ -18,7 +18,6 @@ public class ThreadGetProvinceArray extends Thread
 	@Override
 	public void run() 
 	{
-		// TODO Auto-generated method stub
 		super.run();
 		String[] array = CommonUtil.getProvienceList();
 		if (array == null)

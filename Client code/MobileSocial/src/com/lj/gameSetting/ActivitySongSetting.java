@@ -11,15 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ActivitySongSetting extends Activity{
-
+public class ActivitySongSetting extends Activity
+{
 	public static final String SET_STEP = "SetStep";
 	public static final int SET_SINGER = 1;
 	public static final int SET_SONG = 2;
 	public static final int SET_LYRIC = 3;
 	private ListView listview = null;
 	private String[] adapterList;
-	
 	
 	private Handler handle = new Handler()
 	{
@@ -29,12 +28,12 @@ public class ActivitySongSetting extends Activity{
 			listview.setAdapter(adapter);
 		};
 	};
-	OnItemClickListener itemClickListener = new OnItemClickListener() {
-
+	
+	OnItemClickListener itemClickListener = new OnItemClickListener() 
+	{
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			// TODO Auto-generated method stub
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) 
+		{
 			String select = adapterList[arg2];
 			Intent intent = new Intent();
 			intent.putExtra("result", select);
@@ -44,8 +43,8 @@ public class ActivitySongSetting extends Activity{
 	};
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		listview = new ListView(this);
 		listview.setOnItemClickListener(itemClickListener);
@@ -58,23 +57,22 @@ public class ActivitySongSetting extends Activity{
 	{
 		Bundle bundle = getIntent().getExtras();
 		int currentStep = bundle.getInt(SET_STEP);
-		
-		switch (currentStep) {
+		switch (currentStep) 
+		{
 		case SET_SINGER:	
-			new Thread(){
+			new Thread()
+			{
 				public void run() 
 				{
 					adapterList = SongPuzzleSetting.getSingerList();
 					handle.sendMessage(new Message());
 				};
 			}.start();
-				
-
 			break;
-		
 		case SET_SONG:
 			final String singer = bundle.getString("singer");
-			new Thread(){
+			new Thread()
+			{
 				public void run() 
 				{
 					adapterList = SongPuzzleSetting.getSongList(singer);
@@ -82,11 +80,11 @@ public class ActivitySongSetting extends Activity{
 				};
 			}.start();
 			break;
-			
 	case SET_LYRIC:
 			final String singer2 = bundle.getString("singer");
 			final String song =  bundle.getString("song");
-			new Thread(){
+			new Thread()
+			{
 				public void run() 
 				{
 					adapterList = SongPuzzleSetting.getLyricList(singer2, song);
@@ -94,8 +92,6 @@ public class ActivitySongSetting extends Activity{
 				};
 			}.start();
 			break;
-
 		}
 	}
-	
 }

@@ -8,31 +8,35 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 
-public class ThreadUploadGameImage extends Thread{
-
+public class ThreadUploadGameImage extends Thread
+{
 	private int userID;
 	private Bitmap myBitmap;
 	private Handler handle;
+	
 	public ThreadUploadGameImage(int userid, Bitmap bm, Handler h) 
 	{
 		userID = userid;
 		myBitmap = bm;
 		handle = h;
 	}
+	
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	public void run() 
+	{
 		super.run();
 		Message msg = new Message();
     	msg.what = ConstantValues.InstructionCode.HANDLER_WAIT_FOR_DATA;
     	handle.sendMessage(msg);
 		WebEightPuzzleImageTransfer webEight = new WebEightPuzzleImageTransfer();
-		try {
+		try 
+		{
 			boolean f = webEight.uploadImage(userID, myBitmap);
 			if (!f)
 				CommonUtil.sendNetWorkErrorMessage(handle);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 			msg.what = ConstantValues.InstructionCode.ERROR_NETWORK;
 			handle.sendMessage(msg);
@@ -40,6 +44,5 @@ public class ThreadUploadGameImage extends Thread{
 		}
 		msg.what = ConstantValues.InstructionCode.SUCCESS;
 		handle.sendMessage(msg);
-		
 	}
 }

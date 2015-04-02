@@ -4,9 +4,6 @@ import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
 
-
-
-
 public class WebGameSetting 
 {
 	private WebServiceAPI webserviceGame = new WebServiceAPI(ConstantValues.InstructionCode.PACKAGE_GAME, "GameSetting");

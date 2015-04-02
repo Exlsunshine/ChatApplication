@@ -1,6 +1,5 @@
 package com.lj.shake;
 
-
 import com.yg.commons.ConstantValues;
 
 import android.hardware.Sensor;
@@ -11,7 +10,6 @@ import android.os.Message;
 
 public class shakeListener implements SensorEventListener
 {
-
 	private Handler myHandler;
 	private int userID;
 	
@@ -47,9 +45,7 @@ public class shakeListener implements SensorEventListener
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
+	public void onAccuracyChanged(Sensor arg0, int arg1) 
+	{
 	}
-
 }

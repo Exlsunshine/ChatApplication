@@ -17,27 +17,24 @@ public class ThreadGetNearbyUser extends Thread
 	private Handler myhandle;
 	private BDLocation mylocation;
 	
-	public ThreadGetNearbyUser(Handler handle, int userid, BDLocation location) {
-		// TODO Auto-generated constructor stub
+	public ThreadGetNearbyUser(Handler handle, int userid, BDLocation location) 
+	{
 		webMapLocation = new WebMapLocation();
 		userId = userid;
 		myhandle = handle;
 		mylocation = location;
-		
 	}
 	
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	public void run() 
+	{
 		super.run();
-		//上传位置坐标
 		int result = webMapLocation.uploadLocation(userId, (float)mylocation.getLongitude(), (float)mylocation.getLatitude());
 		if (result == ConstantValues.InstructionCode.ERROR_NETWORK)
 		{
 			CommonUtil.sendNetWorkErrorMessage(myhandle);
 			return;
 		}
-		//获取周围用户
 		ArrayList<UserShakeData> userShakeDataList = webMapLocation.getNearbyUser(userId);
 		if (userShakeDataList == null)
 		{

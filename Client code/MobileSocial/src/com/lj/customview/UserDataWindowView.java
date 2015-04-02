@@ -16,8 +16,8 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 
-public class UserDataWindowView extends View{
-
+public class UserDataWindowView extends View
+{
 	public static final int H = 500;
 	private Bitmap background;
 	private float position_X;
@@ -32,11 +32,12 @@ public class UserDataWindowView extends View{
 	
 	private boolean flag = false;
 	
-	
 	private Typeface typeFace;
-	public UserDataWindowView(Context context, float x, float y, String nickname, Typeface tf, int gametype) {
+	
+	public UserDataWindowView(Context context, float x, float y, String nickname, Typeface tf, int gametype) 
+	{
 		super(context);
-		// TODO Auto-generated constructor stub
+		
 		position_X = x;
 		position_Y = y;
 		nickName = nickname;
@@ -47,27 +48,33 @@ public class UserDataWindowView extends View{
 		typeFace = tf;
 		gameType = gametype;
 	}
+	
 	public void setPosition(float x, float y)
 	{
 		position_X = x;
 		position_Y = y;
 	}
+	
 	public float getPos_X()
 	{
 		return position_X;
 	}
+	
 	public float getPos_Y()
 	{
 		return position_Y;
 	}
-	public boolean getFlag() {
+	
+	public boolean getFlag() 
+	{
 		return flag;
 	}
 	
 	@Override
-	protected void onDraw(Canvas canvas) {
-		// TODO Auto-generated method stub
+	protected void onDraw(Canvas canvas) 
+	{
 		super.onDraw(canvas);
+		
 		canvas.translate(position_X, position_Y);
 		if (hd + hu < backgroundHeight)
 		{
@@ -80,10 +87,8 @@ public class UserDataWindowView extends View{
 		else
 		{
 			canvas.drawBitmap(background, 0, 0, null);
-			
 			Paint paint = new Paint();
 			paint.setColor(Color.BLACK);
-		//	paint.setTypeface(typeFace);
 			paint.setTextSize(75);
 			canvas.drawText(nickName, 10, 150, paint);
 			canvas.drawText("GameType : " + gameType, 10, 150 + 75, paint);
@@ -91,6 +96,4 @@ public class UserDataWindowView extends View{
 		}
 		postInvalidateDelayed(5);
 	}
-	
-	
 }

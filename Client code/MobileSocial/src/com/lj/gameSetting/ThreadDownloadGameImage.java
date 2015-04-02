@@ -1,8 +1,6 @@
 package com.lj.gameSetting;
 
-
 import com.yg.commons.ConstantValues;
-
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -12,15 +10,15 @@ public class ThreadDownloadGameImage extends Thread
 	private int userID;
 	private Handler handle;
 
-	public ThreadDownloadGameImage(int userid, Handler h) {
-		// TODO Auto-generated constructor stub
+	public ThreadDownloadGameImage(int userid, Handler h) 
+	{
 		userID = userid;
 		handle = h;
 	}
 	
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	public void run() 
+	{
 		super.run();
 		Message msg = new Message();
 		msg.what = ConstantValues.InstructionCode.HANDLER_WAIT_FOR_DATA;
@@ -34,6 +32,5 @@ public class ThreadDownloadGameImage extends Thread
 		msgs.what = ConstantValues.InstructionCode.GAMESET_HANDLER_DOWNLOAD_IMAGE;
 		msgs.obj = bitmap;
 		handle.sendMessage(msgs);
-		
 	}
 }

@@ -2,10 +2,7 @@ package com.lj.gameSetting;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.yg.commons.CommonUtil;
-
-
 import android.os.Handler;
 
 public class ThreadSetSongSetting extends Thread
@@ -16,7 +13,6 @@ public class ThreadSetSongSetting extends Thread
 	
 	public ThreadSetSongSetting(int userid, Handler h, ArrayList<HashMap<String, Object>> m) 
 	{
-		// TODO Auto-generated constructor stub
 		userID = userid;
 		handle = h;
 		map = m;
@@ -25,14 +21,15 @@ public class ThreadSetSongSetting extends Thread
 	@Override
 	public void run() 
 	{
-		// TODO Auto-generated method stub
 		super.run();
-		try {
+		try 
+		{
 			Object result = SongPuzzleSetting.setSongGame(userID, map);
 			if (CommonUtil.isNetWorkError(result))
 				CommonUtil.sendNetWorkErrorMessage(handle);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
 	}

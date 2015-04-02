@@ -1,6 +1,5 @@
 package com.lj.userbasicsetting;
 
-
 import com.yg.commons.ConstantValues;
 import com.yg.user.ClientUser;
 
@@ -11,23 +10,23 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class sexListener implements OnClickListener{
+public class sexListener implements OnClickListener
+{
 	private ClientUser user;
 	private ActivityUserBasicSetting context;
 	private String sex = "male";
 	
 	public sexListener(ClientUser user, ActivityUserBasicSetting context) 
 	{
-		// TODO Auto-generated constructor stub
 		this.user = user;
 		this.context = context;
-		
 	}
-	OnMultiChoiceClickListener choiceListener = new OnMultiChoiceClickListener() {
-		
+	
+	OnMultiChoiceClickListener choiceListener = new OnMultiChoiceClickListener() 
+	{
 		@Override
-		public void onClick(DialogInterface arg0, int arg1, boolean arg2) {
-			// TODO Auto-generated method stub
+		public void onClick(DialogInterface arg0, int arg1, boolean arg2) 
+		{
 			switch (arg1)
 			{
 			case 0:
@@ -39,12 +38,12 @@ public class sexListener implements OnClickListener{
 			}
 		}
 	};
-	private DialogInterface.OnClickListener confirmListener = new DialogInterface.OnClickListener() {
-		
-
+	
+	private DialogInterface.OnClickListener confirmListener = new DialogInterface.OnClickListener() 
+	{
 		@Override
-		public void onClick(DialogInterface arg0, int arg1) {
-			// TODO Auto-generated method stub
+		public void onClick(DialogInterface arg0, int arg1) 
+		{
 			switch (arg1)
 			{
 			case 0:
@@ -53,6 +52,7 @@ public class sexListener implements OnClickListener{
 			case 1:
 				sex = "female";
 			}
+			
 			Message msg = new Message();
 			msg.what = ConstantValues.InstructionCode.USERSET_HANDLER_SET_SEX;
 			msg.obj = sex;
@@ -69,13 +69,12 @@ public class sexListener implements OnClickListener{
 	};
 	
 	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
+	public void onClick(View arg0) 
+	{
 		new AlertDialog.Builder(context)  
-		.setTitle("选择性别")  
-		.setSingleChoiceItems(new String[] {"男","女"}, 0, confirmListener)  
-		.setNegativeButton("取消", null)  
-		.show();  
+			.setTitle("选择性别")  
+			.setSingleChoiceItems(new String[] {"男","女"}, 0, confirmListener)  
+			.setNegativeButton("取消", null)  
+			.show();  
 	}
-
 }

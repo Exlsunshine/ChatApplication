@@ -15,11 +15,11 @@ public class locationListener implements BDLocationListener
 		myHandler = handler;
 		userID = userid;
 	}
+	
 	@Override
 	public void onReceiveLocation(BDLocation location) 
 	{
 		Thread thread = new ThreadGetNearbyUser(myHandler, userID, location);
 		thread.start();
 	}
-
 }

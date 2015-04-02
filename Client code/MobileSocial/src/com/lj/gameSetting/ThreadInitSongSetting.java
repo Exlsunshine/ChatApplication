@@ -2,7 +2,6 @@ package com.lj.gameSetting;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
@@ -17,7 +16,6 @@ public class ThreadInitSongSetting extends Thread
 	
 	public ThreadInitSongSetting(int userid, Handler h) 
 	{
-		// TODO Auto-generated constructor stub
 		userID = userid;
 		handle = h;
 	}
@@ -25,7 +23,6 @@ public class ThreadInitSongSetting extends Thread
 	@Override
 	public void run() 
 	{
-		// TODO Auto-generated method stub
 		super.run();
 		ArrayList<HashMap<String, Object>> songSetting = SongPuzzleSetting.getInitSongSetting(userID);
 		if (songSetting == null)

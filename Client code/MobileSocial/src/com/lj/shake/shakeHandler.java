@@ -28,32 +28,36 @@ public class shakeHandler extends Handler
 {
 	private int viewX;
 	private int viewY;
-	ActivityShake myContext; 
+	ActivityShake myContext;
+
 	public shakeHandler(ActivityShake context) 
 	{
 		myContext = context;
 	}
+	
 	private void locateMyLocation(UserShakeData userShakeData)
 	{
 		LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
 		MapStatus mMapStatus = new MapStatus.Builder().target(cenpt).zoom(ConstantValues.InstructionCode.MAP_ZOOM_INITIALIZATION).build();
 		MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-		myContext.mBaidumap.setMapStatus(mMapStatusUpdate);
+		myContext.baiduMap.setMapStatus(mMapStatusUpdate);
 		BitmapDescriptor markIcon = BitmapDescriptorFactory.fromResource(R.drawable.my_location);
 		OverlayOptions option = new MarkerOptions().position(cenpt).icon(markIcon);  
-		myContext.mBaidumap.addOverlay(option);
+		myContext.baiduMap.addOverlay(option);
 	}
+	
 	private void locateOtherLocation(UserShakeData userShakeData)
 	{
 		LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
 		BitmapDescriptor markIcon = BitmapDescriptorFactory.fromResource(R.drawable.user_location);
 		OverlayOptions option = new MarkerOptions().position(cenpt).icon(markIcon);  
-		Marker marker = (Marker)myContext.mBaidumap.addOverlay(option);
+		Marker marker = (Marker)myContext.baiduMap.addOverlay(option);
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("nickname", userShakeData.getNickName());
 		bundle.putSerializable("gametype", userShakeData.getGameType());
 		marker.setExtraInfo(bundle);
 	}
+	
 	private void locateUsers(ArrayList<UserShakeData> userShakeDataList)
 	{
 		for (int i = 0; i < userShakeDataList.size(); i++)
@@ -73,15 +77,15 @@ public class shakeHandler extends Handler
 		switch (msg.what)
 		{
 		case ConstantValues.InstructionCode.ERROR_NETWORK:
-			Toast.makeText(myContext, "ç½‘ç»œé”™è¯¯", Toast.LENGTH_LONG).show();
+			Toast.makeText(myContext, "ÍøÂç´íÎó¯¯", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_USER_GAME_NOT_SET:
-			Toast.makeText(myContext, "ç”¨æˆ·æ²¡æœ‰è®¾ç½®æ¸¸æˆ", Toast.LENGTH_LONG).show();
+			Toast.makeText(myContext, "ÓÎÏ·Ã»ÓÐÉèÖÃ", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_WAIT_FOR_DATA:
-			myContext.mSensorManager.unregisterListener(myContext.shakelistener);
+			myContext.sensorManager.unregisterListener(myContext.shakelistener);
 			myContext.loadingView.setVisibility(View.VISIBLE);
-			myContext.mLocationClient.start();
+			myContext.locationClient.start();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_SUCCESS_GET_DATA:
 			myContext.loadingView.setVisibility(View.INVISIBLE);
@@ -101,17 +105,15 @@ public class shakeHandler extends Handler
 			String nickname = data.get("nickname").toString();
 			int gametype = Integer.valueOf(data.get("gametype").toString());
 			final LatLng ll = marker.getPosition();
-	        Point p = myContext.mBaidumap.getProjection().toScreenLocation(ll);
+	        Point p = myContext.baiduMap.getProjection().toScreenLocation(ll);
 	        if (myContext.userDataWindowView != null)
 	        	myContext.mainLayout.removeView(myContext.userDataWindowView);
 	        myContext.userDataWindowView = new ViewGrougTest(myContext, p.x, p.y - UserDataWindowView.H, nickname, null, gametype);
 	        myContext.mainLayout.addView(myContext.userDataWindowView);
 			break;
-			
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_STATUS_CHANGE:
 			myContext.mainLayout.removeView(myContext.userDataWindowView);
 			break;
-			
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_TOUCH_DOWN:
 			if (myContext.userDataWindowView == null)
 				return;

@@ -7,11 +7,8 @@ import org.kobjects.base64.Base64;
 import com.yg.commons.CommonUtil;
 import com.yg.user.WebServiceAPI;
 
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
-
 
 public class WebEightPuzzleImageTransfer 
 {
@@ -19,7 +16,6 @@ public class WebEightPuzzleImageTransfer
 	private final String WEBSERVICE_IMAGE_PACKAGE = "imagePackage";
 	//webservice 待调用类名
 	private final String WEBSERVICE_IMAGE_CLASS = "GameEightPuzzle";
-		
 	//webservice 待调用函数名
 	private final String WEBSERVICE_FUNCTION_UPLOAD = "uploadImage";
 	private final String WEBSERVICE_FUNCTION_DOWNLOAD = "downloadImage";

@@ -1,6 +1,5 @@
 package com.lj.userbasicsetting;
 
-
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
@@ -11,9 +10,9 @@ public class ThreadGetCityArray extends Thread
 {
 	private String myProvince;
 	private Handler myHandler; 
+	
 	public ThreadGetCityArray(Handler handle, String province) 
 	{
-		// TODO Auto-generated constructor stub
 		myHandler = handle;
 		myProvince = province;
 	}
@@ -21,7 +20,6 @@ public class ThreadGetCityArray extends Thread
 	@Override
 	public void run() 
 	{
-		// TODO Auto-generated method stub
 		super.run();
 		String[] array = CommonUtil.getCityList(myProvince);
 		if (array == null)
@@ -34,5 +32,4 @@ public class ThreadGetCityArray extends Thread
 			myHandler.sendMessage(msg);
 		}
 	}
-
 }

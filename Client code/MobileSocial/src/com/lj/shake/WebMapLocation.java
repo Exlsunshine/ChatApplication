@@ -8,14 +8,10 @@ import com.yg.commons.ConstantValues;
 import com.yg.user.PackString;
 import com.yg.user.WebServiceAPI;
 
-
-
-
-public class WebMapLocation {
+public class WebMapLocation 
+{
 
 	private WebServiceAPI webserviceGame = new WebServiceAPI(ConstantValues.InstructionCode.PACKAGE_GAME, "ShakeLocation");
-	
-
 	
 	public int uploadLocation(int userId, float longitude, float latitude)
 	{
