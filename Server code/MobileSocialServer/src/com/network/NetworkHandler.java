@@ -357,6 +357,11 @@ public class NetworkHandler
 			e.printStackTrace();
 		}
 		
+
+		System.out.println("===");
+		System.out.println(str);
+		System.out.println("===");
+		
 		return str;
 	}
 	

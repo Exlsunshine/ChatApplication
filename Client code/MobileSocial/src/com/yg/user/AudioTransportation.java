@@ -10,9 +10,9 @@ import org.kobjects.base64.Base64;
  */
 public class AudioTransportation 
 {
-	//webservice 待调用包�?
+	//webservice 待调用包名
 	private final String WEBSERVICE_AUDIO_PACKAGE = "network.com";
-	//webservice 待调用类�?
+	//webservice 待调用类名
 	private final String WEBSERVICE_AUDIO_CLASS = "AudioTransmit";
 		
 	//webservice 待调用函数名

@@ -11,11 +11,11 @@ import android.graphics.BitmapFactory;
  */
 public class ImageTransportation 
 {
-	//图像压缩�?30 保留30%
+	//图像压缩�?30 保留30%
 	private final static int QUALITY = 30;
-	//webservice 待调用包�?
+	//webservice 待调用包名
 	private final String WEBSERVICE_IMAGE_PACKAGE = "network.com";
-	//webservice 待调用类�?
+	//webservice 待调用类名
 	private final String WEBSERVICE_IMAGE_CLASS = "ImageTransmit";
 	
 	//webservice 待调用函数名
@@ -25,9 +25,9 @@ public class ImageTransportation
 	private WebServiceAPI imageApi = new WebServiceAPI(WEBSERVICE_IMAGE_PACKAGE, WEBSERVICE_IMAGE_CLASS);
 	
 	/**
-	 * bitmap �?String
+	 * bitmap �?String
 	 * @param bitmap 待转换bitmap
-	 * @return 转结�?
+	 * @return 转结�?
 	 * @throws Exception
 	 */
 	public static String image2String(Bitmap bitmap) throws Exception
@@ -40,7 +40,7 @@ public class ImageTransportation
 	
 	/**
 	 * 上传图像，得到该图像对应数据库中的图像id
-	 * @param from_userid 发�?方id
+	 * @param from_userid 发�?方id
 	 * @param to_userid 接收方id
 	 * @param bitmap 待上传图像的bitmap
 	 * @return 图像对应的数据库中的图像id

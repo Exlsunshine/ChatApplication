@@ -6,14 +6,6 @@ import java.io.IOException;
 import android.media.MediaRecorder;
 import android.os.Environment;
 
-/**
- * manifest permissions :
- * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />\
- * <uses-permission android:name="android.permission.RECORD_AUDIO" />
- * <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
- * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
- * @author EXLsunshine
- */
 public class Recorder
 { 
 	private final static int SUCCESS = 1000;
@@ -56,6 +48,7 @@ public class Recorder
                 {
                     mMediaRecorder.prepare();
                     mMediaRecorder.start();
+                    
                     // 让录制状态为true  
                     isRecord = true;
                     return SUCCESS;
@@ -88,9 +81,9 @@ public class Recorder
     public long getRecordFileSize()
     {
     	File mFile = new File(getAMRFilePath());
-        if(!mFile.exists())
-            return -1;
-        return mFile.length();
+    	if(!mFile.exists())
+    		return -1;
+    	return mFile.length();
     }
 
     private void createMediaRecord()
@@ -103,17 +96,17 @@ public class Recorder
         /* 设置输出文件的格式：THREE_GPP/MPEG-4/RAW_AMR/Default
          * THREE_GPP(3gp格式，H263视频/ARM音频编码)、MPEG-4、RAW_AMR(只支持音频且音频编码要求为AMR_NB)
          */
-         mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
           
-         /* 设置音频文件的编码：AAC/AMR_NB/AMR_MB/Default */
-         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        /* 设置音频文件的编码：AAC/AMR_NB/AMR_MB/Default */
+        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
           
-         /* 设置输出文件的路径 */
-         File file = new File(getAMRFilePath());
-         if (file.exists()) 
-             file.delete();
+        /* 设置输出文件的路径 */
+        File file = new File(getAMRFilePath());
+        if (file.exists()) 
+        	file.delete();
          
-         mMediaRecorder.setOutputFile(getAMRFilePath());
+        mMediaRecorder.setOutputFile(getAMRFilePath());
     }
     
     /**
@@ -122,8 +115,8 @@ public class Recorder
      */
     private boolean isSdcardExist()
     {       
-        if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-            return true;
+    	if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+    		return true;
         else
             return false;
     }

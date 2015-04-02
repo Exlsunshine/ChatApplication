@@ -27,11 +27,27 @@ import com.yg.network.openfire.OpenfireHandler;
 public class ClientUser extends AbstractUser
 {
 	private final static String DEBUG_TAG = "______ClientUser";
-	//private WebServiceAPI_m wsAPI = new WebServiceAPI_m(ConstantValues.Configs.WEBSERVICE_NAMESPACE, ConstantValues.Configs.WEBSERVICE_ENDPOINT);
 	private Context context;
 	private OpenfireHandler ofhandler;
 	private Handler msgHandler;
 	private WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
+	
+	private String JSON_INFO_KEY_USER_FRIENDS_LIST = "friends_list";
+	private String JSON_INFO_KEY_USER_ID = "user_id";
+	private String JSON_INFO_KEY_USER_LOGIN_ACNT = "login_account";
+	private String JSON_INFO_KEY_USER_NICK_NAME = "nick_name";
+	private String JSON_INFO_KEY_USER_EMAIL = "email";
+	private String JSON_INFO_KEY_USER_SEX = "sex";
+	private String JSON_INFO_KEY_USER_BIRTHDAY = "birthday";
+	private String JSON_INFO_KEY_USER_PORTRAIT = "portrait";
+	private String JSON_INFO_KEY_USER_PHONE_NO = "phone_number";
+	private String JSON_INFO_KEY_USER_HOMETOWN = "hometown";
+	private String JSON_INFO_KEY_USER_GROUP_NAME = "group_name";
+	private String JSON_INFO_KEY_USER_ALIAS = "alias";
+	private String JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG = "close_friend_flag";
+	
+	private ArrayList<FriendUser> friendList = null;
+	private ArrayList<Dialog> dialogList;
 	
 	public ClientUser(int userID, String password, String loginAccount, String nickName, String email, byte [] portrait, String sex, String birthday, String phoneNumber, String hometown, Context context)
 	{
@@ -316,7 +332,8 @@ public class ClientUser extends AbstractUser
 	/**
 	 * 开始摇一摇
 	 */
-	public void shakeAround() {
+	public void shakeAround()
+	{
 	}
 	
 	/**
@@ -393,7 +410,8 @@ public class ClientUser extends AbstractUser
 		try
 		{
 			imgID = imgTransport.uploadImage(getID(), other.getID(), msg.getImage());
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 			imgID = -1;
 		}
@@ -404,7 +422,8 @@ public class ClientUser extends AbstractUser
 	/**
 	 * 重新初始化该对象（所有数据从新从服务器或本地获取）
 	 */
-	public void reloadEverything() {
+	public void reloadEverything() 
+	{
 	}
 	
 	/**
@@ -590,45 +609,6 @@ public class ClientUser extends AbstractUser
 			Log.i(DEBUG_TAG, "hometown: " +  friendList.get(i).getHometown());
 		}
 	}
-	
-/*	private byte [] object2Bytes(Object obj)
-	{
-		try
-		{
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bos);
-			oos.writeObject(obj);
-			return bos.toByteArray();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}*/
-	private String JSON_INFO_KEY_USER_FRIENDS_LIST = "friends_list";
-	private String JSON_INFO_KEY_USER_ID = "user_id";
-	private String JSON_INFO_KEY_USER_LOGIN_ACNT = "login_account";
-	private String JSON_INFO_KEY_USER_NICK_NAME = "nick_name";
-	private String JSON_INFO_KEY_USER_EMAIL = "email";
-	private String JSON_INFO_KEY_USER_SEX = "sex";
-	private String JSON_INFO_KEY_USER_BIRTHDAY = "birthday";
-	private String JSON_INFO_KEY_USER_PORTRAIT = "portrait";
-	private String JSON_INFO_KEY_USER_PHONE_NO = "phone_number";
-	private String JSON_INFO_KEY_USER_HOMETOWN = "hometown";
-	private String JSON_INFO_KEY_USER_GROUP_NAME = "group_name";
-	private String JSON_INFO_KEY_USER_ALIAS = "alias";
-	private String JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG = "close_friend_flag";
-	
-	
-	private ArrayList<FriendUser> friendList = null;
-	private ArrayList<Dialog> dialogList;
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * 获取最近聊天的所有本地对话

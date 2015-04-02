@@ -126,7 +126,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		cursor.close();
 		db.close();
 		
-		
 		return message;
 	}
 	
@@ -155,7 +154,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		db.delete(TABLE_NAME, KEY_ID + " =? ", new String [] {String.valueOf(message.getID())});
 		db.close();
 	}
-	
 	
 	private ArrayList<AbstractMessage> getMessagesBetween(int fromUserID, int toUserID)
 	{

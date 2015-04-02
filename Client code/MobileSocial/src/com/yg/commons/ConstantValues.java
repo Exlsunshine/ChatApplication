@@ -2,9 +2,6 @@ package com.yg.commons;
 
 import com.yg.user.ClientUser;
 
-/**
- * @author LiJian
- */
 public class ConstantValues
 {
 	public static ClientUser user = null;

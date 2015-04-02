@@ -113,9 +113,12 @@ public class OpenfireHandler
 		Log.i(DEBUG_TAG, "Message has been received, notifing ClientUser.");
 		
 		String str = null;
-		try {
+		try
+		{
 			str = packMsg2JsonString(msg);
-		} catch (JSONException e) {
+		}
+		catch (JSONException e)
+		{
 			str = null;
 			e.printStackTrace();
 		}
@@ -149,7 +152,6 @@ public class OpenfireHandler
 			return ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT;
 	}
 	
-	
 	private boolean establishConnection()
 	{
 		if (connection == null)
@@ -164,7 +166,8 @@ public class OpenfireHandler
 			{
 				connection.connect();
 				Log.i("XMPPChatDemoActivity", "Connected to " + connection.getHost());
-			} catch (XMPPException ex) {
+			} catch (XMPPException ex)
+			{
 				Log.e("XMPPChatDemoActivity", "Failed to connect to " + connection.getHost());
 				Log.e("XMPPChatDemoActivity", ex.toString());
 				connection = null;

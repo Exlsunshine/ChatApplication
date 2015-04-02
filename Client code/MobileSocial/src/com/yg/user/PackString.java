@@ -151,7 +151,6 @@ public class PackString
 			e.printStackTrace();
 		}
 		
-		
 		return list;
 	}
 	
@@ -194,62 +193,3 @@ public class PackString
 		}
 	}
 }
-
-
-
-
-
-
-/*
-private Object getValue(int index, String key, String msgName)
-{
-	if (key == null || key.length() == 0)
-	{
-		System.out.println("Error:\tkey is null or size is 0.");
-		return null;
-	}
-	if (msgName == null || msgName.length() == 0)
-	{
-		System.out.println("Error:\tmsgName is null or size is 0.");
-		return null;
-	}
-	if (index < 0)
-	{
-		System.out.println("Error:\tindex illegal.");
-		return null;
-	}
-	
-	Object obj = null;
-	try
-	{
-		JSONArray arr = (JSONArray) msg.get(msgName);
-		JSONObject item = arr.getJSONObject(index);
-		obj = item.get(key);
-	} catch (JSONException e) {
-		e.printStackTrace();
-	}
-	
-	return obj;
-}
-
-public static String generateJsonString(String msgInfo, String [] keys, Object [] values)
-{
-	if (keys == null || values == null)
-	{
-		System.out.println("Error:\tKeys or values null.");
-		return null;
-	}
-	
-	if (keys.length != values.length)
-	{
-		System.out.println("Error:\tKeys length and values length are not equal.");
-		return null;
-	}
-	
-	HashMap<String, Object> map = new HashMap<String, Object>();
-	
-	for (int i = 0; i < keys.length; i++)
-		map.put(keys[i], values[i]);
-
-	return generateJsonString(null, null);
-}*/

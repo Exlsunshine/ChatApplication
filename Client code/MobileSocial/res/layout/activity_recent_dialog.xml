@@ -9,8 +9,29 @@
     tools:context=".RecentDialogActivity" >
 
     <TextView
+        android:id="@+id/activity_recent_dialog_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
+
+    <Button
+        android:id="@+id/activity_recent_dialog_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_recent_dialog_tv"
+        android:text="send" />
+
+    <Button
+        android:id="@+id/activity_recent_dialog_receive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_recent_dialog_send"
+        android:text="receive" />
+
+    <ImageView
+        android:id="@+id/activity_recent_dialog_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_recent_dialog_receive" />
 
 </RelativeLayout>

@@ -15,13 +15,9 @@ public class CommonUtil
 	{
 		Calendar cal = Calendar.getInstance();
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.CHINA);
-	    /*
-	    DateFormat df;
-	    df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.CHINA);
-	    Log.i(DEBUG_TAG, "Full is: " + "\t" + df.format(cal.getTime()));
-	    */
 	    return sdf.format(cal.getTime());
 	}
+	
 	public static void sendNetWorkErrorMessage(Handler handle)
 	{
 		Message msg = new Message();

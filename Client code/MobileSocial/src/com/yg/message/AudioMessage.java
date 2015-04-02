@@ -89,7 +89,7 @@ public class AudioMessage extends AbstractMessage
             int pos = 6;//设置初始位置  
             int frameCount = 0;//初始帧数  
             int packedPos = -1;  
-            /////////////////////////////////////////////////////  
+
             byte[] datas = new byte[1];//初始数据值  
             while (pos <= length)
             {  
@@ -103,12 +103,13 @@ public class AudioMessage extends AbstractMessage
                 pos += packedSize[packedPos] + 1;  
                 frameCount++;  
             }  
-            /////////////////////////////////////////////////////  
-            duration = frameCount * 20 / 1000;//帧数*20  
-        } finally {  
-            if (randomAccessFile != null) {  
+
+            duration = frameCount * 20 / 1000;
+        }
+        finally
+        {  
+            if (randomAccessFile != null)
                 randomAccessFile.close();  
-            }  
         }  
         return duration;  
     }  
@@ -127,7 +128,8 @@ public class AudioMessage extends AbstractMessage
 				return audioPath;
 		}
 		
-		try {
+		try
+		{
 			generateAudioCache();
 		} catch (IOException e) {
 			audioPath = null;
