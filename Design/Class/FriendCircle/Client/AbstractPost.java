@@ -7,45 +7,45 @@ public abstract class AbstractPost
 	/**
 	 * 当前Post的ID
 	 */
-	private int postID;
+	protected int postID;
 	
 	/**
 	 * 当前Post发布者的UserID
 	 */
-	private int postUserID;
+	protected int postUserID;
 	
 	/**
 	 * 当前Post被赞数量
 	 */
-	private int likedNumber;
+	protected int likedNumber;
 	
 	/**
 	 * 当前Post的发布时间
 	 */
-	private String postDate;
+	protected String postDate;
 	
 	/**
 	 * 当前Post的内容
 	 */
-	private byte [] content;
+	protected byte [] content;
 	
 	/**
 	 * 当前Post的评论集合
 	 */
-	private ArrayList<Comment> comments;
+	protected ArrayList<Comment> comments;
 
 	/**
 	 * 发布当前Post的地理位置(如：北京，上海...)<br>
 	 * <b>默认为null<br>
 	 */
-	private String location;
+	protected String location;
 	
 	/**
 	 * 当前Post的类型<br>
 	 * 1表示文字类型Post<br>
 	 * 2表示图片类型Post
 	 */
-	private int postType;
+	protected int postType;
 	
 	/**
 	 * 用户发布新Post时调用此构造函数<br>
@@ -76,6 +76,9 @@ public abstract class AbstractPost
 	{
 	}
 	
+	/**********************								***********************/
+	/**********************			以下是本地操作			***********************/
+	/**********************								***********************/
 	public int getPostID()
 	{
 		return 0;
@@ -105,13 +108,13 @@ public abstract class AbstractPost
 	{
 		return null;
 	}
-	
+
 	/**
 	 * 获取当前Post的类型
 	 * @see postType
 	 */
 	public abstract int getPostType();
-
+	
 	public ArrayList<Comment> getComments()
 	{
 		return null;
@@ -123,14 +126,14 @@ public abstract class AbstractPost
 	public void increaseLikedNumber() 
 	{
 	}
-
+	
 	/**
 	 * 用户撤销点赞后调用此函数，被赞数-1
 	 */
 	public void decreaseLikedNumber()
 	{
 	}
-
+	
 	/**
 	 * 向当前Post添加一条Comment
 	 * @param comment 被添加的Comment
@@ -138,7 +141,7 @@ public abstract class AbstractPost
 	public void appendComment(Comment comment)
 	{
 	}
-
+	
 	/**
 	 * 根据给定commentID，从当前Post中删除该Comment
 	 * @param commentID 被删除的comment对应的commentID 
@@ -146,12 +149,57 @@ public abstract class AbstractPost
 	public void deleteCommentByID(int commentID) 
 	{
 	}
+
+	/**********************								***********************/
+	/**********************			以上是本地操作			***********************/
+	/**********************								***********************/
+	
+	
+	/**********************								***********************/
+	/**********************		以下是与服务器交互的操作		***********************/
+	/**********************								***********************/
+	/**
+	 * 根据给定的postID在服务器端增加1次被赞数
+	 * @param postID 给定的postID(次参数应为this.postID)
+	 */
+	protected void increaseLikedNumberAtServer(int postID)
+	{
+	}
+	
+	/**
+	 * 根据给定的postID在服务器端减少1次被赞数
+	 * @param postID 给定的postID(此参数应为this.postID)
+	 */
+	protected void decreaseLikedNumberAtServer(int postID)
+	{
+	}
+	
+	/**
+	 * 在服务器端向指定的postID追加一条Comment
+	 * @param postID 指定的postID(此参数应为this.postID)
+	 * @param comment 要追加的Comment
+	 */
+	protected void appendCommentAtServer(int postID, Comment comment)
+	{
+	}
+	
+	/**
+	 * 在服务器端,删除指定的postID中的一条Comment
+	 * @param postID 指定的postID(此参数应为this.postID)
+	 * @param commentID 要删除的Comment对应的commentID
+	 */
+	protected void deleteCommentByIDAtServer(int postID, int commentID)
+	{
+	}
 	
 	/**
 	 * 从服务器获取当前Post的Comment集合
-	 * @param postID 当前Post的postID
+	 * @param postID 当前Post的postID(此参数应为this.postID)
 	 */
-	private void getCommentsFromServer(int postID) 
+	protected void getCommentsFromServer(int postID) 
 	{
 	}
+	/**********************								***********************/
+	/**********************		以上是与服务器交互的操作		***********************/
+	/**********************								***********************/
 }
