@@ -1,14 +1,14 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -32,6 +32,72 @@
         <item name="android:singleLine">true</item>
         <item name="android:drawablePadding">2.0dip</item>
         <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <!-- *********************************** -->
+    <!-- Welcome Activity animation settings -->
+    <!-- *********************************** -->
+    <style name="WelcomeAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/yg_welcome_fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/yg_welcome_hold</item>
+        <item name="android:activityCloseEnterAnimation">@anim/yg_welcome_fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/yg_welcome_fade_out</item>
+    </style>
+
+    <style name="welcome_animation_style" parent="android:Theme.NoTitleBar">
+        <item name="android:windowAnimationStyle">@style/WelcomeAnimation</item>
+    </style>
+
+    <!-- ********************************* -->
+    <!-- Login Activity animation settings -->
+    <!-- ********************************* -->
+    <style name="LoginAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/yg_welcome_fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/yg_welcome_hold</item>
+        <item name="android:activityCloseEnterAnimation">@anim/yg_welcome_fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/yg_welcome_fade_out</item>
+    </style>
+
+    <style name="login_animation_style" parent="android:Theme.NoTitleBar">
+        <item name="android:windowAnimationStyle">@style/LoginAnimation</item>
+    </style>
+
+    <!-- ********************************* -->
+    <!-- Loginguide Activity Sign Up button style -->
+    <!-- ********************************* -->
+    <style name="loginguide_page3_signup_btn_style">
+        <item name="android:background">@drawable/yg_loginguide_signup_btn_selector</item>
+        <!-- <item name="android:padding">6.0dip</item> -->
+        <item name="android:textColor">#1E90FF</item>
+        <item name="android:textSize">9pt</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+    <!-- ********************************* -->
+    <!-- Loginguide Activity Log In button style -->
+    <!-- ********************************* -->
+    <style name="loginguide_page3_login_btn_style">
+        <item name="android:background">@drawable/yg_loginguide_login_btn_selector</item>
+        <!-- <item name="android:padding">6.0dip</item> -->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">9pt</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+    <!-- ********************************* -->
+    <!-- Loginguide Activity LogIn dialog animation -->
+    <!-- ********************************* -->
+    <style name="LoginDialogAnimation" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/LoginDialogWindowsAnimation</item>
+    </style>
+
+    <style name="LoginDialogWindowsAnimation">
+        <item name="android:windowEnterAnimation">@anim/yg_loginguide_page3_login_dialog_anim_slidein</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
     </style>
 
 </resources>

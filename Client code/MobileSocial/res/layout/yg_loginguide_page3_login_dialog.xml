@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:id="@+id/ll" >
+
+    <EditText
+        android:id="@+id/yg_loginguide_page3_dialog_email"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="#F5F5F5"
+        android:gravity="left|center"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" 
+        android:focusable="true"/>
+
+    <EditText
+        android:id="@+id/yg_loginguide_page3_dialog_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="#F5F5F5"
+        android:gravity="left|center"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60.0dip"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/yg_loginguide_page3_dialog_forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="Forgot?"
+            android:textColor="#1E90FF" />
+
+        <Button
+            android:id="@+id/yg_loginguide_page3_dialog_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20.0dip"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="Log In"
+            android:textColor="#1E90FF"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
