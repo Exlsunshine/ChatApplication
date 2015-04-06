@@ -56,7 +56,7 @@
         <item name="android:activityCloseExitAnimation">@anim/yg_welcome_fade_out</item>
     </style>
 
-    <style name="welcome_animation_style" parent="android:Theme.NoTitleBar">
+    <style name="welcome_animation_style" parent="android:Theme.NoTitleBar.Fullscreen">
         <item name="android:windowAnimationStyle">@style/WelcomeAnimation</item>
     </style>
 
@@ -70,7 +70,7 @@
         <item name="android:activityCloseExitAnimation">@anim/yg_welcome_fade_out</item>
     </style>
 
-    <style name="login_animation_style" parent="android:Theme.NoTitleBar">
+    <style name="login_animation_style" parent="android:Theme.NoTitleBar.Fullscreen">
         <item name="android:windowAnimationStyle">@style/LoginAnimation</item>
     </style>
 
