@@ -16,13 +16,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
 public class LoginGuideActivity extends Activity
 {
+	AlertDialog loginDialog, forgotDialog;
+	
 	private ViewPager viewPager;
 	private ImageView dot0;
 	private ImageView dot1;
@@ -46,35 +46,77 @@ public class LoginGuideActivity extends Activity
 	
 	private void showLoginDialog()
 	{
-		//final AlertDialog dialog = new AlertDialog.Builder(this).create();
-		final AlertDialog dialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		loginDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
 		
-		//dialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
-		dialog.show();
-		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-		dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		loginDialog.show();
+		loginDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		loginDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		
-		Window window = dialog.getWindow();
+		Window window = loginDialog.getWindow();
 		window.setContentView(R.layout.yg_loginguide_page3_login_dialog);
 		
-		final Button forgot = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_forgot);
-		forgot.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				Animation shake = AnimationUtils.loadAnimation(LoginGuideActivity.this, R.anim.yg_loginguide_page3_login_dialog_anim_shake);
-				forgot.startAnimation(shake);
-			}
-		});
+		Button forgot = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_forgot);
+		forgot.setOnClickListener(new onForgotBtnClickListener());
 		
 		Button login = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_login);
-		login.setOnClickListener(new View.OnClickListener()
+		login.setOnClickListener(new onLoginBtnClickListener());
+	}
+	
+	private void showForgotDialog()
+	{
+		forgotDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		
+		forgotDialog.show();
+		forgotDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		forgotDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = forgotDialog.getWindow();
+		window.setContentView(R.layout.yg_loginguide_page3_forget_dialog);
+		
+		Button cancel = (Button) window.findViewById(R.id.yg_loginguide_page3_forgot__dialog_cancel);
+		cancel.setOnClickListener(new onCancelBtnClickListener());
+		
+		Button reset = (Button) window.findViewById(R.id.yg_loginguide_page3_forgot__dialog_reset);
+		reset.setOnClickListener(new onResetBtnClickListener());
+	}
+	
+	private class onCancelBtnClickListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View arg0)
 		{
-			public void onClick(View v)
-			{
-				dialog.cancel();
-			}
-		});
+			forgotDialog.cancel();
+		}
+	}
+	
+	private class onResetBtnClickListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View arg0) 
+		{
+			forgotDialog.cancel();
+		}
+	}
+	
+	private class onForgotBtnClickListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View arg0) 
+		{
+			loginDialog.cancel();
+			showForgotDialog();
+			/*Animation shake = AnimationUtils.loadAnimation(LoginGuideActivity.this, R.anim.yg_loginguide_page3_login_dialog_anim_shake);
+			forgot.startAnimation(shake);*/
+		}
+	} 
+	
+	private class onLoginBtnClickListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View arg0) 
+		{
+			loginDialog.cancel();
+		}
 	}
 	
 	private void setupLayout()
@@ -142,7 +184,6 @@ public class LoginGuideActivity extends Activity
 
 		viewPager.setAdapter(mPagerAdapter);
 	}
-	
 
 	public class MyOnPageChangeListener implements OnPageChangeListener
 	{
@@ -179,7 +220,6 @@ public class LoginGuideActivity extends Activity
 		@Override
 		public void onPageScrollStateChanged(int arg0) { }
 	}
-	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
