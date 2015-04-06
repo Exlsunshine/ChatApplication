@@ -1,4 +1,4 @@
-package com.yg.ui;
+package com.yg.ui.login;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class LoginGuideActivity extends Activity
 	private ImageView dot2;
 	private ImageView dot3;
 
-	ArrayList<View> views = new ArrayList<View>();
+	ArrayList<View> pageViewItems = new ArrayList<View>();
 	
 	private int currPageIndex = 0;
 	
@@ -44,39 +44,34 @@ public class LoginGuideActivity extends Activity
 		loadViewpagerData();
 	}
 	
-	private void showExitGameAlert()
+	private void showLoginDialog()
 	{
 		//final AlertDialog dialog = new AlertDialog.Builder(this).create();
 		final AlertDialog dialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
 		
 		//dialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
 		dialog.show();
-		dialog.getWindow().clearFlags(
-				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-						| WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-		dialog.getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
+		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		
 		Window window = dialog.getWindow();
-		// *** 主要就是在这里实现这种效果的.
-		// 设置窗口的内容页面,shrew_exit_dialog.xml文件中定义view内容
 		window.setContentView(R.layout.yg_loginguide_page3_login_dialog);
 		
-		
-		// 为确认按钮添加事件,执行退出应用操作
 		final Button forgot = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_forgot);
 		forgot.setOnClickListener(new View.OnClickListener()
 		{
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				Animation shake = AnimationUtils.loadAnimation(LoginGuideActivity.this, R.anim.yg_loginguide_page3_login_dialog_anim_shake);
 				forgot.startAnimation(shake);
 			}
 		});
-		// 关闭alert对话框架
+		
 		Button login = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_login);
-		login.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
+		login.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
 				dialog.cancel();
 			}
 		});
@@ -91,18 +86,15 @@ public class LoginGuideActivity extends Activity
 		dot2 = (ImageView) findViewById(R.id.loginguide_dot2);
 		dot3 = (ImageView) findViewById(R.id.loginguide_dot3);
 		
-		
-		
 		LayoutInflater inflater = LayoutInflater.from(LoginGuideActivity.this);
 		View page0View = inflater.inflate(R.layout.yg_loginguide_page0, null);
 		View page1View = inflater.inflate(R.layout.yg_loginguide_page1, null);
 		View page2View = inflater.inflate(R.layout.yg_loginguide_page2, null);
 		View page3View = inflater.inflate(R.layout.yg_loginguide_page3, null);
-		views.add(page0View);
-		views.add(page1View);
-		views.add(page2View);
-		views.add(page3View);
-		
+		pageViewItems.add(page0View);
+		pageViewItems.add(page1View);
+		pageViewItems.add(page2View);
+		pageViewItems.add(page3View);
 	}
 	
 	private void setupLayoutListeners()
@@ -110,13 +102,13 @@ public class LoginGuideActivity extends Activity
 		viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
 		viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 		
-		Button login = (Button)views.get(3).findViewById(R.id.loginguide_page3_login_btn);
+		Button login = (Button)pageViewItems.get(3).findViewById(R.id.loginguide_page3_login_btn);
 		login.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0)
 			{
-				showExitGameAlert();
+				showLoginDialog();
 			}
 		});
 	}
@@ -132,19 +124,19 @@ public class LoginGuideActivity extends Activity
 			}
 
 			@Override
-			public int getCount() { return views.size(); }
+			public int getCount() { return pageViewItems.size(); }
 
 			@Override
 			public void destroyItem(View container, int position, Object object)
 			{
-				((ViewPager) container).removeView(views.get(position));
+				((ViewPager) container).removeView(pageViewItems.get(position));
 			}
 
 			@Override
 			public Object instantiateItem(View container, int position) 
 			{
-				((ViewPager) container).addView(views.get(position));
-				return views.get(position);
+				((ViewPager) container).addView(pageViewItems.get(position));
+				return pageViewItems.get(position);
 			}
 		};
 

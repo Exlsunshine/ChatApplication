@@ -57,7 +57,7 @@
             android:value="vocLIrS7d3C4mWHdCOUuLxx3" />
 
         <activity
-            android:name="com.yg.ui.WelcomeActivity"
+            android:name="com.yg.ui.login.WelcomeActivity"
             android:label="@string/app_name"
             android:theme="@style/welcome_animation_style" >
             <intent-filter>
@@ -115,7 +115,7 @@
             android:label="@string/title_activity_activity_shake" >
         </activity>
         <activity
-            android:name="com.yg.ui.LoginGuideActivity"
+            android:name="com.yg.ui.login.LoginGuideActivity"
             android:label="@string/title_activity_login" 
             android:theme="@style/login_animation_style">
         </activity>

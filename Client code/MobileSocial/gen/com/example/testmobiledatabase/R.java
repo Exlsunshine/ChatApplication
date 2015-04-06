@@ -93,13 +93,14 @@ containing a value of this type.
         public static final int yg_loginguide_login_btn_pressed=0x7f02000f;
         public static final int yg_loginguide_login_btn_selected=0x7f020010;
         public static final int yg_loginguide_login_btn_selector=0x7f020011;
-        public static final int yg_loginguide_page=0x7f020012;
-        public static final int yg_loginguide_page3_logo=0x7f020013;
-        public static final int yg_loginguide_page_now=0x7f020014;
-        public static final int yg_loginguide_signup_btn_default=0x7f020015;
-        public static final int yg_loginguide_signup_btn_pressed=0x7f020016;
-        public static final int yg_loginguide_signup_btn_selected=0x7f020017;
-        public static final int yg_loginguide_signup_btn_selector=0x7f020018;
+        public static final int yg_loginguide_login_dialog_coror_shape=0x7f020012;
+        public static final int yg_loginguide_page=0x7f020013;
+        public static final int yg_loginguide_page3_logo=0x7f020014;
+        public static final int yg_loginguide_page_now=0x7f020015;
+        public static final int yg_loginguide_signup_btn_default=0x7f020016;
+        public static final int yg_loginguide_signup_btn_pressed=0x7f020017;
+        public static final int yg_loginguide_signup_btn_selected=0x7f020018;
+        public static final int yg_loginguide_signup_btn_selector=0x7f020019;
     }
     public static final class id {
         public static final int action_settings=0x7f090054;

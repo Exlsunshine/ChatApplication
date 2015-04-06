@@ -1,4 +1,4 @@
-package com.yg.ui;
+package com.yg.ui.login;
 
 import android.view.View;
 
