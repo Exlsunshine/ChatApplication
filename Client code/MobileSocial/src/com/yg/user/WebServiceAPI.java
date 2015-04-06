@@ -12,11 +12,11 @@ public class WebServiceAPI
 	private String nameSpace;
 	private String endPoint;
 	private SoapSerializationEnvelope envelope;
-	private final String host = "http://172.18.8.142:8080/WebServiceProject/services/";
+	private final String host = "http://172.18.8.32:8080/WebServiceProject/services/";
 	private final String space = "http://";
 
 	/**
-	 * API构�?函数
+	 * API构�?函数
 	 * @param packagename webservice 服务 包名
 	 * @param classname   webservice 服务 类名
 	 */
@@ -30,8 +30,8 @@ public class WebServiceAPI
 	
 	/**
 	 * webservice 服务调用函数
-	 * @param methodName 被调用的函数�?
-	 * @param parameters 函数 参数名与实�?的映射表
+	 * @param methodName 被调用的函数�?
+	 * @param parameters 函数 参数名与实�?的映射表
 	 * @return 函数返回结果
 	 */
 	public Object callFuntion(String methodName, String[] name, Object[] values)
