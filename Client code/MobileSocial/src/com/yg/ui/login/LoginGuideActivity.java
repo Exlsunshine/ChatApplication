@@ -2,11 +2,9 @@ package com.yg.ui.login;
 
 import java.util.ArrayList;
 
-import com.example.testmobiledatabase.R;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -19,23 +17,27 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.testmobiledatabase.R;
+import com.yg.ui.Forget;
+import com.yg.ui.login.implementation.ForgetImplementation;
 
 public class LoginGuideActivity extends Activity
 {
-	AlertDialog loginDialog, forgotDialog, signupDialog;
+	private AlertDialog loginDialog, forgotDialog, signupDialog;
 	
 	private ViewPager viewPager;
 	private ImageView dot0;
 	private ImageView dot1;
 	private ImageView dot2;
 	private ImageView dot3;
-
 	ArrayList<View> pageViewItems = new ArrayList<View>();
-	
 	private int currPageIndex = 0;
 	
 	@Override
@@ -220,7 +222,28 @@ public class LoginGuideActivity extends Activity
 		@Override
 		public void onClick(View arg0) 
 		{
-			forgotDialog.cancel();
+			Window window = forgotDialog.getWindow();
+			EditText email = (EditText)window.findViewById(R.id.yg_loginguide_page3_forgot__dialog_email);
+			String emailStr = email.getText().toString();
+			ForgetImplementation forget = new ForgetImplementation(emailStr);
+			int result = forget.tryToReset();
+
+			switch (result)
+			{
+			case 0:
+				Toast.makeText(LoginGuideActivity.this, "New password has been sent to " + emailStr, Toast.LENGTH_SHORT).show();
+				forgotDialog.cancel();
+				break;
+			case 1:
+				Animation shake = AnimationUtils.loadAnimation(LoginGuideActivity.this, R.anim.yg_loginguide_page3_login_dialog_anim_shake);
+				email.startAnimation(shake);
+				break;
+			case 2:
+				Toast.makeText(LoginGuideActivity.this, "Email is not used.", Toast.LENGTH_SHORT).show();
+			default:
+				break;
+			}
+		
 		}
 	}
 	
