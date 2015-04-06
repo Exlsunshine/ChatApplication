@@ -10,18 +10,23 @@ import android.app.AlertDialog;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class LoginGuideActivity extends Activity
 {
-	AlertDialog loginDialog, forgotDialog;
+	AlertDialog loginDialog, forgotDialog, signupDialog;
 	
 	private ViewPager viewPager;
 	private ImageView dot0;
@@ -80,6 +85,125 @@ public class LoginGuideActivity extends Activity
 		
 		Button reset = (Button) window.findViewById(R.id.yg_loginguide_page3_forgot__dialog_reset);
 		reset.setOnClickListener(new onResetBtnClickListener());
+	}
+	
+	private void showSignupDialog()
+	{
+		signupDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		signupDialog.setCanceledOnTouchOutside(true);
+		signupDialog.show();
+		signupDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		signupDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		Window window = signupDialog.getWindow();
+		window.setContentView(R.layout.yg_loginguide_page3_signup_dialog);
+
+		setupSignupListeners(window);
+	}
+	
+	private void setupSignupListeners(final Window window)
+	{
+		final EditText email = (EditText)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_email);
+		final EditText nickname = (EditText)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_nickname);
+		final EditText password = (EditText)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_password);
+		
+		email.addTextChangedListener(new TextWatcher()
+		{
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) 
+			{
+				if (email.getText().toString().length() > 0 && email.getText().toString().length() > 0 && password.getText().toString().length() > 0)
+				{
+					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
+					hint.setVisibility(View.GONE);
+					
+					Button signup = (Button)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_signup);
+					signup.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
+					hint.setVisibility(View.VISIBLE);
+					
+					Button signup = (Button)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_signup);
+					signup.setVisibility(View.GONE);
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+			}
+		});
+		
+		nickname.addTextChangedListener(new TextWatcher()
+		{
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) 
+			{
+				if (email.getText().toString().length() > 0 && email.getText().toString().length() > 0 && password.getText().toString().length() > 0)
+				{
+					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
+					hint.setVisibility(View.GONE);
+					
+					Button signup = (Button)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_signup);
+					signup.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
+					hint.setVisibility(View.VISIBLE);
+					
+					Button signup = (Button)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_signup);
+					signup.setVisibility(View.GONE);
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+			}
+		});
+		
+		password.addTextChangedListener(new TextWatcher()
+		{
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) 
+			{
+				if (email.getText().toString().length() > 0 && email.getText().toString().length() > 0 && password.getText().toString().length() > 0)
+				{
+					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
+					hint.setVisibility(View.GONE);
+					
+					Button signup = (Button)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_signup);
+					signup.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
+					hint.setVisibility(View.VISIBLE);
+					
+					Button signup = (Button)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_signup);
+					signup.setVisibility(View.GONE);
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+			}
+		});
 	}
 	
 	private class onCancelBtnClickListener implements OnClickListener
@@ -153,6 +277,16 @@ public class LoginGuideActivity extends Activity
 			public void onClick(View arg0)
 			{
 				showLoginDialog();
+			}
+		});
+		
+		Button signup = (Button)pageViewItems.get(3).findViewById(R.id.loginguide_page3_signup_btn);
+		signup.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				showSignupDialog();
 			}
 		});
 	}

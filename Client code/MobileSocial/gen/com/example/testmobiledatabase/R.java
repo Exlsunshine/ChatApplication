@@ -103,17 +103,17 @@ containing a value of this type.
         public static final int yg_loginguide_signup_btn_selector=0x7f020019;
     }
     public static final class id {
-        public static final int action_settings=0x7f090056;
+        public static final int action_settings=0x7f09005b;
         public static final int activity_recent_dialog_image=0x7f09001c;
         public static final int activity_recent_dialog_receive=0x7f09001b;
         public static final int activity_recent_dialog_send=0x7f09001a;
         public static final int activity_recent_dialog_tv=0x7f090019;
         public static final int confirm=0x7f09000e;
-        public static final int eightpuzzle=0x7f090057;
+        public static final int eightpuzzle=0x7f09005c;
         public static final int email=0x7f09000d;
         public static final int forget=0x7f090014;
         public static final int get_friend_list=0x7f090001;
-        public static final int hit=0x7f090059;
+        public static final int hit=0x7f09005e;
         public static final int iv=0x7f090007;
         public static final int linearLayout1=0x7f09000c;
         public static final int linearlayout=0x7f09002c;
@@ -184,7 +184,7 @@ containing a value of this type.
         public static final int send_image=0x7f090005;
         public static final int send_text=0x7f090002;
         public static final int signin=0x7f090000;
-        public static final int song=0x7f090058;
+        public static final int song=0x7f09005d;
         public static final int stop=0x7f09000b;
         public static final int tv=0x7f090004;
         public static final int yg_loginguide_page3_dialog_email=0x7f090052;
@@ -193,6 +193,11 @@ containing a value of this type.
         public static final int yg_loginguide_page3_dialog_password=0x7f090053;
         public static final int yg_loginguide_page3_forgot__dialog_cancel=0x7f09004f;
         public static final int yg_loginguide_page3_forgot__dialog_reset=0x7f090050;
+        public static final int yg_loginguide_page3_signup_dialog_email=0x7f090056;
+        public static final int yg_loginguide_page3_signup_dialog_hint=0x7f09005a;
+        public static final int yg_loginguide_page3_signup_dialog_nickname=0x7f090057;
+        public static final int yg_loginguide_page3_signup_dialog_password=0x7f090058;
+        public static final int yg_loginguide_page3_signup_dialog_signup=0x7f090059;
     }
     public static final class layout {
         public static final int activity_activity_shake=0x7f030000;
@@ -215,7 +220,8 @@ containing a value of this type.
         public static final int yg_loginguide_page3=0x7f030011;
         public static final int yg_loginguide_page3_forget_dialog=0x7f030012;
         public static final int yg_loginguide_page3_login_dialog=0x7f030013;
-        public static final int yg_welcome_activity=0x7f030014;
+        public static final int yg_loginguide_page3_signup_dialog=0x7f030014;
+        public static final int yg_welcome_activity=0x7f030015;
     }
     public static final class menu {
         public static final int activity_shake=0x7f080000;

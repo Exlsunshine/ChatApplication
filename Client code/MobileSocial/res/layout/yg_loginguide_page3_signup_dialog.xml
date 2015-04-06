@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:layout_gravity="center"
+    android:background="@drawable/yg_loginguide_login_dialog_coror_shape"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp" >
+
+    <!-- "@android:color/white" -->
+
+    <EditText
+        android:id="@+id/yg_loginguide_page3_signup_dialog_email"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="#F5F5F5"
+        android:focusable="true"
+        android:gravity="left|center"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp" />
+
+    <EditText
+        android:id="@+id/yg_loginguide_page3_signup_dialog_nickname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="#F5F5F5"
+        android:gravity="left|center"
+        android:hint="Pick nickname"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp" />
+
+    <EditText
+        android:id="@+id/yg_loginguide_page3_signup_dialog_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="#F5F5F5"
+        android:gravity="left|center"
+        android:hint="Create Password"
+        android:inputType="textPassword"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/yg_loginguide_page3_signup_dialog_signup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="Sign Up"
+            android:textColor="#1E90FF"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/yg_loginguide_page3_signup_dialog_hint"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:text="You&apos;ll receive an Email to verify your identity."
+            android:textSize="5pt" />
+    </FrameLayout>
+
+</LinearLayout>
