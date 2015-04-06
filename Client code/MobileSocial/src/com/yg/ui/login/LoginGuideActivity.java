@@ -48,6 +48,7 @@ public class LoginGuideActivity extends Activity
 	{
 		loginDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
 		
+		loginDialog.setCanceledOnTouchOutside(true);
 		loginDialog.show();
 		loginDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		loginDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -66,6 +67,7 @@ public class LoginGuideActivity extends Activity
 	{
 		forgotDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
 		
+		forgotDialog.setCanceledOnTouchOutside(true);
 		forgotDialog.show();
 		forgotDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		forgotDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
