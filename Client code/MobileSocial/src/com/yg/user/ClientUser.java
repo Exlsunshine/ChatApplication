@@ -686,7 +686,7 @@ public class ClientUser extends AbstractUser
 	 */
 	public static String validateIdentity(String loginAccount, String password)
 	{
-		Log.i(DEBUG_TAG, loginAccount + "-" + password);
+		Log.i(DEBUG_TAG, "Going to validate " + loginAccount + " with " + password);
 		
 		String [] params = new String[2];
 		Object [] vlaues = new Object[2];
@@ -697,8 +697,6 @@ public class ClientUser extends AbstractUser
 		
 		WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
 		Object ret = wsAPI.callFuntion("validateIdentity", params, vlaues);
-		
-		Log.e("______", ret.toString());
 		
 		return ret == null ? null : ret.toString();
 	}

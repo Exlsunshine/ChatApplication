@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -25,11 +27,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
-import com.yg.ui.Forget;
+import com.yg.ui.Login;
+import com.yg.ui.MainActivity;
 import com.yg.ui.login.implementation.ForgetImplementation;
+import com.yg.ui.login.implementation.LoginImplementation;
 
 public class LoginGuideActivity extends Activity
 {
+	private static final String DEBUG_TAG = "LoginGuideActivity______";
 	private AlertDialog loginDialog, forgotDialog, signupDialog;
 	
 	private ViewPager viewPager;
@@ -243,7 +248,6 @@ public class LoginGuideActivity extends Activity
 			default:
 				break;
 			}
-		
 		}
 	}
 	
@@ -264,7 +268,44 @@ public class LoginGuideActivity extends Activity
 		@Override
 		public void onClick(View arg0) 
 		{
-			loginDialog.cancel();
+			Window window = loginDialog.getWindow();
+			EditText email = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_email);
+			EditText password = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_password);
+			String emailStr = email.getText().toString();
+			String pwdStr = password.getText().toString();
+			
+			LoginImplementation login = new LoginImplementation(emailStr, pwdStr);
+			int result = login.tryToLogin();
+			
+			Animation shake = AnimationUtils.loadAnimation(LoginGuideActivity.this, R.anim.yg_loginguide_page3_login_dialog_anim_shake);
+			switch (result)
+			{
+			case 0:
+				loginDialog.cancel();
+				Intent intent = new Intent(LoginGuideActivity.this, MainActivity.class);
+				startActivity(intent);
+				break;
+			case 1:
+				email.startAnimation(shake);
+				break;
+			case 2:
+				password.startAnimation(shake);
+				break;
+			case 3:
+				email.startAnimation(shake);
+				password.startAnimation(shake);
+				break;
+			case 4:
+				email.startAnimation(shake);
+				password.startAnimation(shake);
+				Toast.makeText(LoginGuideActivity.this, "Wrong password or email address.", Toast.LENGTH_LONG).show();
+				break;
+			case 5:
+				Toast.makeText(LoginGuideActivity.this, "Unkown error.", Toast.LENGTH_LONG).show();
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	

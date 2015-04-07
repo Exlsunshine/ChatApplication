@@ -1,38 +1,25 @@
 package com.yg.ui;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.testmobiledatabase.R;
-import com.yg.commons.ConstantValues;
-import com.yg.message.ConvertUtil;
-import com.yg.user.ClientUser;
-import com.yg.user.ImageTransportation;
-import com.yg.user.PackString;
 
 public class Login extends Activity
 {
-	EditText password, loginAccount;
-	Button login, register;
-	TextView forget;
-	ImageView portrait;
+	//EditText password, loginAccount;
+	//Button login;
+	Button register;
+	//TextView forget;
+	//ImageView portrait;
 	
-	Handler handler;
+	//Handler handler;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -43,7 +30,7 @@ public class Login extends Activity
 		initLayout();
 		initClickListeners();
 		
-		handler = new Handler()
+		/*handler = new Handler()
 		{
 			@Override
 			public void handleMessage(Message msg)
@@ -76,12 +63,12 @@ public class Login extends Activity
 				Intent intent = new Intent(Login.this, MainActivity.class);
 				startActivity(intent);
 			}
-		};
+		};*/
 	}
 	
 	private void initClickListeners()
 	{
-		login.setOnClickListener(new OnClickListener()
+		/*login.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0)
@@ -123,7 +110,7 @@ public class Login extends Activity
 				});
 				td.start();
 			}
-		});
+		});*/
 		
 		register.setOnClickListener(new OnClickListener()
 		{
@@ -135,7 +122,7 @@ public class Login extends Activity
 			}
 		});
 		
-		forget.setOnClickListener(new OnClickListener()
+		/*forget.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0)
@@ -143,20 +130,20 @@ public class Login extends Activity
 				Intent it = new Intent(Login.this, Forget.class);
 				startActivity(it);
 			}
-		});
+		});*/
 	}
 	
 	private void initLayout()
 	{
-		password = (EditText)findViewById(R.id.password);
-		loginAccount = (EditText)findViewById(R.id.login_account);
-		login  = (Button)findViewById(R.id.login);
+		//password = (EditText)findViewById(R.id.password);
+		//loginAccount = (EditText)findViewById(R.id.login_account);
+		//login  = (Button)findViewById(R.id.login);
 		register  = (Button)findViewById(R.id.register);
-		forget  = (TextView)findViewById(R.id.forget);
-		portrait = (ImageView)findViewById(R.id.login_portrait);
+		//forget  = (TextView)findViewById(R.id.forget);
+		//portrait = (ImageView)findViewById(R.id.login_portrait);
 		
-		loginAccount.setText("UserG@126.com");
-		password.setText("10");
+		//loginAccount.setText("UserG@126.com");
+		//password.setText("10");
 	}
 
 	@Override
