@@ -25,18 +25,27 @@ public class LoginImplementation
 	private String accountVal;
 	private String pwdVal;
 	private Handler handler;
+	private Thread loginThread;
 	
 	public LoginImplementation(String accountVal, String pwdVal)
 	{
 		this.accountVal = accountVal;
 		this.pwdVal = pwdVal;
+		this.loginThread = new Thread(new Runnable()
+		{
+			@Override
+			public void run() 
+			{
+				Log.i("_________", "login success.");
+			}
+		});
 		
 		handler = new Handler()
 		{
 			@Override
-			public String getMessageName(Message message) 
+			public void handleMessage(Message msg) 
 			{
-				Bundle bundle = message.getData();
+				Bundle bundle = msg.getData();
 				int userID = bundle.getInt("userID");
 				String password = bundle.getString("password");
 				String loginAccount = bundle.getString("loginAccount");
@@ -50,8 +59,9 @@ public class LoginImplementation
 				
 				ConstantValues.user = new ClientUser(userID, password, loginAccount, nickName, email, portrait, sex, birthday, phoneNumber, hometown, null);
 				ConstantValues.user.signin();
+				loginThread.start();
 				
-				return super.getMessageName(message);
+				super.handleMessage(msg);
 			}
 		};
 	}
@@ -82,6 +92,13 @@ public class LoginImplementation
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
+		try {
+			loginThread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Log.i(DEBUG_TAG, "Result is : " + result);
 		
 		return result;
