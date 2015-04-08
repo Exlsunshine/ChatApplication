@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/yg_loginguide_login_dialog_coror_shape"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/yg_signup_first_dialog_portrait"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/yg_signup_first_dialog_camera" />
+
+    <EditText
+        android:id="@+id/yg_signup_first_dialog_phone_number"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="#F5F5F5"
+        android:gravity="left|center"
+        android:hint="Phone number"
+        android:inputType="textEmailAddress"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp" />
+
+    <RadioGroup
+        android:id="@+id/yg_signup_first_dialog_sexgroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Male"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/yg_signup_first_dialog_male"
+            android:scaleType="centerCrop"
+            android:scaleX="0.5"
+            android:scaleY="0.5" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Female"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/yg_signup_first_dialog_female"
+            android:scaleType="centerCrop"
+            android:scaleX="0.5"
+            android:scaleY="0.5" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/yg_signup_first_dialog_activity_next"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="Next"
+        android:textColor="#1E90FF"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+</LinearLayout>

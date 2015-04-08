@@ -1,0 +1,100 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E90FF"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="30dp" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/yg_loginguide_page3_logo" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/yg_signup_activity_bottom_bound"
+            android:layout_alignLeft="@+id/yg_signup_activity_left_bound"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/yg_signup_activity_right_bound"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.25"
+            android:background="@drawable/yg_signup_page_bubble_logo"
+            android:scaleType="center" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/yg_signup_activity_left_bound"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_alignLeft="@+id/yg_signup_activity__signup_text_layout"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/yg_signup_activity_right_bound"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_alignRight="@+id/yg_signup_activity__signup_text_layout"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/yg_signup_activity_bottom_bound"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_alignBottom="@+id/yg_signup_activity__signup_text_layout"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/yg_signup_activity__signup_text_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="30dp"
+                android:text="Welcome to App!"
+                android:textColor="@android:color/white"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="Let&apos;s put a face to your account\nso your firends can find you."
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
+
+            <Button
+                android:id="@+id/yg_signup_activity_ok"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:text="OK"
+                android:textColor="@android:color/white"
+                android:textSize="18dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

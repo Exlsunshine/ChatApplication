@@ -477,8 +477,11 @@ public class NetworkHandler
 		int currentID = userBasicInfoTB.getLatestID();
 		
 		if (Math.abs(prevID - currentID) == 1)
-			return setPortrait(currentID, portrait);
-		else
-			return -1;
+		{
+			if (setPortrait(currentID, portrait) == 0)
+				return currentID;
+		}
+
+		return -1;
 	}
 }

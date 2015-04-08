@@ -27,10 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
-import com.yg.ui.Login;
 import com.yg.ui.MainActivity;
 import com.yg.ui.login.implementation.ForgetImplementation;
 import com.yg.ui.login.implementation.LoginImplementation;
+import com.yg.ui.signup.SignupActivity;
 
 public class LoginGuideActivity extends Activity
 {
@@ -54,6 +54,10 @@ public class LoginGuideActivity extends Activity
 		setupLayout();
 		setupLayoutListeners();
 		loadViewpagerData();
+
+		Bundle bundle = this.getIntent().getExtras();
+		Log.i(DEBUG_TAG, String.valueOf(bundle == null ? 0 : bundle.getInt("index", 0)));
+		viewPager.setCurrentItem(bundle == null ? 0 : bundle.getInt("index", 0));
 	}
 	
 	private void showLoginDialog()
@@ -109,16 +113,33 @@ public class LoginGuideActivity extends Activity
 	
 	private void setupSignupListeners(final Window window)
 	{
+		final Button signup = (Button)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_signup);
 		final EditText email = (EditText)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_email);
 		final EditText nickname = (EditText)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_nickname);
 		final EditText password = (EditText)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_password);
+		
+		signup.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View arg0)
+			{
+				Intent intent = new Intent(LoginGuideActivity.this, SignupActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("email", email.getText().toString());
+				bundle.putString("nickname", nickname.getText().toString());
+				bundle.putString("password", password.getText().toString());
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+		});
+		
 		
 		email.addTextChangedListener(new TextWatcher()
 		{
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) 
 			{
-				if (email.getText().toString().length() > 0 && email.getText().toString().length() > 0 && password.getText().toString().length() > 0)
+				if (email.getText().toString().length() > 0 && nickname.getText().toString().length() > 0 && password.getText().toString().length() > 0)
 				{
 					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
 					hint.setVisibility(View.GONE);
@@ -137,13 +158,10 @@ public class LoginGuideActivity extends Activity
 			}
 			
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-			}
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
 			
 			@Override
-			public void afterTextChanged(Editable arg0) {
-			}
+			public void afterTextChanged(Editable arg0) { }
 		});
 		
 		nickname.addTextChangedListener(new TextWatcher()
@@ -151,7 +169,7 @@ public class LoginGuideActivity extends Activity
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) 
 			{
-				if (email.getText().toString().length() > 0 && email.getText().toString().length() > 0 && password.getText().toString().length() > 0)
+				if (email.getText().toString().length() > 0 && nickname.getText().toString().length() > 0 && password.getText().toString().length() > 0)
 				{
 					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
 					hint.setVisibility(View.GONE);
@@ -170,13 +188,10 @@ public class LoginGuideActivity extends Activity
 			}
 			
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-			}
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
 			
 			@Override
-			public void afterTextChanged(Editable arg0) {
-			}
+			public void afterTextChanged(Editable arg0) { }
 		});
 		
 		password.addTextChangedListener(new TextWatcher()
@@ -184,7 +199,7 @@ public class LoginGuideActivity extends Activity
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) 
 			{
-				if (email.getText().toString().length() > 0 && email.getText().toString().length() > 0 && password.getText().toString().length() > 0)
+				if (email.getText().toString().length() > 0 && nickname.getText().toString().length() > 0 && password.getText().toString().length() > 0)
 				{
 					TextView hint = (TextView)window.findViewById(R.id.yg_loginguide_page3_signup_dialog_hint);
 					hint.setVisibility(View.GONE);
@@ -203,13 +218,10 @@ public class LoginGuideActivity extends Activity
 			}
 			
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-			}
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
 			
 			@Override
-			public void afterTextChanged(Editable arg0) {
-			}
+			public void afterTextChanged(Editable arg0) { }
 		});
 	}
 	
@@ -258,8 +270,6 @@ public class LoginGuideActivity extends Activity
 		{
 			loginDialog.cancel();
 			showForgotDialog();
-			/*Animation shake = AnimationUtils.loadAnimation(LoginGuideActivity.this, R.anim.yg_loginguide_page3_login_dialog_anim_shake);
-			forgot.startAnimation(shake);*/
 		}
 	} 
 	
@@ -395,20 +405,26 @@ public class LoginGuideActivity extends Activity
 			case 0:
 				dot0.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page_now));
 				dot1.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
+				dot2.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
+				dot3.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
 				break;
 			case 1:
-				dot1.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page_now));
 				dot0.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
+				dot1.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page_now));
 				dot2.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
+				dot3.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
 				break;
 			case 2:
-				dot2.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page_now));
+				dot0.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
 				dot1.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
+				dot2.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page_now));
 				dot3.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
 				break;
 			case 3:
-				dot3.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page_now));
+				dot0.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
+				dot1.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
 				dot2.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page));
+				dot3.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page_now));
 				break;
 			}
 			currPageIndex = arg0;

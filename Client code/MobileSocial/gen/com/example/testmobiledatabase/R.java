@@ -101,19 +101,23 @@ containing a value of this type.
         public static final int yg_loginguide_signup_btn_pressed=0x7f020017;
         public static final int yg_loginguide_signup_btn_selected=0x7f020018;
         public static final int yg_loginguide_signup_btn_selector=0x7f020019;
+        public static final int yg_signup_first_dialog_camera=0x7f02001a;
+        public static final int yg_signup_first_dialog_female=0x7f02001b;
+        public static final int yg_signup_first_dialog_male=0x7f02001c;
+        public static final int yg_signup_page_bubble_logo=0x7f02001d;
     }
     public static final class id {
-        public static final int action_settings=0x7f09005c;
+        public static final int action_settings=0x7f09006c;
         public static final int activity_recent_dialog_image=0x7f09001c;
         public static final int activity_recent_dialog_receive=0x7f09001b;
         public static final int activity_recent_dialog_send=0x7f09001a;
         public static final int activity_recent_dialog_tv=0x7f090019;
         public static final int confirm=0x7f09000e;
-        public static final int eightpuzzle=0x7f09005d;
+        public static final int eightpuzzle=0x7f09006d;
         public static final int email=0x7f09000d;
         public static final int forget=0x7f090014;
         public static final int get_friend_list=0x7f090001;
-        public static final int hit=0x7f09005f;
+        public static final int hit=0x7f09006f;
         public static final int iv=0x7f090007;
         public static final int linearLayout1=0x7f09000c;
         public static final int linearlayout=0x7f09002c;
@@ -160,6 +164,8 @@ containing a value of this type.
         public static final int password=0x7f090011;
         public static final int play=0x7f09000a;
         public static final int pwd=0x7f09001e;
+        public static final int radioButton1=0x7f090064;
+        public static final int radioButton2=0x7f090065;
         public static final int radioFemale=0x7f090024;
         public static final int radioMale=0x7f090023;
         public static final int receive_audio=0x7f090009;
@@ -184,7 +190,7 @@ containing a value of this type.
         public static final int send_image=0x7f090005;
         public static final int send_text=0x7f090002;
         public static final int signin=0x7f090000;
-        public static final int song=0x7f09005e;
+        public static final int song=0x7f09006e;
         public static final int stop=0x7f09000b;
         public static final int tv=0x7f090004;
         public static final int yg_loginguide_page3_dialog_email=0x7f090053;
@@ -199,6 +205,20 @@ containing a value of this type.
         public static final int yg_loginguide_page3_signup_dialog_nickname=0x7f090058;
         public static final int yg_loginguide_page3_signup_dialog_password=0x7f090059;
         public static final int yg_loginguide_page3_signup_dialog_signup=0x7f09005a;
+        public static final int yg_signup_activity__signup_text_layout=0x7f09005f;
+        public static final int yg_signup_activity_bottom_bound=0x7f09005c;
+        public static final int yg_signup_activity_left_bound=0x7f09005d;
+        public static final int yg_signup_activity_ok=0x7f090060;
+        public static final int yg_signup_activity_right_bound=0x7f09005e;
+        public static final int yg_signup_first_dialog_activity_next=0x7f090066;
+        public static final int yg_signup_first_dialog_phone_number=0x7f090062;
+        public static final int yg_signup_first_dialog_portrait=0x7f090061;
+        public static final int yg_signup_first_dialog_sexgroup=0x7f090063;
+        public static final int yg_signup_second_dialog_birthday=0x7f090067;
+        public static final int yg_signup_second_dialog_cities=0x7f090069;
+        public static final int yg_signup_second_dialog_districts=0x7f09006a;
+        public static final int yg_signup_second_dialog_done=0x7f09006b;
+        public static final int yg_signup_second_dialog_proviences=0x7f090068;
     }
     public static final class layout {
         public static final int activity_activity_shake=0x7f030000;
@@ -222,7 +242,10 @@ containing a value of this type.
         public static final int yg_loginguide_page3_forget_dialog=0x7f030012;
         public static final int yg_loginguide_page3_login_dialog=0x7f030013;
         public static final int yg_loginguide_page3_signup_dialog=0x7f030014;
-        public static final int yg_welcome_activity=0x7f030015;
+        public static final int yg_signup_activity=0x7f030015;
+        public static final int yg_signup_first_dialog=0x7f030016;
+        public static final int yg_signup_second_dialog=0x7f030017;
+        public static final int yg_welcome_activity=0x7f030018;
     }
     public static final class menu {
         public static final int activity_shake=0x7f080000;
@@ -234,6 +257,7 @@ containing a value of this type.
         public static final int menu_game_save=0x7f080006;
         public static final int recent_dialog=0x7f080007;
         public static final int register=0x7f080008;
+        public static final int signup=0x7f080009;
     }
     public static final class string {
         public static final int action_settings=0x7f060002;
@@ -248,6 +272,7 @@ containing a value of this type.
         public static final int title_activity_main=0x7f060008;
         public static final int title_activity_recent_dialog=0x7f06000a;
         public static final int title_activity_register=0x7f060005;
+        public static final int title_activity_signup=0x7f06000c;
     }
     public static final class style {
         /** 

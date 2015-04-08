@@ -76,11 +76,9 @@ public class ForgetImplementation
 				params[0] = "email";
 				vlaues[0] = emailAccount;
 
-				Object ret = wsAPI.callFuntion("sendResetPwdRequestMail",
-						params, vlaues);
+				Object ret = wsAPI.callFuntion("sendResetPwdRequestMail", params, vlaues);
 				int code = Integer.parseInt(ret.toString());
-				Log.i(DEBUG_TAG,
-						"Reset password status: " + String.valueOf(code));
+				Log.i(DEBUG_TAG, "Reset password status: " + String.valueOf(code));
 				if (code != 0)
 					status = 2;// Toast.makeText(Forget.this,
 								// "This email has not been registered.",
