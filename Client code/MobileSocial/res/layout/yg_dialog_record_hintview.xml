@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/yg_dialog_appkefu_voice_rcd_hint_bg"
+    android:gravity="center" >
+
+    <LinearLayout
+        android:id="@+id/yg_dialog_record_hint_record_image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/yg_dialog_appkefu_voice_rcd_hint" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/yg_dialog_appkefu_voice_rcd_hint_amp7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yg_dialog_record_hint_record_text_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yg_dialog_record_hint_record_image_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="18dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="手指上滑,取消发送"
+            android:textColor="#FFFFFFFF" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yg_dialog_record_hint_cancel_image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/record_hint_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/yg_dialog_appkefu_rcd_cancel_icon" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yg_dialog_record_hint_cancel_text_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yg_dialog_record_hint_cancel_image_layout"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/yg_dialog_appkefu_rcd_cancel_bg"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="松开手指,取消发送"
+            android:textColor="#FFFFFFFF" />
+    </LinearLayout>
+
+</RelativeLayout>

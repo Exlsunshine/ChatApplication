@@ -8,6 +8,7 @@ import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
 import com.yg.message.AbstractMessage;
 import com.yg.message.TextMessage;
+import com.yg.ui.dialog.DialogActivity;
 import com.yg.ui.friendlist.implementation.CircleBitmap;
 import com.yg.ui.recentdialog.implementation.RecentDialogAdapter;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView;
@@ -203,15 +204,17 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 	@Override
 	public void onRefresh() 
 	{
-		
 	}
-	
 	
 	public class OnItemClickListenerImpl implements OnItemClickListener
 	{
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
+			String name = (String) myAdapter.getItem(position - 2);
+			Intent intent = new Intent(RecentDialogActivity.this, DialogActivity.class);
+			intent.putExtra("reveiewer", "aaa");
+			RecentDialogActivity.this.startActivity(intent);
 		}
 	}
 	

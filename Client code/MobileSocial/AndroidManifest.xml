@@ -123,6 +123,10 @@
             android:name="com.yg.ui.signup.SignupActivity"
             android:label="@string/title_activity_signup" >
         </activity>
+        <activity
+            android:name="com.yg.ui.dialog.DialogActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>
