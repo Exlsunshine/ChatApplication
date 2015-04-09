@@ -1,61 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/com.li.pathbutton"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
- 
-        <FrameLayout
-            android:id="@android:id/tabcontent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0.0dip"
-            android:layout_weight="1.0" />
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
 
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.0"
-            android:visibility="gone" />
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0" />
 
-        <!-- android:background="@drawable/ic_launcher" -->
-
-        <RadioGroup
-            android:id="@+id/main_radio"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <!-- android:drawableTop="@drawable/ic_launcher" -->
-
-            <RadioButton
-                android:id="@+id/main_activity_recent_dialog"
-                style="@style/main_tab_bottom"
-                android:layout_marginTop="2.0dip"
-                android:text="home" />
-
-            <com.lj.pathbutton.SatelliteMenu
-                android:id="@+id/lj_menu"
-                android:layout_width="wrap_content"
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_margin="8dp"/>
+                android:layout_weight="0.0"
+                android:visibility="gone" />
 
-            <!-- android:drawableTop="@drawable/ic_launcher" -->
+            <!-- android:background="@drawable/ic_launcher" -->
 
-            <RadioButton
-                android:id="@+id/main_activity_friend_list"
-                style="@style/main_tab_bottom"
-                android:layout_marginTop="2.0dip"
-                android:text="news" />
-        </RadioGroup>
-    </LinearLayout>
+            <RadioGroup
+                android:id="@+id/main_radio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/main_activity_recent_dialog"
+                    style="@style/main_tab_bottom"
+                    android:text="home" />
+
+                <RadioButton
+                    android:id="@+id/main_activity_friend_list"
+                    style="@style/main_tab_bottom"
+                    android:text="news" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <com.lj.pathbutton.SatelliteMenu
+            android:id="@+id/lj_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="8dp" />
+    </FrameLayout>
 
 </TabHost>

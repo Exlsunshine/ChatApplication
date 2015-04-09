@@ -9,6 +9,8 @@ import com.lj.pathbutton.SatelliteMenu.SateliteClickedListener;
 import com.lj.pathbutton.SatelliteMenuItem;
 import com.lj.settings.ActivitySetting;
 import com.lj.shake.ActivityShake;
+import com.yg.ui.friendlist.FriendListActivity;
+import com.yg.ui.recentdialog.RecentDialogActivity;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -54,7 +56,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		recentDialogRb = ((RadioButton) findViewById(R.id.main_activity_recent_dialog));
 		friendListRb = ((RadioButton) findViewById(R.id.main_activity_friend_list));
 		
-		
 		centerControlMenu = (SatelliteMenu)findViewById(R.id.lj_menu);
 		centerControlMenu.setSatelliteDistance(340);
 		centerControlMenu.setMainImage(R.drawable.sat_main);
@@ -72,9 +73,10 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
         
         centerControlMenu.addItems(items);        
         
-        centerControlMenu.setOnItemClickedListener(new SateliteClickedListener() {
-			
-			public void eventOccured(int id) {
+        centerControlMenu.setOnItemClickedListener(new SateliteClickedListener() 
+        {
+			public void eventOccured(int id) 
+			{
 				Log.e("sat", "Clicked on " + id);
 				if (id == 1)
 				{
@@ -96,8 +98,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	{
 		recentDialogRb.setOnCheckedChangeListener(this);  
 		friendListRb.setOnCheckedChangeListener(this);  
-		
-	
 	}
 	
 	@Override

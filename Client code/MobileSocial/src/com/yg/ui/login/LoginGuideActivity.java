@@ -43,7 +43,7 @@ public class LoginGuideActivity extends Activity
 	private ImageView dot2;
 	private ImageView dot3;
 	ArrayList<View> pageViewItems = new ArrayList<View>();
-	private int currPageIndex = 0;
+	//private int currPageIndex = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -427,7 +427,7 @@ public class LoginGuideActivity extends Activity
 				dot3.setImageDrawable(getResources().getDrawable(R.drawable.yg_loginguide_page_now));
 				break;
 			}
-			currPageIndex = arg0;
+			//currPageIndex = arg0;
 		}
 
 		@Override

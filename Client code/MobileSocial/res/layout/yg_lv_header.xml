@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#A9A9A9"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/arrowup"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="36dp"
+        android:gravity="center"
+        android:src="@drawable/yg_appkefu_pulltorefresh_arrow" />
+
+    <ImageView
+        android:id="@+id/progressBar "
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="36dp"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/headerTipsTv"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="67dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:textColor="#FFFFFFFF"
+        android:textSize="15sp" 
+        android:text="test"/>
+
+</LinearLayout>

@@ -87,11 +87,11 @@
             android:label="@string/title_activity_main" >
         </activity>
         <activity
-            android:name="com.yg.ui.FriendListActivity"
+            android:name="com.yg.ui.friendlist.FriendListActivity"
             android:label="@string/title_activity_friend_list" >
         </activity>
         <activity
-            android:name="com.yg.ui.RecentDialogActivity"
+            android:name="com.yg.ui.recentdialog.RecentDialogActivity"
             android:label="@string/title_activity_recent_dialog" >
         </activity>
         <activity

@@ -37,7 +37,7 @@
         <item name="android:background">@drawable/ic_launcher</item>
         <item name="android:paddingTop">5.0dip</item>
         <item name="android:paddingBottom">2.0dip</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">2.0dip</item>
         <item name="android:button">@null</item>
