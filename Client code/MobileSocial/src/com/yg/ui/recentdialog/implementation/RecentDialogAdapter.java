@@ -24,14 +24,16 @@ public class RecentDialogAdapter extends BaseAdapter
 	private int viewWidth = 0;
 	private List<String> messages = null;
 	private List<String> dates = null;
+	private List<Integer> ids = null;
 	
-	public RecentDialogAdapter(Context context, List<String> names, List<String> messages, List<String> dates, List<Bitmap> portraits)
+	public RecentDialogAdapter(Context context, List<String> names, List<String> messages, List<String> dates, List<Bitmap> portraits, List<Integer> ids)
 	{
 		this.mContext = context;
 		this.names = names;
 		this.messages = messages;
 		this.dates = dates;
 		this.portraits = portraits;
+		this.ids = ids;
 		inflater = LayoutInflater.from(this.mContext);
 	}
 
@@ -50,13 +52,16 @@ public class RecentDialogAdapter extends BaseAdapter
 	@Override
 	public long getItemId(int position)
 	{
-		return position;
+		return ids.get(position);
 	}
 
 	public void remove(int position)
 	{
 		names.remove(position);
 		portraits.remove(position);
+		messages.remove(position);
+		dates.remove(position);
+		ids.remove(position);
 		notifyDataSetChanged();
 	}
 
