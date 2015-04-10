@@ -41,7 +41,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 
 				for (int i = 0; i <friends.size(); i++)
 				{
-					userNmae.add(friends.get(i).getAlias());
+					userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
 					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portrait.add(bmp);
@@ -85,7 +85,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 							portrait.clear();
 							for (int i = 0; i <friends.size(); i++)
 							{
-								userNmae.add(friends.get(i).getAlias());
+								userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
 								bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 								bmp = CircleBitmap.circleBitmap(bmp);
 								portrait.add(bmp);
