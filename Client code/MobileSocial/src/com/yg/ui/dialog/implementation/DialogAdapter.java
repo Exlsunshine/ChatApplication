@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
 import com.yg.message.AbstractMessage;
+import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.user.FriendUser;
 
@@ -78,6 +79,7 @@ public class DialogAdapter extends BaseAdapter
 		{
 			holder.rlMyLayout.setVisibility(View.VISIBLE);
 			holder.rlFriendLayout.setVisibility(View.GONE);
+			holder.ivMyPortrait.setImageBitmap(ConstantValues.user.getPortraitBmp());
 			
 			switch (messages.get(position).getMessageType())
 			{
@@ -90,13 +92,15 @@ public class DialogAdapter extends BaseAdapter
 				holder.ivMyAudio.setVisibility(View.GONE);
 				holder.ivMyImage.setVisibility(View.VISIBLE);
 				holder.tvMyText.setVisibility(View.GONE);
+				
+				holder.ivMyImage.setImageBitmap(((ImageMessage)messages.get(position)).getImage());
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 				holder.ivMyAudio.setVisibility(View.GONE);
 				holder.ivMyImage.setVisibility(View.GONE);
 				holder.tvMyText.setVisibility(View.VISIBLE);
+				
 				holder.tvMyText.setText(((TextMessage)messages.get(position)).getText());
-				holder.ivMyPortrait.setImageBitmap(ConstantValues.user.getPortraitBmp());
 				break;
 			default:
 				break;
@@ -106,6 +110,7 @@ public class DialogAdapter extends BaseAdapter
 		{
 			holder.rlMyLayout.setVisibility(View.GONE);
 			holder.rlFriendLayout.setVisibility(View.VISIBLE);
+			holder.ivFriendPortrait.setImageBitmap(getFriendByID(messages.get(position).getFromUserID()).getPortraitBmp());
 			
 			switch (messages.get(position).getMessageType())
 			{
@@ -118,6 +123,8 @@ public class DialogAdapter extends BaseAdapter
 				holder.ivFriendAudio.setVisibility(View.GONE);
 				holder.ivFriendImage.setVisibility(View.VISIBLE);
 				holder.tvFriendText.setVisibility(View.GONE);
+				
+				holder.ivFriendImage.setImageBitmap(((ImageMessage)messages.get(position)).getImage());
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 				holder.ivFriendAudio.setVisibility(View.GONE);
@@ -125,7 +132,6 @@ public class DialogAdapter extends BaseAdapter
 				holder.tvFriendText.setVisibility(View.VISIBLE);
 				
 				holder.tvFriendText.setText(((TextMessage)messages.get(position)).getText());
-				holder.ivFriendPortrait.setImageBitmap(getFriendByID(messages.get(position).getFromUserID()).getPortraitBmp());
 				break;
 			default:
 				break;

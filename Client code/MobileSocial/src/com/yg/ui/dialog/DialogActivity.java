@@ -1,39 +1,51 @@
 package com.yg.ui.dialog;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.TrafficStats;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.message.AbstractMessage;
+import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.ui.dialog.implementation.DialogAdapter;
 import com.yg.user.FriendUser;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.MotionEvent;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-
 public class DialogActivity extends Activity
 {
 	private ArrayList<AbstractMessage> messages;
+	private Bitmap selectedImg = null;
 	
 	private int friendID = -1;
 	private DialogAdapter msgAdapter = null;
@@ -135,6 +147,9 @@ public class DialogActivity extends Activity
 				{
 					plusRelativelayout.setVisibility(View.VISIBLE);
 					imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+					
+					ImageButton imgPicker = (ImageButton)findViewById(R.id.yg_dialog_activity_appkefu_plus_pick_picture_btn);
+					imgPicker.setOnClickListener(new onImageSelectClickListener());
 				} 
 				else 
 				{
@@ -280,4 +295,115 @@ public class DialogActivity extends Activity
 	{
 		super.onDestroy();
 	}
+	
+	/**********************										***********************/
+	/**********************			以下是选图相关函数				***********************/
+	/**********************										***********************/
+	private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT));
+	
+	private void startPhotoZoom(Uri uri) 
+	{  
+        Intent intent = new Intent("com.android.camera.action.CROP");  
+        intent.setDataAndType(uri, "image/*");  
+        //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪  
+        intent.putExtra("crop", "true");  
+        // aspectX aspectY 是宽高的比例  
+        intent.putExtra("aspectX", 1);  
+        intent.putExtra("aspectY", 1);  
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CROP);  
+    }  
+	
+	private class onImageSelectClickListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View arg0) 
+		{
+			new AlertDialog.Builder(DialogActivity.this).setTitle("请选择")
+			.setIcon(R.drawable.ic_launcher)
+			.setItems(new String[] {"本地图库", "照相机"}, new DialogInterface.OnClickListener() 
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which) 
+				{
+					if (which == 0)
+					{
+						Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+						startActivityForResult(i, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
+					}							
+					else if (which == 1)
+					{
+						Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
+						intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT)));  
+						startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CAMERA);  
+					}
+					dialog.dismiss();  
+				}
+			}).setNegativeButton("取消", null).show(); 
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == RESULT_OK)
+		{
+			Uri selectedImage =  data.getData();
+			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+			cursor.moveToFirst();
+			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+			String picturePath = cursor.getString(columnIndex);
+			cursor.close();
+			File temp = new File(picturePath);
+			startPhotoZoom(Uri.fromFile(temp)); 
+		}
+		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CAMERA && resultCode == RESULT_OK)
+		{
+			File temp = new File(Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.USERSET_PORTRAIT);  
+            startPhotoZoom(Uri.fromFile(temp));  
+			
+		}
+		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CROP && resultCode == RESULT_OK)
+		{
+			try 
+			{
+				selectedImg = MediaStore.Images.Media.getBitmap(this.getContentResolver(), IMAGE_URI);
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+			
+			Thread td = new Thread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					ImageMessage imgMsg = new ImageMessage(ConstantValues.user.getID(), friendID, selectedImg, CommonUtil.now(), true);
+					ConstantValues.user.sendMsgTo(getFriendByID(friendID), imgMsg);
+				}
+			});
+			td.start();
+			try {
+				td.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			messages.clear();
+			messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+			msgAdapter.notifyDataSetChanged();
+			listView.setSelection(listView.getCount() - 1);
+
+			Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+			sendBroadcast(intent);
+		}
+	}
+	/**********************										***********************/
+	/**********************			以上是选图相关函数				***********************/
+	/**********************										***********************/
 }

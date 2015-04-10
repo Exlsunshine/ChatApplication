@@ -75,11 +75,53 @@ public class ImageTransportation
 	 */
 	public Bitmap downloadImage(int imageId)
 	{
-		Bitmap bitmap = null;
+		/*Bitmap bitmap = null;
 		String[] name = {"imageId"};
 		Object[] values = {imageId};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
 		bitmap = string2Bitmap(result.toString());
+		return bitmap;*/
+		
+		Bitmap bitmap = null;
+		DownloadThread download = new DownloadThread(imageId);
+		download.start();
+		
+		synchronized (download) 
+		{
+			try {
+				download.wait();
+				bitmap = download.bitmap;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return bitmap;
+	}
+	
+	private class DownloadThread extends Thread
+	{
+		private Bitmap bitmap = null;
+		private int imageID;
+		
+		public DownloadThread(int imageID)
+		{
+			this.imageID = imageID;
+		}
+		
+		@Override
+		public void run() 
+		{
+			super.run();
+			synchronized (this) 
+			{
+				String[] name = {"imageId"};
+				Object[] values = {imageID};
+				Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
+				bitmap = string2Bitmap(result.toString());
+				
+				notify();
+			}
+		}
 	}
 }
