@@ -1,19 +1,15 @@
 package com.yg.ui.dialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.testmobiledatabase.R;
-import com.yg.ui.dialog.implementation.CircleBitmap;
+import com.yg.commons.CommonUtil;
+import com.yg.commons.ConstantValues;
+import com.yg.message.TextMessage;
 import com.yg.ui.dialog.implementation.DialogAdapter;
-import com.yg.ui.dialog.implementation.msgtext;
+import com.yg.user.FriendUser;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,13 +28,9 @@ import android.widget.RelativeLayout;
 
 public class DialogActivity extends Activity
 {
-	private String name = null;
-	private List<msgtext> list = new ArrayList<msgtext>();
+	private int friendID = -1;
 	private DialogAdapter msgAdapter = null;
 	private ListView listView = null;
-	private Bitmap bmp;
-	private Bitmap bmp1;
-	private msgtext a;
 	private EditText editText = null;
 	private Button send = null;
 	private Button addButton = null;
@@ -50,9 +42,6 @@ public class DialogActivity extends Activity
 	private LinearLayout record_hint_text_record_layout = null;
 	private LinearLayout record_hint_text_cancel_layout = null;
 	private RelativeLayout plusRelativelayout = null;
-	//private int[] location = new int[2];
-	//private int recordvoicebtn_Y = 0;
-	//private int recordvoicebtn_X = 0;
 	private boolean isRecord = true;
 
 	protected void onCreate(Bundle savedInstanceState)
@@ -61,7 +50,7 @@ public class DialogActivity extends Activity
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.yg_dialog_activity);
 		Intent intent = getIntent();
-		name = intent.getStringExtra("reveiewer");
+		friendID = intent.getIntExtra("reveiewer", -1);
 
 		listView = (ListView) super.findViewById(R.id.yg_dialog_activity_dialog_listview);
 		editText = (EditText) super.findViewById(R.id.yg_dialog_activity_inputbox);
@@ -77,53 +66,15 @@ public class DialogActivity extends Activity
 		plusRelativelayout = (RelativeLayout) super.findViewById(R.id.yg_dialog_activity_plus_rl);
 		final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-		Resources res = getResources();
-		bmp = BitmapFactory.decodeResource(res, R.drawable.yg_portrait_sample_x);
-		bmp = CircleBitmap.circleBitmap(bmp);
-		bmp1 = BitmapFactory.decodeResource(res, R.drawable.yg_portrait_sample_x);
-		bmp1 = CircleBitmap.circleBitmap(bmp1);
-
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "晚上好", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "好啊", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "吃饭了吗", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "没有,正要去呢", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "快去", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "好", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "嘛呢", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "路上呢", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "回家?", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "对", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "哪你先回吧", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "好的", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "到了吗", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "嗯嗯", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "太累了", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "~~", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "斜阳晚钟", "文艺青年", "!!", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-		a = new msgtext(this, "文艺青年", "斜阳晚钟", "= =", "2014-03-27 14:32", bmp, bmp1);
-		list.add(a);
-
-		msgAdapter = new DialogAdapter(this, list, name);
+		
+		msgAdapter = new DialogAdapter(this, 
+				ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
 		listView.setAdapter(msgAdapter);
 		listView.setSelection(msgAdapter.getCount());
 
+		
+		
+		
 		editText.addTextChangedListener(new TextWatcher()
 		{
 			@Override
@@ -150,7 +101,6 @@ public class DialogActivity extends Activity
 			public void afterTextChanged(Editable s) 
 			{
 			}
-
 		});
 
 		send.setOnClickListener(new OnClickListener()
@@ -158,8 +108,10 @@ public class DialogActivity extends Activity
 			public void onClick(View v) 
 			{
 				String content = editText.getText().toString();
-				msgtext aa = new msgtext(DialogActivity.this, "斜阳晚钟", name, content, "2015-04-09-13:42", bmp, bmp1);
-				msgAdapter.add(aa);
+				TextMessage txtMsg = new TextMessage(ConstantValues.user.getID(),
+						friendID, content, CommonUtil.now(), true);
+				ConstantValues.user.sendMsgTo(getFriendByID(friendID), txtMsg);
+				msgAdapter.notifyDataSetChanged();
 				listView.setSelection(listView.getCount() - 1);
 				editText.setText("");
 			}
@@ -250,6 +202,16 @@ public class DialogActivity extends Activity
 				return false;
 			}
 		});
+	}
+	
+	private FriendUser getFriendByID(int id)
+	{
+		for (int i = 0; i < ConstantValues.user.getFriendList().size(); i++)
+		{
+			if (ConstantValues.user.getFriendList().get(i).getID() == id)
+				return ConstantValues.user.getFriendList().get(i);
+		}
+		return null;
 	}
 
 	public void StartRecord()
