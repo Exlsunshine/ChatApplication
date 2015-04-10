@@ -1,5 +1,10 @@
 package com.yg.user;
 
+import com.yg.commons.ConstantValues;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 public abstract class AbstractUser
 {
 	protected int id;
@@ -11,6 +16,7 @@ public abstract class AbstractUser
 	protected String birthday;
 	protected byte[] portrait;
 	protected String hometown;
+	protected Bitmap portraitBmp;
 	
 	public AbstractUser(int id, String loginAccount, String nickName, String email, String phoneNumber,
 			String sex, String birthday, byte[] portrait, String hometown)
@@ -24,6 +30,19 @@ public abstract class AbstractUser
 		this.birthday = birthday;
 		this.portrait = portrait;
 		this.hometown = hometown;
+		this.portraitBmp = null;
+	}
+	
+	/**
+	 * 获取用户头像(Bitmap类型)
+	 * @return 头像(Bitmap类型)
+	 */
+	public Bitmap getPortraitBmp()
+	{
+		if (portraitBmp == null)
+			portraitBmp = BitmapFactory.decodeByteArray(portrait, 0, portrait.length);
+		
+		return portraitBmp;
 	}
 	
 	/**
