@@ -1,12 +1,6 @@
 package com.yg.ui.dialog.implementation;
 
 import java.util.ArrayList;
-import com.example.testmobiledatabase.R;
-import com.yg.commons.ConstantValues;
-import com.yg.message.AbstractMessage;
-import com.yg.message.ImageMessage;
-import com.yg.message.TextMessage;
-import com.yg.user.FriendUser;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,6 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.testmobiledatabase.R;
+import com.yg.commons.CommonUtil;
+import com.yg.commons.ConstantValues;
+import com.yg.message.AbstractMessage;
+import com.yg.message.ImageMessage;
+import com.yg.message.TextMessage;
+import com.yg.user.FriendUser;
 
 public class DialogAdapter extends BaseAdapter 
 {
@@ -72,8 +74,9 @@ public class DialogAdapter extends BaseAdapter
 		else
 			holder = (ViewHolder) convertView.getTag();
 
-		holder.tvTime.setVisibility(View.VISIBLE);
-		holder.tvTime.setText(messages.get(position).getDate());
+		setTime(holder, position);
+		/*holder.tvTime.setVisibility(View.VISIBLE);
+		holder.tvTime.setText(messages.get(position).getDate());*/
 		
 		if (messages.get(position).getFromUserID() == ConstantValues.user.getID())
 		{
@@ -149,6 +152,29 @@ public class DialogAdapter extends BaseAdapter
 				return ConstantValues.user.getFriendList().get(i);
 		}
 		return null;
+	}
+	
+	/**
+	 * 设置是否显示聊天的时间（5分钟之内的消息不显示）
+	 * @param holder
+	 * @param position
+	 */
+	private void setTime(ViewHolder holder, int position)
+	{
+		holder.tvTime.setVisibility(View.GONE);
+		if (position > 1)
+		{
+			if (!DateUtil.lessThan5Mins(messages.get(position).getDate(), messages.get(position - 1).getDate()))
+			{
+				holder.tvTime.setVisibility(View.VISIBLE);
+				holder.tvTime.setText(DateUtil.getSuggestion(CommonUtil.now(), messages.get(position).getDate()));
+			}
+		}
+		else
+		{
+			holder.tvTime.setVisibility(View.VISIBLE);
+			holder.tvTime.setText(messages.get(position).getDate().substring(0, messages.get(position).getDate().length() - 9));
+		}
 	}
 	
 	private static class ViewHolder 

@@ -18,11 +18,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
 import com.yg.message.AbstractMessage;
 import com.yg.message.TextMessage;
 import com.yg.ui.dialog.DialogActivity;
+import com.yg.ui.dialog.implementation.DateUtil;
 import com.yg.ui.friendlist.implementation.CircleBitmap;
 import com.yg.ui.recentdialog.implementation.RecentDialogAdapter;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView;
@@ -63,7 +65,8 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 							ids.add(friendID);
 							names.add(friends.get(i).getAlias());
 							messages.add(getLastMessage(dialogs.get(i).getLastMessage()));
-							dates.add(dialogs.get(i).getLastMessage().getDate());
+							//dates.add(dialogs.get(i).getLastMessage().getDate());
+							dates.add(DateUtil.getSuggestion(CommonUtil.now(), dialogs.get(i).getLastMessage().getDate()));
 							bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 							bmp = CircleBitmap.circleBitmap(bmp);
 							portraits.add(bmp);
@@ -189,7 +192,8 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 					ids.add(friendID);
 					names.add(friends.get(i).getAlias());
 					messages.add(getLastMessage(dialogs.get(i).getLastMessage()));
-					dates.add(dialogs.get(i).getLastMessage().getDate());
+					//dates.add(dialogs.get(i).getLastMessage().getDate());
+					dates.add(DateUtil.getSuggestion(CommonUtil.now(), dialogs.get(i).getLastMessage().getDate()));
 					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portraits.add(bmp);
