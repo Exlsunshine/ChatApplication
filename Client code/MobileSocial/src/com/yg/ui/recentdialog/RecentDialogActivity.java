@@ -36,6 +36,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 	List<String> names = new ArrayList<String>();
 	List<String> messages = new ArrayList<String>();
 	List<String> dates = new ArrayList<String>();
+	List<Integer> ids = new ArrayList<Integer>();
 	List<Bitmap> portraits = new ArrayList<Bitmap>();
 	
 	RecentDialogAdapter myAdapter = null;
@@ -60,10 +61,11 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 					{
 						if (friends.get(j).getID() == friendID)
 						{
+							ids.add(friendID);
 							names.add(friends.get(i).getAlias());
 							messages.add(getLastMessage(dialogs.get(i).getLastMessage()));
 							dates.add(dialogs.get(i).getLastMessage().getDate());
-							bmp = BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
+							bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 							bmp = CircleBitmap.circleBitmap(bmp);
 							portraits.add(bmp);
 						}
@@ -83,7 +85,8 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 	private String getLastMessage(AbstractMessage msg)
 	{
 		String result = null;
-		switch (msg.getMessageType()) {
+		switch (msg.getMessageType()) 
+		{
 		case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 			result = ((TextMessage)msg).getText();
 			break;
@@ -109,7 +112,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		finalListView = (RecentDialogListView) super.findViewById(R.id.yg_recent_dialog_listview);
 		finalListView.setRemoveListener(this);
 
-		myAdapter = new RecentDialogAdapter(this, names, messages, dates, portraits);
+		myAdapter = new RecentDialogAdapter(this, names, messages, dates, portraits, ids);
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 
@@ -172,6 +175,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		ConstantValues.user.setContext(RecentDialogActivity.this);
 		ArrayList<Dialog> dialogs = ConstantValues.user.getRecentDialogs();
 		
+		ids.clear();
 		names.clear();
 		messages.clear();
 		dates.clear();
@@ -183,10 +187,11 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 			{
 				if (friends.get(j).getID() == friendID)
 				{
+					ids.add(friendID);
 					names.add(friends.get(i).getAlias());
 					messages.add(getLastMessage(dialogs.get(i).getLastMessage()));
 					dates.add(dialogs.get(i).getLastMessage().getDate());
-					bmp = BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
+					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portraits.add(bmp);
 				}
@@ -211,9 +216,9 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			String name = (String) myAdapter.getItem(position - 2);
+			int friendID = (int) myAdapter.getItemId(position - 2);
 			Intent intent = new Intent(RecentDialogActivity.this, DialogActivity.class);
-			intent.putExtra("reveiewer", "aaa");
+			intent.putExtra("reveiewer", friendID);
 			RecentDialogActivity.this.startActivity(intent);
 		}
 	}
