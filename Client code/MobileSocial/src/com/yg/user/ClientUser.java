@@ -95,7 +95,7 @@ public class ClientUser extends AbstractUser
 				byte [] content = audioTransport.downloadAudio(audioID);
 				AudioMessage audioMsg = new AudioMessage(fromUserID, getID(), content, date, false);
 				dialog.appendMessage(audioMsg);
-				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_AUDIO, getID(), fromUserID);
+				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_AUDIO, fromUserID, getID());
 				break;
 				
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
@@ -104,13 +104,13 @@ public class ClientUser extends AbstractUser
 				Bitmap bmp = imgTransport.downloadImage(imgID);
 				ImageMessage imgMsg = new ImageMessage(fromUserID, getID(), bmp, date, false);
 				dialog.appendMessage(imgMsg);
-				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE, getID(), fromUserID);
+				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE, fromUserID, getID());
 				break;
 				
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 				TextMessage txtMsg = new TextMessage(fromUserID, getID(), body, date, false);
 				dialog.appendMessage(txtMsg);
-				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT, getID(), fromUserID);
+				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT, fromUserID, getID());
 				break;
 			default:
 				Log.e(DEBUG_TAG, "Message handler error: Unkonwn type message " + String.valueOf(msg.what) + ".");

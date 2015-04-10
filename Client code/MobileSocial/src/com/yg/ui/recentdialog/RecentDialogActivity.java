@@ -3,6 +3,20 @@ package com.yg.ui.recentdialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
+
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
@@ -15,21 +29,6 @@ import com.yg.ui.recentdialog.implementation.RecentDialogListView;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView.OnRefreshListener;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView.RemoveListener;
 import com.yg.user.FriendUser;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.view.Menu;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class RecentDialogActivity extends Activity implements RemoveListener, OnRefreshListener 
 {
@@ -238,6 +237,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_AUDIO);
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE);
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT);
+		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
 		
 		return intentFilter;
 	}
@@ -250,6 +250,16 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 			if ((intent.getAction().equals(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_AUDIO))
 			|| (intent.getAction().equals(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE))
 			|| (intent.getAction().equals(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT)))
+			{
+				refreshRecentDialogs();
+				myAdapter.notifyDataSetChanged();
+				
+				int fromUserID = intent.getIntExtra("fromUserID", -1);
+				Intent processCompletedIntent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_COMPLETED);
+				processCompletedIntent.putExtra("fromUserID", fromUserID);
+				sendBroadcast(processCompletedIntent);
+			}
+			else if (intent.getAction().equals(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED))
 			{
 				refreshRecentDialogs();
 				myAdapter.notifyDataSetChanged();

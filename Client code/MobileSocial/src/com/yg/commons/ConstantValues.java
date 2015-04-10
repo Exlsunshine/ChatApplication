@@ -26,6 +26,8 @@ public class ConstantValues
 		public static final String MESSAGE_BROADCAST_RECV_TEXT = "text_message_received";
 		public static final String MESSAGE_BROADCAST_RECV_AUDIO = "audio_message_received";
 		public static final String MESSAGE_BROADCAST_RECV_IMAGE = "image_message_received";
+		public static final String MESSAGE_BROADCAST_RECV_COMPLETED = "message_received_completed";
+		public static final String MESSAGE_BROADCAST_SEND_COMPLETED = "message_send_completed";
 		
 		
 		public static final int GAME_TYPE_EIGHTPUZZLE = 0x00;

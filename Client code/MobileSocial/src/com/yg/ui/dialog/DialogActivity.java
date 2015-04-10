@@ -1,15 +1,20 @@
 package com.yg.ui.dialog;
 
+import java.util.ArrayList;
+
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.message.AbstractMessage;
 import com.yg.message.TextMessage;
 import com.yg.ui.dialog.implementation.DialogAdapter;
 import com.yg.user.FriendUser;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +33,8 @@ import android.widget.RelativeLayout;
 
 public class DialogActivity extends Activity
 {
+	private ArrayList<AbstractMessage> messages;
+	
 	private int friendID = -1;
 	private DialogAdapter msgAdapter = null;
 	private ListView listView = null;
@@ -66,15 +73,13 @@ public class DialogActivity extends Activity
 		plusRelativelayout = (RelativeLayout) super.findViewById(R.id.yg_dialog_activity_plus_rl);
 		final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-		
-		msgAdapter = new DialogAdapter(this, 
-				ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+		messages = new ArrayList<AbstractMessage>();
+		messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+				
+		msgAdapter = new DialogAdapter(this, messages);
 		listView.setAdapter(msgAdapter);
-		listView.setSelection(msgAdapter.getCount());
+		listView.setSelection(msgAdapter.getCount() - 1);
 
-		
-		
-		
 		editText.addTextChangedListener(new TextWatcher()
 		{
 			@Override
@@ -108,12 +113,17 @@ public class DialogActivity extends Activity
 			public void onClick(View v) 
 			{
 				String content = editText.getText().toString();
-				TextMessage txtMsg = new TextMessage(ConstantValues.user.getID(),
-						friendID, content, CommonUtil.now(), true);
+				TextMessage txtMsg = new TextMessage(ConstantValues.user.getID(), friendID, content, CommonUtil.now(), true);
 				ConstantValues.user.sendMsgTo(getFriendByID(friendID), txtMsg);
+				editText.setText("");
+				
+				messages.clear();
+				messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
 				msgAdapter.notifyDataSetChanged();
 				listView.setSelection(listView.getCount() - 1);
-				editText.setText("");
+
+				Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+				sendBroadcast(intent);
 			}
 		});
 
@@ -202,6 +212,8 @@ public class DialogActivity extends Activity
 				return false;
 			}
 		});
+		
+		//registerReceiver(broadcastReceiver, intentFilter());
 	}
 	
 	private FriendUser getFriendByID(int id)
@@ -214,7 +226,58 @@ public class DialogActivity extends Activity
 		return null;
 	}
 
-	public void StartRecord()
+	private void StartRecord()
 	{
+	}
+	
+	private IntentFilter intentFilter()
+	{
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_COMPLETED);
+		
+		return intentFilter;
+	}
+	
+	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			if ((intent.getAction().equals(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_COMPLETED)))
+			{
+				int fromUserID = intent.getIntExtra("fromUserID", -1);
+				
+				if (fromUserID == DialogActivity.this.friendID)
+				{
+					messages.clear();
+					messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+					msgAdapter.notifyDataSetChanged();
+					listView.setSelection(listView.getCount() - 1);
+				}
+			}
+		}
+	};
+	
+	protected void onResume()
+	{
+		super.onResume();
+		registerReceiver(broadcastReceiver, intentFilter());
+		
+		messages.clear();
+		messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+		msgAdapter.notifyDataSetChanged();
+		listView.setSelection(listView.getCount() - 1);
+	};
+	
+	protected void onPause()
+	{
+		super.onPause();
+		unregisterReceiver(broadcastReceiver);
+	};
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
 	}
 }
