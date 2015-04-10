@@ -37,7 +37,7 @@ public class DateUtil
 		if (min > 1 && min < 5)
 			return "Few minitues ago";
 		if (min >= 5)
-			return String.valueOf(hour) + " minitues ago";
+			return String.valueOf(min) + " minitues ago";
 		
 		return "Few seconds ago";
 	}
