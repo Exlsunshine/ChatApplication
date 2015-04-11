@@ -24,6 +24,9 @@ public final class R {
         public static final int yg_welcome_fade_out=0x7f04000c;
         public static final int yg_welcome_hold=0x7f04000d;
     }
+    public static final class animator {
+        public static final int yg_friendlist_flip=0x7f050000;
+    }
     public static final class attr {
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
@@ -71,8 +74,8 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f050000;
-        public static final int activity_vertical_margin=0x7f050001;
+        public static final int activity_horizontal_margin=0x7f060000;
+        public static final int activity_vertical_margin=0x7f060001;
     }
     public static final class drawable {
         public static final int ic_1=0x7f020000;
@@ -159,168 +162,174 @@ containing a value of this type.
         public static final int yg_slide_yellow_star_icon=0x7f020051;
     }
     public static final class id {
-        public static final int action_settings=0x7f09009e;
-        public static final int appkefu_plus_show_faq_btn=0x7f090059;
-        public static final int arrowup=0x7f090085;
-        public static final int button=0x7f09006f;
-        public static final int button1=0x7f09006e;
-        public static final int confirm=0x7f09000e;
-        public static final int eightpuzzle=0x7f09009f;
-        public static final int email=0x7f09000d;
-        public static final int forget=0x7f090015;
-        public static final int get_friend_list=0x7f090001;
-        public static final int headerTipsTv=0x7f090087;
-        public static final int hit=0x7f0900a1;
-        public static final int iv=0x7f090007;
-        public static final int linearLayout1=0x7f09000c;
-        public static final int linearlayout=0x7f09002a;
-        public static final int list1=0x7f09006b;
-        public static final int list_item=0x7f09006d;
-        public static final int listview=0x7f09000f;
-        public static final int lj_birthday=0x7f09003d;
-        public static final int lj_city=0x7f09003f;
-        public static final int lj_district=0x7f090040;
-        public static final int lj_flagswitch_1=0x7f090030;
-        public static final int lj_flagswitch_2=0x7f090034;
-        public static final int lj_gameset=0x7f090036;
-        public static final int lj_imageView=0x7f09002c;
-        public static final int lj_look=0x7f090039;
-        public static final int lj_lyricBtn_1=0x7f09002f;
-        public static final int lj_lyricBtn_2=0x7f090033;
-        public static final int lj_menu=0x7f090019;
-        public static final int lj_nickname=0x7f09003b;
-        public static final int lj_password=0x7f09003c;
-        public static final int lj_phone=0x7f090041;
-        public static final int lj_portraitImageView=0x7f09003a;
-        public static final int lj_province=0x7f09003e;
-        public static final int lj_score=0x7f090035;
-        public static final int lj_selectImageBtn=0x7f09002b;
-        public static final int lj_sex=0x7f090042;
-        public static final int lj_singerBtn_1=0x7f09002d;
-        public static final int lj_singerBtn_2=0x7f090031;
-        public static final int lj_songBtn_1=0x7f09002e;
-        public static final int lj_songBtn_2=0x7f090032;
-        public static final int lj_sysset=0x7f090038;
-        public static final int lj_userset=0x7f090037;
-        public static final int ll=0x7f09007b;
-        public static final int login=0x7f090013;
-        public static final int login_account=0x7f090011;
-        public static final int login_portrait=0x7f090010;
-        public static final int loginguide_dot0=0x7f090071;
-        public static final int loginguide_dot1=0x7f090072;
-        public static final int loginguide_dot2=0x7f090073;
-        public static final int loginguide_dot3=0x7f090074;
-        public static final int loginguide_page3_login_btn=0x7f090077;
-        public static final int loginguide_page3_logo=0x7f090075;
-        public static final int loginguide_page3_signup_btn=0x7f090076;
-        public static final int loginguide_viewpager=0x7f090070;
-        public static final int main_activity_friend_list=0x7f090018;
-        public static final int main_activity_recent_dialog=0x7f090017;
-        public static final int main_radio=0x7f090016;
-        public static final int password=0x7f090012;
-        public static final int picture=0x7f09006c;
-        public static final int play=0x7f09000a;
-        public static final int plus_bottomline=0x7f09004e;
-        public static final int progressBar =0x7f090086;
-        public static final int pwd=0x7f09001c;
-        public static final int radioButton1=0x7f090096;
-        public static final int radioButton2=0x7f090097;
-        public static final int radioFemale=0x7f090022;
-        public static final int radioMale=0x7f090021;
-        public static final int receive_audio=0x7f090009;
-        public static final int receive_img=0x7f090006;
-        public static final int receive_text=0x7f090003;
-        public static final int record_hint_cancel=0x7f09005e;
-        public static final int reg_birthday=0x7f090024;
-        public static final int reg_cities=0x7f090026;
-        public static final int reg_districts=0x7f090027;
-        public static final int reg_email=0x7f09001b;
-        public static final int reg_nick_name=0x7f09001f;
-        public static final int reg_phone_number=0x7f090023;
-        public static final int reg_protrait=0x7f090028;
-        public static final int reg_proviences=0x7f090025;
-        public static final int reg_pwd=0x7f09001d;
-        public static final int reg_pwd_confirm=0x7f09001e;
-        public static final int reg_sex=0x7f090020;
-        public static final int reg_signup=0x7f090029;
-        public static final int register=0x7f090014;
-        public static final int sat_item=0x7f090043;
-        public static final int sat_main=0x7f090044;
-        public static final int send_audio=0x7f090008;
-        public static final int send_image=0x7f090005;
-        public static final int send_text=0x7f090002;
-        public static final int signin=0x7f090000;
-        public static final int song=0x7f0900a0;
-        public static final int stop=0x7f09000b;
-        public static final int tv=0x7f090004;
-        public static final int yg_dialog_activity_add_utton=0x7f090048;
-        public static final int yg_dialog_activity_appkefu_bottom_inputbar=0x7f090046;
-        public static final int yg_dialog_activity_appkefu_plus_pick_picture_btn=0x7f090050;
-        public static final int yg_dialog_activity_appkefu_plus_pick_picture_textview=0x7f090051;
-        public static final int yg_dialog_activity_appkefu_plus_rate_btn=0x7f090056;
-        public static final int yg_dialog_activity_appkefu_plus_rate_textview=0x7f090057;
-        public static final int yg_dialog_activity_appkefu_plus_show_faq_btn=0x7f090054;
-        public static final int yg_dialog_activity_appkefu_plus_show_faq_textview=0x7f090055;
-        public static final int yg_dialog_activity_appkefu_plus_take_picture_btn=0x7f090052;
-        public static final int yg_dialog_activity_appkefu_plus_take_picture_textview=0x7f090053;
-        public static final int yg_dialog_activity_appkefu_plus_view_placeholder=0x7f090058;
-        public static final int yg_dialog_activity_backtext=0x7f090049;
-        public static final int yg_dialog_activity_dialog_listview=0x7f090045;
-        public static final int yg_dialog_activity_emotion=0x7f09004a;
-        public static final int yg_dialog_activity_inputbox=0x7f09004b;
-        public static final int yg_dialog_activity_plus_rl=0x7f09004f;
-        public static final int yg_dialog_activity_record_btn=0x7f09004c;
-        public static final int yg_dialog_activity_record_hintview=0x7f09005a;
-        public static final int yg_dialog_activity_send=0x7f09004d;
-        public static final int yg_dialog_activity_voice_button=0x7f090047;
-        public static final int yg_dialog_record_hint_cancel_image_layout=0x7f09005d;
-        public static final int yg_dialog_record_hint_cancel_text_layout=0x7f09005f;
-        public static final int yg_dialog_record_hint_record_image_layout=0x7f09005b;
-        public static final int yg_dialog_record_hint_record_text_layout=0x7f09005c;
-        public static final int yg_dialoglist_item_friend_audio=0x7f090065;
-        public static final int yg_dialoglist_item_friend_image=0x7f090064;
-        public static final int yg_dialoglist_item_friend_layout=0x7f090061;
-        public static final int yg_dialoglist_item_friend_portrait=0x7f090062;
-        public static final int yg_dialoglist_item_friend_text=0x7f090063;
-        public static final int yg_dialoglist_item_my_audio=0x7f09006a;
-        public static final int yg_dialoglist_item_my_image=0x7f090069;
-        public static final int yg_dialoglist_item_my_layout=0x7f090066;
-        public static final int yg_dialoglist_item_my_portrait=0x7f090067;
-        public static final int yg_dialoglist_item_my_text=0x7f090068;
-        public static final int yg_dialoglist_item_time=0x7f090060;
-        public static final int yg_loginguide_page3_dialog_email=0x7f09007c;
-        public static final int yg_loginguide_page3_dialog_forgot=0x7f09007e;
-        public static final int yg_loginguide_page3_dialog_login=0x7f09007f;
-        public static final int yg_loginguide_page3_dialog_password=0x7f09007d;
-        public static final int yg_loginguide_page3_forgot__dialog_cancel=0x7f090079;
-        public static final int yg_loginguide_page3_forgot__dialog_email=0x7f090078;
-        public static final int yg_loginguide_page3_forgot__dialog_reset=0x7f09007a;
-        public static final int yg_loginguide_page3_signup_dialog_email=0x7f090080;
-        public static final int yg_loginguide_page3_signup_dialog_hint=0x7f090084;
-        public static final int yg_loginguide_page3_signup_dialog_nickname=0x7f090081;
-        public static final int yg_loginguide_page3_signup_dialog_password=0x7f090082;
-        public static final int yg_loginguide_page3_signup_dialog_signup=0x7f090083;
-        public static final int yg_recent_dialog_item_date=0x7f09008c;
-        public static final int yg_recent_dialog_item_delete=0x7f09008d;
-        public static final int yg_recent_dialog_item_friend_name=0x7f09008a;
-        public static final int yg_recent_dialog_item_last_msg=0x7f09008b;
-        public static final int yg_recent_dialog_item_linearlayout=0x7f090088;
-        public static final int yg_recent_dialog_item_portrait=0x7f090089;
-        public static final int yg_recent_dialog_listview=0x7f09001a;
-        public static final int yg_signup_activity__signup_text_layout=0x7f090091;
-        public static final int yg_signup_activity_bottom_bound=0x7f09008e;
-        public static final int yg_signup_activity_left_bound=0x7f09008f;
-        public static final int yg_signup_activity_ok=0x7f090092;
-        public static final int yg_signup_activity_right_bound=0x7f090090;
-        public static final int yg_signup_first_dialog_activity_next=0x7f090098;
-        public static final int yg_signup_first_dialog_phone_number=0x7f090094;
-        public static final int yg_signup_first_dialog_portrait=0x7f090093;
-        public static final int yg_signup_first_dialog_sexgroup=0x7f090095;
-        public static final int yg_signup_second_dialog_birthday=0x7f090099;
-        public static final int yg_signup_second_dialog_cities=0x7f09009b;
-        public static final int yg_signup_second_dialog_districts=0x7f09009c;
-        public static final int yg_signup_second_dialog_done=0x7f09009d;
-        public static final int yg_signup_second_dialog_proviences=0x7f09009a;
+        public static final int action_settings=0x7f0a00a4;
+        public static final int appkefu_plus_show_faq_btn=0x7f0a0059;
+        public static final int arrowup=0x7f0a008b;
+        public static final int button=0x7f0a0075;
+        public static final int button1=0x7f0a0074;
+        public static final int confirm=0x7f0a000e;
+        public static final int eightpuzzle=0x7f0a00a5;
+        public static final int email=0x7f0a000d;
+        public static final int forget=0x7f0a0015;
+        public static final int get_friend_list=0x7f0a0001;
+        public static final int headerTipsTv=0x7f0a008d;
+        public static final int hit=0x7f0a00a7;
+        public static final int iv=0x7f0a0007;
+        public static final int linearLayout1=0x7f0a000c;
+        public static final int linearlayout=0x7f0a002a;
+        public static final int list1=0x7f0a0071;
+        public static final int list_item=0x7f0a0073;
+        public static final int listview=0x7f0a000f;
+        public static final int lj_birthday=0x7f0a003d;
+        public static final int lj_city=0x7f0a003f;
+        public static final int lj_district=0x7f0a0040;
+        public static final int lj_flagswitch_1=0x7f0a0030;
+        public static final int lj_flagswitch_2=0x7f0a0034;
+        public static final int lj_gameset=0x7f0a0036;
+        public static final int lj_imageView=0x7f0a002c;
+        public static final int lj_look=0x7f0a0039;
+        public static final int lj_lyricBtn_1=0x7f0a002f;
+        public static final int lj_lyricBtn_2=0x7f0a0033;
+        public static final int lj_menu=0x7f0a0019;
+        public static final int lj_nickname=0x7f0a003b;
+        public static final int lj_password=0x7f0a003c;
+        public static final int lj_phone=0x7f0a0041;
+        public static final int lj_portraitImageView=0x7f0a003a;
+        public static final int lj_province=0x7f0a003e;
+        public static final int lj_score=0x7f0a0035;
+        public static final int lj_selectImageBtn=0x7f0a002b;
+        public static final int lj_sex=0x7f0a0042;
+        public static final int lj_singerBtn_1=0x7f0a002d;
+        public static final int lj_singerBtn_2=0x7f0a0031;
+        public static final int lj_songBtn_1=0x7f0a002e;
+        public static final int lj_songBtn_2=0x7f0a0032;
+        public static final int lj_sysset=0x7f0a0038;
+        public static final int lj_userset=0x7f0a0037;
+        public static final int ll=0x7f0a0081;
+        public static final int login=0x7f0a0013;
+        public static final int login_account=0x7f0a0011;
+        public static final int login_portrait=0x7f0a0010;
+        public static final int loginguide_dot0=0x7f0a0077;
+        public static final int loginguide_dot1=0x7f0a0078;
+        public static final int loginguide_dot2=0x7f0a0079;
+        public static final int loginguide_dot3=0x7f0a007a;
+        public static final int loginguide_page3_login_btn=0x7f0a007d;
+        public static final int loginguide_page3_logo=0x7f0a007b;
+        public static final int loginguide_page3_signup_btn=0x7f0a007c;
+        public static final int loginguide_viewpager=0x7f0a0076;
+        public static final int main_activity_friend_list=0x7f0a0018;
+        public static final int main_activity_recent_dialog=0x7f0a0017;
+        public static final int main_radio=0x7f0a0016;
+        public static final int password=0x7f0a0012;
+        public static final int picture=0x7f0a0072;
+        public static final int play=0x7f0a000a;
+        public static final int plus_bottomline=0x7f0a004e;
+        public static final int progressBar =0x7f0a008c;
+        public static final int pwd=0x7f0a001c;
+        public static final int radioButton1=0x7f0a009c;
+        public static final int radioButton2=0x7f0a009d;
+        public static final int radioFemale=0x7f0a0022;
+        public static final int radioMale=0x7f0a0021;
+        public static final int receive_audio=0x7f0a0009;
+        public static final int receive_img=0x7f0a0006;
+        public static final int receive_text=0x7f0a0003;
+        public static final int record_hint_cancel=0x7f0a005e;
+        public static final int reg_birthday=0x7f0a0024;
+        public static final int reg_cities=0x7f0a0026;
+        public static final int reg_districts=0x7f0a0027;
+        public static final int reg_email=0x7f0a001b;
+        public static final int reg_nick_name=0x7f0a001f;
+        public static final int reg_phone_number=0x7f0a0023;
+        public static final int reg_protrait=0x7f0a0028;
+        public static final int reg_proviences=0x7f0a0025;
+        public static final int reg_pwd=0x7f0a001d;
+        public static final int reg_pwd_confirm=0x7f0a001e;
+        public static final int reg_sex=0x7f0a0020;
+        public static final int reg_signup=0x7f0a0029;
+        public static final int register=0x7f0a0014;
+        public static final int sat_item=0x7f0a0043;
+        public static final int sat_main=0x7f0a0044;
+        public static final int send_audio=0x7f0a0008;
+        public static final int send_image=0x7f0a0005;
+        public static final int send_text=0x7f0a0002;
+        public static final int signin=0x7f0a0000;
+        public static final int song=0x7f0a00a6;
+        public static final int stop=0x7f0a000b;
+        public static final int tv=0x7f0a0004;
+        public static final int yg_dialog_activity_add_utton=0x7f0a0048;
+        public static final int yg_dialog_activity_appkefu_bottom_inputbar=0x7f0a0046;
+        public static final int yg_dialog_activity_appkefu_plus_pick_picture_btn=0x7f0a0050;
+        public static final int yg_dialog_activity_appkefu_plus_pick_picture_textview=0x7f0a0051;
+        public static final int yg_dialog_activity_appkefu_plus_rate_btn=0x7f0a0056;
+        public static final int yg_dialog_activity_appkefu_plus_rate_textview=0x7f0a0057;
+        public static final int yg_dialog_activity_appkefu_plus_show_faq_btn=0x7f0a0054;
+        public static final int yg_dialog_activity_appkefu_plus_show_faq_textview=0x7f0a0055;
+        public static final int yg_dialog_activity_appkefu_plus_take_picture_btn=0x7f0a0052;
+        public static final int yg_dialog_activity_appkefu_plus_take_picture_textview=0x7f0a0053;
+        public static final int yg_dialog_activity_appkefu_plus_view_placeholder=0x7f0a0058;
+        public static final int yg_dialog_activity_backtext=0x7f0a0049;
+        public static final int yg_dialog_activity_dialog_listview=0x7f0a0045;
+        public static final int yg_dialog_activity_emotion=0x7f0a004a;
+        public static final int yg_dialog_activity_inputbox=0x7f0a004b;
+        public static final int yg_dialog_activity_plus_rl=0x7f0a004f;
+        public static final int yg_dialog_activity_record_btn=0x7f0a004c;
+        public static final int yg_dialog_activity_record_hintview=0x7f0a005a;
+        public static final int yg_dialog_activity_send=0x7f0a004d;
+        public static final int yg_dialog_activity_voice_button=0x7f0a0047;
+        public static final int yg_dialog_record_hint_cancel_image_layout=0x7f0a005d;
+        public static final int yg_dialog_record_hint_cancel_text_layout=0x7f0a005f;
+        public static final int yg_dialog_record_hint_record_image_layout=0x7f0a005b;
+        public static final int yg_dialog_record_hint_record_text_layout=0x7f0a005c;
+        public static final int yg_dialoglist_item_friend_audio=0x7f0a0065;
+        public static final int yg_dialoglist_item_friend_image=0x7f0a0064;
+        public static final int yg_dialoglist_item_friend_layout=0x7f0a0061;
+        public static final int yg_dialoglist_item_friend_portrait=0x7f0a0062;
+        public static final int yg_dialoglist_item_friend_text=0x7f0a0063;
+        public static final int yg_dialoglist_item_my_audio=0x7f0a006a;
+        public static final int yg_dialoglist_item_my_image=0x7f0a0069;
+        public static final int yg_dialoglist_item_my_layout=0x7f0a0066;
+        public static final int yg_dialoglist_item_my_portrait=0x7f0a0067;
+        public static final int yg_dialoglist_item_my_text=0x7f0a0068;
+        public static final int yg_dialoglist_item_time=0x7f0a0060;
+        public static final int yg_friendlist_actionbar_default_layout=0x7f0a006b;
+        public static final int yg_friendlist_actionbar_default_layout_search=0x7f0a006d;
+        public static final int yg_friendlist_actionbar_default_layout_title=0x7f0a006c;
+        public static final int yg_friendlist_actionbar_result_layout=0x7f0a006e;
+        public static final int yg_friendlist_actionbar_result_layout_delete=0x7f0a0070;
+        public static final int yg_friendlist_actionbar_result_layout_title=0x7f0a006f;
+        public static final int yg_loginguide_page3_dialog_email=0x7f0a0082;
+        public static final int yg_loginguide_page3_dialog_forgot=0x7f0a0084;
+        public static final int yg_loginguide_page3_dialog_login=0x7f0a0085;
+        public static final int yg_loginguide_page3_dialog_password=0x7f0a0083;
+        public static final int yg_loginguide_page3_forgot__dialog_cancel=0x7f0a007f;
+        public static final int yg_loginguide_page3_forgot__dialog_email=0x7f0a007e;
+        public static final int yg_loginguide_page3_forgot__dialog_reset=0x7f0a0080;
+        public static final int yg_loginguide_page3_signup_dialog_email=0x7f0a0086;
+        public static final int yg_loginguide_page3_signup_dialog_hint=0x7f0a008a;
+        public static final int yg_loginguide_page3_signup_dialog_nickname=0x7f0a0087;
+        public static final int yg_loginguide_page3_signup_dialog_password=0x7f0a0088;
+        public static final int yg_loginguide_page3_signup_dialog_signup=0x7f0a0089;
+        public static final int yg_recent_dialog_item_date=0x7f0a0092;
+        public static final int yg_recent_dialog_item_delete=0x7f0a0093;
+        public static final int yg_recent_dialog_item_friend_name=0x7f0a0090;
+        public static final int yg_recent_dialog_item_last_msg=0x7f0a0091;
+        public static final int yg_recent_dialog_item_linearlayout=0x7f0a008e;
+        public static final int yg_recent_dialog_item_portrait=0x7f0a008f;
+        public static final int yg_recent_dialog_listview=0x7f0a001a;
+        public static final int yg_signup_activity__signup_text_layout=0x7f0a0097;
+        public static final int yg_signup_activity_bottom_bound=0x7f0a0094;
+        public static final int yg_signup_activity_left_bound=0x7f0a0095;
+        public static final int yg_signup_activity_ok=0x7f0a0098;
+        public static final int yg_signup_activity_right_bound=0x7f0a0096;
+        public static final int yg_signup_first_dialog_activity_next=0x7f0a009e;
+        public static final int yg_signup_first_dialog_phone_number=0x7f0a009a;
+        public static final int yg_signup_first_dialog_portrait=0x7f0a0099;
+        public static final int yg_signup_first_dialog_sexgroup=0x7f0a009b;
+        public static final int yg_signup_second_dialog_birthday=0x7f0a009f;
+        public static final int yg_signup_second_dialog_cities=0x7f0a00a1;
+        public static final int yg_signup_second_dialog_districts=0x7f0a00a2;
+        public static final int yg_signup_second_dialog_done=0x7f0a00a3;
+        public static final int yg_signup_second_dialog_proviences=0x7f0a00a0;
     }
     public static final class layout {
         public static final int activity_activity_shake=0x7f030000;
@@ -339,48 +348,49 @@ containing a value of this type.
         public static final int yg_dialog_activity=0x7f03000d;
         public static final int yg_dialog_record_hintview=0x7f03000e;
         public static final int yg_dialoglist_item=0x7f03000f;
-        public static final int yg_friendlist_item=0x7f030010;
-        public static final int yg_loginguide_activity=0x7f030011;
-        public static final int yg_loginguide_page0=0x7f030012;
-        public static final int yg_loginguide_page1=0x7f030013;
-        public static final int yg_loginguide_page2=0x7f030014;
-        public static final int yg_loginguide_page3=0x7f030015;
-        public static final int yg_loginguide_page3_forget_dialog=0x7f030016;
-        public static final int yg_loginguide_page3_login_dialog=0x7f030017;
-        public static final int yg_loginguide_page3_signup_dialog=0x7f030018;
-        public static final int yg_lv_header=0x7f030019;
-        public static final int yg_recent_dialog_item=0x7f03001a;
-        public static final int yg_signup_activity=0x7f03001b;
-        public static final int yg_signup_first_dialog=0x7f03001c;
-        public static final int yg_signup_second_dialog=0x7f03001d;
-        public static final int yg_welcome_activity=0x7f03001e;
+        public static final int yg_friendlist_actionbar=0x7f030010;
+        public static final int yg_friendlist_item=0x7f030011;
+        public static final int yg_loginguide_activity=0x7f030012;
+        public static final int yg_loginguide_page0=0x7f030013;
+        public static final int yg_loginguide_page1=0x7f030014;
+        public static final int yg_loginguide_page2=0x7f030015;
+        public static final int yg_loginguide_page3=0x7f030016;
+        public static final int yg_loginguide_page3_forget_dialog=0x7f030017;
+        public static final int yg_loginguide_page3_login_dialog=0x7f030018;
+        public static final int yg_loginguide_page3_signup_dialog=0x7f030019;
+        public static final int yg_lv_header=0x7f03001a;
+        public static final int yg_recent_dialog_item=0x7f03001b;
+        public static final int yg_signup_activity=0x7f03001c;
+        public static final int yg_signup_first_dialog=0x7f03001d;
+        public static final int yg_signup_second_dialog=0x7f03001e;
+        public static final int yg_welcome_activity=0x7f03001f;
     }
     public static final class menu {
-        public static final int activity_shake=0x7f080000;
-        public static final int client_user_unit_test=0x7f080001;
-        public static final int forget=0x7f080002;
-        public static final int friend_list=0x7f080003;
-        public static final int login=0x7f080004;
-        public static final int main=0x7f080005;
-        public static final int menu_game_save=0x7f080006;
-        public static final int recent_dialog=0x7f080007;
-        public static final int register=0x7f080008;
-        public static final int signup=0x7f080009;
+        public static final int activity_shake=0x7f090000;
+        public static final int client_user_unit_test=0x7f090001;
+        public static final int forget=0x7f090002;
+        public static final int friend_list=0x7f090003;
+        public static final int login=0x7f090004;
+        public static final int main=0x7f090005;
+        public static final int menu_game_save=0x7f090006;
+        public static final int recent_dialog=0x7f090007;
+        public static final int register=0x7f090008;
+        public static final int signup=0x7f090009;
     }
     public static final class string {
-        public static final int action_settings=0x7f060002;
-        public static final int app_name=0x7f060001;
-        public static final int empty=0x7f060000;
-        public static final int hello_world=0x7f060003;
-        public static final int title_activity_activity_shake=0x7f06000b;
-        public static final int title_activity_client_user_unit_test=0x7f060004;
-        public static final int title_activity_forget=0x7f060007;
-        public static final int title_activity_friend_list=0x7f060009;
-        public static final int title_activity_login=0x7f060006;
-        public static final int title_activity_main=0x7f060008;
-        public static final int title_activity_recent_dialog=0x7f06000a;
-        public static final int title_activity_register=0x7f060005;
-        public static final int title_activity_signup=0x7f06000c;
+        public static final int action_settings=0x7f070002;
+        public static final int app_name=0x7f070001;
+        public static final int empty=0x7f070000;
+        public static final int hello_world=0x7f070003;
+        public static final int title_activity_activity_shake=0x7f07000b;
+        public static final int title_activity_client_user_unit_test=0x7f070004;
+        public static final int title_activity_forget=0x7f070007;
+        public static final int title_activity_friend_list=0x7f070009;
+        public static final int title_activity_login=0x7f070006;
+        public static final int title_activity_main=0x7f070008;
+        public static final int title_activity_recent_dialog=0x7f07000a;
+        public static final int title_activity_register=0x7f070005;
+        public static final int title_activity_signup=0x7f07000c;
     }
     public static final class style {
         /** 
@@ -416,40 +426,40 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
+        public static final int AppTheme=0x7f080001;
         /**  ********************************* 
  Login Activity animation settings 
  ********************************* 
          */
-        public static final int LoginAnimation=0x7f070005;
+        public static final int LoginAnimation=0x7f080005;
         /**  ********************************* 
  Loginguide Activity LogIn dialog animation 
  ********************************* 
          */
-        public static final int LoginDialogAnimation=0x7f070009;
-        public static final int LoginDialogWindowsAnimation=0x7f07000a;
+        public static final int LoginDialogAnimation=0x7f080009;
+        public static final int LoginDialogWindowsAnimation=0x7f08000a;
         /**  *********************************** 
  Welcome Activity animation settings 
  *********************************** 
          */
-        public static final int WelcomeAnimation=0x7f070003;
-        public static final int login_animation_style=0x7f070006;
+        public static final int WelcomeAnimation=0x7f080003;
+        public static final int login_animation_style=0x7f080006;
         /**  ********************************* 
  Loginguide Activity Log In button style 
  ********************************* 
          */
-        public static final int loginguide_page3_login_btn_style=0x7f070008;
+        public static final int loginguide_page3_login_btn_style=0x7f080008;
         /**  ********************************* 
  Loginguide Activity Sign Up button style 
  ********************************* 
          */
-        public static final int loginguide_page3_signup_btn_style=0x7f070007;
-        public static final int main_tab_bottom=0x7f070002;
-        public static final int welcome_animation_style=0x7f070004;
+        public static final int loginguide_page3_signup_btn_style=0x7f080007;
+        public static final int main_tab_bottom=0x7f080002;
+        public static final int welcome_animation_style=0x7f080004;
     }
     public static final class styleable {
         /** Attributes that can be used with a SatelliteMenu.
