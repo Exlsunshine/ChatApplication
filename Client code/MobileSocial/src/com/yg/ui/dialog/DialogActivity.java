@@ -282,10 +282,6 @@ public class DialogActivity extends Activity
 		return null;
 	}
 
-	private void StartRecord()
-	{
-	}
-	
 	private IntentFilter intentFilter()
 	{
 		IntentFilter intentFilter = new IntentFilter();

@@ -76,8 +76,24 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@id/yg_dialoglist_item_friend_portrait"
-            android:background="@drawable/friendvoice"
+            android:background="@drawable/yg_dialog_chatfrom_bg"
             android:gravity="center_vertical"
+            android:src="@drawable/friendvoice"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/yg_dialoglist_item_friend_audio_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/yg_dialoglist_item_friend_audio"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="2dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp"
             android:visibility="gone" />
     </RelativeLayout>
 
@@ -141,6 +157,20 @@
             android:layout_toLeftOf="@id/yg_dialoglist_item_my_portrait"
             android:background="@drawable/myvoice"
             android:gravity="center_vertical"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/yg_dialoglist_item_my_audio_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/yg_dialoglist_item_my_audio"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="2dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15sp"
             android:visibility="gone" />
     </RelativeLayout>
 

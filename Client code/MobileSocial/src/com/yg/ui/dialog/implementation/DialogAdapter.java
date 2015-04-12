@@ -66,6 +66,8 @@ public class DialogAdapter extends BaseAdapter
 			holder.ivMyImage = (ImageView) convertView.findViewById(R.id.yg_dialoglist_item_my_image);
 			holder.ivFriendAudio = (ImageView) convertView.findViewById(R.id.yg_dialoglist_item_friend_audio);
 			holder.ivMyAudio = (ImageView) convertView.findViewById(R.id.yg_dialoglist_item_my_audio);
+			holder.tvFriendAudioLength = (TextView) convertView.findViewById(R.id.yg_dialoglist_item_friend_audio_length);
+			holder.tvMyAudioLength = (TextView) convertView.findViewById(R.id.yg_dialoglist_item_my_audio_length);
 			holder.ivFriendPortrait = (ImageView) convertView.findViewById(R.id.yg_dialoglist_item_friend_portrait);
 			holder.ivMyPortrait = (ImageView) convertView.findViewById(R.id.yg_dialoglist_item_my_portrait);
 			holder.rlFriendLayout = (RelativeLayout) convertView.findViewById(R.id.yg_dialoglist_item_friend_layout);
@@ -77,8 +79,6 @@ public class DialogAdapter extends BaseAdapter
 			holder = (ViewHolder) convertView.getTag();
 
 		setTime(holder, position);
-		/*holder.tvTime.setVisibility(View.VISIBLE);
-		holder.tvTime.setText(messages.get(position).getDate());*/
 		
 		if (messages.get(position).getFromUserID() == ConstantValues.user.getID())
 		{
@@ -90,6 +90,7 @@ public class DialogAdapter extends BaseAdapter
 			{
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
 				holder.ivMyAudio.setVisibility(View.VISIBLE);
+				holder.tvMyAudioLength.setVisibility(View.VISIBLE);
 				holder.ivMyImage.setVisibility(View.GONE);
 				holder.tvMyText.setVisibility(View.GONE);
 				
@@ -102,9 +103,11 @@ public class DialogAdapter extends BaseAdapter
 					}
 				});
 				
+				holder.tvMyAudioLength.setText(String.format("%d''", ((AudioMessage)messages.get(position)).getDuration(context)));
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
 				holder.ivMyAudio.setVisibility(View.GONE);
+				holder.tvMyAudioLength.setVisibility(View.GONE);
 				holder.ivMyImage.setVisibility(View.VISIBLE);
 				holder.tvMyText.setVisibility(View.GONE);
 				
@@ -112,6 +115,7 @@ public class DialogAdapter extends BaseAdapter
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 				holder.ivMyAudio.setVisibility(View.GONE);
+				holder.tvMyAudioLength.setVisibility(View.GONE);
 				holder.ivMyImage.setVisibility(View.GONE);
 				holder.tvMyText.setVisibility(View.VISIBLE);
 				
@@ -131,11 +135,25 @@ public class DialogAdapter extends BaseAdapter
 			{
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
 				holder.ivFriendAudio.setVisibility(View.VISIBLE);
+				holder.tvFriendAudioLength.setVisibility(View.VISIBLE);
 				holder.ivFriendImage.setVisibility(View.GONE);
 				holder.tvFriendText.setVisibility(View.GONE);
+				
+				holder.ivFriendAudio.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View v) 
+					{
+						((AudioMessage)messages.get(position)).play(context);
+					}
+				});
+				
+				holder.tvFriendAudioLength.setText(String.format("%d''", 
+						((AudioMessage)messages.get(position)).getDuration(context)));
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
 				holder.ivFriendAudio.setVisibility(View.GONE);
+				holder.tvFriendAudioLength.setVisibility(View.GONE);
 				holder.ivFriendImage.setVisibility(View.VISIBLE);
 				holder.tvFriendText.setVisibility(View.GONE);
 				
@@ -143,6 +161,7 @@ public class DialogAdapter extends BaseAdapter
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 				holder.ivFriendAudio.setVisibility(View.GONE);
+				holder.tvFriendAudioLength.setVisibility(View.GONE);
 				holder.ivFriendImage.setVisibility(View.GONE);
 				holder.tvFriendText.setVisibility(View.VISIBLE);
 				
@@ -194,6 +213,7 @@ public class DialogAdapter extends BaseAdapter
 		TextView tvFriendText, tvMyText;
 		ImageView ivFriendImage, ivMyImage;
 		ImageView ivFriendAudio, ivMyAudio;
+		TextView tvFriendAudioLength, tvMyAudioLength;
 		ImageView ivFriendPortrait, ivMyPortrait;
 		RelativeLayout rlFriendLayout, rlMyLayout;
 		TextView tvTime;

@@ -3,14 +3,13 @@ package com.yg.message;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-
-import com.yg.commons.ConstantValues;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.util.Log;
+
+import com.yg.commons.ConstantValues;
 
 /**
  * 语音类型的消息，继承自{@link AbstractMessage}：<br>
@@ -27,6 +26,7 @@ public class AudioMessage extends AbstractMessage
 	private byte [] audio;
 	private String audioPath = null;
 	private long audioLength = -1;
+	private File audioFile;
 	
 	public AudioMessage(int msgID, int fromID, int toID, byte [] content, String date, boolean isRead)
 	{
@@ -53,66 +53,20 @@ public class AudioMessage extends AbstractMessage
 	 * 返回音频消息的时间长度
 	 * @return 音频时间长度
 	 */
-	public long getDuration()
+	public long getDuration(Context context)
 	{
+		this.context = context;
 		if (audioLength == -1)
 		{
-			if (audioPath == null)
-				getAudioPath();
-			
-			File audioCacheFile = new File(audioPath);
-			if (audioCacheFile.isFile() && audioCacheFile.exists())
-			{
-				try 
-				{
-					audioLength = getAmrDuration(audioCacheFile);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			try {
+				loadAudioData(this.audio, context);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 
 		return audioLength;
 	}
-	
-	private long getAmrDuration(File file) throws IOException
-	{  
-        long duration = -1;  
-        int[] packedSize = { 12, 13, 15, 17, 19, 20, 26, 31, 5, 0, 0, 0, 0, 0, 0, 0 };  
-       
-        RandomAccessFile randomAccessFile = null;  
-        try
-        {  
-            randomAccessFile = new RandomAccessFile(file, "rw");  
-            long length = file.length();//文件的长度  
-            System.out.println(length);
-            int pos = 6;//设置初始位置  
-            int frameCount = 0;//初始帧数  
-            int packedPos = -1;  
-
-            byte[] datas = new byte[1];//初始数据值  
-            while (pos <= length)
-            {  
-                randomAccessFile.seek(pos);  
-                if (randomAccessFile.read(datas, 0, 1) != 1)
-                {  
-                    duration = length > 0 ? ((length - 6) / 650) : 0;  
-                    break;  
-                }  
-                packedPos = (datas[0] >> 3) & 0x0F;  
-                pos += packedSize[packedPos] + 1;  
-                frameCount++;  
-            }  
-
-            duration = frameCount * 20 / 1000;
-        }
-        finally
-        {  
-            if (randomAccessFile != null)
-                randomAccessFile.close();  
-        }  
-        return duration;  
-    }  
 	
 	/**
 	 * 返回音频文件路径
@@ -168,13 +122,23 @@ public class AudioMessage extends AbstractMessage
 		}
 	}
 	
-	private void playFromBytes(byte [] bytes, Context context) throws IOException
+	private void loadAudioData(byte [] bytes, Context context) throws IOException
 	{
-		File audioFile = ConvertUtil.bytes2AmrFile(bytes, context);
+		audioFile = ConvertUtil.bytes2AmrFile(bytes, context);
 		
 		mPlayer = new MediaPlayer();
 		mPlayer.setDataSource(audioFile.getPath());
 		mPlayer.prepare();
+		
+		Log.i(DEBUG_TAG, "Audio length is " + String.valueOf(mPlayer.getDuration()));
+		audioLength = mPlayer.getDuration() / 1000;
+	}
+	
+	private void playFromBytes(byte [] bytes, Context context) throws IOException
+	{
+		if (audioFile == null || mPlayer == null)
+			loadAudioData(bytes, context);
+		
 		mPlayer.start();
 	}
 	
