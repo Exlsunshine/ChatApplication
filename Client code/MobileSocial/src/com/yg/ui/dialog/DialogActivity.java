@@ -1,6 +1,7 @@
 package com.yg.ui.dialog;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -31,18 +32,23 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.message.AbstractMessage;
+import com.yg.message.AudioMessage;
+import com.yg.message.ConvertUtil;
 import com.yg.message.ImageMessage;
+import com.yg.message.Recorder;
 import com.yg.message.TextMessage;
 import com.yg.ui.dialog.implementation.DialogAdapter;
 import com.yg.user.FriendUser;
 
 public class DialogActivity extends Activity
 {
+	private static final String DEBUG_TAG = "DialogActivity______";
 	private ArrayList<AbstractMessage> messages;
 	private Bitmap selectedImg = null;
 	
@@ -187,21 +193,23 @@ public class DialogActivity extends Activity
 				if (event.getAction() == MotionEvent.ACTION_DOWN) 
 				{
 					record_hintview.setVisibility(View.VISIBLE);
-					StartRecord();
+					
+					Recorder.getInstance().startRecordAndFile();
+					Log.i(DEBUG_TAG, "Start record");
 				}
 				else if (event.getAction() == MotionEvent.ACTION_MOVE) 
 				{
 					//int x = (int) event.getX();
 					int y = (int) event.getY();
 					String a = "" + y;
-					Log.i("dfdf", a);
+					Log.i(DEBUG_TAG,"MotionEvent.ACTION_MOVE y position is " + a);
 					if (y < 0)
 					{
 						record_hint_layout.setVisibility(View.GONE);
 						record_hint_cancel_layout.setVisibility(View.VISIBLE);
 						record_hint_text_record_layout.setVisibility(View.GONE);
 						record_hint_text_cancel_layout.setVisibility(View.VISIBLE);
-						isRecord = true;
+						isRecord = false;
 					} 
 					else
 					{
@@ -209,17 +217,51 @@ public class DialogActivity extends Activity
 						record_hint_cancel_layout.setVisibility(View.GONE);
 						record_hint_text_record_layout.setVisibility(View.VISIBLE);
 						record_hint_text_cancel_layout.setVisibility(View.GONE);
-						isRecord = false;
+						isRecord = true;
 					}
 				}
 				else if (event.getAction() == MotionEvent.ACTION_UP) 
 				{
+					Recorder.getInstance().stopRecordAndFile();
+					
 					record_hintview.setVisibility(View.GONE);
 					if (isRecord) 
 					{
+						Log.i(DEBUG_TAG, "Send record");
+						
+						Thread td = new Thread(new Runnable()
+						{
+							@Override
+							public void run() 
+							{
+								AudioMessage audioMsg = null;
+								try 
+								{
+									audioMsg = new AudioMessage(ConstantValues.user.getID(),
+											friendID, ConvertUtil.amr2Bytes(Recorder.getInstance().getAMRFilePath()), CommonUtil.now(), true);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+								ConstantValues.user.sendMsgTo(getFriendByID(friendID), audioMsg);
+							}
+						});
+						td.start();
+						try {
+							td.join();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+						messages.clear();
+						messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+						msgAdapter.notifyDataSetChanged();
+						listView.setSelection(listView.getCount() - 1);
+						Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+						sendBroadcast(intent);
 					} 
 					else 
 					{
+						Toast.makeText(DialogActivity.this, "Abort", Toast.LENGTH_SHORT).show();
 					}
 				}
 

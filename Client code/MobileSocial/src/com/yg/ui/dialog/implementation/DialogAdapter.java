@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.message.AbstractMessage;
+import com.yg.message.AudioMessage;
 import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.user.FriendUser;
@@ -48,7 +50,7 @@ public class DialogAdapter extends BaseAdapter
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
+	public View getView(final int position, View convertView, ViewGroup parent)
 	{
 		ViewHolder holder = null;
 		
@@ -90,6 +92,16 @@ public class DialogAdapter extends BaseAdapter
 				holder.ivMyAudio.setVisibility(View.VISIBLE);
 				holder.ivMyImage.setVisibility(View.GONE);
 				holder.tvMyText.setVisibility(View.GONE);
+				
+				holder.ivMyAudio.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View v) 
+					{
+						((AudioMessage)messages.get(position)).play(context);
+					}
+				});
+				
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
 				holder.ivMyAudio.setVisibility(View.GONE);

@@ -76,7 +76,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@id/yg_dialoglist_item_friend_portrait"
-            android:background="@drawable/yg_dialog_chatfrom_bg"
+            android:background="@drawable/friendvoice"
             android:gravity="center_vertical"
             android:visibility="gone" />
     </RelativeLayout>
@@ -139,7 +139,7 @@
             android:layout_marginRight="0dp"
             android:layout_marginTop="2dp"
             android:layout_toLeftOf="@id/yg_dialoglist_item_my_portrait"
-            android:background="@drawable/yg_dialog_chatto_bg"
+            android:background="@drawable/myvoice"
             android:gravity="center_vertical"
             android:visibility="gone" />
     </RelativeLayout>
