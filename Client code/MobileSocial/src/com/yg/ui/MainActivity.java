@@ -71,6 +71,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		setupLayout();
 		setupListener();
 		setupTabData();
+		setupRecentDialogActionBar();
 	}
 	
 	private void setupLayout()
@@ -130,6 +131,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			switch (buttonView.getId()) 
 			{  
 			case R.id.main_activity_recent_dialog:  
+				setupRecentDialogActionBar();
 				this.tabHost.setCurrentTabByTag(TabTags.recentDialogTab);  
 				break;  
 			case R.id.main_activity_friend_list:  
@@ -162,6 +164,17 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	/*********************		以下是RecentDialog ActionBar相关设置		*********************/
+	private void setupRecentDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.yg_recent_dialog_actionbar);
+		//Color 61 182 253
+	}
+	/*********************		以上是RecentDialog ActionBar相关设置		*********************/
 	
 	/*********************		以下是FriendList ActionBar相关设置		*********************/
 	private void setupActionBar()
