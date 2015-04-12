@@ -88,7 +88,7 @@
         </activity>
         <activity
             android:name="com.yg.ui.friendlist.FriendListActivity"
-            android:label="@string/title_activity_friend_list" >
+            android:label="@string/title_activity_friend_list">
         </activity>
         <activity
             android:name="com.yg.ui.recentdialog.RecentDialogActivity"
