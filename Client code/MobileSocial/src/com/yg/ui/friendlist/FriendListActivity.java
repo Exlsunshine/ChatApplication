@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
@@ -24,6 +28,10 @@ import com.yg.user.FriendUser;
 
 public class FriendListActivity extends Activity implements RemoveListener, OnRefreshListener 
 {
+	private static final String DEBUG_TAG = "FriendListActivity______";
+	private int firstVisibleItem;
+	private int visibleItemCount;
+	
 	List<String> userNmae = new ArrayList<String>();
 	List<Bitmap> portrait = new ArrayList<Bitmap>();
 	MyAdapter myAdapter = null;
@@ -70,6 +78,34 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 
+		
+		finalListView.setOnScrollListener(new OnScrollListener()
+		{
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) 
+			{
+				if (scrollState == SCROLL_STATE_IDLE)
+				{
+					Log.i(DEBUG_TAG, "Idle");
+					Log.i(DEBUG_TAG, "First visible item " + String.valueOf(firstVisibleItem));
+					Log.i(DEBUG_TAG, "Visible item count " + String.valueOf(visibleItemCount));
+					
+					Intent intent = new Intent("firstVisibleItem");
+					intent.putExtra("firstVisibleItem", firstVisibleItem);
+					intent.putExtra("visibleItemCount", visibleItemCount);
+					sendBroadcast(intent );
+				}
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) 
+			{
+				FriendListActivity.this.firstVisibleItem = firstVisibleItem;
+				FriendListActivity.this.visibleItemCount = visibleItemCount;
+			}
+		});
+		
 		finalListView.setonRefreshListener(new OnRefreshListener()
 		{
 			public void onRefresh()

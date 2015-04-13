@@ -5,11 +5,16 @@ import java.util.List;
 
 import com.example.testmobiledatabase.R;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +22,10 @@ import android.widget.TextView;
 
 public class MyAdapter extends BaseAdapter
 {
+	private static final String DEBUG_TAG = "MyAdapter______";
+	private int firstVisibleItem;
+	private int visibleItemCount;
+	
 	private List<String> list = null;
 	private Context mContext;
 	private LayoutInflater inflater = null;
@@ -28,7 +37,9 @@ public class MyAdapter extends BaseAdapter
 		this.mContext = context;
 		this.list = list;
 		this.list3 = list3;
-		inflater = LayoutInflater.from(this.mContext);
+		this.inflater = LayoutInflater.from(this.mContext);
+		
+		this.mContext.registerReceiver(broadcastReceiver, intentFilter());
 	}
 
 	@Override
@@ -85,6 +96,42 @@ public class MyAdapter extends BaseAdapter
 		holder.tvTitle.setText(this.list.get(position));
 		holder.btnIM.setImageBitmap(this.list3.get(position));
 
+		
+		
+		int innerAnimationDuration = 100;
+		if (position > firstVisibleItem || (position == 0 && firstVisibleItem == 0))
+		{
+			TranslateAnimation translate = new TranslateAnimation(-3000, 0, 0, 0);
+			
+			int delay = (position - firstVisibleItem - visibleItemCount + 3) * innerAnimationDuration;
+			
+			if (delay <= 0)
+				delay = 800;
+			else
+				delay += 800;
+
+			Log.i(DEBUG_TAG, "Delay is " + String.valueOf(delay) + "Position is " + String.valueOf(position - firstVisibleItem - visibleItemCount + 1));
+
+			translate.setDuration(delay);
+			convertView.startAnimation(translate);
+		}
+		else
+		{
+			TranslateAnimation translate = new TranslateAnimation(3000, 0, 0, 0);
+			
+			int delay = (firstVisibleItem - position) * innerAnimationDuration;
+			
+			if (delay <= 0)
+				delay = 800;
+			else
+				delay += 800;
+
+			Log.i(DEBUG_TAG, "Delay is " + String.valueOf(delay) + "Position is " + String.valueOf(position - firstVisibleItem - visibleItemCount + 1));
+
+			translate.setDuration(delay);
+			convertView.startAnimation(translate);
+		}
+		
 		return convertView;
 	}
 
@@ -95,4 +142,25 @@ public class MyAdapter extends BaseAdapter
 		ImageView btnDel;
 		LinearLayout ll;
 	}
+	
+	private IntentFilter intentFilter()
+	{
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("firstVisibleItem");
+		
+		return filter;		
+	}
+	
+	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			if ((intent.getAction().equals("firstVisibleItem")))
+			{
+				firstVisibleItem = intent.getIntExtra("firstVisibleItem", 0);
+				visibleItemCount = intent.getIntExtra("visibleItemCount", 0);
+			}
+		}
+	};
 }
