@@ -295,7 +295,7 @@ public class FinalListView extends ListView implements OnScrollListener {
 						return true;
 					}
 				}
-				if (isSrollv)
+				/*if (isSrollv)
 				{
 					tempY = (int) ev.getY();
 
@@ -344,7 +344,7 @@ public class FinalListView extends ListView implements OnScrollListener {
 						return true;
 					else
 						break;
-				}
+				}*/
 			case MotionEvent.ACTION_UP:
 				if (isSrollh) 
 				{
@@ -413,7 +413,7 @@ public class FinalListView extends ListView implements OnScrollListener {
 					}
 				}
 
-				if (isSrollv)
+				/*if (isSrollv)
 				{
 					if (dd3)
 					{
@@ -458,7 +458,7 @@ public class FinalListView extends ListView implements OnScrollListener {
 						}
 					}
 					return true;
-				}
+				}*/
 			}
 		}
 
