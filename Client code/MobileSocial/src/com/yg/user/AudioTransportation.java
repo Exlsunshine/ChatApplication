@@ -54,10 +54,52 @@ public class AudioTransportation
 	
 	public byte[] downloadAudio(int audioId)
 	{
-		String[] name = {"audioId"};
+		/*String[] name = {"audioId"};
 		Object[] values = {audioId};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
 		byte[] buffer = string2Byte(result.toString());
+		return buffer;*/
+		
+		byte[] buffer = null;
+		DownloadThread download = new DownloadThread(audioId);
+		download.start();
+		
+		synchronized (download) 
+		{
+			try {
+				download.wait();
+				buffer = download.buffer;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return buffer;
+	}
+	
+	private class DownloadThread extends Thread
+	{
+		private byte[] buffer = null;
+		private int audioId;
+		
+		public DownloadThread(int audioId)
+		{
+			this.audioId = audioId;
+		}
+		
+		@Override
+		public void run() 
+		{
+			super.run();
+			synchronized (this) 
+			{
+				String[] name = {"audioId"};
+				Object[] values = {audioId};
+				Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
+				buffer = string2Byte(result.toString());
+				
+				notify();
+			}
+		}
 	}
 }
