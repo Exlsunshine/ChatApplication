@@ -3,6 +3,40 @@ package com.yg.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.app.ActionBar;
+import android.app.TabActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
+import android.widget.SearchView.OnCloseListener;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TabHost;
+import android.widget.TextView;
+
 import com.example.testmobiledatabase.R;
 import com.lj.pathbutton.SatelliteMenu;
 import com.lj.pathbutton.SatelliteMenu.SateliteClickedListener;
@@ -11,38 +45,6 @@ import com.lj.settings.ActivitySetting;
 import com.lj.shake.ActivityShake;
 import com.yg.ui.friendlist.FriendListActivity;
 import com.yg.ui.recentdialog.RecentDialogActivity;
-
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
-import android.animation.Animator.AnimatorListener;
-import android.app.ActionBar;
-import android.app.TabActivity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
-import android.view.animation.Animation.AnimationListener;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.SearchView.OnCloseListener;
-import android.widget.SearchView.OnQueryTextListener;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
-import android.widget.TabHost;
-import android.widget.TextView;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity implements OnCheckedChangeListener
@@ -72,7 +74,53 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		setupListener();
 		setupTabData();
 		setupRecentDialogActionBar();
+		
+		registerReceiver(broadcastReceiver, intentFilter());
 	}
+	
+	private AnimatorSet flipAnimationSet;
+	
+	private IntentFilter intentFilter()
+	{
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("friendlist_query_refresh_complete");
+		
+		return filter;		
+	}
+	
+	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			if ((intent.getAction().equals("friendlist_query_refresh_complete")))
+			{
+				TextView title = (TextView)findViewById(R.id.yg_friendlist_actionbar_result_layout_title);
+				title.setText(intent.getStringExtra("query") + "(" + intent.getStringExtra("number") + ")");
+			}
+		}
+	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	private void setupLayout()
 	{
@@ -196,6 +244,10 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			@Override
 			public boolean onQueryTextSubmit(String query)
 			{
+				Intent intent = new Intent("friendlist_query_refresh_request");
+				intent.putExtra("query", query);
+				sendBroadcast(intent);
+				
 				flip();
 				search.setQuery("", false);
 				search.setIconified(true);
@@ -216,13 +268,10 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			{
 				AnimationSet set = new AnimationSet(true);
 			
-				TranslateAnimation translateAnim = new TranslateAnimation(-300, 0, 0, 0);
+				TranslateAnimation translateAnim = new TranslateAnimation(-3000, 0, 0, 0);
 				translateAnim.setDuration(500);
-				ScaleAnimation scaleAnim = new ScaleAnimation(0, 1, 0, 1);
 				
-				scaleAnim.setDuration(300);
 				set.addAnimation(translateAnim);
-				set.addAnimation(scaleAnim);
 				
 				title.startAnimation(set);
 				
@@ -252,12 +301,9 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			{
 				AnimationSet set = new AnimationSet(true);
 				
-				TranslateAnimation translateAnim = new TranslateAnimation(0, -300, 0, 0);
+				TranslateAnimation translateAnim = new TranslateAnimation(0, -3000, 0, 0);
 				translateAnim.setDuration(500);
-				ScaleAnimation scaleAnim = new ScaleAnimation(1, 0, 1, 0);
-				scaleAnim.setDuration(400);
 				set.addAnimation(translateAnim);
-				set.addAnimation(scaleAnim);
 				
 				title.startAnimation(set);
 				
@@ -318,10 +364,10 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	private void flip()
 	{
 		View actionbar = getActionBarView();
-		AnimatorSet set;
-		set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.yg_friendlist_flip);
-		set.setTarget(actionbar);
-		set.addListener(new AnimatorListener()
+		
+		flipAnimationSet = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.yg_friendlist_flip);
+		flipAnimationSet.setTarget(actionbar);
+		flipAnimationSet.addListener(new AnimatorListener()
 		{
 			@Override
 			public void onAnimationStart(Animator animation) 
@@ -346,6 +392,12 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 						public void onClick(View v) 
 						{
 							flip();
+							Intent intent = new Intent("friendlist_query_refresh_request");
+							intent.putExtra("query", "");
+							sendBroadcast(intent);
+							
+							TextView title = (TextView)findViewById(R.id.yg_friendlist_actionbar_result_layout_title);
+							title.setText("");
 						}
 					});
 				}
@@ -356,7 +408,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			@Override
 			public void onAnimationCancel(Animator animation) { }
 		});
-		set.start();
+		flipAnimationSet.start();
 	}
 	/*********************		以上是FriendList ActionBar相关设置		*********************/
 }

@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -50,6 +54,41 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				for (int i = 0; i <friends.size(); i++)
 				{
 					userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
+					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
+					bmp = CircleBitmap.circleBitmap(bmp);
+					portrait.add(bmp);
+				}
+			}
+		});
+		td.start();
+		try {
+			td.join();
+			myAdapter.notifyDataSetChanged();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void refreshDataFromQuery(final String query)
+	{
+		Thread td = new Thread(new Runnable()
+		{
+			@Override
+			public void run() 
+			{
+				userNmae.clear();
+				portrait.clear();
+				ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
+
+				for (int i = 0; i <friends.size(); i++)
+				{
+					String name = friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias() + "(" + friends.get(i).getNickName() +")";
+					
+					if (query.length() == 0 || query == null)
+						userNmae.add(name);
+					else if (name.toLowerCase().contains(query.toLowerCase()))
+						userNmae.add(name);
+					
 					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portrait.add(bmp);
@@ -165,6 +204,8 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		});
 		
 		refreshFriendsData();
+		
+		registerReceiver(broadcastReceiver, intentFilter());
 	}
 
 	@Override
@@ -198,4 +239,35 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 
 	@Override
 	public void onRefresh() { }
+	
+	private IntentFilter intentFilter()
+	{
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("friendlist_query_refresh_request");
+		
+		return filter;		
+	}
+	
+	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, final Intent intent)
+		{
+			if ((intent.getAction().equals("friendlist_query_refresh_request")))
+			{
+				refreshDataFromQuery(intent.getStringExtra("query"));
+				new Handler().postDelayed(new Runnable()
+				{
+					@Override
+					public void run() 
+					{
+						Intent it = new Intent("friendlist_query_refresh_complete");
+						it.putExtra("query", intent.getStringExtra("query"));
+						it.putExtra("number", String.valueOf(userNmae.size()));
+						sendBroadcast(it);
+					}
+				}, 800);
+			}
+		}
+	};
 }
