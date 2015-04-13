@@ -1,7 +1,5 @@
 package com.yg.user;
 
-import com.yg.commons.ConstantValues;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 

@@ -55,9 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/yg_signup_first_dialog_male"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5" />
+            android:scaleType="centerCrop"/>
 
         <RadioButton
             android:id="@+id/radioButton2"
@@ -73,9 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/yg_signup_first_dialog_female"
-            android:scaleType="centerCrop"
-            android:scaleX="0.5"
-            android:scaleY="0.5" />
+            android:scaleType="centerCrop"/>
     </RadioGroup>
 
     <Button

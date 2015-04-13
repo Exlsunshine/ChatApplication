@@ -547,6 +547,8 @@ public class ClientUser extends AbstractUser
 		vlaues[0] = this.id;
 		
 		Object ret = wsAPI.callFuntion("getFriendList", params, vlaues);
+		if (ret == null)
+			return;
 		String str = ret.toString();
 		Log.i(DEBUG_TAG, "Friend list is: " + str);
 		

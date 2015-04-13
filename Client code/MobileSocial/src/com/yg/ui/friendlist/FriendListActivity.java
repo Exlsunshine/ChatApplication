@@ -50,6 +50,8 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			public void run() 
 			{
 				ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
+				if (friends == null)
+					return;
 
 				for (int i = 0; i <friends.size(); i++)
 				{
@@ -79,6 +81,8 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				userNmae.clear();
 				portrait.clear();
 				ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
+				if (friends == null)
+					return;
 
 				for (int i = 0; i <friends.size(); i++)
 				{
@@ -156,6 +160,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 						try
 						{
 							ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
+							if (friends == null)
+								return null;
+							
 							userNmae.clear();
 							portrait.clear();
 							for (int i = 0; i <friends.size(); i++)

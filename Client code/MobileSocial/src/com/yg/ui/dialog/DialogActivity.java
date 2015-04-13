@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -13,6 +14,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,7 +27,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +34,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
@@ -68,14 +71,38 @@ public class DialogActivity extends Activity
 	private RelativeLayout plusRelativelayout = null;
 	private boolean isRecord = true;
 
+	
+	private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.yg_dialog_actionbar);
+		
+		TextView title = (TextView)findViewById(R.id.yg_dialog_actionbar_title);
+		title.setText(getFriendByID(friendID).getAlias() == null ? getFriendByID(friendID).getNickName() : getFriendByID(friendID).getAlias());
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.yg_dialog_actionbar_back);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				DialogActivity.this.finish();
+			}
+		});
+	}
+	
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.yg_dialog_activity);
 		Intent intent = getIntent();
 		friendID = intent.getIntExtra("reveiewer", -1);
 
+		setupDialogActionBar();
+		
 		listView = (ListView) super.findViewById(R.id.yg_dialog_activity_dialog_listview);
 		editText = (EditText) super.findViewById(R.id.yg_dialog_activity_inputbox);
 		send = (Button) super.findViewById(R.id.yg_dialog_activity_send);

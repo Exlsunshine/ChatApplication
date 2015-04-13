@@ -61,7 +61,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@android:drawable/ic_input_delete"
+            android:background="@drawable/yg_friendlist_actionbar_result_layout_delete_icon"
             android:contentDescription="@string/app_name" />
     </RelativeLayout>
 

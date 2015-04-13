@@ -34,7 +34,7 @@
         <item name="android:textColor">#ffffffff</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:background">@drawable/ic_launcher</item>
+        <item name="android:background">@color/yg_main_friend_selector</item>
         <item name="android:paddingTop">5.0dip</item>
         <item name="android:paddingBottom">2.0dip</item>
         <item name="android:layout_width">wrap_content</item>

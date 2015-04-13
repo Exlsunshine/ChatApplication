@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/yg_signup_first_dialog_camera" />
+            android:background="@drawable/yg_signup_first_dialog_canlendar" />
 
         <TextView
             android:id="@+id/yg_signup_second_dialog_birthday"

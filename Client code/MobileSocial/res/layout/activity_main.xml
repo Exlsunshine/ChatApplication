@@ -26,25 +26,39 @@
                 android:layout_weight="0.0"
                 android:visibility="gone" />
 
-            <!-- android:background="@drawable/ic_launcher" -->
-
             <RadioGroup
                 android:id="@+id/main_radio"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="3dp"
+                android:paddingTop="3dp" >
 
                 <RadioButton
                     android:id="@+id/main_activity_recent_dialog"
-                    style="@style/main_tab_bottom"
-                    android:text="home" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@color/yg_main_chat_selector"
+                    android:gravity="center"
+                    android:text="Chats"
+                    android:textSize="12sp" />
 
                 <RadioButton
                     android:id="@+id/main_activity_friend_list"
-                    style="@style/main_tab_bottom"
-                    android:text="news" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@color/yg_main_friend_selector"
+                    android:gravity="center"
+                    android:text="Friends"
+                    android:textSize="12sp" />
             </RadioGroup>
         </LinearLayout>
 

@@ -99,10 +99,10 @@ public class FinalListView extends ListView implements OnScrollListener {
 	private int startY;
 	private int tempY;
 	private int tempY1;
-	private boolean dd3 = false;
-	private boolean dc3 = false;
+	//private boolean dd3 = false;
+	//private boolean dc3 = false;
 	//private boolean dc4 = false;
-	private boolean dc5 = false;
+	//private boolean dc5 = false;
 	//private int x = 100;
 
 	private int firstVisibleItem1;
