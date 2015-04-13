@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import com.yg.message.TextMessage;
 import com.yg.ui.dialog.DialogActivity;
 import com.yg.ui.dialog.implementation.DateUtil;
 import com.yg.ui.friendlist.implementation.CircleBitmap;
+import com.yg.ui.recentdialog.implementation.MessageNotificationManager;
 import com.yg.ui.recentdialog.implementation.RecentDialogAdapter;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView.OnRefreshListener;
@@ -268,6 +270,26 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 				Intent processCompletedIntent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_COMPLETED);
 				processCompletedIntent.putExtra("fromUserID", fromUserID);
 				sendBroadcast(processCompletedIntent);
+				
+				
+				MessageNotificationManager msgManager = new MessageNotificationManager(RecentDialogActivity.this);
+				
+				
+				
+				FriendUser friend = getFriendByID(fromUserID);
+				Dialog dialog = ConstantValues.user.makeDialogWith(friend);
+				String msg = null;
+				
+				if (dialog.getLastMessage().getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO)
+					msg = "[Audio]";
+				else if (dialog.getLastMessage().getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE)
+					msg = "[Picture]";
+				else
+					msg = ((TextMessage)dialog.getLastMessage()).getText();
+				
+				msgManager.showNotification(friend.getAlias() + "发来一条消息", 
+						friend.getAlias()
+						, msg, friend.getPortraitBmp(), RecentDialogActivity.class);
 			}
 			else if (intent.getAction().equals(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED))
 			{
@@ -276,4 +298,14 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 			}
 		}
 	};
+	
+	private FriendUser getFriendByID(int id)
+	{
+		for (int i = 0; i < ConstantValues.user.getFriendList().size(); i++)
+		{
+			if (ConstantValues.user.getFriendList().get(i).getID() == id)
+				return ConstantValues.user.getFriendList().get(i);
+		}
+		return null;
+	}
 }

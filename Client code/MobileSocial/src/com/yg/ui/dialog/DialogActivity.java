@@ -333,6 +333,11 @@ public class DialogActivity extends Activity
 					msgAdapter.notifyDataSetChanged();
 					listView.setSelection(listView.getCount() - 1);
 				}
+				else
+				{
+					//Nofity from status bar.
+					Toast.makeText(DialogActivity.this, String.valueOf(fromUserID), Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	};
