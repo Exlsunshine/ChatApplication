@@ -58,6 +58,8 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		super.onResume();
 		
 		isRunningAtBackground = false;
+		
+		System.gc();
 	}
 
 	@Override

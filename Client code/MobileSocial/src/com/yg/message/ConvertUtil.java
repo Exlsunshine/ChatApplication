@@ -42,7 +42,15 @@ public class ConvertUtil
 	public static Bitmap bytes2Bitmap(byte[] bytes)
 	{
 		if (bytes.length != 0) 
-			return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+		{
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inPurgeable = true;
+			options.inInputShareable = true;
+			options.inSampleSize = 8;
+			
+			return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+			//return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+		}
 		else
 			return null;
 	}
