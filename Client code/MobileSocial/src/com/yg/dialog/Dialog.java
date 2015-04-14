@@ -92,4 +92,39 @@ public class Dialog
 	 */
 	public void forwardTo(AbstractMessage msg, int otherUserID) {
 	}
+	
+	/**
+	 * 将此条对话中所有消息设置为已读
+	 */
+	public void markAllAsReaded()
+	{
+		DatabaseHandler db = new DatabaseHandler(context);
+		
+		for (int i = 0; i < dialogHistory.size(); i++)
+		{
+			if (dialogHistory.get(dialogHistory.size() - 1 - i).hasBeenRead())
+				break;
+			
+			dialogHistory.get(dialogHistory.size() - 1 - i).setAsRead();
+			db.updateMessage(dialogHistory.get(dialogHistory.size() - 1 - i));
+		}
+		db.close();
+	}
+	
+	/**
+	 * 获得此条对话中未读消息数量
+	 * @return 未读消息数量
+	 */
+	public int getUnreadAmount()
+	{
+		int cnt = 0;
+		
+		for (int i = 0; i < dialogHistory.size(); i++)
+		{
+			if (!dialogHistory.get(i).hasBeenRead())
+				cnt++;
+		}
+		
+		return cnt;
+	}
 }
