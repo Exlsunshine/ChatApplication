@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,6 +26,7 @@ import com.yg.message.TextMessage;
 import com.yg.ui.dialog.DialogActivity;
 import com.yg.ui.dialog.implementation.DateUtil;
 import com.yg.ui.friendlist.implementation.CircleBitmap;
+import com.yg.ui.recentdialog.implementation.CustomNotificator;
 import com.yg.ui.recentdialog.implementation.MessageNotificationManager;
 import com.yg.ui.recentdialog.implementation.RecentDialogAdapter;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView;
@@ -36,15 +36,34 @@ import com.yg.user.FriendUser;
 
 public class RecentDialogActivity extends Activity implements RemoveListener, OnRefreshListener 
 {
-	List<String> names = new ArrayList<String>();
-	List<String> messages = new ArrayList<String>();
-	List<String> dates = new ArrayList<String>();
-	List<Integer> ids = new ArrayList<Integer>();
-	List<Bitmap> portraits = new ArrayList<Bitmap>();
+	private List<String> names = new ArrayList<String>();
+	private List<String> messages = new ArrayList<String>();
+	private List<String> dates = new ArrayList<String>();
+	private List<Integer> ids = new ArrayList<Integer>();
+	private List<Bitmap> portraits = new ArrayList<Bitmap>();
 	
-	RecentDialogAdapter myAdapter = null;
-	RecentDialogListView finalListView = null;
-	Bitmap bmp;
+	private RecentDialogAdapter myAdapter = null;
+	private RecentDialogListView finalListView = null;
+	private Bitmap bmp;
+	
+	private int currentChattingWithID = -1;
+	private boolean isRunningAtBackground = false;
+	
+	@Override
+	protected void onResume() 
+	{
+		super.onResume();
+		
+		isRunningAtBackground = false;
+	}
+
+	@Override
+	protected void onPause() 
+	{
+		super.onPause();
+		
+		isRunningAtBackground = true;
+	}
 	
 	private void loadRecentDialogs()
 	{
@@ -228,6 +247,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
 			int friendID = (int) myAdapter.getItemId(position - 2);
+			currentChattingWithID = friendID;
 			Intent intent = new Intent(RecentDialogActivity.this, DialogActivity.class);
 			intent.putExtra("reveiewer", friendID);
 			RecentDialogActivity.this.startActivity(intent);
@@ -250,6 +270,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE);
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT);
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+		intentFilter.addAction(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
 		
 		return intentFilter;
 	}
@@ -271,30 +292,39 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 				processCompletedIntent.putExtra("fromUserID", fromUserID);
 				sendBroadcast(processCompletedIntent);
 				
-				
-				MessageNotificationManager msgManager = new MessageNotificationManager(RecentDialogActivity.this);
-				
-				
-				
-				FriendUser friend = getFriendByID(fromUserID);
-				Dialog dialog = ConstantValues.user.makeDialogWith(friend);
-				String msg = null;
-				
-				if (dialog.getLastMessage().getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO)
-					msg = "[Audio]";
-				else if (dialog.getLastMessage().getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE)
-					msg = "[Picture]";
-				else
-					msg = ((TextMessage)dialog.getLastMessage()).getText();
-				
-				msgManager.showNotification(friend.getAlias() + "发来一条消息", 
-						friend.getAlias()
-						, msg, friend.getPortraitBmp(), RecentDialogActivity.class);
+				if (!isRunningAtBackground)
+				{
+					CustomNotificator notificator = new CustomNotificator(RecentDialogActivity.this, true, false);
+					notificator.startNotify();
+				}
+				else if (currentChattingWithID != fromUserID)
+				{
+					MessageNotificationManager msgManager = new MessageNotificationManager(RecentDialogActivity.this);
+					FriendUser friend = getFriendByID(fromUserID);
+					Dialog dialog = ConstantValues.user.makeDialogWith(friend);
+					String msg = null;
+					
+					if (dialog.getLastMessage().getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO)
+						msg = "[Audio]";
+					else if (dialog.getLastMessage().getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE)
+						msg = "[Picture]";
+					else
+						msg = ((TextMessage)dialog.getLastMessage()).getText();
+					
+					msgManager.showNotification((friend.getAlias() == null ? friend.getNickName() : friend.getAlias()) + "发来一条消息", 
+							friend.getAlias() == null ? friend.getNickName() : friend.getAlias(), msg, friend.getPortraitBmp(),
+							friend.getID(), DialogActivity.class);
+				}
 			}
 			else if (intent.getAction().equals(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED))
 			{
 				refreshRecentDialogs();
 				myAdapter.notifyDataSetChanged();
+			}
+			else if (intent.getAction().equals(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION))
+			{
+				int fromUserID = intent.getIntExtra("fromUserID", -1);
+				currentChattingWithID = fromUserID;
 			}
 		}
 	};

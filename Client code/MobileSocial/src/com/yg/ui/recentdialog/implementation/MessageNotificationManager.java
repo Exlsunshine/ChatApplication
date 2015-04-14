@@ -24,10 +24,10 @@ public class MessageNotificationManager
 	 * @param content 系统消息内容(应传入对方发来的消息内容)
 	 * @param portrait 大图(应该传入用户头像)
 	 */
-	public void showNotification(String sticker, String title, String content, Bitmap portrait, Class<?> cls) 
+	public void showNotification(String sticker, String title, String content, Bitmap portrait, int friendUserID, Class<?> cls) 
 	{
 		Intent notificationIntent = new Intent(context, cls);
-		notificationIntent.putExtra("key", title);
+		notificationIntent.putExtra("reveiewer", friendUserID);
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(context,
 		        1234, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -43,7 +43,7 @@ public class MessageNotificationManager
 		            .setContentTitle(title)
 		            .setContentText(content);
 
-		builder.setLights(0x00FF00FF,100,3000);
+		builder.setLights(0x00FF00FF, 100, 3000);
 		builder.setPriority(Notification.PRIORITY_DEFAULT);
 		Notification notification = builder.build();
 		notification.defaults = Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;  

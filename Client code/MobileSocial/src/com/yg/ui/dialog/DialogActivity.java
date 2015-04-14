@@ -96,11 +96,15 @@ public class DialogActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.yg_dialog_activity);
+		
 		Intent intent = getIntent();
 		friendID = intent.getIntExtra("reveiewer", -1);
 
+		Intent currentChatIntent = new Intent(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
+		currentChatIntent.putExtra("fromUserID", friendID);
+		sendBroadcast(currentChatIntent );
+		
 		setupDialogActionBar();
 		
 		listView = (ListView) super.findViewById(R.id.yg_dialog_activity_dialog_listview);
@@ -119,7 +123,6 @@ public class DialogActivity extends Activity
 
 		messages = new ArrayList<AbstractMessage>();
 		messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
-				
 		msgAdapter = new DialogAdapter(this, messages);
 		listView.setAdapter(msgAdapter);
 		listView.setSelection(msgAdapter.getCount() - 1);
@@ -347,6 +350,10 @@ public class DialogActivity extends Activity
 		super.onResume();
 		registerReceiver(broadcastReceiver, intentFilter());
 		
+		Intent currentChatIntent = new Intent(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
+		currentChatIntent.putExtra("fromUserID", friendID);
+		sendBroadcast(currentChatIntent );
+		
 		messages.clear();
 		messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
 		msgAdapter.notifyDataSetChanged();
@@ -357,12 +364,20 @@ public class DialogActivity extends Activity
 	{
 		super.onPause();
 		unregisterReceiver(broadcastReceiver);
+		
+		Intent currentChatIntent = new Intent(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
+		currentChatIntent.putExtra("fromUserID", -1);
+		sendBroadcast(currentChatIntent );
 	};
 	
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		
+		Intent currentChatIntent = new Intent(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
+		currentChatIntent.putExtra("fromUserID", -1);
+		sendBroadcast(currentChatIntent );
 	}
 	
 	/**********************										***********************/
