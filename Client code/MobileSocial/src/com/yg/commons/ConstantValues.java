@@ -29,6 +29,7 @@ public class ConstantValues
 		public static final String MESSAGE_BROADCAST_RECV_COMPLETED = "message_received_completed";
 		public static final String MESSAGE_BROADCAST_SEND_COMPLETED = "message_send_completed";
 		public static final String CURRENT_CHAT_WITH_NOTIFICATION = "current_chat_with_notification";
+		public static final String CLEAR_MESSAGE_RED_DOT = "clear_message_read_dot";
 		
 		public static final int GAME_TYPE_EIGHTPUZZLE = 0x00;
 		public static final int GAME_TYPE_QUIZ = 0x00;

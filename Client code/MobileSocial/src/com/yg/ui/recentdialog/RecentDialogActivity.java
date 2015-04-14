@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,11 +37,13 @@ import com.yg.user.FriendUser;
 
 public class RecentDialogActivity extends Activity implements RemoveListener, OnRefreshListener 
 {
+	private static final String DEBUG_TAG = "RecentDialogActivity______";
 	private List<String> names = new ArrayList<String>();
 	private List<String> messages = new ArrayList<String>();
 	private List<String> dates = new ArrayList<String>();
 	private List<Integer> ids = new ArrayList<Integer>();
 	private List<Bitmap> portraits = new ArrayList<Bitmap>();
+	private List<Integer> unreadAmount = new ArrayList<Integer>();
 	
 	private RecentDialogAdapter myAdapter = null;
 	private RecentDialogListView finalListView = null;
@@ -94,6 +97,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 							bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 							bmp = CircleBitmap.circleBitmap(bmp);
 							portraits.add(bmp);
+							unreadAmount.add(dialogs.get(i).getUnreadAmount());
 						}
 					}
 				}
@@ -138,7 +142,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		finalListView = (RecentDialogListView) super.findViewById(R.id.yg_recent_dialog_listview);
 		finalListView.setRemoveListener(this);
 
-		myAdapter = new RecentDialogAdapter(this, names, messages, dates, portraits, ids);
+		myAdapter = new RecentDialogAdapter(this, names, messages, dates, portraits, ids, unreadAmount);
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 
@@ -209,6 +213,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		messages.clear();
 		dates.clear();
 		portraits.clear();
+		unreadAmount.clear();
 		for (int i = 0; i <dialogs.size(); i++)
 		{
 			int friendID = dialogs.get(i).getAnotherUserID();
@@ -224,8 +229,11 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portraits.add(bmp);
+					unreadAmount.add(dialogs.get(i).getUnreadAmount());
 				}
 			}
+			
+			Log.i(DEBUG_TAG, String.valueOf(i) + " unread is: " + String.valueOf(dialogs.get(i).getUnreadAmount()));
 		}
 	}
 	
@@ -250,6 +258,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 			currentChattingWithID = friendID;
 			Intent intent = new Intent(RecentDialogActivity.this, DialogActivity.class);
 			intent.putExtra("reveiewer", friendID);
+			
 			RecentDialogActivity.this.startActivity(intent);
 		}
 	}
@@ -271,6 +280,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT);
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
 		intentFilter.addAction(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
+		intentFilter.addAction(ConstantValues.InstructionCode.CLEAR_MESSAGE_RED_DOT);
 		
 		return intentFilter;
 	}
@@ -315,6 +325,21 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 							friend.getAlias() == null ? friend.getNickName() : friend.getAlias(), msg, friend.getPortraitBmp(),
 							friend.getID(), DialogActivity.class);
 				}
+				else if (currentChattingWithID == fromUserID)
+				{
+					ConstantValues.user.setContext(RecentDialogActivity.this);
+					ArrayList<Dialog> dialogs = ConstantValues.user.getRecentDialogs();
+					
+					for (int i = 0; i <dialogs.size(); i++)
+					{
+						int friendID = dialogs.get(i).getAnotherUserID();
+						if (fromUserID == friendID)
+							dialogs.get(i).markAllAsReaded();
+					}
+					
+					refreshRecentDialogs();
+					myAdapter.notifyDataSetChanged();
+				}
 			}
 			else if (intent.getAction().equals(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED))
 			{
@@ -325,6 +350,36 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 			{
 				int fromUserID = intent.getIntExtra("fromUserID", -1);
 				currentChattingWithID = fromUserID;
+			}
+			else if (intent.getAction().equals(ConstantValues.InstructionCode.CLEAR_MESSAGE_RED_DOT))
+			{
+				boolean needRefresh = false;
+				int friendUserID = intent.getIntExtra("friendUserID", -1);
+				
+				if (friendUserID != -1)
+				{
+					ConstantValues.user.setContext(RecentDialogActivity.this);
+					ArrayList<Dialog> dialogs = ConstantValues.user.getRecentDialogs();
+					
+					for (int i = 0; i <dialogs.size(); i++)
+					{
+						int friendID = dialogs.get(i).getAnotherUserID();
+						if (friendUserID == friendID)
+						{
+							if (dialogs.get(i).getUnreadAmount() > 0)
+							{
+								needRefresh = true;
+								dialogs.get(i).markAllAsReaded();
+							}
+						}
+					}
+					
+					if (needRefresh)
+					{
+						refreshRecentDialogs();
+						myAdapter.notifyDataSetChanged();
+					}
+				}
 			}
 		}
 	};

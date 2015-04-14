@@ -93,6 +93,20 @@ public class DialogActivity extends Activity
 		});
 	}
 	
+	private void notifyChattingWithSomebody()
+	{
+		Intent currentChatIntent = new Intent(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
+		currentChatIntent.putExtra("fromUserID", friendID);
+		sendBroadcast(currentChatIntent );
+	}
+	
+	private void notifyClearRedDots()
+	{
+		Intent currentChatIntent = new Intent(ConstantValues.InstructionCode.CLEAR_MESSAGE_RED_DOT);
+		currentChatIntent.putExtra("friendUserID", friendID);
+		sendBroadcast(currentChatIntent );
+	}
+	
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -101,9 +115,9 @@ public class DialogActivity extends Activity
 		Intent intent = getIntent();
 		friendID = intent.getIntExtra("reveiewer", -1);
 
-		Intent currentChatIntent = new Intent(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
-		currentChatIntent.putExtra("fromUserID", friendID);
-		sendBroadcast(currentChatIntent );
+		notifyChattingWithSomebody();
+		notifyClearRedDots();
+		
 		
 		setupDialogActionBar();
 		
