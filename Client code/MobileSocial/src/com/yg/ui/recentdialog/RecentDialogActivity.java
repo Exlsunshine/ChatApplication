@@ -242,8 +242,9 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.recent_dialog, menu);
-		return true;
+		return false;
+		//getMenuInflater().inflate(R.menu.recent_dialog, menu);
+		//return true;
 	}
 
 	@Override

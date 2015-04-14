@@ -209,8 +209,9 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		return false;
+		//getMenuInflater().inflate(R.menu.main, menu);
+		//return true;
 	}
 	
 	/*********************		以下是RecentDialog ActionBar相关设置		*********************/
