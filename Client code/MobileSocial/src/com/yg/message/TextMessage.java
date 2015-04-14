@@ -12,7 +12,7 @@ public class TextMessage extends AbstractMessage
 {
 	private String text;
 
-	public TextMessage(int msgID, int fromID, int toID, byte [] content, String date, boolean isRead)
+	public TextMessage(int msgID, int fromID, int toID, String content, String date, boolean isRead)
 	{
 		this.fromUserID = fromID;
 		this.toUserID = toID;
@@ -20,18 +20,7 @@ public class TextMessage extends AbstractMessage
 		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT;
 		this.isRead = isRead;
 		this.id = msgID;
-		this.text = ConvertUtil.bytes2String(content);
-	}
-	
-	public TextMessage(int fromID, int toID, byte [] content, String date, boolean isRead)
-	{
-		this.fromUserID = fromID;
-		this.toUserID = toID;
-		this.date = date;
-		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT;
-		this.isRead = isRead;
-		this.id = -1;
-		this.text = ConvertUtil.bytes2String(content);
+		this.text = content;
 	}
 	
 	public TextMessage(int fromID, int toID, String content, String date, boolean isRead)
@@ -60,7 +49,7 @@ public class TextMessage extends AbstractMessage
 	public int getToUserID() { return toUserID; }
 
 	@Override
-	public byte [] getContent() { return ConvertUtil.string2Bytes(text); }
+	public String getContent() { return text; }
 
 	@Override
 	public int getMessageType() { return ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT; }

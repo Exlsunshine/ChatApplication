@@ -55,6 +55,22 @@ public class ConvertUtil
 			return null;
 	}
 	
+	public static Bitmap loadBitmap(String path)
+	{
+		if (path != null) 
+		{
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inPurgeable = true;
+			options.inInputShareable = true;
+			options.inSampleSize = 8;
+			
+			return BitmapFactory.decodeFile(path, options);
+			//return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+		}
+		else
+			return null;
+	}
+	
 	public static Drawable bitmap2Drawable(Bitmap bmp, Context context)
 	{
 		return new BitmapDrawable(context.getResources(), bmp); 

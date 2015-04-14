@@ -1,12 +1,12 @@
 package com.yg.message;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.os.Environment;
 import android.util.Log;
 
 import com.yg.commons.ConstantValues;
@@ -20,7 +20,6 @@ import com.yg.commons.ConstantValues;
 public class AudioMessage extends AbstractMessage
 {
 	private static String DEBUG_TAG = "______AudioMessage";
-	private static String AUDIO_CACHE_DIR = Environment.getExternalStorageDirectory() + "/MobileSocial/audio/";//"/mnt/sdcard/MobileSocial/audio/";
 	private MediaPlayer mPlayer;
 	private Context context;
 	private byte [] audio;
@@ -28,7 +27,16 @@ public class AudioMessage extends AbstractMessage
 	private long audioLength = -1;
 	private File audioFile;
 	
-	public AudioMessage(int msgID, int fromID, int toID, byte [] content, String date, boolean isRead)
+	/**
+	 * 
+	 * @param msgID
+	 * @param fromID
+	 * @param toID
+	 * @param path 音频文件的路径
+	 * @param date
+	 * @param isRead
+	 */
+	public AudioMessage(int msgID, int fromID, int toID, String path, String date, boolean isRead)
 	{
 		this.fromUserID = fromID;
 		this.toUserID = toID;
@@ -36,9 +44,27 @@ public class AudioMessage extends AbstractMessage
 		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO;
 		this.isRead = isRead;
 		this.id = msgID;
-		this.audio = content;
+		
+		audioPath = path;
+		try 
+		{
+			audio = ConvertUtil.amr2Bytes(audioPath);
+		}
+		catch (IOException e)
+		{
+			audio = null;
+			e.printStackTrace();
+		}
 	}
 	
+	/**
+	 * 
+	 * @param fromID
+	 * @param toID
+	 * @param content 音频文件的byte数组
+	 * @param date
+	 * @param isRead
+	 */
 	public AudioMessage(int fromID, int toID, byte [] content, String date, boolean isRead)
 	{
 		this.fromUserID = fromID;
@@ -47,6 +73,32 @@ public class AudioMessage extends AbstractMessage
 		this.type = ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO;
 		this.isRead = isRead;
 		this.audio = content;
+		
+		audioPath = FileNameGenerator.getFileName("/MobileSocial/audio/", fromID, toID, "amr");
+		saveAMRCacheFile();
+	}
+	
+	private void saveAMRCacheFile()
+	{
+		File amrFile = new File(audioPath);
+		
+		/*if (amrFile.exists())
+			amrFile.delete();*/
+
+		if (!amrFile.exists())
+		{
+			try 
+			{
+				amrFile.createNewFile();
+				FileOutputStream fos = new FileOutputStream(amrFile);
+				fos.write(audio);
+				fos.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -75,39 +127,9 @@ public class AudioMessage extends AbstractMessage
 	 */
 	public String getAudioPath()
 	{
-		if (audioPath != null)
-		{
-			File audioCacheFile = new File(audioPath);
-			if (audioCacheFile.isFile() && audioCacheFile.exists())
-				return audioPath;
-		}
-		
-		try
-		{
-			generateAudioCache();
-		} catch (IOException e) {
-			audioPath = null;
-			e.printStackTrace();
-		}
 		return audioPath;
 	}
 	
-	private void generateAudioCache() throws IOException
-	{
-		// create temp file that will hold byte array
-		File dir = new File(AUDIO_CACHE_DIR);
-		if (!dir.exists())
-			if (!dir.mkdirs())
-				Log.e("DEBUG_TAG", "Make audio cache dir failed.");
-		Log.i(DEBUG_TAG, "Cache dir is " + dir.getAbsolutePath());
-		
-        File tempMp3 = File.createTempFile("audio_" + String.valueOf(fromUserID)
-        		+ "_" + String.valueOf(toUserID) + "_" + getDate(), ".amr", dir);
-        audioPath = tempMp3.getAbsolutePath();
-        FileOutputStream fos = new FileOutputStream(tempMp3);
-        fos.write(audio);
-        fos.close();
-	}
 	
 	/**
 	 * 播放此条消息中的语音
@@ -158,7 +180,7 @@ public class AudioMessage extends AbstractMessage
 	public int getToUserID() { return toUserID; }
 
 	@Override
-	public byte [] getContent() { return audio; }
+	public String getContent() { return audioPath; }
 
 	@Override
 	public int getMessageType() { return ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO; }

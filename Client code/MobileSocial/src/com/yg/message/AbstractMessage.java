@@ -30,10 +30,13 @@ public abstract class AbstractMessage
 	public abstract int getToUserID();
 	
 	/**
-	 * 获取此条消息的内容
-	 * @return 消息的内容
+	 * 获取此条消息的内容<br>
+	 * 如果是文本消息则直接返回文本<br>
+	 * 如果是图片消息则返回图片存放路径<br>
+	 * 如果是语音消息则返回语音存放路径
+	 * @return 消息内容或文件路径
 	 */
-	public abstract byte [] getContent();
+	public abstract String getContent();
 	
 	/**
 	 * 获取此条消息的类型

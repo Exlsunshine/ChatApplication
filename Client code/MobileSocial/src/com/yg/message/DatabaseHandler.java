@@ -40,7 +40,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	    
 		String CREATE_DIALOG_TABLE = 
 				String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-				" %s INTEGER, %s INTEGER, %s BLOB, %s INTEGER, %s TEXT, %s INTEGER);", 
+				" %s INTEGER, %s INTEGER, %s TEXT, %s INTEGER, %s TEXT, %s INTEGER);", 
 				TABLE_NAME, KEY_ID,
 				KEY_FROM_USER_ID,KEY_TO_USER_ID,KEY_MESSAGE_CONTENT,KEY_MESSAGE_TYPE,KEY_DATE,KEY_READ_FLAG);
 	    db.execSQL(CREATE_DIALOG_TABLE);
@@ -102,7 +102,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 			int msgID = cursor.getInt(0);
 			int fromID = cursor.getInt(1);
 			int toID = cursor.getInt(2);
-			byte [] content = cursor.getBlob(3);
+			String content = cursor.getString(3);
 			int msgType = cursor.getInt(4);
 			String date = cursor.getString(5);
 			boolean	isRead = (cursor.getInt(6) == 1);
@@ -174,7 +174,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				int msgID = cursor.getInt(0);
 				int fromID = cursor.getInt(1);
 				int toID = cursor.getInt(2);
-				byte [] content = cursor.getBlob(3);
+				String content = cursor.getString(3);
 				int msgType = cursor.getInt(4);
 				String date = cursor.getString(5);
 				boolean	isRead = (cursor.getInt(6) == 1);
