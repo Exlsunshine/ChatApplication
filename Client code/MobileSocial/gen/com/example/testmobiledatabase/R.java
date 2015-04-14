@@ -164,17 +164,18 @@ containing a value of this type.
         public static final int yg_main_chat_spressed=0x7f02004f;
         public static final int yg_main_friend_normal=0x7f020050;
         public static final int yg_main_friend_spressed=0x7f020051;
-        public static final int yg_portrait_sample_12=0x7f020052;
-        public static final int yg_portrait_sample_x=0x7f020053;
-        public static final int yg_signup_first_dialog_camera=0x7f020054;
-        public static final int yg_signup_first_dialog_canlendar=0x7f020055;
-        public static final int yg_signup_first_dialog_female=0x7f020056;
-        public static final int yg_signup_first_dialog_male=0x7f020057;
-        public static final int yg_signup_page_bubble_logo=0x7f020058;
-        public static final int yg_slide_delete_icon=0x7f020059;
-        public static final int yg_slide_yellow_star_gray_icon=0x7f02005a;
-        public static final int yg_slide_yellow_star_icon=0x7f02005b;
-        public static final int yg_slide_yellow_star_yellow_icon=0x7f02005c;
+        public static final int yg_message_notificationmanager_small_icon=0x7f020052;
+        public static final int yg_portrait_sample_12=0x7f020053;
+        public static final int yg_portrait_sample_x=0x7f020054;
+        public static final int yg_signup_first_dialog_camera=0x7f020055;
+        public static final int yg_signup_first_dialog_canlendar=0x7f020056;
+        public static final int yg_signup_first_dialog_female=0x7f020057;
+        public static final int yg_signup_first_dialog_male=0x7f020058;
+        public static final int yg_signup_page_bubble_logo=0x7f020059;
+        public static final int yg_slide_delete_icon=0x7f02005a;
+        public static final int yg_slide_yellow_star_gray_icon=0x7f02005b;
+        public static final int yg_slide_yellow_star_icon=0x7f02005c;
+        public static final int yg_slide_yellow_star_yellow_icon=0x7f02005d;
     }
     public static final class id {
         public static final int action_settings=0x7f0b00a9;

@@ -1,6 +1,7 @@
 package com.yg.ui.recentdialog.implementation;
 
-import android.R;
+import com.example.testmobiledatabase.R;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -35,7 +36,7 @@ public class MessageNotificationManager
 		Notification.Builder builder = new Notification.Builder(context);
 
 		builder.setContentIntent(contentIntent)
-		            .setSmallIcon(R.drawable.ic_lock_idle_alarm)
+		            .setSmallIcon(R.drawable.yg_message_notificationmanager_small_icon)
 		            .setLargeIcon(portrait)
 		            .setTicker(sticker)
 		            .setWhen(System.currentTimeMillis())

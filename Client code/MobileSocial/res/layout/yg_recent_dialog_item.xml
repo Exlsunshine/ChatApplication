@@ -41,7 +41,8 @@
             android:layout_marginLeft="70dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="35dp"
-            android:textSize="14sp" />
+            android:textSize="14sp" 
+            android:textColor="@android:color/darker_gray"/>
 
         <TextView
             android:id="@+id/yg_recent_dialog_item_date"
