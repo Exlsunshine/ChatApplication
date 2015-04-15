@@ -38,6 +38,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	
 	List<String> userNmae = new ArrayList<String>();
 	List<Bitmap> portrait = new ArrayList<Bitmap>();
+	List<Integer> ids = new ArrayList<Integer>();
 	MyAdapter myAdapter = null;
 	FinalListView finalListView = null;
 	Bitmap bmp;
@@ -59,6 +60,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portrait.add(bmp);
+					ids.add(friends.get(i).getID());
 				}
 			}
 		});
@@ -80,6 +82,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			{
 				userNmae.clear();
 				portrait.clear();
+				ids.clear();
 				ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
 				if (friends == null)
 					return;
@@ -96,6 +99,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portrait.add(bmp);
+					ids.add(friends.get(i).getID());
 				}
 			}
 		});
@@ -165,12 +169,14 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 							
 							userNmae.clear();
 							portrait.clear();
+							ids.clear();
 							for (int i = 0; i <friends.size(); i++)
 							{
 								userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
 								bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 								bmp = CircleBitmap.circleBitmap(bmp);
 								portrait.add(bmp);
+								ids.add(friends.get(i).getID());
 							}
 							Thread.sleep(1000);
 						} catch (Exception e) {
@@ -229,6 +235,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id)
 		{
+			Intent intent = new Intent(FriendListActivity.this, FriendDetailActivity.class);
+			intent.putExtra("friendUserID", ids.get(position - 2));
+			startActivity(intent);
 			/*String ab = (String) myAdapter.getItem(position - 2);
 			Intent it1 = new Intent(MainActivity.this, Talk.class);
 			it1.putExtra("reveiewer", ab);

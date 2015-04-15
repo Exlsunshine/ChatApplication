@@ -13,5 +13,6 @@
     <string name="title_activity_recent_dialog">RecentDialogActivity</string>
     <string name="title_activity_activity_shake">ActivityShake</string>
     <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_friend_detail">FriendDetailActivity</string>
 
 </resources>
