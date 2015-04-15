@@ -1,5 +1,7 @@
 package com.yg.commons;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -23,6 +25,25 @@ public class CommonUtil
 		Message msg = new Message();
 		msg.what = ConstantValues.InstructionCode.ERROR_NETWORK;
 		handle.sendMessage(msg);
+	}
+	
+	/**
+	 * 删除指定路径内全部内容(包括文件夹自身)
+	 * @param path 指定的路径
+	 */
+	void deleteFiles(String path)
+	{
+	    File file = new File(path);
+
+	    if (file.exists()) 
+	    {
+	        String deleteCmd = "rm -r -f " + path;
+	        Runtime runtime = Runtime.getRuntime();
+	        try
+	        {
+	            runtime.exec(deleteCmd);
+	        } catch (IOException e) { }
+	    }
 	}
 	
 	public static boolean isNetWorkError(Object result)
