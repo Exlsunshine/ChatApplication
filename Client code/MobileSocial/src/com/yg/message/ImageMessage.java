@@ -53,6 +53,8 @@ public class ImageMessage extends AbstractMessage
 		/*if (imgFile.exists() && imgFile.isFile())
 			imgFile.delete();*/
 
+		imgFile.getParentFile().mkdirs();
+		
 		if (!imgFile.exists())
 		{
 			try

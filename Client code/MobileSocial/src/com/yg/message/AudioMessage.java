@@ -85,6 +85,8 @@ public class AudioMessage extends AbstractMessage
 		/*if (amrFile.exists())
 			amrFile.delete();*/
 
+		amrFile.getParentFile().mkdirs();
+		
 		if (!amrFile.exists())
 		{
 			try 
