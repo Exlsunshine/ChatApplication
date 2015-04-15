@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    android:id="@+id/lj_songpuzzle_mainlayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lj_songpuzzle_background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+        android:layout_marginRight="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lj_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="nickname"
+                android:textColor="@color/white"
+                android:textSize="@dimen/lj_activity_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lj_step"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="@dimen/lj_activity_text_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.lj.songpuzzle.FrameLayoutRecorder
+        android:id="@+id/layout"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center_horizontal" >
+    </com.lj.songpuzzle.FrameLayoutRecorder>
+
+    
+
+</LinearLayout>

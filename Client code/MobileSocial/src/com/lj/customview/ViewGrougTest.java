@@ -1,8 +1,15 @@
 package com.lj.customview;
 
 
+import com.lj.eightpuzzle.ActivityEightPuzzleGame;
+import com.lj.shake.ActivityShake;
+import com.yg.commons.ConstantValues;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +22,28 @@ public class ViewGrougTest extends ViewGroup
 	private Button btn;
 	int position_X;
 	int position_Y;
+	private int gameType;
+	private int userID;
+	private Handler myHandler;
 	
-	public ViewGrougTest(Context context, int x, int y, String nickname, Typeface tf, int gametype) 
+	private OnClickListener gameClickListener = new OnClickListener() 
+	{
+		
+		@Override
+		public void onClick(View v) 
+		{
+			Message msg = new Message();
+			msg.what = ConstantValues.InstructionCode.SHAKE_HANDLER_GAME;
+			msg.arg1 = userID;
+			msg.arg2 = gameType;
+			myHandler.sendMessage(msg);
+		}
+	};
+	
+	public ViewGrougTest(Context context, int x, int y, String nickname, Typeface tf, int gametype, int userid, Handler handler) 
 	{
 		super(context);
-		
+		myHandler = handler;
 		position_X = x;
 		position_Y = y;
 		userDataWindowView = new UserDataWindowView(context, x, y, nickname, tf, gametype);
@@ -27,6 +51,9 @@ public class ViewGrougTest extends ViewGroup
 		btn = new Button(context);
 		addView(btn);
 		btn.setText("Game");
+		btn.setOnClickListener(gameClickListener);
+		gameType = gametype;
+		userID = userid;
 	}
 	
 	@Override

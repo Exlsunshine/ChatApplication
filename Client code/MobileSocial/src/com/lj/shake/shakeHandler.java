@@ -12,15 +12,20 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.example.testmobiledatabase.R;
+import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.customview.UserDataWindowView;
 import com.lj.customview.ViewGrougTest;
+import com.lj.eightpuzzle.ActivityEightPuzzleGame;
+import com.lj.songpuzzle.ActivitySongPuzzle;
 import com.yg.commons.ConstantValues;
 
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.sax.StartElementListener;
 import android.view.View;
 import android.widget.Toast;
 
@@ -54,6 +59,7 @@ public class shakeHandler extends Handler
 		Marker marker = (Marker)myContext.baiduMap.addOverlay(option);
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("nickname", userShakeData.getNickName());
+		bundle.putSerializable("userID", userShakeData.getUserId());
 		bundle.putSerializable("gametype", userShakeData.getGameType());
 		marker.setExtraInfo(bundle);
 	}
@@ -104,11 +110,12 @@ public class shakeHandler extends Handler
 				return;
 			String nickname = data.get("nickname").toString();
 			int gametype = Integer.valueOf(data.get("gametype").toString());
+			int userID = data.getInt("userID");
 			final LatLng ll = marker.getPosition();
 	        Point p = myContext.baiduMap.getProjection().toScreenLocation(ll);
 	        if (myContext.userDataWindowView != null)
 	        	myContext.mainLayout.removeView(myContext.userDataWindowView);
-	        myContext.userDataWindowView = new ViewGrougTest(myContext, p.x, p.y - UserDataWindowView.H, nickname, null, gametype);
+	        myContext.userDataWindowView = new ViewGrougTest(myContext, p.x, p.y - UserDataWindowView.H, nickname, null, gametype, userID, this);
 	        myContext.mainLayout.addView(myContext.userDataWindowView);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_STATUS_CHANGE:
@@ -127,6 +134,28 @@ public class shakeHandler extends Handler
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_FAST_MOVE:
 			myContext.mainLayout.removeView(myContext.userDataWindowView);
+			break;
+		case ConstantValues.InstructionCode.SHAKE_HANDLER_GAME:
+			int id = msg.arg1;
+			int type = msg.arg2;
+			Intent intent = new Intent();
+			switch (type)
+			{
+			case 1:
+				intent.setClass(myContext, ActivityEightPuzzleGame.class);
+				intent.putExtra("userID", id);
+				break;
+			case 2:
+				intent.setClass(myContext, ActivitySongPuzzle.class);
+				intent.putExtra("userID", id);
+				break;
+			case 3:
+				intent.setClass(myContext, ActivityBazingaBall.class);
+				intent.putExtra("userID", id);
+				break;
+			}
+			myContext.startActivity(intent);
+			
 			break;
 		}
 	}

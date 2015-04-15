@@ -16,107 +16,65 @@ public class GameSong {
 	private final String DATABASE_NAME = "JMMSRDB";
 	private final String TABLE_NAME = "game_song_data";
 	private SQLServerEnd sql = new SQLServerEnd(DATABASE_NAME, TABLE_NAME);
-	public String getSingerList() throws Exception
+	private final int DATA_NUM = 10;
+	private final int SELECT_NUM = 3;
+	
+	private int[] getSongID(int n)
 	{
-		String[] query = {"singer"};
-		String[] condition = {"1"};
-		String[] conditionVal = {"1"};
-		ArrayList<HashMap<String, String>> result = sql.select(query, condition, conditionVal);
-		String str = PackString.arrylist2JsonString("singers", result, 0);
-		return str;
+		int[] id = new int[n];
+		for (int i = 0; i < n; i++)
+			id[i] = i + 1;
+		return id;
 	}
 	
-	public String getSongList(String singer) throws Exception
+	private ArrayList<HashMap<String, String>> getSelectResult(int[] id)
 	{
-		String[] query = {"song"};
-		String[] condition = {"singer"};
-		String[] conditionVal = {singer};
-		ArrayList<HashMap<String, String>> result = sql.select(query, condition, conditionVal);
-		String str = PackString.arrylist2JsonString("song", result, 0);
-		return str;
+		String[] query = {"song", "song_path"};
+		String[] condition = {"id", "id", "id"};
+		String[] conditionVal = new String[id.length];
+		for (int i = 0; i < id.length; i++)
+			conditionVal[i] = String.valueOf(id[i]);
+		return sql.excecuteRawQuery("SELECT TOP 3 * FROM game_song_data ORDER BY NEWID()", query);
 	}
 	
-	public String getLyricList(String singer, String song) throws Exception
+	private String audio2String(String audioPath) throws Exception
 	{
-		String[] query = {"lyric"};
-		String[] condition = {"singer", "song"};
-		String[] conditionVal = {singer, song};
-		ArrayList<HashMap<String, String>> result = sql.select(query, condition, conditionVal);
-		String str = PackString.arrylist2JsonString("lyric", result, 0);
-		return str;
-	}
-
-	
-	private String[] getSongID(int userID)
-	{
-		SQLServerEnd sqlTemp = new SQLServerEnd(DATABASE_NAME, "game_songpuzzle_setting");
-		String[] query = {"song_id", "puzzle_answer"};
-		String[] condition = {"user_id"};
-		String[] conditionVal = {String.valueOf(userID)};
-		ArrayList<HashMap<String, String>> result = sqlTemp.select(query, condition, conditionVal);
-		String[] r = {null, null,null,null};
-		if (result.size() == 0)
-			return null;
-		r[0] = result.get(0).get("song_id");
-		r[1] = result.get(0).get("puzzle_answer");
-		r[2] = result.get(1).get("song_id");
-		r[3] = result.get(1).get("puzzle_answer");
-		return r;
-	}
-	
-	private ArrayList<HashMap<String, String>> getSong(String[] songID)
-	{
-		String[] query = {"singer", "song", "lyric"};
-		String[] condition = {"id"};
-		String[] conditionVal = {songID[0]};
-		ArrayList<HashMap<String, String>> result = sql.select(query, condition, conditionVal);
-		conditionVal[0] = songID[2];
-		ArrayList<HashMap<String, String>> result_t = sql.select(query, condition, conditionVal);
-		result.add(result_t.get(0));
+		FileInputStream fis = new FileInputStream(audioPath);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+		byte[] buffer = new byte[1024]; 
+		int count = 0;
+		while((count = fis.read(buffer)) >= 0)   
+		    baos.write(buffer, 0, count);
+		String result = new String(new BASE64Encoder().encode(baos.toByteArray())); 
+		fis.close();
+		baos.close();
 		return result;
 	}
-	public String getSongSetting(int userID) throws Exception
+	
+	private String getCharList(String song)
 	{
-		String[] query = {"singer", "song", "lyric", "puzzle_answer"};
-		String sqlstr = "select game_song_data.singer, game_song_data.song, game_song_data.lyric,game_songpuzzle_setting.puzzle_answer from game_song_data,game_songpuzzle_setting where game_song_data.id = game_songpuzzle_setting.song_id and game_songpuzzle_setting.user_id =";
-		sqlstr += "'" + userID + "'";
-		ArrayList<HashMap<String, String>> result = sql.excecuteRawQuery(sqlstr, query);
-		String str = PackString.arrylist2JsonString("song", result, 0);
-		return str;
+		String str = song + "就阿斯科利大家阿斯科利大家阿斯利康放假唉哦发建筑师客户发送加和法地位大家说服之靴不达瓦里可能缚梦者那份勤奋";
+		return str.substring(0, 20);
 	}
 	
-	private String getSongID(String singer, String song, String lyric)
+	public String getSongData() throws Exception
 	{
-		String[] query = {"id"};
-		String[] condition = {"singer", "song", "lyric"};
-		String[] conditionVal = {singer, song, lyric};
-		ArrayList<HashMap<String, String>> result = sql.select(query, condition, conditionVal);
-		return result.get(0).get("id").toString();
-	}
-	
-	private void updateDateBase(int userID, String songID, String puzzle_answer)
-	{
-		SQLServerEnd sqlset = new SQLServerEnd(DATABASE_NAME, "game_songpuzzle_setting");
-        String[] column = {"user_id", "song_id", "puzzle_answer"};
-        String[] value = {String.valueOf(userID), songID, puzzle_answer};
-        sqlset.insert(column, value);
-	}
-	public int setSongGame(int userID, String setString)
-	{
-		SQLServerEnd sqlset = new SQLServerEnd(DATABASE_NAME, "game_songpuzzle_setting");
-		String[] condition = {"user_id"};
-		String[] conditionVal = {String.valueOf(userID)};
-		boolean result = sqlset.isConditionExist(condition, conditionVal); 
-        if (result) 
-        	sqlset.delete(condition, conditionVal);
-		PackString ps = new PackString(setString);
-		ArrayList<HashMap<String, Object>> map = ps.jsonString2Arrylist("song");
-		for (int i = 0; i < map.size(); i++)
+		int[] id = getSongID(SELECT_NUM);
+		ArrayList<HashMap<String, String>> selectResult = getSelectResult(id);
+		ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String,String>>();
+		for (int i = 0; i < selectResult.size(); i++)
 		{
-			HashMap<String, Object> item = map.get(i);
-			String songID = getSongID(item.get("singer").toString(), item.get("song").toString(), item.get("lyric").toString());
-			updateDateBase(userID, songID, item.get("puzzle_answer").toString());
+			HashMap<String, String> map = selectResult.get(i);
+			HashMap<String, String> item = new HashMap<String, String>();
+			String song = map.get("song");
+			item.put("song", song);
+			String path = map.get("song_path");
+			System.out.println(i +" " + path + "ss " + song);
+			String record = audio2String(path);
+			item.put("record", record);
+			item.put("char", getCharList(song));
+			result.add(item);
 		}
-		return ConstantValues.InstructionCode.SUCCESS;
+		return PackString.arrylist2JsonString("song", result, 0);
 	}
 }

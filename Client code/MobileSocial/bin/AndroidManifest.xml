@@ -54,7 +54,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="vocLIrS7d3C4mWHdCOUuLxx3" />
+            android:value="QE0CcmzMbOQNNrHW6GH7mEGv" />
 
         <activity
             android:name="com.yg.ui.login.WelcomeActivity"
@@ -131,6 +131,15 @@
             android:name="com.yg.ui.friendlist.FriendDetailActivity"
             android:label="@string/title_activity_friend_detail" >
         </activity>
+        <activity 
+            android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame" 
+            android:label="itle_activity_activity_song_puzzle" /> 
+  		<activity 
+  		    android:name="com.lj.songpuzzle.ActivitySongPuzzle" android:label="title_activity_activity_song_puzzle" /> 
+  		<activity 
+  		    android:name="com.lj.bazingaball.ActivityBazingaBall" 
+  		    android:label="title_activity_activity_bazinga" 
+  		    android:noHistory="true"/> 
     </application>
 
 </manifest>

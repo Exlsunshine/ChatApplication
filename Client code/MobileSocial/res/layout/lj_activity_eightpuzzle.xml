@@ -1,0 +1,158 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.example.testmobiledatabase"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lj_eightpuzzle_layout_background" >
+
+    <LinearLayout
+        android:id="@+id/lj_eightpuzzle_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.lj.eightpuzzle.ActivityEightPuzzleGame" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+            android:layout_marginRight="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/lj_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="nickname"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/lj_activity_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/lj_step"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/lj_activity_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:background="@drawable/lj_eightpuzzle_board_background"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/lj_img_00"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/lj_img_01"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+                android:layout_toRightOf="@id/lj_img_00"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/lj_img_02"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+                android:layout_toRightOf="@id/lj_img_01"
+                android:scaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/lj_img_10"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_below="@id/lj_img_00"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval" />
+
+            <ImageView
+                android:id="@+id/lj_img_11"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_below="@id/lj_img_01"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_toRightOf="@id/lj_img_10" />
+
+            <ImageView
+                android:id="@+id/lj_img_12"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_below="@id/lj_img_02"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_toRightOf="@id/lj_img_11" />
+
+            <ImageView
+                android:id="@+id/lj_img_20"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_below="@id/lj_img_10"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval2"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval" />
+
+            <ImageView
+                android:id="@+id/lj_img_21"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_below="@id/lj_img_11"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_toRightOf="@id/lj_img_20" />
+
+            <ImageView
+                android:id="@+id/lj_img_22"
+                android:layout_width="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_height="@dimen/lj_activity_eightpuzzle_imageview_size"
+                android:layout_below="@id/lj_img_12"
+                android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_marginTop="@dimen/lj_activity_eightpuzzle_imageview_interval"
+                android:layout_toRightOf="@id/lj_img_21" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.lj.satellitemenu.SatelliteMenu 
+        android:id="@+id/menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="8dp"
+        app:closeOnClick="true"
+        app:expandDuration="500"
+        app:satelliteDistance="130dp"
+        app:totalSpacingDegree="180" >
+    </com.lj.satellitemenu.SatelliteMenu>
+
+</FrameLayout>

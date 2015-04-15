@@ -36,9 +36,9 @@ public class ConstantValues
 		public static final int GAME_TYPE_WHAC = 0x00;
 		
 		public static final int DIRECTION_UP = 0x00;
-		public static final int DIRECTION_DOWN = 0x00;
-		public static final int DIRECTION_LEFT = 0x00;
-		public static final int DIRECTION_RIGHT = 0x00;
+		public static final int DIRECTION_DOWN = 0x01;
+		public static final int DIRECTION_LEFT = 0x02;
+		public static final int DIRECTION_RIGHT = 0x03;
 		
 		public static final int REQUESTCODE_GALLERY = 0x200;
 		public static final int REQUESTCODE_CAMERA = 0x201;
@@ -63,6 +63,7 @@ public class ConstantValues
 		public static final int SHAKE_HANDLER_MAP_TOUCH_DOWN = 5;
 		public static final int SHAKE_HANDLER_MAP_TOUCH_MOVE = 6;
 		public static final int SHAKE_HANDLER_MAP_FAST_MOVE = 7;
+		public static final int SHAKE_HANDLER_GAME = 8;
 		
 		//game setting activity
 		public static final int GAMESET_HANDLER_DOWNLOAD_IMAGE = 1;
@@ -95,6 +96,15 @@ public class ConstantValues
 		public static final String PACKAGE_NETWORK = "network.com";
 		public static final String PACKAGE_GAME_SETTING = "gameSettingPackage.lj.com";
 		public static final String PACKAGE_GAME = "gamePackage.lj.com";
+		
+		//songpuzzle
+		public static final int SONGPUZZLE_HANDLER_GET_SONGDATA = 1;
+		public static final int SONGPUZZLE_NUM = 3;
+						
+		//BazingaBall
+		public static final int BAZINGABALL_HANDLER_MOVE = 1;
+		public static final int BAZINGABALL_HANDLER_UPDATE_SCORE = 2;
+		public static final int BAZINGABALL_HANDLER_GET_SCORE = 3;
 	}
 	
 	public class Configs
