@@ -393,8 +393,8 @@ public class ActivityBazingaBall extends Activity
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-	//		gThreadUpdateScore.stop();
 			iniMode();
+			reStart();
 			this.finish();
 		}
 		return super.onKeyDown(keyCode, event);

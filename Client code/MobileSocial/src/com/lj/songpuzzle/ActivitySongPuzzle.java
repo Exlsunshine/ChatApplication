@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -89,8 +90,13 @@ public class ActivitySongPuzzle extends Activity {
 					imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.lj_songpuzzle_voicebox_next_down));
 				else if (action == MotionEvent.ACTION_UP)
 				{
-					gSongPuzzleGame.stop();
 					imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.lj_songpuzzle_voicebox_next));
+					if (gSongPuzzleGame.isFinish())
+					{
+						Toast.makeText(ActivitySongPuzzle.this, "Already last.", Toast.LENGTH_LONG).show();
+						return true;
+					}
+					gSongPuzzleGame.stop();
 					if (gSongPuzzleGame.isFinish())
 					{
 						if (gRightNum >= 1)
@@ -279,6 +285,14 @@ public class ActivitySongPuzzle extends Activity {
 		gCharZoomout = AnimationUtils.loadAnimation(ActivitySongPuzzle.this, R.anim.lj_songpuzzle_char_zoomout);
 		Intent intent = getIntent();
 	    userID = intent.getIntExtra("userID", 0);
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) 
+	{
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+			this.finish();
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
