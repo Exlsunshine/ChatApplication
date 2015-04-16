@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds.Im;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
 import com.yg.ui.dialog.DialogActivity;
+import com.yg.ui.friendlist.implementation.Constellation;
 import com.yg.user.FriendUser;
 
 public class FriendDetailActivity extends Activity
@@ -25,6 +25,8 @@ public class FriendDetailActivity extends Activity
 	private ImageView portrait;
 	private TextView name;
 	private TextView joinDate;
+	private TextView birthday;
+	private TextView phoneNumber;
 	private ImageView sexIcon;
 	private TextView region;
 	private Button message;
@@ -80,6 +82,9 @@ public class FriendDetailActivity extends Activity
 				? getResources().getDrawable(R.drawable.yg_appkefu_ic_sex_male)
 				: getResources().getDrawable(R.drawable.yg_appkefu_ic_sex_female));
 		region.setText(friend.getHometown());
+		
+		birthday.setText(String.format("%s(%s)", friend.getBirthday(),Constellation.getConstellation(friend.getBirthday())));
+		phoneNumber.setText(friend.getPhoneNumber());
 	}
 	
 	private void setupLayouts()
@@ -90,6 +95,8 @@ public class FriendDetailActivity extends Activity
 		sexIcon = (ImageView)findViewById(R.id.yg_activity_friend_detail_sex_icon);
 		region = (TextView)findViewById(R.id.yg_activity_friend_detail_region);
 		message = (Button)findViewById(R.id.yg_activity_friend_detail_message);
+		birthday = (TextView)findViewById(R.id.yg_activity_friend_detail_birthday);
+		phoneNumber = (TextView)findViewById(R.id.yg_activity_friend_detail_phonenumber);
 	}
 	
 	private void setupDialogActionBar()

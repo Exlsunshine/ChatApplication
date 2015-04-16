@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
         <ImageView
@@ -18,7 +18,8 @@
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/yg_portrait_sample_x" />
+            android:background="@drawable/yg_portrait_sample_x"
+            android:contentDescription="@string/app_name" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -47,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/yg_activity_friend_detail_join_date"
                 android:layout_toRightOf="@+id/yg_activity_friend_detail_name"
+                android:contentDescription="@string/app_name"
                 android:scaleType="fitCenter"
                 android:src="@drawable/yg_appkefu_ic_sex_male" />
         </RelativeLayout>
@@ -57,7 +59,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/white"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -67,40 +69,168 @@
             android:layout_marginRight="10dp"
             android:orientation="horizontal" >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Region"
-                android:textColor="@android:color/darker_gray" />
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/yg_activity_friend_detail_region_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="家乡"
+                    android:textColor="@android:color/darker_gray" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@+id/yg_activity_friend_detail_region_hint"
+                    android:src="@drawable/user_location" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/yg_activity_friend_detail_region"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="Chaoyang Beijing"
                 android:textColor="@android:color/darker_gray" />
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@android:color/white"
-        android:gravity="center_vertical"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/yg_activity_friend_detail_birthday_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="生日"
+                    android:textColor="@android:color/darker_gray" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@+id/yg_activity_friend_detail_birthday_hint"
+                    android:src="@drawable/yg_signup_first_dialog_canlendar" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/yg_activity_friend_detail_birthday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1992-04-13"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/yg_activity_friend_detail_phonenumber_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="手机"
+                    android:textColor="@android:color/darker_gray" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@+id/yg_activity_friend_detail_phonenumber_hint"
+                    android:src="@drawable/yg_signup_first_dialog_canlendar" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/yg_activity_friend_detail_phonenumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="13711254896"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/yg_activity_friend_detail_message"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/holo_green_light"
-            android:text="Message" />
+            android:background="@android:color/holo_green_dark"
+            android:gravity="center"
+            android:text="Message"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </LinearLayout>
