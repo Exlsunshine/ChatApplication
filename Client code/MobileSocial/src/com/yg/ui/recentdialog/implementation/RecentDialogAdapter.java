@@ -3,24 +3,26 @@ package com.yg.ui.recentdialog.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.testmobiledatabase.R;
-import com.readystatesoftware.viewbadger.BadgeView;
-import com.yg.commons.ConstantValues;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.util.Log;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.testmobiledatabase.R;
+import com.readystatesoftware.viewbadger.BadgeView;
+import com.yg.commons.ConstantValues;
+import com.yg.emoji.ParseEmojiMsgUtil;
+import com.yg.message.TextMessage;
 
 public class RecentDialogAdapter extends BaseAdapter
 {
@@ -102,8 +104,10 @@ public class RecentDialogAdapter extends BaseAdapter
 			
 			convertView.setTag(holder);
 			
+			SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(mContext, this.messages.get(position));
+			
 			holder.tvFriendName.setText(this.names.get(position));
-			holder.tvLastMsg.setText(this.messages.get(position));
+			holder.tvLastMsg.setText(spannableString);
 			holder.tvDate.setText(this.dates.get(position));
 			holder.ivFriendPortrait.setImageBitmap(this.portraits.get(position));
 			
@@ -135,8 +139,10 @@ public class RecentDialogAdapter extends BaseAdapter
 		{
 			final ViewHolder holder2 = (ViewHolder) convertView.getTag();
 
+			SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(mContext, this.messages.get(position));
+			
 			holder2.tvFriendName.setText(this.names.get(position));
-			holder2.tvLastMsg.setText(this.messages.get(position));
+			holder2.tvLastMsg.setText(spannableString);
 			holder2.tvDate.setText(this.dates.get(position));
 			holder2.ivFriendPortrait.setImageBitmap(this.portraits.get(position));
 			

@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/com/lj/shake/UserShakeData.java=UTF-8
+encoding//src/com/yg/emoji/FaceAdapter.java=UTF-8
+encoding//src/com/yg/emoji/ViewPagerAdapter.java=UTF-8
 encoding//src/com/yg/user/AudioTransportation.java=UTF-8
 encoding//src/com/yg/user/ImageTransportation.java=UTF-8
 encoding//src/com/yg/user/WebServiceAPI.java=UTF-8

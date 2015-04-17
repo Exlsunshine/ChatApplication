@@ -3,6 +3,7 @@ package com.yg.ui.dialog.implementation;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.emoji.ParseEmojiMsgUtil;
 import com.yg.message.AbstractMessage;
 import com.yg.message.AudioMessage;
 import com.yg.message.ImageMessage;
@@ -119,7 +121,9 @@ public class DialogAdapter extends BaseAdapter
 				holder.ivMyImage.setVisibility(View.GONE);
 				holder.tvMyText.setVisibility(View.VISIBLE);
 				
-				holder.tvMyText.setText(((TextMessage)messages.get(position)).getText());
+				SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(context, ((TextMessage)messages.get(position)).getText());
+				
+				holder.tvMyText.setText(spannableString);
 				break;
 			default:
 				break;
@@ -165,7 +169,9 @@ public class DialogAdapter extends BaseAdapter
 				holder.ivFriendImage.setVisibility(View.GONE);
 				holder.tvFriendText.setVisibility(View.VISIBLE);
 				
-				holder.tvFriendText.setText(((TextMessage)messages.get(position)).getText());
+				SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(context, ((TextMessage)messages.get(position)).getText());
+				
+				holder.tvFriendText.setText(spannableString);
 				break;
 			default:
 				break;

@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -40,6 +41,10 @@ import android.widget.Toast;
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.emoji.EmojiParser;
+import com.yg.emoji.ParseEmojiMsgUtil;
+import com.yg.emoji.SelectFaceHelper;
+import com.yg.emoji.SelectFaceHelper.OnFaceOprateListener;
 import com.yg.message.AbstractMessage;
 import com.yg.message.AudioMessage;
 import com.yg.message.ConvertUtil;
@@ -63,6 +68,7 @@ public class DialogActivity extends Activity
 	private Button addButton = null;
 	private Button recordvoicebtn = null;
 	private Button voiceButton = null;
+	private Button emoji = null;
 	private LinearLayout record_hintview = null;
 	private LinearLayout record_hint_layout = null;
 	private LinearLayout record_hint_cancel_layout = null;
@@ -70,7 +76,8 @@ public class DialogActivity extends Activity
 	private LinearLayout record_hint_text_cancel_layout = null;
 	private RelativeLayout plusRelativelayout = null;
 	private boolean isRecord = true;
-
+	private SelectFaceHelper faceHelper;
+	private View addFaceToolView;
 	
 	private void setupDialogActionBar()
 	{
@@ -107,6 +114,59 @@ public class DialogActivity extends Activity
 		sendBroadcast(currentChatIntent );
 	}
 	
+	private void initEmoji()
+	{
+		if (null == faceHelper) 
+		{
+			faceHelper = new SelectFaceHelper(this, addFaceToolView);
+			faceHelper.setFaceOpreateListener(mOnFaceOprateListener);
+		}
+		
+		hideInputManager(this);
+	}
+	
+	public void hideInputManager(Context ct)
+	{
+		try 
+		{
+			((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(((Activity) ct)
+					.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		} catch (Exception e) {
+			Log.e(DEBUG_TAG, "hideInputManager Catch error,skip it!", e);
+		}
+	}
+	
+	OnFaceOprateListener mOnFaceOprateListener = new OnFaceOprateListener() 
+	{
+		@Override
+		public void onFaceSelected(SpannableString spanEmojiStr) 
+		{
+			if (null != spanEmojiStr)
+			{
+				editText.append(spanEmojiStr);
+			}
+		}
+
+		@Override
+		public void onFaceDeleted()
+		{
+			int selection = editText.getSelectionStart();
+			String text = editText.getText().toString();
+			if (selection > 0) 
+			{
+				String text2 = text.substring(selection - 1);
+				if ("]".equals(text2)) 
+				{
+					int start = text.lastIndexOf("[");
+					int end = selection;
+					editText.getText().delete(start, end);
+					return;
+				}
+				editText.getText().delete(selection - 1, selection);
+			}
+		}
+	};
+	
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -118,7 +178,6 @@ public class DialogActivity extends Activity
 		notifyChattingWithSomebody();
 		notifyClearRedDots();
 		
-		
 		setupDialogActionBar();
 		
 		listView = (ListView) super.findViewById(R.id.yg_dialog_activity_dialog_listview);
@@ -127,6 +186,8 @@ public class DialogActivity extends Activity
 		addButton = (Button) super.findViewById(R.id.yg_dialog_activity_add_utton);
 		recordvoicebtn = (Button) super.findViewById(R.id.yg_dialog_activity_record_btn);
 		voiceButton = (Button) super.findViewById(R.id.yg_dialog_activity_voice_button);
+		emoji = (Button) super.findViewById(R.id.yg_dialog_activity_emotion);
+		addFaceToolView = (View) findViewById(R.id.yg_emoji_add_tool);
 		record_hintview = (LinearLayout) super.findViewById(R.id.yg_dialog_activity_record_hintview);
 		record_hint_layout = (LinearLayout) super.findViewById(R.id.yg_dialog_record_hint_record_image_layout);
 		record_hint_cancel_layout = (LinearLayout) super.findViewById(R.id.yg_dialog_record_hint_cancel_image_layout);
@@ -141,6 +202,9 @@ public class DialogActivity extends Activity
 		listView.setAdapter(msgAdapter);
 		listView.setSelection(msgAdapter.getCount() - 1);
 
+
+		initEmoji();
+		
 		editText.addTextChangedListener(new TextWatcher()
 		{
 			@Override
@@ -173,7 +237,7 @@ public class DialogActivity extends Activity
 		{
 			public void onClick(View v) 
 			{
-				String content = editText.getText().toString();
+				String content = EmojiParser.getInstance(DialogActivity.this).parseEmoji(ParseEmojiMsgUtil.convertToMsg(editText.getText(), DialogActivity.this));
 				TextMessage txtMsg = new TextMessage(ConstantValues.user.getID(), friendID, content, CommonUtil.now(), true);
 				ConstantValues.user.sendMsgTo(getFriendByID(friendID), txtMsg);
 				editText.setText("");
@@ -185,6 +249,19 @@ public class DialogActivity extends Activity
 
 				Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
 				sendBroadcast(intent);
+				
+				/*String content = editText.getText().toString();
+				TextMessage txtMsg = new TextMessage(ConstantValues.user.getID(), friendID, content, CommonUtil.now(), true);
+				ConstantValues.user.sendMsgTo(getFriendByID(friendID), txtMsg);
+				editText.setText("");
+				
+				messages.clear();
+				messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+				msgAdapter.notifyDataSetChanged();
+				listView.setSelection(listView.getCount() - 1);
+
+				Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+				sendBroadcast(intent);*/
 			}
 		});
 
@@ -227,6 +304,19 @@ public class DialogActivity extends Activity
 				} 
 				else
 					recordvoicebtn.setVisibility(View.GONE);
+			}
+		});
+		
+		emoji.setOnClickListener(new OnClickListener() 
+		{
+			public void onClick(View v) 
+			{
+				View view = (View) findViewById(R.id.yg_dialog_activity_emoji_layout);
+				
+				if (view.getVisibility() == View.GONE)
+					view.setVisibility(View.VISIBLE);
+				else
+					view.setVisibility(View.GONE);
 			}
 		});
 

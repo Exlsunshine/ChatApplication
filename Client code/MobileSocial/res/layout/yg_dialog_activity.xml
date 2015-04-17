@@ -143,6 +143,19 @@
             android:layout_height="1dp"
             android:background="#E0E0E0" />
 
+        <LinearLayout
+            android:id="@+id/yg_dialog_activity_emoji_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical" 
+            android:visibility="gone">
+
+            <include
+                android:id="@+id/yg_emoji_add_tool"
+                layout="@layout/yg_emoji_select_layout"/>
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/yg_dialog_activity_plus_rl"
             android:layout_width="wrap_content"
