@@ -153,12 +153,12 @@ public class NetworkHandler
 		return errorCode;
 	}
 	
-	public int setHometown(int userID, int hometownID) 
+	public int setHometown(int userID, String hometown) 
 	{
 		initUserBasicInfoTB();
 		
-		String [] updateCol = {"hometown_id"};
-		String [] updateVal = { String.valueOf(hometownID) };
+		String [] updateCol = {"hometown"};
+		String [] updateVal = { hometown };
 		String [] condition = { "id" };
 		String [] conditionVal = { String.valueOf(userID) };
 		

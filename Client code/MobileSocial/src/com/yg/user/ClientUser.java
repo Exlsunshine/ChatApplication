@@ -186,7 +186,8 @@ public class ClientUser extends AbstractUser
 		vlaues[1] = nickName;
 		
 		Object ret = wsAPI.callFuntion("setNickName", params, vlaues);
-		
+
+		this.nickName = nickName;
 		Log.e("______", ret.toString());
 	}
 	
@@ -204,7 +205,8 @@ public class ClientUser extends AbstractUser
 		vlaues[1] = email;
 		
 		Object ret = wsAPI.callFuntion("setEmail", params, vlaues);
-		
+
+		this.email = email;
 		Log.e("______", ret.toString());
 	}
 	
@@ -223,6 +225,7 @@ public class ClientUser extends AbstractUser
 		
 		Object ret = wsAPI.callFuntion("setSex", params, vlaues);
 		
+		this.sex = sex;
 		Log.e("______", ret.toString());
 	}
 	
@@ -241,6 +244,7 @@ public class ClientUser extends AbstractUser
 		
 		Object ret = wsAPI.callFuntion("setBirthday", params, vlaues);
 		
+		this.birthday = birthday;
 		Log.e("______", ret.toString());
 	}
 	
@@ -270,6 +274,9 @@ public class ClientUser extends AbstractUser
 			System.out.println(portraitInStr.length());
 			
 			Object ret = wsAPI.callFuntion("setPortrait", params, vlaues);
+			
+			this.portraitBmp = bmp;
+			this.portrait = ConvertUtil.bitmap2Bytes(bmp);
 			Log.e("______", ret.toString());
 		} 
 		catch (Exception e) {
@@ -281,17 +288,18 @@ public class ClientUser extends AbstractUser
 	 * 设置用户家乡
 	 * @param hometown 家乡
 	 */
-	public void setHometown(int hometownID)
+	public void setHometown(String hometown)
 	{
 		String [] params = new String[2];
 		Object [] vlaues = new Object[2];
 		params[0] = "userID";
 		params[1] = "hometownID";
 		vlaues[0] = this.id;
-		vlaues[1] = hometownID;
+		vlaues[1] = hometown;
 		
 		Object ret = wsAPI.callFuntion("setHometown", params, vlaues);
 		
+		this.hometown = hometown;
 		Log.e("______", ret.toString());
 	}
 	
@@ -310,6 +318,7 @@ public class ClientUser extends AbstractUser
 		
 		Object ret = wsAPI.callFuntion("setPhoneNumber", params, vlaues);
 		
+		this.phoneNumber = phoneNumber;
 		Log.e("______", ret.toString());
 	}
 
