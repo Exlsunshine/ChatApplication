@@ -129,7 +129,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		
 		centerControlMenu = (SatelliteMenu)findViewById(R.id.lj_menu);
 		centerControlMenu.setSatelliteDistance(340);
-		centerControlMenu.setMainImage(R.drawable.sat_main);
+		centerControlMenu.setMainImage(R.drawable.sat_main_style2);
 		centerControlMenu.setTotalSpacingDegree(180);
 		centerControlMenu.setCloseItemsOnClick(true);
 		centerControlMenu.setExpandDuration(500);

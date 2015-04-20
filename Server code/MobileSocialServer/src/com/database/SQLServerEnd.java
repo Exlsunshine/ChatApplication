@@ -26,7 +26,7 @@ public class SQLServerEnd
 		TABLE_NAME = tableName;
 		USERNAME = "sa";
 		PASSWORD = "007";
-		DATABASE_URL = "jdbc:sqlserver://172.18.8.137:1433"+";databaseName=" + DATABASE_NAME;
+		DATABASE_URL = "jdbc:sqlserver://172.18.8.30:1433"+";databaseName=" + DATABASE_NAME;
 		connect();
 	}
 	

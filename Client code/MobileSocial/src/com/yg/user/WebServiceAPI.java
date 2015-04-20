@@ -12,7 +12,7 @@ public class WebServiceAPI
 	private String nameSpace;
 	private String endPoint;
 	private SoapSerializationEnvelope envelope;
-	private final String host = "http://172.18.8.137:8080/WebServiceProject/services/";
+	private final String host = "http://"+ ConstantValues.Configs.OPENFIRE_SERVER_IP +":8080/WebServiceProject/services/";
 	private final String space = "http://";
 
 	/**

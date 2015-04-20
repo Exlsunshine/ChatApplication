@@ -10,6 +10,7 @@
     	android:layout_width="fill_parent"  
         android:layout_height="fill_parent"   
         android:divider="#DCDCDC"  
+        android:background="#F0EFF5"
         android:dividerHeight="2px" >  
     </com.yg.ui.recentdialog.implementation.RecentDialogListView>  
 
