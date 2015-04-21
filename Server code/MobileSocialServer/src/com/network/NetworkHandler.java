@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.json.JSONException;
 
+import com.commonapi.ConstantValues;
 import com.commonapi.PackString;
 import com.database.SQLServerEnd;
 import com.mail.SendMailDemo;
@@ -335,10 +336,17 @@ public class NetworkHandler
 		{
 			for (int i = 0; i < result.size(); i++)
 			{
-				try {
-					String img = ImageTransmit.image2String(result.get(i).get("portrait_path"));
+				try 
+				{
+					String portraitPath = result.get(i).get("portrait_path");
+					portraitPath = portraitPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					portraitPath = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + portraitPath;
+					
+					result.get(i).put("portrait_path", portraitPath);
+					/*String img = ImageTransmit.image2String(result.get(i).get("portrait_path"));
 					result.get(i).remove("portrait_path");
-					result.get(i).put("portrait", img);
+					result.get(i).put("portrait", img);*/
 					
 					
 				} catch (Exception e) {
@@ -359,7 +367,8 @@ public class NetworkHandler
 		
 
 		System.out.println("===");
-		System.out.println(str);
+		System.out.println("Get friend list success. Totally " + result.size());
+		//System.out.println(str);
 		System.out.println("===");
 		
 		return str;
@@ -385,13 +394,20 @@ public class NetworkHandler
 		{
 			try 
 			{
-				String portrait;
+				String portraitPath = list.get(0).get("portrait_path");
+				portraitPath = portraitPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+				portraitPath = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+						+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + portraitPath;
+				
+				System.out.println("portraitPath is " + portraitPath);
+				list.get(0).put("portrait_path", portraitPath);
+				/*String portrait;
 				portrait = ImageTransmit.image2String(list.get(0).get("portrait_path"));list.get(0).remove("portrait_path");
 				list.get(0).remove("portrait_path");
 				list.get(0).put("portrait", portrait);
 				System.out.println(list.get(0).get("birthday"));
 				System.out.println("===");
-				System.out.println(PackString.arrylist2JsonString("userProfile", list, 0));
+				System.out.println(PackString.arrylist2JsonString("userProfile", list, 0));*/
 				
 				return PackString.arrylist2JsonString("userProfile", list, 0);
 			} catch (Exception e) {

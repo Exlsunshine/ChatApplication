@@ -39,7 +39,7 @@ public class ClientUser extends AbstractUser
 	private String JSON_INFO_KEY_USER_EMAIL = "email";
 	private String JSON_INFO_KEY_USER_SEX = "sex";
 	private String JSON_INFO_KEY_USER_BIRTHDAY = "birthday";
-	private String JSON_INFO_KEY_USER_PORTRAIT = "portrait";
+	private String JSON_INFO_KEY_USER_PORTRAIT = "portrait_path";
 	private String JSON_INFO_KEY_USER_PHONE_NO = "phone_number";
 	private String JSON_INFO_KEY_USER_HOMETOWN = "hometown";
 	private String JSON_INFO_KEY_USER_GROUP_NAME = "group_name";
@@ -47,11 +47,11 @@ public class ClientUser extends AbstractUser
 	private String JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG = "close_friend_flag";
 	
 	private ArrayList<FriendUser> friendList = null;
-	private ArrayList<Dialog> dialogList;
+	private ArrayList<Dialog> dialogList = null;
 	
-	public ClientUser(int userID, String password, String loginAccount, String nickName, String email, byte [] portrait, String sex, String birthday, String phoneNumber, String hometown, Context context)
+	public ClientUser(int userID, String password, String loginAccount, String nickName, String email, String portraitPath, String sex, String birthday, String phoneNumber, String hometown, Context context)
 	{
-		super(userID, loginAccount, nickName, email, phoneNumber, sex, birthday, portrait, hometown);
+		super(userID, loginAccount, nickName, email, phoneNumber, sex, birthday, portraitPath, hometown);
 		
 		this.context = context;
 		msgHandler = new Handler(new IncomingMessageHandlerCallback());
@@ -575,7 +575,7 @@ public class ClientUser extends AbstractUser
 							(String) map.get(JSON_INFO_KEY_USER_PHONE_NO),
 							(String) map.get(JSON_INFO_KEY_USER_SEX),
 							(String) map.get(JSON_INFO_KEY_USER_BIRTHDAY),
-							ConvertUtil.bitmap2Bytes(ImageTransportation.string2Bitmap((String) map.get(JSON_INFO_KEY_USER_PORTRAIT))),
+							(String) map.get(JSON_INFO_KEY_USER_PORTRAIT),
 							(String) map.get(JSON_INFO_KEY_USER_HOMETOWN),
 							(String) map.get(JSON_INFO_KEY_USER_GROUP_NAME), 
 							(String) map.get(JSON_INFO_KEY_USER_ALIAS),
@@ -627,6 +627,9 @@ public class ClientUser extends AbstractUser
 	 */
 	public ArrayList<Dialog> getRecentDialogs()
 	{
+		//if (dialogList != null)
+		//	return dialogList;
+		
 		dialogList = new ArrayList<Dialog>();
 		
 		for (int i = 0; i < friendList.size(); i++)

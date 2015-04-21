@@ -14,9 +14,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.yg.commons.ConstantValues;
-import com.yg.message.ConvertUtil;
 import com.yg.user.ClientUser;
-import com.yg.user.ImageTransportation;
 import com.yg.user.PackString;
 
 public class LoginImplementation
@@ -51,13 +49,13 @@ public class LoginImplementation
 				String loginAccount = bundle.getString("loginAccount");
 				String nickName = bundle.getString("nickName");
 				String email = bundle.getString("email");
-				byte [] portrait = bundle.getByteArray("portrait");
+				String portraitPath = bundle.getString("portraitPath");
 				String sex = bundle.getString("sex");
 				String birthday = bundle.getString("birthday");
 				String phoneNumber = bundle.getString("phoneNumber");
 				String hometown = bundle.getString("hometown");
 				
-				ConstantValues.user = new ClientUser(userID, password, loginAccount, nickName, email, portrait, sex, birthday, phoneNumber, hometown, null);
+				ConstantValues.user = new ClientUser(userID, password, loginAccount, nickName, email, portraitPath, sex, birthday, phoneNumber, hometown, null);
 				ConstantValues.user.signin();
 				loginThread.start();
 				
@@ -148,7 +146,7 @@ public class LoginImplementation
 					String loginAccount = accountVal;
 					String nickName = (String) list.get(0).get("nick_name");
 					String email = (String) list.get(0).get("email");
-					byte [] portrait = ConvertUtil.bitmap2Bytes(ImageTransportation.string2Bitmap((String) list.get(0).get("portrait")));
+					String portraitPath = (String) list.get(0).get("portrait_path");
 					String sex = (String) list.get(0).get("sex");
 					String birthday = (String) list.get(0).get("birthday");
 					String phoneNumber = (String) list.get(0).get("phone_number");
@@ -161,7 +159,7 @@ public class LoginImplementation
 					bundle.putString("loginAccount", loginAccount);
 					bundle.putString("nickName", nickName);
 					bundle.putString("email", email);
-					bundle.putByteArray("portrait", portrait);
+					bundle.putString("portraitPath", portraitPath);
 					bundle.putString("sex", sex);
 					bundle.putString("birthday", birthday);
 					bundle.putString("phoneNumber", phoneNumber);
