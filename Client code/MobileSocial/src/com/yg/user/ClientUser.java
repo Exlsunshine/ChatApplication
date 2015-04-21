@@ -627,8 +627,8 @@ public class ClientUser extends AbstractUser
 	 */
 	public ArrayList<Dialog> getRecentDialogs()
 	{
-		//if (dialogList != null)
-		//	return dialogList;
+		if (dialogList != null)
+			return dialogList;
 		
 		dialogList = new ArrayList<Dialog>();
 		
