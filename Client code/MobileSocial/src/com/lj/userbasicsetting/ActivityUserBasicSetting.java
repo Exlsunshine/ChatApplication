@@ -215,7 +215,7 @@ public class ActivityUserBasicSetting extends Activity
 		
 		phoneText.setText(ConstantValues.user.getPhoneNumber());
 		sexText.setText(ConstantValues.user.getSex());
-		Bitmap bitmap = ConvertUtil.bytes2Bitmap(ConstantValues.user.getPortrait());
+		Bitmap bitmap = ConstantValues.user.getPortraitBmp();
 		portraitImageView.setAdjustViewBounds(true); 
 		portraitImageView.setImageBitmap(bitmap);
 	}

@@ -19,7 +19,6 @@ import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
 import com.yg.message.AbstractMessage;
 import com.yg.message.AudioMessage;
-import com.yg.message.ConvertUtil;
 import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.network.openfire.OpenfireHandler;
@@ -49,9 +48,9 @@ public class ClientUser extends AbstractUser
 	private ArrayList<FriendUser> friendList = null;
 	private ArrayList<Dialog> dialogList = null;
 	
-	public ClientUser(int userID, String password, String loginAccount, String nickName, String email, String portraitPath, String sex, String birthday, String phoneNumber, String hometown, Context context)
+	public ClientUser(int userID, String password, String loginAccount, String nickName, String email, String portraitUrl, String sex, String birthday, String phoneNumber, String hometown, Context context)
 	{
-		super(userID, loginAccount, nickName, email, phoneNumber, sex, birthday, portraitPath, hometown);
+		super(userID, loginAccount, nickName, email, phoneNumber, sex, birthday, portraitUrl, hometown);
 		
 		this.context = context;
 		msgHandler = new Handler(new IncomingMessageHandlerCallback());
@@ -276,7 +275,6 @@ public class ClientUser extends AbstractUser
 			Object ret = wsAPI.callFuntion("setPortrait", params, vlaues);
 			
 			this.portraitBmp = bmp;
-			this.portrait = ConvertUtil.bitmap2Bytes(bmp);
 			Log.e("______", ret.toString());
 		} 
 		catch (Exception e) {
@@ -534,19 +532,6 @@ public class ClientUser extends AbstractUser
 		Log.e("______", ret.toString());
 	}
 	
-	/**
-	 * 从服务器验证用户身份
-	 * @return true 身份验证通过<br>
-	 * false 身份验证未通过
-	public boolean identityVarified()
-	{
-		Log.e(DEBUG_TAG, "****************************");
-		Log.e(DEBUG_TAG, "identityVarified() not supported yet!");
-		Log.e(DEBUG_TAG, "****************************");
-		return false;
-	}
-	*/
-
 	private void getFriendListFromServer()
 	{
 		/**********		str应从服务器处获取		**********/

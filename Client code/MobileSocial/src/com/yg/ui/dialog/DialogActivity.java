@@ -197,6 +197,7 @@ public class DialogActivity extends Activity
 		final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		messages = new ArrayList<AbstractMessage>();
+		Log.i(DEBUG_TAG, "Dialog contains history messages:" + ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory().size());
 		messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
 		msgAdapter = new DialogAdapter(this, messages);
 		listView.setAdapter(msgAdapter);

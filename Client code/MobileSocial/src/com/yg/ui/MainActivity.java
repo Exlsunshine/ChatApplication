@@ -101,27 +101,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		}
 	};
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private void setupLayout()
 	{
 		recentDialogRb = ((RadioButton) findViewById(R.id.main_activity_recent_dialog));
@@ -210,8 +189,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		return false;
-		//getMenuInflater().inflate(R.menu.main, menu);
-		//return true;
 	}
 	
 	/*********************		以下是RecentDialog ActionBar相关设置		*********************/
@@ -221,7 +198,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		getActionBar().setDisplayShowHomeEnabled(false);
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		getActionBar().setCustomView(R.layout.yg_recent_dialog_actionbar);
-		//Color 61 182 253
 	}
 	/*********************		以上是RecentDialog ActionBar相关设置		*********************/
 	
@@ -232,7 +208,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		getActionBar().setDisplayShowHomeEnabled(false);
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		getActionBar().setCustomView(R.layout.yg_friendlist_actionbar);
-		//Color 61 182 253
 	}
 	
 	private void setButtonVisibilities()

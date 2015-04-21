@@ -18,14 +18,12 @@ public abstract class AbstractUser
 	protected String phoneNumber;
 	protected String sex;
 	protected String birthday;
-	protected byte[] portrait;
 	protected String hometown;
 	protected Bitmap portraitBmp;
-	
-	protected String portraitPath;
+	protected String portraitUrl;
 	
 	public AbstractUser(int id, String loginAccount, String nickName, String email, String phoneNumber,
-			String sex, String birthday, byte[] portrait, String hometown)
+			String sex, String birthday, String portraitUrl, String hometown)
 	{
 		this.id = id;
 		this.loginAccount = loginAccount;
@@ -34,22 +32,7 @@ public abstract class AbstractUser
 		this.phoneNumber = phoneNumber;
 		this.sex = sex;
 		this.birthday = birthday;
-		this.portrait = portrait;
-		this.hometown = hometown;
-		this.portraitBmp = null;
-	}
-	
-	public AbstractUser(int id, String loginAccount, String nickName, String email, String phoneNumber,
-			String sex, String birthday, String portraitPath, String hometown)
-	{
-		this.id = id;
-		this.loginAccount = loginAccount;
-		this.nickName = nickName;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.sex = sex;
-		this.birthday = birthday;
-		this.portraitPath = portraitPath;
+		this.portraitUrl = portraitUrl;
 		this.hometown = hometown;
 		this.portraitBmp = null;
 	}
@@ -62,7 +45,7 @@ public abstract class AbstractUser
 	{
 		if (portraitBmp == null)
 		{
-			DownloadThread download = new DownloadThread(portraitPath);
+			DownloadThread download = new DownloadThread(portraitUrl);
 			download.start();
 			
 			synchronized (download) 
@@ -116,14 +99,6 @@ public abstract class AbstractUser
 		}
 	}
 	
-	/*public Bitmap getPortraitBmp()
-	{
-		if (portraitBmp == null)
-			portraitBmp = BitmapFactory.decodeByteArray(portrait, 0, portrait.length);
-		
-		return portraitBmp;
-	}*/
-	
 	/**
 	 * 获取用户ID
 	 * @return 用户ID
@@ -153,12 +128,6 @@ public abstract class AbstractUser
 	 * @return 生日
 	 */
 	public String getBirthday() { return birthday; }
-	
-	/**
-	 * 获取用户头像
-	 * @return 头像
-	 */
-	public byte[] getPortrait() { return portrait; }
 	
 	/**
 	 * 获取用户家乡
