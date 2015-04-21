@@ -91,15 +91,16 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				{
 					String name = friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias() + "(" + friends.get(i).getNickName() +")";
 					
-					if (query.length() == 0 || query == null)
-						userNmae.add(name);
-					else if (name.toLowerCase().contains(query.toLowerCase()))
-						userNmae.add(name);
+					if ((query.length() == 0 || query == null) || (name.toLowerCase().contains(query.toLowerCase())))
+					{	userNmae.add(name);
+					//else if (name.toLowerCase().contains(query.toLowerCase()))
+					//	userNmae.add(name);
 					
 					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portrait.add(bmp);
 					ids.add(friends.get(i).getID());
+					}
 				}
 			}
 		});

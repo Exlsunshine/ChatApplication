@@ -36,7 +36,7 @@ public class LoginImplementation
 			@Override
 			public void run() 
 			{
-				Log.i("_________", "login success.");
+				Log.i(DEBUG_TAG, "login success.");
 			}
 		});
 		

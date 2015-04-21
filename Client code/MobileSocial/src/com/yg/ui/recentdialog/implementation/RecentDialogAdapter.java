@@ -22,7 +22,6 @@ import com.example.testmobiledatabase.R;
 import com.readystatesoftware.viewbadger.BadgeView;
 import com.yg.commons.ConstantValues;
 import com.yg.emoji.ParseEmojiMsgUtil;
-import com.yg.message.TextMessage;
 
 public class RecentDialogAdapter extends BaseAdapter
 {
