@@ -64,23 +64,8 @@ public class AudioTransmit
 	    sql.insert(column, value);
 	}
 	
-	/*private String getAudioId(String audioPath)
-	{
-		String[] query = {"id"};
-        String[] condition = {"file_path"};
-        String[] conditionVal = {audioPath};
-        ArrayList<HashMap<String, String>> map = sql.select(query, condition, conditionVal);
-        return map.get(0).get("id").toString();
-	}*/
-	
 	public String uploadAudio(int from_userid, int to_userid, String audioBuffer) throws Exception
 	{	
-		/*System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
-		String audioPath = saveAudio(audioBuffer, from_userid, to_userid);
-        updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
-        String aduioId = getAudioId(audioPath);
-        return Integer.parseInt(aduioId);*/
-		
 		System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
 		String audioPath = saveAudio(audioBuffer, from_userid, to_userid);
         updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
@@ -91,44 +76,4 @@ public class AudioTransmit
 				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + audioPath;
         return audioUrl;
 	}
-	
-	/*
-	private String getAudioPath(int audioId)
-	{
-		String[] query = {"file_path"};
-		String[] condition = {"id"};
-		String[] conditionVal = {String.valueOf(audioId)};
-		ArrayList<HashMap<String, String>> map = sql.select(query, condition, conditionVal);
-		
-		System.out.println("map size: " + map.size());
-		System.out.println("file path: " + map.get(0).get("file_path").toString());
-		
-		return map.get(0).get("file_path").toString();
-	}
-	
-	
-	private String audio2String(String audioPath) throws Exception
-	{
-		//@SuppressWarnings("resource")
-		FileInputStream fis = new FileInputStream(audioPath);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
-		byte[] buffer = new byte[1024]; 
-		int count = 0;
-		while((count = fis.read(buffer)) >= 0)   
-		    baos.write(buffer, 0, count);
-		String result = new String(new BASE64Encoder().encode(baos.toByteArray())); 
-		fis.close();
-		baos.close();
-		return result;
-	}
-	public String downloadAudio(int audioId) throws Exception
-	{
-		String audioPath = getAudioPath(audioId);
-		String audioBuffer = audio2String(audioPath);
-		
-		System.out.println("audioBuffer length: " + audioBuffer.length());
-		//System.out.println("audioBuffer: " + audioBuffer);
-		
-		return audioBuffer;
-	}*/
 }

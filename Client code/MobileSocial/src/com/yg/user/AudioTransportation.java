@@ -23,7 +23,6 @@ public class AudioTransportation
 		
 	//webservice 待调用函数名
 	private final String WEBSERVICE_FUNCTION_UPLOAD = "uploadAudio";
-	//private final String WEBSERVICE_FUNCTION_DOWNLOAD = "downloadAudio";
 		
 	private WebServiceAPI imageApi = new WebServiceAPI(WEBSERVICE_AUDIO_PACKAGE, WEBSERVICE_AUDIO_CLASS);
 	
@@ -45,12 +44,6 @@ public class AudioTransportation
 	
 	public String uploadAduio(int from_userid, int to_userid, String audioPath) throws Exception
 	{
-		/*String audioBuffer = audio2String(audioPath);
-		String[] name = {"from_userid", "to_userid", "audioBuffer"};
-		Object[] values = {from_userid, to_userid, audioBuffer};
-		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);
-		return Integer.parseInt(result.toString());*/
-		
 		String audioBuffer = audio2String(audioPath);
 		String[] name = {"from_userid", "to_userid", "audioBuffer"};
 		Object[] values = {from_userid, to_userid, audioBuffer};
@@ -58,39 +51,8 @@ public class AudioTransportation
 		return result.toString();
 	}
 	
-	/*private byte[] string2Byte(String audioBuffer)
-	{
-		byte[] buffer = Base64.decode(audioBuffer);
-		return buffer;
-	}*/
-	
 	public byte[] downloadAudio(String audioUrl)
 	{
-		/*String[] name = {"audioId"};
-		Object[] values = {audioId};
-		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
-		byte[] buffer = string2Byte(result.toString());
-		return buffer;*/
-		
-		/*
-		 *newest version
-		 * 
-		byte[] buffer = null;
-		DownloadThread download = new DownloadThread(audioId);
-		download.start();
-		
-		synchronized (download) 
-		{
-			try {
-				download.wait();
-				buffer = download.buffer;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return buffer;*/
-		
 		byte [] bytes = null;
 		DownloadThread download = new DownloadThread(audioUrl);
 		download.start();
@@ -148,30 +110,4 @@ public class AudioTransportation
 			}
 		}
 	}
-	
-	/*private class DownloadThread extends Thread
-	{
-		private byte[] buffer = null;
-		private int audioId;
-		
-		public DownloadThread(int audioId)
-		{
-			this.audioId = audioId;
-		}
-		
-		@Override
-		public void run() 
-		{
-			super.run();
-			synchronized (this) 
-			{
-				String[] name = {"audioId"};
-				Object[] values = {audioId};
-				Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
-				buffer = string2Byte(result.toString());
-				
-				notify();
-			}
-		}
-	}*/
 }

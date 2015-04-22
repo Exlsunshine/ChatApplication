@@ -27,7 +27,6 @@ public class ImageTransportation
 	
 	//webservice 待调用函数名
 	private final String WEBSERVICE_FUNCTION_UPLOAD = "uploadImage";
-	//private final String WEBSERVICE_FUNCTION_DOWNLOAD = "downloadImage";
 	
 	private WebServiceAPI imageApi = new WebServiceAPI(WEBSERVICE_IMAGE_PACKAGE, WEBSERVICE_IMAGE_CLASS);
 	
@@ -82,32 +81,6 @@ public class ImageTransportation
 	 */
 	public Bitmap downloadImage(String imgUrl)
 	{
-		/*Bitmap bitmap = null;
-		String[] name = {"imageId"};
-		Object[] values = {imageId};
-		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
-		bitmap = string2Bitmap(result.toString());
-		return bitmap;*/
-		
-		/*
-		 * newest version
-		 * 
-		Bitmap bitmap = null;
-		DownloadThread download = new DownloadThread(imageId);
-		download.start();
-		
-		synchronized (download) 
-		{
-			try {
-				download.wait();
-				bitmap = download.bitmap;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return bitmap;*/
-
 		Bitmap bitmap = null;
 		DownloadThread download = new DownloadThread(imgUrl);
 		download.start();
@@ -162,30 +135,4 @@ public class ImageTransportation
 			}
 		}
 	}
-	
-	/*private class DownloadThread extends Thread
-	{
-		private Bitmap bitmap = null;
-		private int imageID;
-		
-		public DownloadThread(int imageID)
-		{
-			this.imageID = imageID;
-		}
-		
-		@Override
-		public void run() 
-		{
-			super.run();
-			synchronized (this) 
-			{
-				String[] name = {"imageId"};
-				Object[] values = {imageID};
-				Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);
-				bitmap = string2Bitmap(result.toString());
-				
-				notify();
-			}
-		}
-	}*/
 }

@@ -78,21 +78,6 @@ public class ImageTransmit
 	}
 	
 	/**
-	 * 获得图像id
-	 * @param imagePath 图像路径
-	 * @return 图像id
-	 */
-	/*
-	private String getImageId(String imagePath)
-	{
-		String[] query = {"id"};
-        String[] condition = {"pic_path"};
-        String[] conditionVal = {imagePath};
-        ArrayList<HashMap<String, String>> map = sql.select(query, condition, conditionVal);
-        return map.get(0).get("id").toString();
-	}*/
-	
-	/**
 	 * 上传图像函数，被客户端调用
 	 * @param from_userid 发送方id
 	 * @param to_userid 接收方id
@@ -102,12 +87,6 @@ public class ImageTransmit
 	 */
 	public String uploadImage(int from_userid, int to_userid, String imageBuffer) throws Exception
 	{	
-		/*System.out.println("User [" + from_userid + "] send Image to User [" + to_userid + "]");
-		String imagePath = saveImage(imageBuffer, from_userid, to_userid);
-        updateDataBaseWhenUpload(from_userid, to_userid, imagePath);
-        String imageId = getImageId(imagePath);
-        return Integer.parseInt(imageId);*/
-		
 		System.out.println("User [" + from_userid + "] send Image to User [" + to_userid + "]");
 		String imagePath = saveImage(imageBuffer, from_userid, to_userid);
         updateDataBaseWhenUpload(from_userid, to_userid, imagePath);
@@ -118,56 +97,4 @@ public class ImageTransmit
 				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
         return imageUrl;
 	}
-	
-	/**
-	 * 根据图像id获得该图像的保存路径
-	 * @param imageId 图像id
-	 * @return 保存路径
-	 */
-	/*
-	private String getImagePath(int imageId)
-	{
-		String[] query = {"pic_path"};
-		String[] condition = {"id"};
-		String[] conditionVal = {String.valueOf(imageId)};
-		ArrayList<HashMap<String, String>> map = sql.select(query, condition, conditionVal);
-		return map.get(0).get("pic_path").toString();
-	}*/
-	
-	/**
-	 * 从图像路径中提取图像文件，并转换成字符串
-	 * @param imagePath 图像路径
-	 * @return 转完结果
-	 * @throws Exception
-	 */
-	/*
-	private static String image2String(String imagePath) throws Exception
-	{
-		//@SuppressWarnings("resource")
-		FileInputStream fis = new FileInputStream(imagePath);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
-		byte[] buffer = new byte[1024]; 
-		int count = 0;
-		while((count = fis.read(buffer)) >= 0)   
-		    baos.write(buffer, 0, count);
-		String result = new String(new BASE64Encoder().encode(baos.toByteArray())); 
-		fis.close();
-		baos.close();
-		return result;
-	}*/
-	
-	/**
-	 * 下载图像，被客户端调用
-	 * @param imageId 待下载的图像id
-	 * @return 图像字符串
-	 * @throws Exception
-	 */
-	/*
-	public String downloadImage(int imageId) throws Exception
-	{
-		String imagePath = getImagePath(imageId);
-		String imageBuffer = image2String(imagePath);
-		System.out.println("Get ImageID:" + imageId + " " + imageBuffer.length());
-		return imageBuffer;
-	}*/
 }
