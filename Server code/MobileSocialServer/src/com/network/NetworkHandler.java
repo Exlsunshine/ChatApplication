@@ -48,33 +48,33 @@ public class NetworkHandler
 		return errorCode;
 	}
 	
-	public int setPortrait(int userID, String portrait)
+	public String setPortrait(int userID)
 	{
-		PortraitTransmit pt = new PortraitTransmit(userID, portrait);
+		PortraitTransmit pt = new PortraitTransmit(userID);
 		String portraitPath = pt.getSavedImgPath();
 		
-		if (portraitPath == null)
+		initUserBasicInfoTB();
+		
+		String [] updateCol = {"portrait_path"};
+		String [] updateVal = { portraitPath };
+		String [] condition = { "id" };
+		String [] conditionVal = { String.valueOf(userID) };
+			
+		int errorCode = userBasicInfoTB.update(updateCol, updateVal, condition, conditionVal);
+			
+		if (errorCode == 0)
 		{
-			System.out.println("setPortrait failed.");
-			return 4;
+			System.out.println("setPortrait success.");
+			
+			portraitPath = portraitPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+	        String portraitUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+					+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + portraitPath;
+	        return portraitUrl;
 		}
 		else
 		{
-			initUserBasicInfoTB();
-			
-			String [] updateCol = {"portrait_path"};
-			String [] updateVal = { portraitPath };
-			String [] condition = { "id" };
-			String [] conditionVal = { String.valueOf(userID) };
-			
-			int errorCode = userBasicInfoTB.update(updateCol, updateVal, condition, conditionVal);
-			
-			if (errorCode == 0)
-				System.out.println("setPortrait success.");
-			else
-				System.out.println("setPortrait failed.");
-			
-			return errorCode;
+			System.out.println("setPortrait failed.");
+			return null;
 		}
 	} 
 	
@@ -482,7 +482,7 @@ public class NetworkHandler
 		return result;
 	}
 	
-	public int createNewUser(String loginAccount, String pwd, String nickname, String email, String sex, String birthday, 
+	public String createNewUser(String loginAccount, String pwd, String nickname, String email, String sex, String birthday, 
 							 String portrait, String hometown, String phoneNumber)
 	{
 		initUserBasicInfoTB();
@@ -494,10 +494,25 @@ public class NetworkHandler
 		
 		if (Math.abs(prevID - currentID) == 1)
 		{
-			if (setPortrait(currentID, portrait) == 0)
-				return currentID;
+			String portraitUrl = setPortrait(currentID);
+			if (portraitUrl != null)
+			{
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("currentID", currentID);
+				map.put("portraitUrl", portraitUrl);
+				ArrayList<HashMap<String, Object>> contents = new ArrayList<HashMap<String,Object>>();
+				contents.add(map);
+				
+				try
+				{
+					String jsonStr = PackString.arrylist2JsonString("newUserProfile", contents);
+					return jsonStr;
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-
-		return -1;
+		
+		return null;
 	}
 }

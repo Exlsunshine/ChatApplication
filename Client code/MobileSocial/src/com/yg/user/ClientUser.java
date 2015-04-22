@@ -253,7 +253,7 @@ public class ClientUser extends AbstractUser
 	 */
 	public void setPortrait(String portraitPath)
 	{
-		File portrait = new File(portraitPath);
+		/*File portrait = new File(portraitPath);
 		if (!portrait.exists())
 			return ;
 		
@@ -276,6 +276,36 @@ public class ClientUser extends AbstractUser
 			
 			this.portraitBmp = bmp;
 			Log.e("______", ret.toString());
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}*/
+		File portrait = new File(portraitPath);
+		if (!portrait.exists())
+			return ;
+		
+		Bitmap bmp = BitmapFactory.decodeFile(portraitPath);
+		
+		try 
+		{
+			String [] params = new String[2];
+			Object [] vlaues = new Object[2];
+			params[0] = "userID";
+			vlaues[0] = this.id;
+			Object ret = wsAPI.callFuntion("setPortrait", params, vlaues);
+			
+			String portraitUrl = ret.toString();
+			if (portraitUrl != null)
+			{
+				Log.i(DEBUG_TAG, "Uploading image to " + portraitUrl);
+				String serverIP = portraitUrl.substring(portraitUrl.indexOf("http://") + 7, portraitUrl.indexOf(':', 7));
+				String newFileName = portraitUrl.substring(portraitUrl.indexOf('/', 7) + 1, portraitUrl.length());
+				String serverPort = portraitUrl.substring(portraitUrl.indexOf(':', 5) + 1, portraitUrl.indexOf(':', 5) + 5);
+				UploadManager um = new UploadManager(portrait, newFileName, serverIP, serverPort);
+				um.excecuteUpload();
+				
+				this.portraitBmp = bmp;
+			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -707,19 +737,33 @@ public class ClientUser extends AbstractUser
 		if (!portrait.exists())
 			return -1;
 		
-		Bitmap bmp = BitmapFactory.decodeFile(portraitPath);
-		
 		try {
-			String portraitStr = ImageTransportation.image2String(bmp);
 			String [] params = new String[] {	"loginAccount", "pwd", "nickname",
 												"email", "sex", "birthday", 
 												"portrait", "hometown", "phoneNumber"};
 			Object [] vlaues = new Object[] {loginAccount, pwd, nickname, email, sex, birthday,
-					portraitStr, hometown, phoneNumber};
+					"temp", hometown, phoneNumber};
 			
 			WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
 			Object ret = wsAPI.callFuntion("createNewUser", params, vlaues);
-			return Integer.parseInt(ret.toString());
+			
+			String jsonStr = ret.toString();
+			if (jsonStr == null)
+				return -3;
+			
+			PackString ps = new PackString(jsonStr);
+			ArrayList<HashMap<String, Object>> list = ps.jsonString2Arrylist("newUserProfile");
+			int currentUserID = (Integer) list.get(0).get("currentID");
+			String portraitUrl = (String) list.get(0).get("portraitUrl");
+			
+			Log.i(DEBUG_TAG, "Uploading image to " + portraitUrl);
+			String serverIP = portraitUrl.substring(portraitUrl.indexOf("http://") + 7, portraitUrl.indexOf(':', 7));
+			String newFileName = portraitUrl.substring(portraitUrl.indexOf('/', 7) + 1, portraitUrl.length());
+			String serverPort = portraitUrl.substring(portraitUrl.indexOf(':', 5) + 1, portraitUrl.indexOf(':', 5) + 5);
+			UploadManager um = new UploadManager(portrait, newFileName, serverIP, serverPort);
+			um.excecuteUpload();
+			
+			return currentUserID;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,33 +1,30 @@
 package com.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import Decoder.BASE64Decoder;
-
 public class PortraitTransmit
 {
 	private int userID;
-	private String portrait;
+	//private String portrait;
 	private static final String portraitDir = "C:/Users/USER007/Desktop/IM/data/portrait/";
 	
-	public PortraitTransmit(int userID, String portrait)
+	public PortraitTransmit(int userID)
 	{
 		this.userID = userID;
-		this.portrait = portrait;
+		//this.portrait = portrait;
 	}
 	
 	public String getSavedImgPath()
 	{
-		try {
+		return portraitDir + generateImageName(userID);
+		/*try {
 			return saveImg();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return null;*/
 	}
 	
 	/**
@@ -36,7 +33,7 @@ public class PortraitTransmit
 	 * @return 保存路径
 	 * @throws Exception
 	 */
-	private String saveImg() throws Exception
+	/*private String saveImg() throws Exception
 	{
 		File destDir = new File(portraitDir); 
 		if(!destDir.exists())
@@ -58,7 +55,7 @@ public class PortraitTransmit
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 	
 	/**
 	 * 生成图像名称（唯一）
@@ -73,9 +70,9 @@ public class PortraitTransmit
 		return "portrait_userID_" + String.valueOf(userID) + "_" + dateFormat.format(date) + ".jpg";
 	}
 	
-	private byte[] string2Byte(String imageBuffer) throws Exception
+	/*private byte[] string2Byte(String imageBuffer) throws Exception
 	{
 		byte[] buffer = new BASE64Decoder().decodeBuffer(imageBuffer);
 		return buffer;
-	}
+	}*/
 }
