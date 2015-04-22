@@ -1,19 +1,14 @@
 package com.network;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-
+import com.commonapi.ConstantValues;
 import com.database.SQLServerEnd;
 
 import Decoder.BASE64Decoder;
-import Decoder.BASE64Encoder;
 
 public class AudioTransmit 
 {
@@ -60,6 +55,7 @@ public class AudioTransmit
         fos.close(); 
         return audioPath;
 	}
+	
 	private void updateDataBaseWhenUpload(int from_userid, int to_userid, String audioPath)
 	{
 		
@@ -68,24 +64,35 @@ public class AudioTransmit
 	    sql.insert(column, value);
 	}
 	
-	private String getAudioId(String audioPath)
+	/*private String getAudioId(String audioPath)
 	{
 		String[] query = {"id"};
         String[] condition = {"file_path"};
         String[] conditionVal = {audioPath};
         ArrayList<HashMap<String, String>> map = sql.select(query, condition, conditionVal);
         return map.get(0).get("id").toString();
-	}
+	}*/
 	
-	public int uploadAudio(int from_userid, int to_userid, String audioBuffer) throws Exception
+	public String uploadAudio(int from_userid, int to_userid, String audioBuffer) throws Exception
 	{	
-		System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
+		/*System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
 		String audioPath = saveAudio(audioBuffer, from_userid, to_userid);
         updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
         String aduioId = getAudioId(audioPath);
-        return Integer.parseInt(aduioId);
+        return Integer.parseInt(aduioId);*/
+		
+		System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
+		String audioPath = saveAudio(audioBuffer, from_userid, to_userid);
+        updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
         
+        
+        audioPath = audioPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+        String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + audioPath;
+        return audioUrl;
 	}
+	
+	/*
 	private String getAudioPath(int audioId)
 	{
 		String[] query = {"file_path"};
@@ -98,6 +105,7 @@ public class AudioTransmit
 		
 		return map.get(0).get("file_path").toString();
 	}
+	
 	
 	private String audio2String(String audioPath) throws Exception
 	{
@@ -122,5 +130,5 @@ public class AudioTransmit
 		//System.out.println("audioBuffer: " + audioBuffer);
 		
 		return audioBuffer;
-	}
+	}*/
 }

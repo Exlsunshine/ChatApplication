@@ -1,19 +1,14 @@
 package com.network;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-
+import com.commonapi.ConstantValues;
 import com.database.SQLServerEnd;
 
 import Decoder.BASE64Decoder;
-import Decoder.BASE64Encoder;
 
 /**
  * LJ
@@ -46,6 +41,7 @@ public class ImageTransmit
 		byte[] buffer = new BASE64Decoder().decodeBuffer(imageBuffer);
 		return buffer;
 	}
+	
 	/**
 	 * 将字符串转成file并保存于本地
 	 * @param imageBuffer 待保存字符串
@@ -74,7 +70,6 @@ public class ImageTransmit
 	 * @param to_userid 接收方id
 	 * @param imagePath 图像保存路径
 	 */
-	
 	private void updateDataBaseWhenUpload(int from_userid, int to_userid, String imagePath)
 	{
 		String[] column = {"from_userid", "to_userid", "pic_path"};
@@ -87,6 +82,7 @@ public class ImageTransmit
 	 * @param imagePath 图像路径
 	 * @return 图像id
 	 */
+	/*
 	private String getImageId(String imagePath)
 	{
 		String[] query = {"id"};
@@ -94,7 +90,7 @@ public class ImageTransmit
         String[] conditionVal = {imagePath};
         ArrayList<HashMap<String, String>> map = sql.select(query, condition, conditionVal);
         return map.get(0).get("id").toString();
-	}
+	}*/
 	
 	/**
 	 * 上传图像函数，被客户端调用
@@ -104,13 +100,23 @@ public class ImageTransmit
 	 * @return 上传后图像在图像数据库中的图像id
 	 * @throws Exception
 	 */
-	public int uploadImage(int from_userid, int to_userid, String imageBuffer) throws Exception
+	public String uploadImage(int from_userid, int to_userid, String imageBuffer) throws Exception
 	{	
-		System.out.println("User [" + from_userid + "] send Image to User [" + to_userid + "]");
+		/*System.out.println("User [" + from_userid + "] send Image to User [" + to_userid + "]");
 		String imagePath = saveImage(imageBuffer, from_userid, to_userid);
         updateDataBaseWhenUpload(from_userid, to_userid, imagePath);
         String imageId = getImageId(imagePath);
-        return Integer.parseInt(imageId);
+        return Integer.parseInt(imageId);*/
+		
+		System.out.println("User [" + from_userid + "] send Image to User [" + to_userid + "]");
+		String imagePath = saveImage(imageBuffer, from_userid, to_userid);
+        updateDataBaseWhenUpload(from_userid, to_userid, imagePath);
+
+
+        imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+        String imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
+        return imageUrl;
 	}
 	
 	/**
@@ -118,6 +124,7 @@ public class ImageTransmit
 	 * @param imageId 图像id
 	 * @return 保存路径
 	 */
+	/*
 	private String getImagePath(int imageId)
 	{
 		String[] query = {"pic_path"};
@@ -125,7 +132,7 @@ public class ImageTransmit
 		String[] conditionVal = {String.valueOf(imageId)};
 		ArrayList<HashMap<String, String>> map = sql.select(query, condition, conditionVal);
 		return map.get(0).get("pic_path").toString();
-	}
+	}*/
 	
 	/**
 	 * 从图像路径中提取图像文件，并转换成字符串
@@ -133,7 +140,8 @@ public class ImageTransmit
 	 * @return 转完结果
 	 * @throws Exception
 	 */
-	public static String image2String(String imagePath) throws Exception
+	/*
+	private static String image2String(String imagePath) throws Exception
 	{
 		//@SuppressWarnings("resource")
 		FileInputStream fis = new FileInputStream(imagePath);
@@ -146,7 +154,7 @@ public class ImageTransmit
 		fis.close();
 		baos.close();
 		return result;
-	}
+	}*/
 	
 	/**
 	 * 下载图像，被客户端调用
@@ -154,11 +162,12 @@ public class ImageTransmit
 	 * @return 图像字符串
 	 * @throws Exception
 	 */
+	/*
 	public String downloadImage(int imageId) throws Exception
 	{
 		String imagePath = getImagePath(imageId);
 		String imageBuffer = image2String(imagePath);
 		System.out.println("Get ImageID:" + imageId + " " + imageBuffer.length());
 		return imageBuffer;
-	}
+	}*/
 }

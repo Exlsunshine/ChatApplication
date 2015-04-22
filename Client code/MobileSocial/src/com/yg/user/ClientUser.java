@@ -90,8 +90,8 @@ public class ClientUser extends AbstractUser
 			{
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
 				AudioTransportation audioTransport = new AudioTransportation();
-				int audioID = Integer.parseInt(body.replace(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG, ""));
-				byte [] content = audioTransport.downloadAudio(audioID);
+				String audioUrl = body.replace(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG, "");
+				byte [] content = audioTransport.downloadAudio(audioUrl);
 				AudioMessage audioMsg = new AudioMessage(fromUserID, getID(), content, date, false);
 				dialog.appendMessage(audioMsg);
 				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_AUDIO, fromUserID, getID());
@@ -99,8 +99,8 @@ public class ClientUser extends AbstractUser
 				
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
 				ImageTransportation imgTransport = new ImageTransportation();
-				int imgID = Integer.parseInt(body.replace(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG, ""));
-				Bitmap bmp = imgTransport.downloadImage(imgID);
+				String imgUrl = body.replace(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG, "");
+				Bitmap bmp = imgTransport.downloadImage(imgUrl);
 				ImageMessage imgMsg = new ImageMessage(fromUserID, getID(), bmp, date, false);
 				dialog.appendMessage(imgMsg);
 				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE, fromUserID, getID());
@@ -369,8 +369,8 @@ public class ClientUser extends AbstractUser
 				//1	首先上传图片到服务器，并且获取一个图片在数据库中存放的id
 				//2 发送给other一条消息文本消息:"___msg_type_img_download_request_id_is_%d",其中%d是图片在数据库中存放的id
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
-					int imgID = uploadImageToServer((ImageMessage)msg, other);
-					ofhandler.send(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG + String.valueOf(imgID)
+					String imgUrl = uploadImageToServer((ImageMessage)msg, other);
+					ofhandler.send(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG + imgUrl
 							, String.valueOf(other.getID()));
 					break;
 				
@@ -378,8 +378,8 @@ public class ClientUser extends AbstractUser
 				//1	首先上传音频到服务器，并且获取一个音频在数据库中存放的id
 				//2 发送给other一条消息文本消息:"___msg_type_audio_download_request_id_is_%d",其中%d是音频文件在数据库中存放的id
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
-					int audioID = uploadAudioToServer((AudioMessage)msg, other);
-					ofhandler.send(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG + String.valueOf(audioID)
+					String audioUrl = uploadAudioToServer((AudioMessage)msg, other);
+					ofhandler.send(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG + audioUrl
 							, String.valueOf(other.getID()));
 					break;
 				default:
@@ -396,34 +396,34 @@ public class ClientUser extends AbstractUser
 				+ ", then call sendMsgTo(FriendUser other,AbstractMessage msg)");
 	}
 	
-	private int uploadAudioToServer(AudioMessage msg, FriendUser other)
+	private String uploadAudioToServer(AudioMessage msg, FriendUser other)
 	{
 		AudioTransportation audioTransport = new AudioTransportation();
-		int audioID = -1;
+		String audioUrl = null;
 		
 		try {
-			audioID = audioTransport.uploadAduio(getID(), other.getID(), msg.getAudioPath());
+			audioUrl = audioTransport.uploadAduio(getID(), other.getID(), msg.getAudioPath());
 		} catch (Exception e) {
-			audioID = -1;
 			e.printStackTrace();
+			audioUrl = null;
 		}
-		return audioID;
+		return audioUrl;
 	}
 	
-	private int uploadImageToServer(ImageMessage msg, FriendUser other)
+	private String uploadImageToServer(ImageMessage msg, FriendUser other)
 	{
 		ImageTransportation imgTransport = new ImageTransportation();
-		int imgID = -1;
+		String imgUrl = null;
 		try
 		{
-			imgID = imgTransport.uploadImage(getID(), other.getID(), msg.getImage());
+			imgUrl = imgTransport.uploadImage(getID(), other.getID(), msg.getImage());
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			imgID = -1;
+			imgUrl = null;
 		}
 		
-		return imgID;
+		return imgUrl;
 	}
 
 	/**

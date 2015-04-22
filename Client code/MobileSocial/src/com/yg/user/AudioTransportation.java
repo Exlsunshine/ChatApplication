@@ -2,14 +2,20 @@ package com.yg.user;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 
 import org.kobjects.base64.Base64;
+
+import android.util.Log;
 
 /**
  * LJ
  */
 public class AudioTransportation 
 {
+	public static final String DEBUG_TAG = "AudioTransportation______";
 	//webservice 待调用包名
 	private final String WEBSERVICE_AUDIO_PACKAGE = "network.com";
 	//webservice 待调用类名
@@ -17,7 +23,7 @@ public class AudioTransportation
 		
 	//webservice 待调用函数名
 	private final String WEBSERVICE_FUNCTION_UPLOAD = "uploadAudio";
-	private final String WEBSERVICE_FUNCTION_DOWNLOAD = "downloadAudio";
+	//private final String WEBSERVICE_FUNCTION_DOWNLOAD = "downloadAudio";
 		
 	private WebServiceAPI imageApi = new WebServiceAPI(WEBSERVICE_AUDIO_PACKAGE, WEBSERVICE_AUDIO_CLASS);
 	
@@ -37,22 +43,28 @@ public class AudioTransportation
         return uploadBuffer;
 	}
 	
-	public int uploadAduio(int from_userid, int to_userid, String audioPath) throws Exception
+	public String uploadAduio(int from_userid, int to_userid, String audioPath) throws Exception
 	{
+		/*String audioBuffer = audio2String(audioPath);
+		String[] name = {"from_userid", "to_userid", "audioBuffer"};
+		Object[] values = {from_userid, to_userid, audioBuffer};
+		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);
+		return Integer.parseInt(result.toString());*/
+		
 		String audioBuffer = audio2String(audioPath);
 		String[] name = {"from_userid", "to_userid", "audioBuffer"};
 		Object[] values = {from_userid, to_userid, audioBuffer};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);
-		return Integer.parseInt(result.toString());
+		return result.toString();
 	}
 	
-	private byte[] string2Byte(String audioBuffer)
+	/*private byte[] string2Byte(String audioBuffer)
 	{
 		byte[] buffer = Base64.decode(audioBuffer);
 		return buffer;
-	}
+	}*/
 	
-	public byte[] downloadAudio(int audioId)
+	public byte[] downloadAudio(String audioUrl)
 	{
 		/*String[] name = {"audioId"};
 		Object[] values = {audioId};
@@ -60,6 +72,9 @@ public class AudioTransportation
 		byte[] buffer = string2Byte(result.toString());
 		return buffer;*/
 		
+		/*
+		 *newest version
+		 * 
 		byte[] buffer = null;
 		DownloadThread download = new DownloadThread(audioId);
 		download.start();
@@ -74,10 +89,67 @@ public class AudioTransportation
 			}
 		}
 		
-		return buffer;
+		return buffer;*/
+		
+		byte [] bytes = null;
+		DownloadThread download = new DownloadThread(audioUrl);
+		download.start();
+		
+		synchronized (download) 
+		{
+			try
+			{
+				download.wait();
+				bytes = download.bytes;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return bytes;
 	}
 	
 	private class DownloadThread extends Thread
+	{
+		private byte [] bytes = null;
+		private String url = null;
+		
+		public DownloadThread(String url)
+		{
+			this.url = url;
+		}
+		
+		@Override
+		public void run() 
+		{
+			super.run();
+			synchronized (this) 
+			{
+				try 
+				{
+					Log.i(DEBUG_TAG, "Downloading portrait at " + url);
+					InputStream is = new java.net.URL(url).openStream();
+
+					ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+					int nRead = 0;
+					byte [] data = new byte[16384];
+					while ((nRead = is.read(data)) != -1)
+						buffer.write(data, 0, nRead);
+					
+					buffer.flush();
+					bytes = buffer.toByteArray();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				notify();
+			}
+		}
+	}
+	
+	/*private class DownloadThread extends Thread
 	{
 		private byte[] buffer = null;
 		private int audioId;
@@ -101,5 +173,5 @@ public class AudioTransportation
 				notify();
 			}
 		}
-	}
+	}*/
 }
