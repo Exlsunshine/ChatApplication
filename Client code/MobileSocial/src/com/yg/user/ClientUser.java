@@ -253,33 +253,6 @@ public class ClientUser extends AbstractUser
 	 */
 	public void setPortrait(String portraitPath)
 	{
-		/*File portrait = new File(portraitPath);
-		if (!portrait.exists())
-			return ;
-		
-		Bitmap bmp = BitmapFactory.decodeFile(portraitPath);
-		
-		try 
-		{
-			String portraitInStr = ImageTransportation.image2String(bmp);
-			
-			String [] params = new String[2];
-			Object [] vlaues = new Object[2];
-			params[0] = "userID";
-			params[1] = "portrait";
-			vlaues[0] = this.id;
-			vlaues[1] = portraitInStr;
-			
-			System.out.println(portraitInStr.length());
-			
-			Object ret = wsAPI.callFuntion("setPortrait", params, vlaues);
-			
-			this.portraitBmp = bmp;
-			Log.e("______", ret.toString());
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}*/
 		File portrait = new File(portraitPath);
 		if (!portrait.exists())
 			return ;
