@@ -2,12 +2,9 @@ package com.yg.user;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-
-import org.kobjects.base64.Base64;
 
 import android.util.Log;
 
@@ -27,30 +24,8 @@ public class AudioTransportation
 		
 	private WebServiceAPI imageApi = new WebServiceAPI(WEBSERVICE_AUDIO_PACKAGE, WEBSERVICE_AUDIO_CLASS);
 	
-	
-	/*private String audio2String(String audioPath) throws Exception
-	{
-		FileInputStream fis = new FileInputStream(audioPath);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
-		byte[] buffer = new byte[1024];    
-        int count = 0; 
-        while((count = fis.read(buffer)) >= 0){    
-            baos.write(buffer, 0, count);
-        } 
-        
-        String uploadBuffer = new String(Base64.encode(baos.toByteArray()));
-        fis.close();
-        return uploadBuffer;
-	}*/
-	
 	public String uploadAduio(int from_userid, int to_userid, File file) throws Exception
 	{
-		/*String audioBuffer = audio2String(audioPath);
-		String[] name = {"from_userid", "to_userid", "audioBuffer"};
-		Object[] values = {from_userid, to_userid, audioBuffer};
-		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);
-		return result.toString();*/
-		
 		String[] name = {"from_userid", "to_userid"};
 		Object[] values = {from_userid, to_userid};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);

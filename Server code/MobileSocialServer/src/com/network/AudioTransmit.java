@@ -30,29 +30,6 @@ public class AudioTransmit
 				+ "_" + dateFormat.format(date) + ".amr";
 	}
 	
-	/*
-	private byte[] string2Byte(String audioBuffer) throws Exception
-	{
-		byte[] buffer = new BASE64Decoder().decodeBuffer(audioBuffer);
-		return buffer;
-	}
-	
-	private String saveAudio(String audioBuffer, int fromUserID, int toUserID) throws Exception
-	{
-		File destDir = new File(SAVED_DIRECTORY); 
-		if(!destDir.exists())
-            destDir.mkdir();    
-		String audioName = generateAudioName(fromUserID, toUserID);
-		String audioPath = SAVED_DIRECTORY + audioName;
-		FileOutputStream fos = null;
-		byte[] buffer = string2Byte(audioBuffer);
-		fos = new FileOutputStream(new File(destDir, audioName));
-		fos.write(buffer);    
-		fos.flush();    
-        fos.close(); 
-        return audioPath;
-	}*/
-	
 	private void updateDataBaseWhenUpload(int from_userid, int to_userid, String audioPath)
 	{
 		
@@ -63,15 +40,6 @@ public class AudioTransmit
 	
 	public String uploadAudio(int from_userid, int to_userid) throws Exception
 	{	
-		/*System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
-		String audioPath = saveAudio(audioBuffer, from_userid, to_userid);
-        updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
-        
-        
-        audioPath = audioPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
-        String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
-				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + audioPath;
-        return audioUrl;*/
 		System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
 		
 		String audioName = generateAudioName(from_userid, to_userid);
