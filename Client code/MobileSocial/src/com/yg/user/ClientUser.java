@@ -402,7 +402,7 @@ public class ClientUser extends AbstractUser
 		String audioUrl = null;
 		
 		try {
-			audioUrl = audioTransport.uploadAduio(getID(), other.getID(), msg.getAudioPath());
+			audioUrl = audioTransport.uploadAduio(getID(), other.getID(), new File(msg.getContent()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			audioUrl = null;
@@ -416,7 +416,7 @@ public class ClientUser extends AbstractUser
 		String imgUrl = null;
 		try
 		{
-			imgUrl = imgTransport.uploadImage(getID(), other.getID(), msg.getImage());
+			imgUrl = imgTransport.uploadImage(getID(), other.getID(), new File(msg.getContent()));
 		} catch (Exception e)
 		{
 			e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.yg.user;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -45,39 +46,34 @@ public class ImageTransportation
 	}
 	
 	/**
-	 * 上传图像，得到该图像对应数据库中的图像id
-	 * @param from_userid 发�?方id
-	 * @param to_userid 接收方id
-	 * @param bitmap 待上传图像的bitmap
-	 * @return 图像对应的数据库中的图像id
+	 * 
+	 * @param from_userid 发送者ID
+	 * @param to_userid 接收者ID
+	 * @param file 图片文件
+	 * @return 图片的下载链接
 	 * @throws Exception
 	 */
-	public String uploadImage(int from_userid, int to_userid, Bitmap bitmap) throws Exception
+	public String uploadImage(int from_userid, int to_userid, File file) throws Exception
 	{
-		String imageBuffer = image2String(bitmap);
-		String[] name = {"from_userid", "to_userid", "imageBuffer"};
-		Object[] values = {from_userid, to_userid, imageBuffer};
+		String[] name = {"from_userid", "to_userid"};
+		Object[] values = {from_userid, to_userid};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);
 
-		return result.toString();
-	}
-	
-	/**
-	 * 字符串转bitmap
-	 * @param imageBuffer 待转换字符串
-	 * @return 转换结果
-	 */
-	public static Bitmap string2Bitmap(String imageBuffer)
-	{
-		byte[] buffer = Base64.decode(imageBuffer);
-		Bitmap bitmap = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
-		return bitmap;
+		String imgUrl = result.toString();
+		Log.i(DEBUG_TAG, "Uploading image to " + imgUrl);
+		String serverIP = imgUrl.substring(imgUrl.indexOf("http://") + 7, imgUrl.indexOf(':', 7));
+		String newFileName = imgUrl.substring(imgUrl.indexOf('/', 7) + 1, imgUrl.length());
+		String serverPort = imgUrl.substring(imgUrl.indexOf(':', 5) + 1, imgUrl.indexOf(':', 5) + 5);
+		UploadManager um = new UploadManager(file, newFileName, serverIP, serverPort);
+		um.excecuteUpload();
+		
+		return imgUrl;
 	}
 	
 	/**
 	 * 下载图像
-	 * @param imageId 待下载图像的图像id
-	 * @return 下载完成图像的bitmap
+	 * @param imgUrl 待下载图像的下载链接
+	 * @return 下载成功的图像(Bitmap类型)
 	 */
 	public Bitmap downloadImage(String imgUrl)
 	{

@@ -1,14 +1,10 @@
 package com.network;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.commonapi.ConstantValues;
 import com.database.SQLServerEnd;
-
-import Decoder.BASE64Decoder;
 
 public class AudioTransmit 
 {
@@ -34,6 +30,7 @@ public class AudioTransmit
 				+ "_" + dateFormat.format(date) + ".amr";
 	}
 	
+	/*
 	private byte[] string2Byte(String audioBuffer) throws Exception
 	{
 		byte[] buffer = new BASE64Decoder().decodeBuffer(audioBuffer);
@@ -54,7 +51,7 @@ public class AudioTransmit
 		fos.flush();    
         fos.close(); 
         return audioPath;
-	}
+	}*/
 	
 	private void updateDataBaseWhenUpload(int from_userid, int to_userid, String audioPath)
 	{
@@ -64,12 +61,22 @@ public class AudioTransmit
 	    sql.insert(column, value);
 	}
 	
-	public String uploadAudio(int from_userid, int to_userid, String audioBuffer) throws Exception
+	public String uploadAudio(int from_userid, int to_userid) throws Exception
 	{	
-		System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
+		/*System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
 		String audioPath = saveAudio(audioBuffer, from_userid, to_userid);
         updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
         
+        
+        audioPath = audioPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+        String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + audioPath;
+        return audioUrl;*/
+		System.out.println("User [" + from_userid + "] send Audio to User [" + to_userid + "]");
+		
+		String audioName = generateAudioName(from_userid, to_userid);
+		String audioPath = SAVED_DIRECTORY + audioName;
+        updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
         
         audioPath = audioPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
         String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"

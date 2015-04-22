@@ -1,6 +1,7 @@
 package com.yg.user;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +28,7 @@ public class AudioTransportation
 	private WebServiceAPI imageApi = new WebServiceAPI(WEBSERVICE_AUDIO_PACKAGE, WEBSERVICE_AUDIO_CLASS);
 	
 	
-	private String audio2String(String audioPath) throws Exception
+	/*private String audio2String(String audioPath) throws Exception
 	{
 		FileInputStream fis = new FileInputStream(audioPath);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
@@ -40,14 +41,29 @@ public class AudioTransportation
         String uploadBuffer = new String(Base64.encode(baos.toByteArray()));
         fis.close();
         return uploadBuffer;
-	}
+	}*/
 	
-	public String uploadAduio(int from_userid, int to_userid, String audioPath) throws Exception
+	public String uploadAduio(int from_userid, int to_userid, File file) throws Exception
 	{
-		String audioBuffer = audio2String(audioPath);
+		/*String audioBuffer = audio2String(audioPath);
 		String[] name = {"from_userid", "to_userid", "audioBuffer"};
 		Object[] values = {from_userid, to_userid, audioBuffer};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);
+		return result.toString();*/
+		
+		String[] name = {"from_userid", "to_userid"};
+		Object[] values = {from_userid, to_userid};
+		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_UPLOAD, name, values);
+		
+		
+		String audioUrl = result.toString();
+		Log.i(DEBUG_TAG, "Uploading image to " + audioUrl);
+		String serverIP = audioUrl.substring(audioUrl.indexOf("http://") + 7, audioUrl.indexOf(':', 7));
+		String newFileName = audioUrl.substring(audioUrl.indexOf('/', 7) + 1, audioUrl.length());
+		String serverPort = audioUrl.substring(audioUrl.indexOf(':', 5) + 1, audioUrl.indexOf(':', 5) + 5);
+		UploadManager um = new UploadManager(file, newFileName, serverIP, serverPort);
+		um.excecuteUpload();
+		
 		return result.toString();
 	}
 	

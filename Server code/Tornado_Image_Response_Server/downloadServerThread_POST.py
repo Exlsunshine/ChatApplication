@@ -23,8 +23,8 @@ class DownloadResponseHandler(tornado.web.RequestHandler):
     def post(self):
         uploadFile = self.request.files[self.request.files.keys()[0]][0]
         filename = uploadFile['filename']
-        ensure_dir("D:\\a\\b\\" + filename)
-        fileObj = open("D:\\a\\b\\" + filename, 'wb+')
+        ensure_dir(BASE_DIRECTOR + filename)
+        fileObj = open(BASE_DIRECTOR + filename, 'wb+')
         fileObj.write(uploadFile['body'])
 
 def ensure_dir(filename):
