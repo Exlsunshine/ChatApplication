@@ -156,9 +156,9 @@ public class DownloadManager
 	
 	public static void main(String[] args)
 	{
-		/*
-		 * Sample code
-		 * 
+		/*						
+		 *		Sample code		
+		 *
 		Handler handler = new Handler()
 		{
 			@Override

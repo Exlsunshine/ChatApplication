@@ -43,59 +43,10 @@ public abstract class AbstractUser
 			Log.i(DEBUG_TAG, "Downloading portrait at " + portraitUrl);
 			DownloadManager dm = new DownloadManager(portraitUrl);
 			portraitBmp = dm.getBmpFile();
-			/*DownloadThread download = new DownloadThread(portraitUrl);
-			download.start();
-			
-			synchronized (download) 
-			{
-				try {
-					download.wait();
-					portraitBmp = download.bitmap;
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}*/
 		}
 		
 		return portraitBmp;
 	}
-	
-	/*private class DownloadThread extends Thread
-	{
-		private Bitmap bitmap = null;
-		private String url = null;
-		
-		public DownloadThread(String url)
-		{
-			this.url = url;
-		}
-		
-		@Override
-		public void run() 
-		{
-			super.run();
-			synchronized (this) 
-			{
-				try 
-				{
-					BitmapFactory.Options options = new BitmapFactory.Options();
-					options.inPurgeable = true;
-					options.inInputShareable = true;
-					options.inSampleSize = 2;
-					
-					Log.i(DEBUG_TAG, "Downloading portrait at " + url);
-					InputStream is = new java.net.URL(url).openStream();
-					bitmap = BitmapFactory.decodeStream(is, null, options);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				notify();
-			}
-		}
-	}*/
 	
 	/**
 	 * 获取用户ID

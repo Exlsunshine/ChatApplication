@@ -75,59 +75,5 @@ public class ImageTransportation
 		Log.i(DEBUG_TAG, "Downloading image at " + imgUrl);
 		DownloadManager dm = new DownloadManager(imgUrl);
 		return dm.getBmpFile();
-		
-		/*Bitmap bitmap = null;
-		DownloadThread download = new DownloadThread(imgUrl);
-		download.start();
-		
-		synchronized (download) 
-		{
-			try
-			{
-				download.wait();
-				bitmap = download.bitmap;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return bitmap;*/
 	}
-	
-	/*private class DownloadThread extends Thread
-	{
-		private Bitmap bitmap = null;
-		private String url = null;
-		
-		public DownloadThread(String url)
-		{
-			this.url = url;
-		}
-		
-		@Override
-		public void run() 
-		{
-			super.run();
-			synchronized (this) 
-			{
-				try 
-				{
-					BitmapFactory.Options options = new BitmapFactory.Options();
-					options.inPurgeable = true;
-					options.inInputShareable = true;
-					options.inSampleSize = 2;
-					
-					Log.i(DEBUG_TAG, "Downloading portrait at " + url);
-					InputStream is = new java.net.URL(url).openStream();
-					bitmap = BitmapFactory.decodeStream(is, null, options);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				notify();
-			}
-		}
-	}*/
 }
