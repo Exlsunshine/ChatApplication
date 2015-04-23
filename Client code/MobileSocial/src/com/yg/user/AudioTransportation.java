@@ -1,11 +1,6 @@
 package com.yg.user;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-
 import android.util.Log;
 
 /**
@@ -44,7 +39,11 @@ public class AudioTransportation
 	
 	public byte[] downloadAudio(String audioUrl)
 	{
-		byte [] bytes = null;
+		Log.i(DEBUG_TAG, "Downloading audio at " + audioUrl);
+		DownloadManager dm = new DownloadManager(audioUrl);
+		return dm.getAudioFile();
+		
+		/*byte [] bytes = null;
 		DownloadThread download = new DownloadThread(audioUrl);
 		download.start();
 		
@@ -59,10 +58,10 @@ public class AudioTransportation
 			}
 		}
 		
-		return bytes;
+		return bytes;*/
 	}
 	
-	private class DownloadThread extends Thread
+/*	private class DownloadThread extends Thread
 	{
 		private byte [] bytes = null;
 		private String url = null;
@@ -100,5 +99,5 @@ public class AudioTransportation
 				notify();
 			}
 		}
-	}
+	}*/
 }

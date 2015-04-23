@@ -1,11 +1,6 @@
 package com.yg.user;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public abstract class AbstractUser
@@ -45,7 +40,10 @@ public abstract class AbstractUser
 	{
 		if (portraitBmp == null)
 		{
-			DownloadThread download = new DownloadThread(portraitUrl);
+			Log.i(DEBUG_TAG, "Downloading portrait at " + portraitUrl);
+			DownloadManager dm = new DownloadManager(portraitUrl);
+			portraitBmp = dm.getBmpFile();
+			/*DownloadThread download = new DownloadThread(portraitUrl);
 			download.start();
 			
 			synchronized (download) 
@@ -56,13 +54,13 @@ public abstract class AbstractUser
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-			}
+			}*/
 		}
 		
 		return portraitBmp;
 	}
 	
-	private class DownloadThread extends Thread
+	/*private class DownloadThread extends Thread
 	{
 		private Bitmap bitmap = null;
 		private String url = null;
@@ -97,7 +95,7 @@ public abstract class AbstractUser
 				notify();
 			}
 		}
-	}
+	}*/
 	
 	/**
 	 * 获取用户ID

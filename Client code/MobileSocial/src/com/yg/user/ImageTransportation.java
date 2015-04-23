@@ -2,14 +2,9 @@ package com.yg.user;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-
 import org.kobjects.base64.Base64;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 /**
@@ -77,7 +72,11 @@ public class ImageTransportation
 	 */
 	public Bitmap downloadImage(String imgUrl)
 	{
-		Bitmap bitmap = null;
+		Log.i(DEBUG_TAG, "Downloading image at " + imgUrl);
+		DownloadManager dm = new DownloadManager(imgUrl);
+		return dm.getBmpFile();
+		
+		/*Bitmap bitmap = null;
 		DownloadThread download = new DownloadThread(imgUrl);
 		download.start();
 		
@@ -92,10 +91,10 @@ public class ImageTransportation
 			}
 		}
 		
-		return bitmap;
+		return bitmap;*/
 	}
 	
-	private class DownloadThread extends Thread
+	/*private class DownloadThread extends Thread
 	{
 		private Bitmap bitmap = null;
 		private String url = null;
@@ -130,5 +129,5 @@ public class ImageTransportation
 				notify();
 			}
 		}
-	}
+	}*/
 }
