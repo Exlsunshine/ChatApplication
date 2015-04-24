@@ -67,7 +67,8 @@ public class FriendCircleHandler
 			insertVal[1] = (String) map.get("post_id");
 			insertVal[2] = (String) map.get("comment_user_id");
 			insertVal[3] = (String) map.get("comment");
-			insertVal[4] = (String) map.get("comment_date");
+			/*insertVal[4] = (String) map.get("comment_date");*/
+			insertVal[4] = now();
 			insertVal[5] = (String) map.get("sex");
 			int errorCode = commentDataTB.insert(insertCol, insertVal);
 			identity = getIdentityID("comment_data");
