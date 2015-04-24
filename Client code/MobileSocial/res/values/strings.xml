@@ -14,5 +14,10 @@
     <string name="title_activity_activity_shake">ActivityShake</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="title_activity_friend_detail">FriendDetailActivity</string>
-
+	
+    <string name="pull_to_refresh_pull_down_label">滑动刷新</string>
+    <string name="pull_to_refresh_release_label">释放刷新</string>
+    <string name="pull_to_refresh_refreshing_label">加载中</string>
+    <string name="pull_to_refresh_tap_label">点击刷新</string>
+    
 </resources>

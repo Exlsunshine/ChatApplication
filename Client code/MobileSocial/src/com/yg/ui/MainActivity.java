@@ -43,6 +43,8 @@ import com.lj.pathbutton.SatelliteMenu.SateliteClickedListener;
 import com.lj.pathbutton.SatelliteMenuItem;
 import com.lj.settings.ActivitySetting;
 import com.lj.shake.ActivityShake;
+import com.tp.ui.PublicActivity;
+import com.tp.ui.SendPostActivity;
 import com.yg.ui.friendlist.FriendListActivity;
 import com.yg.ui.recentdialog.RecentDialogActivity;
 
@@ -134,10 +136,22 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 					intent.setClass(MainActivity.this, ActivityShake.class);
 					startActivity(intent);
 				}
-				if (id == 2)
+				else if (id == 2)
 				{
 					Intent intent = new Intent();
 					intent.setClass(MainActivity.this, ActivitySetting.class);
+					startActivity(intent);
+				}
+				else if (id == 3)
+				{
+					Intent intent = new Intent();
+					intent.setClass(MainActivity.this, PublicActivity.class);
+					startActivity(intent);
+				}
+				else if (id == 4)
+				{
+					Intent intent = new Intent();
+					intent.setClass(MainActivity.this, SendPostActivity.class);
 					startActivity(intent);
 				}
 			}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="60.0dip" />
+
+    <RelativeLayout
+        android:id="@+id/publicactivityadpter_moment_timeline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/publicactivityadpter_moment_bigdot"
+            style="@style/moment_big_dot"
+            android:layout_width="34.0dip"
+            android:layout_height="34.0dip"
+            android:layout_marginLeft="5.0dip"
+            android:layout_marginTop="14.0dip"
+            android:background="@drawable/tp_moment_bigdot"
+            android:src="@drawable/tp_moment_dot_colored"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/publicactivityadpter_feed_post_type"
+            android:layout_width="16.0dip"
+            android:layout_height="16.0dip"
+            android:layout_alignLeft="@id/publicactivityadpter_moment_bigdot"
+            android:layout_alignTop="@id/publicactivityadpter_moment_bigdot"
+            android:layout_marginLeft="9.0dip"
+            android:layout_marginTop="8.0dip" />
+
+        <ImageView
+            android:id="@+id/publicactivityadpter_moment_smalldot"
+            style="@style/moment_small_dot"
+            android:layout_width="16.0dip"
+            android:layout_height="16.0dip"
+            android:layout_marginLeft="14.0dip"
+            android:layout_marginTop="23.0dip"
+            android:background="@drawable/tp_moment_smalldot"
+            android:src="@drawable/tp_moment_dot_colored" 
+            android:visibility="invisible"/>
+
+        <com.tp.views.CircularImage
+            android:id="@+id/publicactivity_moment_people_photo"
+            style="@style/moment_people_photo"
+            android:layout_alignLeft="@id/publicactivityadpter_moment_bigdot"
+            android:layout_alignTop="@id/publicactivityadpter_moment_bigdot" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/publicactivityadpter_feed_post_body"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
+
+</RelativeLayout>

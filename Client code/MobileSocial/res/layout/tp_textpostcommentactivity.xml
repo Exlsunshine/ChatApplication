@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/feed_item_bg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/textpostcomment_textpostcommentlistview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.93"
+            android:cacheColorHint="#0000"
+            android:divider="@drawable/tp_moment_divider"
+            android:dividerHeight="1dp"
+            android:listSelector="@color/clear"
+            android:scrollbarStyle="outsideOverlay"
+            android:stackFromBottom="false" >
+        </ListView>
+
+        <!-- 底部按钮以及 编辑框 -->
+
+        <LinearLayout
+            android:id="@+id/textpostcomment_rl_bottom"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tp_bottombar_bg"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/textpostcomment_bottomRlayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/textpostcomment_btn_send"
+                    android:layout_width="55dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/tp_btnbackground"
+                    android:text="发送"
+                    android:textColor="#FF0000"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/textpostcomment_et_sendcommemt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toLeftOf="@id/textpostcomment_btn_send"
+                    android:background="@drawable/tp_ss" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/textpostcomment_plus_bottomline"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="#E0E0E0" />
+    </LinearLayout>
+    <!-- 录音显示UI层 -->
+
+</RelativeLayout>

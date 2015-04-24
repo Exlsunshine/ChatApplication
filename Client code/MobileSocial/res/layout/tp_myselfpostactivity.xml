@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:miles="http://schemas.android.com/apk/res/com.example.pathtest"
+    android:id="@+id/mainView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/feed_item_bg" >
+
+    <!-- timeline on left -->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent" >
+
+        <ImageView
+            android:id="@+id/myselfpostactivity_timeline_track"
+            android:layout_width="4dip"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="72.0dip"
+            android:background="@color/red"
+            android:scaleType="fitXY"
+            android:src="@drawable/tp_feed_item_track" />
+    </RelativeLayout>
+
+        
+       <com.tp.views.ExtendedListView
+        xmlns:miles="http://schemas.android.com/apk/res/com.example.testmobiledatabase"
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/myselfpostactivity_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="@color/clear"
+        android:divider="@drawable/tp_moment_divider"
+        android:dividerHeight="4.0px"
+        android:listSelector="@color/clear"
+        android:paddingTop="0dip" 
+        android:scrollbars="vertical"
+        android:scrollingCache="false" 
+        miles:scrollBarPanel="@layout/tp_clock" 
+        miles:scrollBarPanelInAnimation="@anim/tp_in"
+        miles:scrollBarPanelOutAnimation="@anim/tp_out"
+        /> 
+ <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <include
+            android:id="@+id/myselfpostactivity_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="40dp"
+            layout="@layout/tp_clock" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <View
+            android:id="@+id/myselfpostactivity_activity_overlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/myselfpostactivity_composer_buttons_wrapper"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:clipChildren="false"
+            android:clipToPadding="false" >
+
+            <ImageButton
+                android:id="@+id/myselfpostactivity_composer_button_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="142dp"
+                android:layout_marginRight="10.667dp"
+                android:background="@drawable/tp_composer_camera"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/myselfpostactivity_composer_button_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="122.975607dp"
+                android:layout_marginRight="81.607dp"
+                android:background="@drawable/tp_composer_with"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/myselfpostactivity_composer_button_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="80.666666666666667dp"
+                android:layout_marginRight="124.70765814495902dp"
+                android:background="@drawable/tp_composer_place"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/myselfpostactivity_composer_button_thought"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="8.666666666666667dp"
+                android:layout_marginRight="144dp"
+                android:background="@drawable/tp_composer_thought"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/myselfpostactivity_composer_buttons_show_hide_button"
+            android:layout_width="60dp"
+            android:layout_height="57.33333333333333dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/tp_blue_cricle" >
+
+            <ImageView
+                android:id="@+id/myselfpostactivity_composer_buttons_show_hide_button_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/tp_composer_icn_plus" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</FrameLayout>

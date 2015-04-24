@@ -131,15 +131,29 @@
             android:name="com.yg.ui.friendlist.FriendDetailActivity"
             android:label="@string/title_activity_friend_detail" >
         </activity>
-        <activity 
-            android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame" 
-            android:label="itle_activity_activity_song_puzzle" /> 
-  		<activity 
-  		    android:name="com.lj.songpuzzle.ActivitySongPuzzle" android:label="title_activity_activity_song_puzzle" /> 
-  		<activity 
-  		    android:name="com.lj.bazingaball.ActivityBazingaBall" 
-  		    android:label="title_activity_activity_bazinga" 
-  		    android:noHistory="true"/> 
+        <activity
+            android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame"
+            android:label="itle_activity_activity_song_puzzle" />
+        <activity
+            android:name="com.lj.songpuzzle.ActivitySongPuzzle"
+            android:label="title_activity_activity_song_puzzle" />
+        <activity
+            android:name="com.lj.bazingaball.ActivityBazingaBall"
+            android:label="title_activity_activity_bazinga"
+            android:noHistory="true" />
+        <activity
+            android:name="com.tp.ui.PublicActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask" >
+        </activity>
+        <activity android:name="com.tp.ui.TextPostCommentListActivity" >
+        </activity>
+        <activity android:name="com.tp.ui.ImagePostActivity" >
+        </activity>
+        <activity android:name="com.tp.ui.SendPostActivity" >
+        </activity>
+        <activity android:name="com.tp.ui.MyselfPostActivity" >
+        </activity>
     </application>
 
 </manifest>

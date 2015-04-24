@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/feed_item_bg"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/sendpostactivity_selectPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/tp_pictureview" />
+
+    <ImageView
+        android:id="@+id/sendpostactivity_postphoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/sendpostactivity_selectPhoto"
+        android:layout_alignLeft="@id/sendpostactivity_selectPhoto"
+        android:layout_alignRight="@id/sendpostactivity_selectPhoto"
+        android:layout_alignTop="@id/sendpostactivity_selectPhoto"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/sendpostactivity_fake"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/sendpostactivity_selectPhoto" />
+
+    <EditText
+        android:id="@+id/sendpostactivity_photoPostComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/sendpostactivity_selectPhoto"
+        android:layout_alignTop="@id/sendpostactivity_selectPhoto"
+        android:layout_toRightOf="@id/sendpostactivity_fake"
+        android:background="@null"
+        android:hint="你在想什么？"
+        android:textColor="@color/gray"
+        android:textSize="16dp" />
+
+</RelativeLayout>

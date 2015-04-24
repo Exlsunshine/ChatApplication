@@ -27,6 +27,10 @@ public class ConstantValues {
 		public static final int DIRECTION_DOWN = 0x00;
 		public static final int DIRECTION_LEFT = 0x00;
 		public static final int DIRECTION_RIGHT = 0x00;
+		
+		//Tp
+		public static final String POST_TYPE_TEXT = "1";
+		public static final String POST_TYPE_IMAGE = "2";
 	}
 
 	public class Configs 
