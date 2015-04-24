@@ -49,7 +49,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3.0dip"
         android:background="@drawable/tp_comment_bubble"
-        android:clickable="true"
         android:orientation="vertical" >
 
         <include

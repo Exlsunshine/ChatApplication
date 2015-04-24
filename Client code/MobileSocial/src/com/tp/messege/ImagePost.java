@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.json.JSONException;
 import org.kobjects.base64.Base64;
 
 import com.yg.message.ConvertUtil;

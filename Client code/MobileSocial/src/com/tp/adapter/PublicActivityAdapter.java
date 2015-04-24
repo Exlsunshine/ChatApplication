@@ -10,6 +10,7 @@ import com.tp.messege.AbstractPost;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
+import com.yg.commons.ConstantValues;
 import com.yg.message.ConvertUtil;
 
 import android.content.Context;
@@ -87,7 +88,7 @@ public class PublicActivityAdapter extends BaseAdapter
                 ImageView cover = (ImageView) convertView.findViewById(R.id.publicactivityadpter_cover_image);
                 cover.setImageResource(R.drawable.tp_cover);
                 CircularImage avatar = (CircularImage) convertView.findViewById(R.id.publicactivityadpter_cover_user_photo);
-                avatar.setImageResource(R.drawable.ic_launcher);
+                avatar.setImageBitmap((ConstantValues.user.getPortraitBmp()));
                 holder.userportraitIV = (ImageView) convertView.findViewById(R.id.publicactivityadpter_userportrait);
             }
 
@@ -190,15 +191,13 @@ public class PublicActivityAdapter extends BaseAdapter
                     	commentDate1.setText(post.getComments().get(0).getCommentDate());
                     	commentDate2.setText(post.getComments().get(size - 1).getCommentDate());
                     	if (post.getComments().get(0).getSex().equals("male"))
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
-                    		commentprotrait2.setImageResource(R.drawable.tp_male);
-                    	}
                     	else
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(1).getSex().equals("male"))
+                    		commentprotrait2.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
-                    	}
                     	RL.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
                     	break;
@@ -210,18 +209,19 @@ public class PublicActivityAdapter extends BaseAdapter
                     	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
                     	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
                     	if (post.getComments().get(0).getSex().equals("male"))
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
-                    		commentprotrait2.setImageResource(R.drawable.tp_male);
-                    		commentprotrait3.setImageResource(R.drawable.tp_male);
-                    	}
                     	else
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(1).getSex().equals("male"))
+                    		commentprotrait2.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(2).getSex().equals("male"))
+                    		commentprotrait3.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
-                    	}
                     	RL.setVisibility(View.GONE);
+                    	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
@@ -230,17 +230,17 @@ public class PublicActivityAdapter extends BaseAdapter
                     	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
                     	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
                     	if (post.getComments().get(0).getSex().equals("male"))
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
-                    		commentprotrait2.setImageResource(R.drawable.tp_male);
-                    		commentprotrait3.setImageResource(R.drawable.tp_male);
-                    	}
                     	else
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(1).getSex().equals("male"))
+                    		commentprotrait2.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(2).getSex().equals("male"))
+                    		commentprotrait3.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
-                    	}
                     	commentsEllipsisText.setText("查看全部评论(" + size + ')');
                     	RL.setVisibility(View.VISIBLE);
                     }
@@ -327,15 +327,13 @@ public class PublicActivityAdapter extends BaseAdapter
                     	commentDate1.setText(post.getComments().get(0).getCommentDate());
                     	commentDate2.setText(post.getComments().get(size - 1).getCommentDate());
                     	if (post.getComments().get(0).getSex().equals("male"))
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
-                    		commentprotrait2.setImageResource(R.drawable.tp_male);
-                    	}
                     	else
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(1).getSex().equals("male"))
+                    		commentprotrait2.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
-                    	}
                     	RL.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
                     	break;
@@ -347,18 +345,19 @@ public class PublicActivityAdapter extends BaseAdapter
                     	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
                     	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
                     	if (post.getComments().get(0).getSex().equals("male"))
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
-                    		commentprotrait2.setImageResource(R.drawable.tp_male);
-                    		commentprotrait3.setImageResource(R.drawable.tp_male);
-                    	}
                     	else
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(1).getSex().equals("male"))
+                    		commentprotrait2.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(2).getSex().equals("male"))
+                    		commentprotrait3.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
-                    	}
-                    	RL.setVisibility(View.GONE);
+                    	//RL.setVisibility(View.INVISIBLE);
+                    	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
@@ -367,17 +366,17 @@ public class PublicActivityAdapter extends BaseAdapter
                     	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
                     	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
                     	if (post.getComments().get(0).getSex().equals("male"))
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
-                    		commentprotrait2.setImageResource(R.drawable.tp_male);
-                    		commentprotrait3.setImageResource(R.drawable.tp_male);
-                    	}
                     	else
-                    	{
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(1).getSex().equals("male"))
+                    		commentprotrait2.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
+                    	if (post.getComments().get(2).getSex().equals("male"))
+                    		commentprotrait3.setImageResource(R.drawable.tp_male);
+                    	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
-                    	}
                     	commentsEllipsisText.setText("查看全部评论(" + size + ')');
                     	RL.setVisibility(View.VISIBLE);
                     }

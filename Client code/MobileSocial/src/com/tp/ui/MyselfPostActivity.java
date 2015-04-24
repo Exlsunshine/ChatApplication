@@ -10,6 +10,7 @@ import com.tp.messege.EmptyPost;
 import com.tp.views.ExtendedListView;
 import com.tp.views.ExtendedListView.OnPositionChangedListener;
 import com.tp.views.MenuRightAnimations;
+import com.yg.commons.ConstantValues;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -36,10 +37,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MyselfPostActivity extends Activity implements OnTouchListener, OnPositionChangedListener 
 {
-    private boolean areButtonsShowing;
-    private RelativeLayout composerButtonsWrapper;
-    private ImageView composerButtonsShowHideButtonIcon;
-    private RelativeLayout composerButtonsShowHideButton;
     private ExtendedListView dataListView;
 
     // clock
@@ -56,9 +53,6 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tp_myselfpostactivity);
         MenuRightAnimations.initOffset(MyselfPostActivity.this);
-        composerButtonsWrapper = (RelativeLayout) findViewById(R.id.myselfpostactivity_composer_buttons_wrapper);
-        composerButtonsShowHideButton = (RelativeLayout) findViewById(R.id.myselfpostactivity_composer_buttons_show_hide_button);
-        composerButtonsShowHideButtonIcon = (ImageView) findViewById(R.id.myselfpostactivity_composer_buttons_show_hide_button_icon);
         
         new Thread()
         {
@@ -67,7 +61,7 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         		try
         		{
         			ap.add(empty);
-          			ap.addAll(StaticUser.pm.getMyselfPosts());
+          			ap.addAll(ConstantValues.user.pm.getMyselfPosts());
           			Message message = Message.obtain();
     				message.what = setAdpter;
     				handler.sendMessage(message);
@@ -79,63 +73,14 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         	};
         }.start();
         
-        composerButtonsShowHideButton.setOnClickListener(new OnClickListener() 
-        {
-            @Override
-            public void onClick(View v) 
-            {
-                onClickView(v, false);
-            }
-        });
-        for (int i = 0; i < composerButtonsWrapper.getChildCount(); i++) 
-        {
-            composerButtonsWrapper.getChildAt(i).setOnClickListener(new View.OnClickListener() 
-            {
-                @Override
-                public void onClick(View arg0) 
-                {
-                    System.out.println("argo=" + arg0.getId() + " click");
-                    Toast.makeText(getApplicationContext(), "argo=" + arg0.getId() + " click", 300).show();
-                }
-            });
-        }
-
-        composerButtonsShowHideButton.startAnimation(MenuRightAnimations.getRotateAnimation(0, 360, 200));
         dataListView = (ExtendedListView) findViewById(R.id.myselfpostactivity_list_view);
         dataListView.setCacheColorHint(Color.TRANSPARENT);
         dataListView.setOnPositionChangedListener(this);
         clockLayout = (FrameLayout)findViewById(R.id.myselfpostactivity_clock);
         dataListView.setOnItemClickListener(new OnItemClickListenerImpl());
-        View v = findViewById(R.id.myselfpostactivity_composer_buttons_wrapper);
-        v.setOnTouchListener(this);
         isOncreate = true;
     }
 
-    public void onClickView(View v, boolean isOnlyClose) {
-        if (isOnlyClose) 
-        {
-            if (areButtonsShowing) 
-            {
-                MenuRightAnimations.startAnimationsOut(composerButtonsWrapper, 300);
-                composerButtonsShowHideButtonIcon.startAnimation(MenuRightAnimations.getRotateAnimation(-315, 0, 300));
-                areButtonsShowing = !areButtonsShowing;
-            }
-        } 
-        else 
-        {
-            if (!areButtonsShowing) 
-            {
-                MenuRightAnimations.startAnimationsIn(composerButtonsWrapper, 300);
-                composerButtonsShowHideButtonIcon.startAnimation(MenuRightAnimations.getRotateAnimation(0, -315, 300));
-            } 
-            else 
-            {
-                MenuRightAnimations.startAnimationsOut(composerButtonsWrapper, 300);
-                composerButtonsShowHideButtonIcon.startAnimation(MenuRightAnimations.getRotateAnimation(-315, 0, 300));
-            }
-            areButtonsShowing = !areButtonsShowing;
-        }
-    }
     
     
     private Handler handler = new Handler()
@@ -158,7 +103,6 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
     public boolean onTouch(View v, MotionEvent event) 
     {
         System.out.println("ontouch...................");
-        onClickView(v, true);
         return false;
     }
 
@@ -281,7 +225,7 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
 	        			Message message = Message.obtain();
 	        			ap.clear();
 	        			ap.add(empty);
-	        			ap.addAll(StaticUser.pm.getmypost());
+	        			ap.addAll(ConstantValues.user.pm.getmypost());
 	        			message.what = setAdpter;
 	        			handler.sendMessage(message);
 	        		}

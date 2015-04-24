@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.tp.messege.PostManager;
 import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
 import com.yg.message.AbstractMessage;
@@ -47,6 +48,8 @@ public class ClientUser extends AbstractUser
 	
 	private ArrayList<FriendUser> friendList = null;
 	private ArrayList<Dialog> dialogList = null;
+	
+	public PostManager pm = null;
 	
 	public ClientUser(int userID, String password, String loginAccount, String nickName, String email, String portraitUrl, String sex, String birthday, String phoneNumber, String hometown, Context context)
 	{
@@ -329,6 +332,7 @@ public class ClientUser extends AbstractUser
 	public void signin()
 	{
 		ofhandler.signin();
+		pm = new PostManager(getID());
 	}
 	
 	/**

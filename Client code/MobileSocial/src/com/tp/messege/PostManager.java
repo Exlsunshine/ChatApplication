@@ -33,6 +33,7 @@ public class PostManager
 	public ArrayList<AbstractPost> get10Posts()
 	{
 		ArrayList<AbstractPost> postArrayList = new ArrayList<AbstractPost>();
+		friendPosts.clear();
 		if (friendPosts.size() != 0)
 		{
 			currentLatestPostID = friendPosts.get(0).getPostID();
@@ -256,8 +257,8 @@ public class PostManager
 	 */
 	public ArrayList<AbstractPost> getMyselfPosts()
 	{
-		if (myselfPosts.size() != 0)
-			return myselfPosts;
+		/*if (myselfPosts.size() != 0)
+			return myselfPosts;*/
 		ArrayList<AbstractPost> postArrayList = new ArrayList<AbstractPost>();
 		WebServiceAPI wsApi;
 		Object []value = {userID}; 
@@ -405,6 +406,7 @@ public class PostManager
 	 */
 	public void addNewTextPost(String postDate, String text, String location, String sex)
 	{
+		Log.e("addNewTextPost", userID + "");
 		TextPost tp = new TextPost(userID, postDate, text, location, sex);
 		myselfPosts.add(tp);
 		friendPosts.add(tp);

@@ -3,6 +3,9 @@ package com.tp.ui;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
@@ -67,7 +70,7 @@ public class SendPostActivity extends Activity
 	private void sendPost()
 	{
 		final String posttext;
-		final String sex = "female";
+		final String sex = ConstantValues.user.getSex();
 		final String location = "±±¾©";
 		if (commentET.getText().toString().trim().equals("") && isSendPhoto == false)
 		{
@@ -87,7 +90,7 @@ public class SendPostActivity extends Activity
 						@Override
 						public void run() 
 						{
-							StaticUser.pm.addNewImagePost(CommonUtil.now(), postphoto, location, sex);
+							ConstantValues.user.pm.addNewImagePost(now(), postphoto, location, sex);
 							Message message = Message.obtain();
 							message.what = intent;
 							handler.sendMessage(message);
@@ -102,12 +105,12 @@ public class SendPostActivity extends Activity
 						@Override
 						public void run() 
 						{
-							int postUserID = 4;
-							StaticUser.pm.addNewImagePost(CommonUtil.now(), postphoto, location, sex);
-							AbstractPost tmp = StaticUser.pm.getfriendpost().get(0);
+							int postUserID = ConstantValues.user.getID();
+							ConstantValues.user.pm.addNewImagePost(now(), postphoto, location, sex);
+							AbstractPost tmp = ConstantValues.user.pm.getfriendpost().get(0);
 							if (tmp != null)
 							{
-								StaticUser.pm.addNewComment(-1, tmp.getPostID(), postUserID, -1, posttext, CommonUtil.now(), sex);
+								ConstantValues.user.pm.addNewComment(-1, tmp.getPostID(), postUserID, -1, posttext, now(), sex);
 								Message message = Message.obtain();
 								message.what = intent;
 								handler.sendMessage(message);
@@ -128,7 +131,7 @@ public class SendPostActivity extends Activity
 					@Override
 					public void run() 
 					{
-						StaticUser.pm.addNewTextPost(CommonUtil.now(), posttext, location, sex);
+						ConstantValues.user.pm.addNewTextPost(now(), posttext, location, sex);
 						Message message = Message.obtain();
 						message.what = intent;
 						handler.sendMessage(message);
@@ -145,7 +148,6 @@ public class SendPostActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tp_sendpostactivity);
 		initview();
-		StaticUser.pm = new PostManager(4);
 	}
 	
 	private void initview()
@@ -234,4 +236,12 @@ public class SendPostActivity extends Activity
 			}
 		}
 	}
+	
+	private  String now()
+	{
+		Calendar cal = Calendar.getInstance();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+	    return sdf.format(cal.getTime());
+	}
+
 }

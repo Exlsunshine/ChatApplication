@@ -7,6 +7,7 @@ import com.tp.adapter.PostCommentListAdapter;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.Comment;
 import com.yg.commons.CommonUtil;
+import com.yg.commons.ConstantValues;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class TextPostCommentListActivity extends Activity
 	private final int setAdpter = 1;
 	private final int refresh = 2;
 	private Comment empty = new Comment();
-	private int commentUserID = 0;
+	private int commentUserID = ConstantValues.user.getID();
 	
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -63,11 +64,10 @@ public class TextPostCommentListActivity extends Activity
 									Log.d("setOnClickListener", commentText);
 									int postID = post.getPostID();
 									int postUserID = post.getPostUserID();
-									commentUserID = 4;
 									String commentDate = CommonUtil.now();
-									String sex = "male";
+									String sex = ConstantValues.user.getSex();
 									Log.d("setOnClickListener", commentList.size() + "");
-									StaticUser.pm.addNewComment(-1, postID, postUserID, commentUserID, commentText, commentDate, sex);
+									ConstantValues.user.pm.addNewComment(-1, postID, postUserID, commentUserID, commentText, commentDate, sex);
 									commentList.clear();
 									commentList.addAll(post.getComments());
 									Log.d("setOnClickListener", commentList.size() + "");
@@ -96,7 +96,7 @@ public class TextPostCommentListActivity extends Activity
 	{
 		Bundle bundle = getIntent().getExtras();
 		int postID = bundle.getInt("postid");
-		post = StaticUser.pm.getPostByID(postID);
+		post = ConstantValues.user.pm.getPostByID(postID);
 		commentList.addAll(post.getComments());
 		Message message = Message.obtain();
 		message.what = setAdpter;

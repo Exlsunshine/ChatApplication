@@ -12,6 +12,7 @@ import com.tp.messege.AbstractPost;
 import com.tp.messege.EmptyPost;
 import com.tp.messege.PostManager;
 import com.tp.views.MenuRightAnimations;
+import com.yg.commons.ConstantValues;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -41,11 +42,6 @@ import android.widget.AdapterView.OnItemClickListener;
 public class PublicActivity extends Activity implements OnTouchListener, OnPositionChangedListener 
 {
     
-	private boolean areButtonsShowing;
-    private RelativeLayout composerButtonsWrapper;
-    private ImageView composerButtonsShowHideButtonIcon;
-    private RelativeLayout composerButtonsShowHideButton;
-
     // clock
     private FrameLayout clockLayout;
     private PullToRefreshListView mPullRefreshListView;
@@ -67,10 +63,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tp_feed_activity2);
         MenuRightAnimations.initOffset(PublicActivity.this);
-        composerButtonsWrapper = (RelativeLayout) findViewById(R.id.publicactivity_composer_buttons_wrapper);
-        composerButtonsShowHideButton = (RelativeLayout) findViewById(R.id.publicactivity_composer_buttons_show_hide_button);
-        composerButtonsShowHideButtonIcon = (ImageView) findViewById(R.id.publicactivity_composer_buttons_show_hide_button_icon);
-        StaticUser.pm = new PostManager(4);
         new Thread()
         {
         	public void run() 
@@ -78,7 +70,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         		try
         		{
         			ap.add(empty);
-          			ap.addAll(StaticUser.pm.get10Posts());
+          			ap.addAll(ConstantValues.user.pm.get10Posts());
           			Message message = Message.obtain();
     				message.what = setAdpter;
     				handler.sendMessage(message);
@@ -90,67 +82,13 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         	};
         }.start();
         
-        composerButtonsShowHideButton.setOnClickListener(new OnClickListener() 
-        {
-            @Override
-            public void onClick(View v) 
-            {
-                onClickView(v, false);
-            }
-        });
-        for (int i = 0; i < composerButtonsWrapper.getChildCount(); i++) 
-        {
-            composerButtonsWrapper.getChildAt(i).setOnClickListener(new View.OnClickListener() 
-            {
-                @Override
-                public void onClick(View view) 
-                {
-                   if (view.getId() == textBtn)
-                   {
-                	   Intent intent = new Intent(PublicActivity.this, SendPostActivity.class);
-                	   startActivity(intent);
-                   }
-                }
-            });
-        }
-
-        composerButtonsShowHideButton.startAnimation(MenuRightAnimations.getRotateAnimation(0, 360, 200));
         mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.publicactivity_pulltorefreshlist_view);
         mListView = mPullRefreshListView.getRefreshableView();
         mListView.setOnItemClickListener(new OnItemClickListenerImpl());
         mPullRefreshListView.setOnPositionChangedListener(this);
         setClickListener();
         clockLayout = (FrameLayout)findViewById(R.id.publicactivity_clock);
-        View v = findViewById(R.id.publicactivity_composer_buttons_wrapper);
-        v.setOnTouchListener(this);
         isOncreate = true;
-    }
-
-    public void onClickView(View v, boolean isOnlyClose) 
-    {
-        if (isOnlyClose) 
-        {
-            if (areButtonsShowing) 
-            {
-                MenuRightAnimations.startAnimationsOut(composerButtonsWrapper, 300);
-                composerButtonsShowHideButtonIcon.startAnimation(MenuRightAnimations.getRotateAnimation(-315, 0, 300));
-                areButtonsShowing = !areButtonsShowing;
-            }
-        } 
-        else 
-        {
-            if (!areButtonsShowing) 
-            {
-                MenuRightAnimations.startAnimationsIn(composerButtonsWrapper, 300);
-                composerButtonsShowHideButtonIcon.startAnimation(MenuRightAnimations.getRotateAnimation(0, -315, 300));
-            } 
-            else 
-            {
-                MenuRightAnimations.startAnimationsOut(composerButtonsWrapper, 300);
-                composerButtonsShowHideButtonIcon.startAnimation(MenuRightAnimations.getRotateAnimation(-315, 0, 300));
-            }
-            areButtonsShowing = !areButtonsShowing;
-        }
     }
     
     private Handler handler = new Handler()
@@ -182,12 +120,12 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		}
 	};
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) 
-    {
-        onClickView(v, true);
-        return false;
-    }
+	 @Override
+	    public boolean onTouch(View v, MotionEvent event) 
+	    {
+		 	Log.d("on touch", " 111111111");
+	        return false;
+	    }
 
     private float[] computMinAndHour(int currentMinute, int currentHour) {
         float minuteRadian = 6f * currentMinute;
@@ -265,8 +203,8 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         TextView datestr = ((TextView) findViewById(R.id.clock_digital_date));
     	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size())
     	{
-    		datestr.setText("ÉÏÎç");
-    		clocktext.setText("00:00");
+    		/*datestr.setText("ÉÏÎç");
+    		clocktext.setText("00:00");*/
     	    RotateAnimation[] tmp = computeAni(0,0);
     	    minView.startAnimation(tmp[0]);
     	    hourView.startAnimation(tmp[1]);
@@ -276,6 +214,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         
         datestr.setText("ÉÏÎç");
         AbstractPost abpost = ap.get(firstVisiblePosition);
+        Log.e("clock______", abpost.getPostDate());
         String []date = abpost.getPostDate().split(" ");
         String []daytime = date[1].split(":");
         int hour = Integer.parseInt(daytime[0]);
@@ -351,7 +290,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		        	{
 		        		try
 		        		{
-		        			ArrayList<AbstractPost> tmp = StaticUser.pm.getLatestPosts();
+		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getLatestPosts();
 		        			if (tmp == null)
 		        			{
 		        				Message message = Message.obtain();
@@ -396,7 +335,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		        		try
 		        		{
 		        			Log.d("getHistoryPostssdebug_______", "______");
-		        			ArrayList<AbstractPost> tmp = StaticUser.pm.getHistoryPosts();
+		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getHistoryPosts();
 		        			if (tmp == null)
 		        			{
 		        				Message message = Message.obtain();
@@ -447,7 +386,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	        			Message message = Message.obtain();
 	        			ap.clear();
 	        			ap.add(empty);
-	        			ap.addAll(StaticUser.pm.getfriendpost());
+	        			ap.addAll(ConstantValues.user.pm.getfriendpost());
 	        			message.what = setAdpter;
 	        			handler.sendMessage(message);
 	        		}
