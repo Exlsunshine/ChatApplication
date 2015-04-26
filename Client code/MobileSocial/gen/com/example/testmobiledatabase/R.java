@@ -598,18 +598,20 @@ containing a value of this type.
         public static final int yg_main_friend_normal_style2=0x7f02018a;
         public static final int yg_main_friend_spressed=0x7f02018b;
         public static final int yg_main_friend_spressed_style2=0x7f02018c;
-        public static final int yg_message_notificationmanager_small_icon=0x7f02018d;
-        public static final int yg_portrait_sample_12=0x7f02018e;
-        public static final int yg_portrait_sample_x=0x7f02018f;
-        public static final int yg_signup_first_dialog_camera=0x7f020190;
-        public static final int yg_signup_first_dialog_canlendar=0x7f020191;
-        public static final int yg_signup_first_dialog_female=0x7f020192;
-        public static final int yg_signup_first_dialog_male=0x7f020193;
-        public static final int yg_signup_page_bubble_logo=0x7f020194;
-        public static final int yg_slide_delete_icon=0x7f020195;
-        public static final int yg_slide_yellow_star_gray_icon=0x7f020196;
-        public static final int yg_slide_yellow_star_icon=0x7f020197;
-        public static final int yg_slide_yellow_star_yellow_icon=0x7f020198;
+        public static final int yg_main_post_icon=0x7f02018d;
+        public static final int yg_main_profile_icon=0x7f02018e;
+        public static final int yg_message_notificationmanager_small_icon=0x7f02018f;
+        public static final int yg_portrait_sample_12=0x7f020190;
+        public static final int yg_portrait_sample_x=0x7f020191;
+        public static final int yg_signup_first_dialog_camera=0x7f020192;
+        public static final int yg_signup_first_dialog_canlendar=0x7f020193;
+        public static final int yg_signup_first_dialog_female=0x7f020194;
+        public static final int yg_signup_first_dialog_male=0x7f020195;
+        public static final int yg_signup_page_bubble_logo=0x7f020196;
+        public static final int yg_slide_delete_icon=0x7f020197;
+        public static final int yg_slide_yellow_star_gray_icon=0x7f020198;
+        public static final int yg_slide_yellow_star_icon=0x7f020199;
+        public static final int yg_slide_yellow_star_yellow_icon=0x7f02019a;
     }
     public static final class id {
         public static final int action_send=0x7f06012d;

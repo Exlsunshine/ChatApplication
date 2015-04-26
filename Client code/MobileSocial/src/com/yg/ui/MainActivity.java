@@ -116,12 +116,12 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		centerControlMenu.setExpandDuration(500);
 		
 		List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
-        items.add(new SatelliteMenuItem(1, R.drawable.ic_1));
+        items.add(new SatelliteMenuItem(1, android.R.color.transparent));
         items.add(new SatelliteMenuItem(2, R.drawable.ic_3));
         items.add(new SatelliteMenuItem(3, R.drawable.ic_4));
-        items.add(new SatelliteMenuItem(4, R.drawable.ic_5));
-        items.add(new SatelliteMenuItem(5, R.drawable.ic_6));
-        items.add(new SatelliteMenuItem(6, R.drawable.ic_2));
+        items.add(new SatelliteMenuItem(4, R.drawable.yg_main_post_icon));
+        items.add(new SatelliteMenuItem(5, R.drawable.yg_main_profile_icon));
+        items.add(new SatelliteMenuItem(6, android.R.color.transparent));
         
         centerControlMenu.addItems(items);        
         
