@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.commonapi.ConstantValues;
+
 public class SQLServerEnd
 {
 	private static final String CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -26,7 +28,8 @@ public class SQLServerEnd
 		TABLE_NAME = tableName;
 		USERNAME = "sa";
 		PASSWORD = "007";
-		DATABASE_URL = "jdbc:sqlserver://172.18.8.30:1433"+";databaseName=" + DATABASE_NAME;
+		//DATABASE_URL = "jdbc:sqlserver://172.18.8.30:1433"+";databaseName=" + DATABASE_NAME;
+		DATABASE_URL = "jdbc:sqlserver://" + ConstantValues.Configs.DATABASE_SERVER_IP + ":" + ConstantValues.Configs.DATABASE_SERVER_PORT+ ";databaseName=" + DATABASE_NAME;
 		connect();
 	}
 	
