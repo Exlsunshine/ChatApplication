@@ -19,8 +19,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -64,9 +66,10 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	private Intent recentDialogIntent;  
 	private Intent friendListIntent; 
 	
-	SatelliteMenu centerControlMenu;
+	private SatelliteMenu centerControlMenu;
 	private RadioButton recentDialogRb;
 	private RadioButton friendListRb;
+	private ImageView mask;
 	
 	private final int MENU_SHAKE_INDEX = 2;
 	private final int MENU_FRIENDCIRCLE_INDEX = 3;
@@ -113,8 +116,9 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	
 	private void setupLayout()
 	{
-		recentDialogRb = ((RadioButton) findViewById(R.id.main_activity_recent_dialog));
-		friendListRb = ((RadioButton) findViewById(R.id.main_activity_friend_list));
+		recentDialogRb = (RadioButton) findViewById(R.id.main_activity_recent_dialog);
+		friendListRb = (RadioButton) findViewById(R.id.main_activity_friend_list);
+		mask = (ImageView)findViewById(R.id.main_activity_mask);
 		
 		centerControlMenu = (SatelliteMenu)findViewById(R.id.lj_menu);
 		centerControlMenu.setSatelliteDistance(340);
@@ -122,6 +126,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		centerControlMenu.setTotalSpacingDegree(180);
 		centerControlMenu.setCloseItemsOnClick(true);
 		centerControlMenu.setExpandDuration(500);
+		centerControlMenu.setMaskView(mask);
 		
 		List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
         items.add(new SatelliteMenuItem(1, android.R.color.transparent));
@@ -138,6 +143,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			public void eventOccured(final int id) 
 			{
 				Log.e("sat", "Clicked on " + id);
+				mask.setVisibility(View.GONE);
 				new Handler().postDelayed(new Runnable() 
 				{
 					@Override
@@ -178,6 +184,17 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	{
 		recentDialogRb.setOnCheckedChangeListener(this);  
 		friendListRb.setOnCheckedChangeListener(this);  
+		mask.setOnTouchListener(new OnTouchListener() 
+		{
+			@Override
+			public boolean onTouch(View v, MotionEvent event) 
+			{
+				int action = event.getAction();
+				if (action == event.ACTION_DOWN)
+					centerControlMenu.onClick();
+				return true;
+			}
+		});
 	}
 	
 	@Override

@@ -17,7 +17,7 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
                 android:layout_height="0.0dip"
-                android:layout_weight="1.0"/>
+                android:layout_weight="1.0" />
 
             <TabWidget
                 android:id="@android:id/tabs"
@@ -27,6 +27,7 @@
                 android:visibility="gone" />
 
             <!-- android:background="#E7E2DE" -->
+
             <RadioGroup
                 android:id="@+id/main_radio"
                 android:layout_width="fill_parent"
@@ -45,12 +46,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:button="@null"
+                    android:checked="true"
                     android:drawableTop="@color/yg_main_chat_selector"
                     android:gravity="center"
                     android:text="Chats"
                     android:textColor="@color/yg_main_chat_text_selector"
-                    android:textSize="12sp" 
-                    android:checked="true"/>
+                    android:textSize="12sp" />
 
                 <RadioButton
                     android:id="@+id/main_activity_friend_list"
@@ -66,6 +67,14 @@
                     android:textSize="12sp" />
             </RadioGroup>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/main_activity_mask"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:alpha="0.3"
+            android:background="#000"
+            android:visibility="gone" />
 
         <com.lj.satellitemenu.SatelliteMenu
             android:id="@+id/lj_menu"

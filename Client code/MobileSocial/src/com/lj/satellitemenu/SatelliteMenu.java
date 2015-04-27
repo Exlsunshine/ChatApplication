@@ -36,6 +36,12 @@ import android.widget.TextView;
  */
 public class SatelliteMenu extends FrameLayout {
 
+	private ImageView mask = null;
+	public void setMaskView(ImageView v)
+	{
+		mask = v;
+	}
+	
 	private static final int DEFAULT_SATELLITE_DISTANCE = 200;
 	private static final float DEFAULT_TOTAL_SPACING_DEGREES = 90f;
 	private static final boolean DEFAULT_CLOSE_ON_CLICK = true;
@@ -132,18 +138,21 @@ public class SatelliteMenu extends FrameLayout {
 		internalItemClickListener = new InternalSatelliteOnClickListener(this);
 	}
 
-	private void onClick() {
+	public void onClick() {
 		if (plusAnimationActive.compareAndSet(false, true)) {
 			if (!rotated) {
 				imgMain.startAnimation(mainRotateLeft);
 				for (SatelliteMenuItem item : menuItems) {
 					item.getView().startAnimation(item.getOutAnimation());
 				}
+				mask.setVisibility(View.VISIBLE);
+				//mask.bringToFront();
 			} else {
 				imgMain.startAnimation(mainRotateRight);
 				for (SatelliteMenuItem item : menuItems) {
 					item.getView().startAnimation(item.getInAnimation());
 				}
+				mask.setVisibility(View.GONE);
 			}
 			rotated = !rotated;
 		}
