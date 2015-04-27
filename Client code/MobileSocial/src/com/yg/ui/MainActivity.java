@@ -16,6 +16,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -38,14 +39,16 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.testmobiledatabase.R;
-import com.lj.pathbutton.SatelliteMenu;
-import com.lj.pathbutton.SatelliteMenu.SateliteClickedListener;
-import com.lj.pathbutton.SatelliteMenuItem;
+import com.lj.satellitemenu.SatelliteMenu;
+import com.lj.satellitemenu.SatelliteMenu.SateliteClickedListener;
+import com.lj.satellitemenu.SatelliteMenuItem;
 import com.lj.settings.ActivitySetting;
 import com.lj.shake.ActivityShake;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.SendPostActivity;
 import com.yg.ui.friendlist.FriendListActivity;
+import com.yg.ui.login.LoginGuideActivity;
+import com.yg.ui.login.WelcomeActivity;
 import com.yg.ui.recentdialog.RecentDialogActivity;
 
 @SuppressWarnings("deprecation")
@@ -64,6 +67,11 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	SatelliteMenu centerControlMenu;
 	private RadioButton recentDialogRb;
 	private RadioButton friendListRb;
+	
+	private final int MENU_SHAKE_INDEX = 2;
+	private final int MENU_FRIENDCIRCLE_INDEX = 3;
+	private final int MENU_SENDPOST_INDEX = 4;
+	private final int MENU_PROFILE_INDEX = 5;
 	
 	 
 	@Override
@@ -127,33 +135,41 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
         
         centerControlMenu.setOnItemClickedListener(new SateliteClickedListener() 
         {
-			public void eventOccured(int id) 
+			public void eventOccured(final int id) 
 			{
 				Log.e("sat", "Clicked on " + id);
-				if (id == 1)
+				new Handler().postDelayed(new Runnable() 
 				{
-					Intent intent = new Intent();
-					intent.setClass(MainActivity.this, ActivityShake.class);
-					startActivity(intent);
-				}
-				else if (id == 2)
-				{
-					Intent intent = new Intent();
-					intent.setClass(MainActivity.this, ActivitySetting.class);
-					startActivity(intent);
-				}
-				else if (id == 3)
-				{
-					Intent intent = new Intent();
-					intent.setClass(MainActivity.this, PublicActivity.class);
-					startActivity(intent);
-				}
-				else if (id == 4)
-				{
-					Intent intent = new Intent();
-					intent.setClass(MainActivity.this, SendPostActivity.class);
-					startActivity(intent);
-				}
+					@Override
+					public void run() 
+					{
+						if (id == MENU_SHAKE_INDEX)
+						{
+							Intent intent = new Intent();
+							intent.setClass(MainActivity.this, ActivityShake.class);
+							startActivity(intent);
+						}
+						else if (id == MENU_FRIENDCIRCLE_INDEX)
+						{
+							Intent intent = new Intent();
+							intent.setClass(MainActivity.this, PublicActivity.class);
+							startActivity(intent);
+						}
+						else if (id == MENU_SENDPOST_INDEX)
+						{
+							Intent intent = new Intent();
+							intent.setClass(MainActivity.this, SendPostActivity.class);
+							startActivity(intent);
+						}
+						else if (id == MENU_PROFILE_INDEX)
+						{
+							Intent intent = new Intent();
+							intent.setClass(MainActivity.this, ActivitySetting.class);
+							startActivity(intent);
+						}
+					}
+				}, 800);
+				
 			}
 		});
 	}

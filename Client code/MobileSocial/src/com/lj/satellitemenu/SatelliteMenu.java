@@ -91,14 +91,12 @@ public class SatelliteMenu extends FrameLayout {
 	private void init(Context context, AttributeSet attrs, int defStyle) {
 		LayoutInflater.from(context).inflate(R.layout.sat_main, this, true); 	
 		imgMain = (ImageView) findViewById(R.id.sat_main);
-	//	imgMain.startAnimation(AnimationUtils.loadAnimation(context, R.anim.anim_zoom_in));
 		if(attrs != null){			
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SatelliteMenu, defStyle, 0);					
 			satelliteDistance = typedArray.getDimensionPixelSize(R.styleable.SatelliteMenu_satelliteDistance, DEFAULT_SATELLITE_DISTANCE);
 			totalSpacingDegree = typedArray.getFloat(R.styleable.SatelliteMenu_totalSpacingDegree, DEFAULT_TOTAL_SPACING_DEGREES);
 			closeItemsOnClick = typedArray.getBoolean(R.styleable.SatelliteMenu_closeOnClick, DEFAULT_CLOSE_ON_CLICK);
 			expandDuration = typedArray.getInt(R.styleable.SatelliteMenu_expandDuration, DEFAULT_EXPAND_DURATION);
-			//float satelliteDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 170, getResources().getDisplayMetrics());
 			typedArray.recycle();
 		}
 		

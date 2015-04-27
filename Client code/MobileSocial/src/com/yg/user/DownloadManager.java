@@ -43,7 +43,7 @@ public class DownloadManager
 			}
 		}
 		else
-			Log.i(DEBUG_TAG, "Wrong type, your url does not contains .jpg suffix");
+			Log.e(DEBUG_TAG, "Wrong type, your url does not contains .jpg suffix");
 
 		return null;
 	}
@@ -72,7 +72,7 @@ public class DownloadManager
 			}
 		}
 		else
-			Log.i(DEBUG_TAG, "Wrong type, your url does not contains .amr suffix");
+			Log.e(DEBUG_TAG, "Wrong type, your url does not contains .amr suffix");
 
 		return null;
 	}

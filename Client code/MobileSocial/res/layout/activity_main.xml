@@ -67,7 +67,7 @@
             </RadioGroup>
         </LinearLayout>
 
-        <com.lj.pathbutton.SatelliteMenu
+        <com.lj.satellitemenu.SatelliteMenu
             android:id="@+id/lj_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
