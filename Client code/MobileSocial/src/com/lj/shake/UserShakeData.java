@@ -19,13 +19,14 @@ public class UserShakeData
 	 */
 	private int gameType;
 	
-	public UserShakeData(int userid, String nickname, float longitude, float latitude, int gametype) 
+	public UserShakeData(int userid, String nickname, float longitude, float latitude, int gametype, String sex) 
 	{
 		userId = userid;
 		nickName = nickname;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		gameType = gametype;
+		this.sex = sex;
 	}
 	
 	public int getUserId()

@@ -10,23 +10,27 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.TextOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
-import com.lj.customview.UserDataWindowView;
-import com.lj.customview.ViewGrougTest;
 import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.lj.songpuzzle.ActivitySongPuzzle;
 import com.yg.commons.ConstantValues;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.sax.StartElementListener;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class shakeHandler extends Handler
@@ -34,45 +38,105 @@ public class shakeHandler extends Handler
 	private int viewX;
 	private int viewY;
 	ActivityShake myContext;
+	ArrayList<UserShakeData> gUserShakeDataList = null;
 
 	public shakeHandler(ActivityShake context) 
-	{
+	{ 
 		myContext = context;
+	} 
+	
+	private void locatePotin(LatLng cenpt)
+	{
+		final LatLng currentPoint = myContext.baiduMap.getMapStatus().target;
+		final double deltaLat = (cenpt.latitude - currentPoint.latitude) / 10;
+		final double deltaLng = (cenpt.longitude - currentPoint.longitude) / 10;
+		new Thread()
+		{
+			public void run() 
+			{
+				for (int i = 0;i < 10; i++)
+				{
+					LatLng point = new LatLng(currentPoint.latitude + i * deltaLat, currentPoint.longitude + i * deltaLng);
+					MapStatus mMapStatus = new MapStatus.Builder().target(point).zoom(ConstantValues.InstructionCode.MAP_ZOOM_INITIALIZATION).build();
+					MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+					myContext.baiduMap.setMapStatus(mMapStatusUpdate);
+					SystemClock.sleep(50);
+				}
+			};
+		}.start();
 	}
 	
 	private void locateMyLocation(UserShakeData userShakeData)
 	{
 		LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
-		MapStatus mMapStatus = new MapStatus.Builder().target(cenpt).zoom(ConstantValues.InstructionCode.MAP_ZOOM_INITIALIZATION).build();
-		MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-		myContext.baiduMap.setMapStatus(mMapStatusUpdate);
-		BitmapDescriptor markIcon = BitmapDescriptorFactory.fromResource(R.drawable.my_location);
+		locatePotin(cenpt);
+		BitmapDescriptor markIcon = BitmapDescriptorFactory.fromResource(R.drawable.lj_map_my_location);
 		OverlayOptions option = new MarkerOptions().position(cenpt).icon(markIcon);  
 		myContext.baiduMap.addOverlay(option);
-	}
+	} 
 	
-	private void locateOtherLocation(UserShakeData userShakeData)
-	{
+	private Bitmap getBitmapFromView(View view) {  
+        view.destroyDrawingCache();  
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),  
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));  
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());  
+        view.setDrawingCacheEnabled(true);  
+        Bitmap bitmap = view.getDrawingCache(true);  
+        return bitmap;  
+    }
+	private void locateOtherLocation(UserShakeData userShakeData, int index)
+	{ 
 		LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
-		BitmapDescriptor markIcon = BitmapDescriptorFactory.fromResource(R.drawable.user_location);
-		OverlayOptions option = new MarkerOptions().position(cenpt).icon(markIcon);  
+		String sex = userShakeData.getSex(); 
+		TextView view = new TextView(myContext);
+		view.setTextColor(Color.WHITE);
+		view.setTextSize(15);
+		view.setGravity(Gravity.CENTER_HORIZONTAL); 
+		view.setText(String.valueOf(index + 1));
+		if (sex.equals("female"))
+			view.setBackgroundResource(R.drawable.lj_map_female_location);
+		else
+			view.setBackgroundResource(R.drawable.lj_map_male_location);
+		BitmapDescriptor markIcon = BitmapDescriptorFactory.fromBitmap(getBitmapFromView(view));
+		OverlayOptions option = new MarkerOptions().position(cenpt).icon(markIcon);
 		Marker marker = (Marker)myContext.baiduMap.addOverlay(option);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("index", index);
+		marker.setExtraInfo(bundle);
+		/*
+		if (sex.equals("female"))      
+			markIcon = BitmapDescriptorFactory.fromResource(R.drawable.lj_map_female_location);
+		else
+			markIcon = BitmapDescriptorFactory.fromResource(R.drawable.lj_map_male_location);  
+		OverlayOptions option = new MarkerOptions().position(cenpt).icon(markIcon);
+		Marker marker = (Marker)myContext.baiduMap.addOverlay(option); 
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("nickname", userShakeData.getNickName());
 		bundle.putSerializable("userID", userShakeData.getUserId());
 		bundle.putSerializable("gametype", userShakeData.getGameType());
-		marker.setExtraInfo(bundle);
+		marker.setExtraInfo(bundle);*/
 	}
 	
 	private void locateUsers(ArrayList<UserShakeData> userShakeDataList)
 	{
+		myContext.userDataListView.initView(myContext, myContext.dpiWidth, userShakeDataList, this);
+		UserShakeData temp = null;
 		for (int i = 0; i < userShakeDataList.size(); i++)
 		{
 			UserShakeData userShakeData = userShakeDataList.get(i);
 			if (userShakeData.getUserId() == ConstantValues.user.getID())
+			{
 				locateMyLocation(userShakeData);
-			else
-				locateOtherLocation(userShakeData);	
+				temp = userShakeData;
+				break;
+			}
+		}
+		if (temp != null)
+			userShakeDataList.remove(temp);
+		for (int i = 0; i < userShakeDataList.size(); i++)
+		{
+			UserShakeData userShakeData = userShakeDataList.get(i);
+			locateOtherLocation(userShakeData, i);	
 		}
 	}
 	
@@ -83,10 +147,10 @@ public class shakeHandler extends Handler
 		switch (msg.what)
 		{
 		case ConstantValues.InstructionCode.ERROR_NETWORK:
-			Toast.makeText(myContext, "网络错误", Toast.LENGTH_LONG).show();
+			Toast.makeText(myContext, "网络连接失败", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_USER_GAME_NOT_SET:
-			Toast.makeText(myContext, "游戏没有设置", Toast.LENGTH_LONG).show();
+			Toast.makeText(myContext, "用户游戏未设置", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_WAIT_FOR_DATA:
 			myContext.sensorManager.unregisterListener(myContext.shakelistener);
@@ -96,9 +160,10 @@ public class shakeHandler extends Handler
 		case ConstantValues.InstructionCode.HANDLER_SUCCESS_GET_DATA:
 			myContext.loadingView.setVisibility(View.INVISIBLE);
 			myContext.mapView.setVisibility(View.VISIBLE);
-			@SuppressWarnings("unchecked")
-			ArrayList<UserShakeData> userShakeDataList = (ArrayList<UserShakeData>) msg.obj;
-			locateUsers(userShakeDataList);
+			myContext.userDataListView.setVisibility(View.VISIBLE);
+			myContext.userDataListView.bringToFront();
+			gUserShakeDataList = (ArrayList<UserShakeData>) msg.obj;
+			locateUsers(gUserShakeDataList);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_SHAKE_SENSOR:
 			myContext.vibrator.vibrate(ConstantValues.InstructionCode.VIBRATE_TIME);
@@ -108,32 +173,11 @@ public class shakeHandler extends Handler
 			Bundle data = marker.getExtraInfo(); 
 			if (data == null)
 				return;
-			String nickname = data.get("nickname").toString();
-			int gametype = Integer.valueOf(data.get("gametype").toString());
-			int userID = data.getInt("userID");
-			final LatLng ll = marker.getPosition();
-	        Point p = myContext.baiduMap.getProjection().toScreenLocation(ll);
-	        if (myContext.userDataWindowView != null)
-	        	myContext.mainLayout.removeView(myContext.userDataWindowView);
-	        myContext.userDataWindowView = new ViewGrougTest(myContext, p.x, p.y - UserDataWindowView.H, nickname, null, gametype, userID, this);
-	        myContext.mainLayout.addView(myContext.userDataWindowView);
-			break;
-		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_STATUS_CHANGE:
-			myContext.mainLayout.removeView(myContext.userDataWindowView);
-			break;
-		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_TOUCH_DOWN:
-			if (myContext.userDataWindowView == null)
-				return;
-			viewX = (int) myContext.userDataWindowView.getPos_X();
-	        viewY = (int) myContext.userDataWindowView.getPos_Y();
-			break;
-		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_TOUCH_MOVE:
-			if (myContext.userDataWindowView == null)
-				return;
-			myContext.userDataWindowView.setPosition(msg.arg1 + viewX, msg.arg2 + viewY);
-			break;
-		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_FAST_MOVE:
-			myContext.mainLayout.removeView(myContext.userDataWindowView);
+			int index = data.getInt("index");
+			myContext.userDataListView.setDataOfIndex(index);
+			UserShakeData userShakeData = gUserShakeDataList.get(index);
+			LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
+			locatePotin(cenpt);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_GAME:
 			int id = msg.arg1;
@@ -155,7 +199,12 @@ public class shakeHandler extends Handler
 				break;
 			}
 			myContext.startActivity(intent);
-			
+			break;
+		case ConstantValues.InstructionCode.SHAKE_HANDLER_CHANGE_MARK:
+			int indexs = msg.arg1;
+			UserShakeData userShakeDatas = gUserShakeDataList.get(indexs);
+			LatLng cenpts = new LatLng(userShakeDatas.getLatitude() ,userShakeDatas.getLongitude());
+			locatePotin(cenpts);
 			break;
 		}
 	}

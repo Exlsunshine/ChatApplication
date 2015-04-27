@@ -31,9 +31,9 @@ public class ConstantValues
 		public static final String CURRENT_CHAT_WITH_NOTIFICATION = "current_chat_with_notification";
 		public static final String CLEAR_MESSAGE_RED_DOT = "clear_message_read_dot";
 		
-		public static final int GAME_TYPE_EIGHTPUZZLE = 0x00;
-		public static final int GAME_TYPE_QUIZ = 0x00;
-		public static final int GAME_TYPE_WHAC = 0x00;
+		public static final int GAME_TYPE_EIGHTPUZZLE = 0x01;
+		public static final int GAME_TYPE_SONGPUZZLE = 0x02;
+		public static final int GAME_TYPE_BAZINGABALL = 0x03;
 		
 		public static final int DIRECTION_UP = 0x00;
 		public static final int DIRECTION_DOWN = 0x01;
@@ -64,6 +64,7 @@ public class ConstantValues
 		public static final int SHAKE_HANDLER_MAP_TOUCH_MOVE = 6;
 		public static final int SHAKE_HANDLER_MAP_FAST_MOVE = 7;
 		public static final int SHAKE_HANDLER_GAME = 8;
+		public static final int SHAKE_HANDLER_CHANGE_MARK = 9;
 		
 		//game setting activity
 		public static final int GAMESET_HANDLER_DOWNLOAD_IMAGE = 1;

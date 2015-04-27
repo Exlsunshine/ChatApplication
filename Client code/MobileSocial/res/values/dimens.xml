@@ -16,4 +16,5 @@
     <dimen name="lj_activity_songpuzzle_slide_height">80dp</dimen>
     <dimen name="lj_activity_songpuzzle_slide_width">80dp</dimen>
     
+    <dimen name="lj_activity_map_text_size">18sp</dimen>
 </resources>

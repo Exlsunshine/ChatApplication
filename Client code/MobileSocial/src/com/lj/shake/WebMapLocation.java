@@ -33,7 +33,7 @@ public class WebMapLocation
 			return null;
 		PackString ps = new PackString(result.toString());
 		ArrayList<HashMap<String, Object>> map_NearbyUser = ps.jsonString2Arrylist("nearbyusers");
-		for (int i =0; i < map_NearbyUser.size(); i++)
+		for (int i =0; i < map_NearbyUser.size(); i++) 
 		{
 			HashMap<String, Object> m = map_NearbyUser.get(i);
 			float longitude = Float.parseFloat((String)m.get("longitude"));
@@ -41,7 +41,8 @@ public class WebMapLocation
 			int userid = Integer.parseInt(m.get("user_id").toString());
 			String nickname = m.get("nick_name").toString();
 			int gametype = Integer.parseInt(m.get("game_type").toString());
-			UserShakeData item = new UserShakeData(userid, nickname, longitude, latitude, gametype);
+			String sex = m.get("sex").toString();
+			UserShakeData item = new UserShakeData(userid, nickname, longitude, latitude, gametype, sex);
 			userShakeDataList.add(item);
 		}
 		return userShakeDataList;

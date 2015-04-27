@@ -7,7 +7,6 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
 import com.example.testmobiledatabase.R;
 import com.lj.customview.LoadingView;
-import com.lj.customview.ViewGrougTest;
 import com.yg.commons.ConstantValues;
 import android.app.Activity;
 import android.app.Service;
@@ -21,11 +20,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 
 public class ActivityShake extends Activity
 {
-	private int dpiWidth;
-	private int dpiHight;
+	public int dpiWidth;
+	public int dpiHight;
 	
 	public SensorManager sensorManager;
 	public LocationClient locationClient = null;
@@ -35,7 +35,6 @@ public class ActivityShake extends Activity
 	public LoadingView loadingView;
 	public MapView mapView;
 	public BaiduMap baiduMap;
-	public ViewGrougTest userDataWindowView;
 	
 	public shakeListener shakelistener;
 	public locationListener locationlistener;
@@ -44,6 +43,8 @@ public class ActivityShake extends Activity
 	public mapTouchListener maptouchlistener;
 	
 	shakeHandler myHandler;
+	
+	public RelativeLayoutUserInfoList userDataListView;
 	
 	private void initDpi()
 	{
@@ -55,28 +56,35 @@ public class ActivityShake extends Activity
 	private void initView()
 	{
 		//laytou
-		mainLayout = new RelativeLayout(this);
-		//载入等待动画
+	//	mainLayout = new RelativeLayout(this);
+
 		loadingView = new LoadingView(this, dpiWidth >> 1, dpiHight >> 1);
         loadingView.setVisibility(View.INVISIBLE);
         mainLayout.addView(loadingView);
-        //百度地图
-		mapView = new MapView(this);
+
+        mapView = new MapView(this);
 		baiduMap = mapView.getMap();
 		mapView.setVisibility(View.INVISIBLE);
 		mainLayout.addView(mapView);
+		
+		userDataListView = (RelativeLayoutUserInfoList)findViewById(R.id.lj_map_userinfo);
+		
+/*		userDataListView = new RelativeLayoutUserInfoList(this);
+		RelativeLayout.LayoutParams layout = new LayoutParams(LayoutParams.FILL_PARENT, 100);
+		layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		layout.bottomMargin = 10;
+		userDataListView.setLayoutParams(layout);
+		mainLayout.addView(userDataListView);*/
 	}
 	
 	private void initListener()
 	{
 		myHandler = new shakeHandler(this);
-		//传感器
 		shakelistener = new shakeListener(myHandler, ConstantValues.user.getID());
 		sensorManager = (SensorManager) this.getSystemService(Service.SENSOR_SERVICE); 
 		sensorManager.registerListener(shakelistener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);  
 		vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);  
 		
-		//位置监听
 		locationlistener = new locationListener(myHandler, ConstantValues.user.getID());
 		LocationClientOption option = new LocationClientOption();
 		option.setCoorType("bd09ll");
@@ -84,7 +92,6 @@ public class ActivityShake extends Activity
 		locationClient.setLocOption(option);
         locationClient.registerLocationListener(locationlistener);
         
-        //百度地图
         markerclicklistener = new markerClickListener(myHandler);
         mapstatuslistener = new mapStatusChangeListener(myHandler);
         maptouchlistener = new mapTouchListener(myHandler);
@@ -98,10 +105,12 @@ public class ActivityShake extends Activity
     {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
+        setContentView(R.layout.lj_layout_shake);
+        mainLayout = (RelativeLayout)findViewById(R.id.lj_shake_layout);
         initDpi();
         initView();
         initListener();
-		setContentView(mainLayout);
+	//	setContentView(mainLayout);
     }
 
     @Override

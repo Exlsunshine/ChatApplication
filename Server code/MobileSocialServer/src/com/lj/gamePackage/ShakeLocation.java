@@ -38,10 +38,10 @@ public class ShakeLocation
 	
 	private String getNearbyUserFromDB(int userId) throws Exception
 	{
-		String[] query = {"user_id", "longitude", "latitude", "game_type", "nick_name"};
+		String[] query = {"user_id", "longitude", "latitude", "game_type", "nick_name", "sex"};
 	/*	String[] condition = {"1"};
 		String[] conditionVal = {"1"};*/
-		String sqle = "select shake_location.user_id, shake_location.longitude, shake_location.latitude,user_settings.game_type, user_basic_info.nick_name from shake_location,user_settings,user_basic_info where shake_location.user_id = user_settings.user_id and shake_location.user_id = user_basic_info.id";
+		String sqle = "select shake_location.user_id, shake_location.longitude, shake_location.latitude,user_settings.game_type, user_basic_info.nick_name, user_basic_info.sex from shake_location,user_settings,user_basic_info where shake_location.user_id = user_settings.user_id and shake_location.user_id = user_basic_info.id";
 		ArrayList<HashMap<String, String>> map = sql.excecuteRawQuery(sqle, query);
 		String str = PackString.arrylist2JsonString("nearbyusers", map, 0);
 		return str; 
