@@ -92,11 +92,11 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 						if (friends.get(j).getID() == friendID)
 						{
 							ids.add(friendID);
-							names.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
+							names.add(friends.get(j).getAlias() == null ? friends.get(j).getNickName() : friends.get(j).getAlias());
 							messages.add(getLastMessage(dialogs.get(i).getLastMessage()));
 							//dates.add(dialogs.get(i).getLastMessage().getDate());
 							dates.add(DateUtil.getSuggestion(CommonUtil.now(), dialogs.get(i).getLastMessage().getDate()));
-							bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
+							bmp = friends.get(j).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 							bmp = CircleBitmap.circleBitmap(bmp);
 							portraits.add(bmp);
 							unreadAmount.add(dialogs.get(i).getUnreadAmount());
@@ -224,11 +224,11 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 				if (friends.get(j).getID() == friendID)
 				{
 					ids.add(friendID);
-					names.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
+					names.add(friends.get(j).getAlias() == null ? friends.get(j).getNickName() : friends.get(j).getAlias());
 					messages.add(getLastMessage(dialogs.get(i).getLastMessage()));
 					//dates.add(dialogs.get(i).getLastMessage().getDate());
 					dates.add(DateUtil.getSuggestion(CommonUtil.now(), dialogs.get(i).getLastMessage().getDate()));
-					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
+					bmp = friends.get(j).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portraits.add(bmp);
 					unreadAmount.add(dialogs.get(i).getUnreadAmount());
