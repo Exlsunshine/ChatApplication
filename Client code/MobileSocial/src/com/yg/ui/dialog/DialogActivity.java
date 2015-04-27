@@ -238,19 +238,33 @@ public class DialogActivity extends Activity
 		{
 			public void onClick(View v) 
 			{
-				String content = EmojiParser.getInstance(DialogActivity.this).parseEmoji(ParseEmojiMsgUtil.convertToMsg(editText.getText(), DialogActivity.this));
-				TextMessage txtMsg = new TextMessage(ConstantValues.user.getID(), friendID, content, CommonUtil.now(), true);
-				ConstantValues.user.sendMsgTo(getFriendByID(friendID), txtMsg);
-				editText.setText("");
-				
-				messages.clear();
-				messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
-				msgAdapter.notifyDataSetChanged();
-				listView.setSelection(listView.getCount() - 1);
+				Thread td = new Thread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						String content = EmojiParser.getInstance(DialogActivity.this).parseEmoji(ParseEmojiMsgUtil.convertToMsg(editText.getText(), DialogActivity.this));
+						TextMessage txtMsg = new TextMessage(ConstantValues.user.getID(), friendID, content, CommonUtil.now(), true);
+						ConstantValues.user.sendMsgTo(getFriendByID(friendID), txtMsg);
+						
+						runOnUiThread(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								editText.setText("");
+								messages.clear();
+								messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+								msgAdapter.notifyDataSetChanged();
+								listView.setSelection(listView.getCount() - 1);
+							}
+						});
 
-				Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
-				sendBroadcast(intent);
-				
+						Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+						sendBroadcast(intent);
+					}
+				});
+				td.start();
 				/*String content = editText.getText().toString();
 				TextMessage txtMsg = new TextMessage(ConstantValues.user.getID(), friendID, content, CommonUtil.now(), true);
 				ConstantValues.user.sendMsgTo(getFriendByID(friendID), txtMsg);
