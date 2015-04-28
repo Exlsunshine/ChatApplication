@@ -264,8 +264,8 @@ public class ClientUser extends AbstractUser
 		
 		try 
 		{
-			String [] params = new String[2];
-			Object [] vlaues = new Object[2];
+			String [] params = new String[1];
+			Object [] vlaues = new Object[1];
 			params[0] = "userID";
 			vlaues[0] = this.id;
 			Object ret = wsAPI.callFuntion("setPortrait", params, vlaues);
