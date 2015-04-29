@@ -7,6 +7,7 @@ import org.kobjects.base64.Base64;
 
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
+import com.tp.messege.ImagePost;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
@@ -165,7 +166,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     RelativeLayout feedComments3 = (RelativeLayout) view.findViewById(R.id.publicactivityadpter_feed_comments_3);
                     LinearLayout ll = (LinearLayout) view.findViewById(R.id.publicactivityadpter_feed_comments_thread);
                     LinearLayout commentstextpost = (LinearLayout) view.findViewById(R.id.publicactivityadpter_feed_comments);
-                    thought_main.setText(ConvertUtil.bytes2String(post.getContent()));
+                    thought_main.setText(post.getContent().toString());
                     
                     int size = post.getComments().size();
                     switch (size)
@@ -296,9 +297,10 @@ public class PublicActivityAdapter extends BaseAdapter
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
                     //Log.e("getview__", ConvertUtil.bytes2String(post.getContent()));
                     Log.e("getview__", post.getPostID() + "");
-                    Log.e("getview__", "__________" + position);
-                    byte[] buffer = new Base64().decode(ConvertUtil.bytes2String(post.getContent()));
-                    Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
+                    /*byte[] buffer = post.getContent();
+                    Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);*/
+                    ImagePost ip = (ImagePost) post;
+                    Bitmap bm = ip.getImage();
                     Drawable dr = new BitmapDrawable(bm);
                     photoView.setBackground(dr);
                     //photoView.setImageResource(R.drawable.coffe0);

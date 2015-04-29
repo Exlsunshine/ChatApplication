@@ -8,6 +8,7 @@ import org.kobjects.base64.Base64;
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.Comment;
+import com.tp.messege.ImagePost;
 import com.yg.message.ConvertUtil;
 
 import android.content.Context;
@@ -78,16 +79,18 @@ public class PostCommentListAdapter extends BaseAdapter
                 	holder.userPortrait.setImageResource(R.drawable.tp_female);
                 if (post.getPostType() == 1)
                 {
-                	String postContent = ConvertUtil.bytes2String(post.getContent());
+                	String postContent = post.getContent().toString();
                     String time = post.getPostDate();
                     holder.commentContent.setText(postContent);
                     holder.commentTime.setText(time);
                 }
                 else
                 {
-                	byte[] buffer = new Base64().decode(ConvertUtil.bytes2String(post.getContent()));
+                	ImagePost ip = (ImagePost) post;
+                	Bitmap bm = ip.getImage();
+                	/*byte[] buffer = new Base64().decode(ConvertUtil.bytes2String(post.getContent()));
                     Log.e("getview__", post.getContent().toString());
-                    Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
+                    Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);*/
                     Drawable dr = new BitmapDrawable(bm);
                     holder.postphoto.setBackground(dr);
                     holder.postphoto.setVisibility(View.VISIBLE);

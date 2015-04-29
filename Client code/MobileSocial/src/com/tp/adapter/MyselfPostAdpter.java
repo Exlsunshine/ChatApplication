@@ -7,6 +7,7 @@ import org.kobjects.base64.Base64;
 
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
+import com.tp.messege.ImagePost;
 import com.tp.views.CircularImage;
 import com.yg.commons.ConstantValues;
 import com.yg.message.ConvertUtil;
@@ -158,7 +159,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     RelativeLayout feedComments2 = (RelativeLayout) view.findViewById(R.id.publicactivityadpter_feed_comments_2);
                     RelativeLayout feedComments3 = (RelativeLayout) view.findViewById(R.id.publicactivityadpter_feed_comments_3);
                     LinearLayout ll = (LinearLayout) view.findViewById(R.id.publicactivityadpter_feed_comments_thread);
-                    thought_main.setText(ConvertUtil.bytes2String(post.getContent()));
+                    thought_main.setText(post.getContent().toString());
                     
                     int size = post.getComments().size();
                     switch (size)
@@ -286,9 +287,11 @@ public class MyselfPostAdpter extends BaseAdapter
                     
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
-                    byte[] buffer = new Base64().decode(ConvertUtil.bytes2String(post.getContent()));
-                    Log.e("getview__", post.getContent().toString());
-                    Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
+                    ImagePost ip = (ImagePost) post;
+                    Bitmap bm = ip.getImage();
+                    //byte[] buffer = new Base64().decode(ConvertUtil.bytes2String(post.getContent()));
+                    //Log.e("getview__", post.getContent().toString());
+                    //Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
                     Drawable dr = new BitmapDrawable(bm);
                     photoView.setBackground(dr);
                     //photoView.setImageResource(R.drawable.coffe0);

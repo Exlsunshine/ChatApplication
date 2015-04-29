@@ -71,7 +71,7 @@ public class PostManager
 				else if (postType == 2) //ͼƬ
 				{
 					ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex);
-					Log.e("get10Posts", ConvertUtil.bytes2String(ip.getContent()));
+					Log.e("get10Posts imgurl", content);
 					friendPosts.add(ip);
 					postArrayList.add(ip);
 				}

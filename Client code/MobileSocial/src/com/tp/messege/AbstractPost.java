@@ -36,7 +36,7 @@ public abstract class AbstractPost
 	/**
 	 * 当前Post的内容
 	 */
-	protected byte [] content;
+	protected Object content;
 	
 	/**
 	 * 当前Post的评论集合
@@ -80,7 +80,7 @@ public abstract class AbstractPost
 	 * @param content Post的内容
 	 * @param location 发布Post时所在的地点
 	 */
-	public AbstractPost(int postUserID, String postDate, byte [] content, String location, String sex)
+	public AbstractPost(int postUserID, String postDate, Object content, String location, String sex)
 	{
 		this.postUserID = postUserID;
 		this.postDate = postDate;
@@ -103,7 +103,7 @@ public abstract class AbstractPost
 	 * @param content Post的内容
 	 * @param location 发布Post时所在的地点
 	 */
-	public AbstractPost(int postID, int postUserID, int likedNumber, String postDate, byte [] content, String location, String sex)
+	public AbstractPost(int postID, int postUserID, int likedNumber, String postDate, Object content, String location, String sex)
 	{
 		this.postID = postID;
 		this.postUserID = postUserID;
@@ -157,7 +157,7 @@ public abstract class AbstractPost
 		return this.postDate;
 	}
 
-	public byte [] getContent() 
+	public Object getContent() 
 	{
 		return this.content;
 	}

@@ -28,7 +28,7 @@ public class TextPost extends AbstractPost
 	 */
 	public TextPost(int postUserID, String postDate, String text, String location, String sex)
 	{
-		super(postUserID, postDate, text.getBytes(), location, sex);
+		super(postUserID, postDate, text, location, sex);
 		this.text = text;
 		publish();
 	}
@@ -45,12 +45,12 @@ public class TextPost extends AbstractPost
 	 */
 	public TextPost(int postID, int postUserID, int likedNumber, String postDate, String text, String location, String sex)
 	{
-		super(postID, postUserID, likedNumber, postDate, ConvertUtil.string2Bytes((text)), location, sex);
+		super(postID, postUserID, likedNumber, postDate, text, location, sex);
+		this.text = text;
 	}
 
 	public String getText()
 	{
-		text = new String(content);
 		return text;
 	}
 	
@@ -65,6 +65,8 @@ public class TextPost extends AbstractPost
 	protected int publish()
 	{
 		int ret = 0xffff;
+		int identity = -1;
+		String imgURL = "";
 		try 
 		{
 			WebServiceAPI wsApi;
@@ -88,12 +90,22 @@ public class TextPost extends AbstractPost
 			wsApi = new WebServiceAPI(packageName, className);
 			Object s = wsApi.callFuntion("publishPost", para ,value);
 			System.out.print(s.toString());
-			if (Integer.valueOf(s.toString()) == -1)
+			
+			PackString jsonString = new PackString(s.toString());
+			ArrayList<HashMap<String, Object>> postResult = jsonString.jsonString2Arrylist("publishpost");
+			
+			for (int i = 0; i < postResult.size(); i++)
+			{
+				HashMap<String, Object> map = postResult.get(i);
+				identity = Integer.parseInt(map.get("identityNUM").toString());
+				imgURL = map.get("imgURL").toString();
+			}
+			if (identity == -1)
 				ret = 0xffff;
 			else
 			{
-				setPostID(Integer.valueOf(s.toString()));
-				ret = Integer.valueOf(s.toString());
+				setPostID(Integer.valueOf(identity));
+				ret = identity;
 			}
 		} 
 		catch (JSONException e) 
@@ -110,19 +122,12 @@ public class TextPost extends AbstractPost
 	{
 		postID = PostIDRtn;
 	}
-	
-	
-	
-	
-	
-	
 
 	@Override
 	public int getPostType() 
 	{
 		return 1;
 	}
-	
 	
 	public static void main(String []args)
 	{

@@ -1,11 +1,17 @@
 package com.tp.FriendCircleServer;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import javax.mail.Address;
+
+import org.json.JSONException;
 
 import com.commonapi.ConstantValues;
 import com.commonapi.PackString;
@@ -23,6 +29,7 @@ public class FriendCircleHandler
 	private final String CommentTable = "comment_data";
 	private final String PostTable = "post_data";
 	private final String RelationTable = "user_relationship";
+	private final static String SAVED_DIRECTORY = "C:/Users/USER007/Desktop/IM/data/friendCircleImages/";
 	
 	private void initPostDataTB()
 	{
@@ -113,6 +120,7 @@ public class FriendCircleHandler
 	{
 		int identity = -1;
 		int errorCode = -1;
+		String imageUrl = "";
 		initPostDataTB();
 		System.out.print("publishPost" + "\n" + postJson);
 		String []insertCol = {"post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex"};
@@ -143,27 +151,19 @@ public class FriendCircleHandler
 			}
 			else  //image
 			{
-				System.out.print("image__________" + "\n");
-				String str = map.get("content").toString();
-				try 
-				{
-					System.out.print("before save image__________" + "\n");
-					String imagePath = ImagePostTransmit.saveImage(str, Integer.parseInt(insertVal[0]));
-					System.out.print("after save image__________" + "\n");
-					val.add(imagePath);
-					insertVal[3] = (String)val.get(3);
-				} 
-				catch (NumberFormatException e) 
-				{
-					e.printStackTrace();
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
+				String imageName = generateImageName(Integer.parseInt(insertVal[0]));
+				String imagePath = SAVED_DIRECTORY + imageName; 
+				val.add("");
+				insertVal[3] = imagePath;
+				imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+				
+				imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+						+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
+				System.out.print("\n" + imageUrl + "\n");
 				val.add((String) map.get("post_type"));
 				insertVal[4] = (String)val.get(4);
 			}
+			
 			val.add((String) map.get("location"));
 			insertVal[5] = (String)val.get(5);
 			
@@ -188,7 +188,20 @@ public class FriendCircleHandler
 				System.out.println("publishpost failed.");
 		}
 		postDataTB.disconnect();
-		return Integer.toString(identity);
+		
+		ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> item = new HashMap<String, Object>();
+		item.put("imgURL", imageUrl);
+		item.put("identityNUM", Integer.toString(identity));
+		items.add(item);
+		String ps = "";
+		try {
+			ps = PackString.arrylist2JsonString("publishpost", items);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ps;
 	}
 	
 	/**
@@ -232,6 +245,7 @@ public class FriendCircleHandler
 	{
 		initPostDataTB();
 		
+		String imageUrl = "";
 		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex"};
 		String []condition = {"post_user_id"};
 		String []conditionVal = {Integer.toString(userID)};
@@ -247,12 +261,19 @@ public class FriendCircleHandler
 				if (result.get(i).get("post_type").equals("2"))
 				{
 					System.out.print("\n" + result.get(i).get("content") + "\n");
-					String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
-					System.out.print("\n" + img + "\n");
-					result.get(i).put("content", img);
+					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
+					String imagePath = result.get(i).get("content");
+					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					
+					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
+					
+					System.out.print("\n" + imagePath + "\n");
+					System.out.print("\n" + imageUrl + "\n");
+					result.get(i).put("content", imageUrl);
 				}
-				
-			} catch (Exception e) 
+			} 
+			catch (Exception e) 
 			{
 				e.printStackTrace();
 			}
@@ -280,6 +301,8 @@ public class FriendCircleHandler
 	public String getHistoryPosts(int userID, int postID)
 	{
 		initUerRelationTB();
+		
+		String imageUrl = "";
 		System.out.print("\n" + postID + "\n" + "------------------------------------------");
 		String []relationquery = {"second_userid"};
 		String []relationcondition = {"first_userid"};
@@ -322,9 +345,16 @@ public class FriendCircleHandler
 				if (result.get(i).get("post_type").equals("2"))
 				{
 					System.out.print("\n" + result.get(i).get("content") + "\n");
-					String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
-					System.out.print("\n" + img + "\n");
-					result.get(i).put("content", img);
+					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
+					
+					String imagePath = result.get(i).get("content");
+					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					
+					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
+					
+					System.out.print("\n" + imageUrl + "\n");
+					result.get(i).put("content", imageUrl);
 				}
 				
 			} catch (Exception e) 
@@ -349,6 +379,7 @@ public class FriendCircleHandler
 	public String get10Posts(int userID)
 	{
 		initUerRelationTB();
+		
 		System.out.print("get10Posts" + "\n");
 		String []relationquery = {"second_userid"};
 		String []relationcondition = {"first_userid"};
@@ -360,6 +391,7 @@ public class FriendCircleHandler
 		
 		initPostDataTB();
 		
+		String imageUrl = "";
 		StringBuilder sb = new StringBuilder();
 		sb.append("select top 10 id ,post_user_id, liked_number, post_date, content, post_type, location, sex from post_data where ( post_user_id = ");
 		for (int i = 0; i < relationResult.size(); i++)
@@ -387,11 +419,18 @@ public class FriendCircleHandler
 			{
 				if (result.get(i).get("post_type").equals("2"))
 				{
-					String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
-					result.get(i).put("content", img);
+					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
+					
+					String imagePath = result.get(i).get("content");
+					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					
+					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
+					
+					result.get(i).put("content", imageUrl);
 				}
-				
-			} catch (Exception e) 
+			} 
+			catch (Exception e) 
 			{
 				e.printStackTrace();
 			}
@@ -432,7 +471,7 @@ public class FriendCircleHandler
 			return null;
 		
 		initPostDataTB();
-		
+		String imageUrl;
 		StringBuilder sb = new StringBuilder();
 		sb.append("select top ").append(num + " ");
 		sb.append("id ,post_user_id, liked_number, post_date, content, post_type, location, sex from post_data where ( post_user_id = ");
@@ -481,8 +520,14 @@ public class FriendCircleHandler
 			{
 				if (result.get(i).get("post_type").equals("2"))
 				{
-					String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
-					result.get(i).put("content", img);
+					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
+					
+					String imagePath = result.get(i).get("content");
+					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					
+					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
+					result.get(i).put("content", imageUrl);
 				}
 				
 			} catch (Exception e) 
@@ -637,6 +682,7 @@ public class FriendCircleHandler
 	{
 		initPostDataTB();
 		
+		String imageUrl;
 		String []query = {"id","post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex"};
 		String []condition = {"id"};
 		String []conditionVal = {Integer.toString(postID)};
@@ -651,8 +697,15 @@ public class FriendCircleHandler
 			{
 				if (result.get(i).get("post_type").equals("2"))
 				{
-					String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
-					result.get(i).put("content", img);
+					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
+					
+					String imagePath = result.get(i).get("content");
+					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					
+					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
+					
+					result.get(i).put("content", imageUrl);
 				}
 			} catch (Exception e) 
 			{
@@ -680,5 +733,12 @@ public class FriendCircleHandler
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 		return sdf.format(cal.getTime());
+	}
+	
+	private String generateImageName(int postUserID)
+	{
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
+		Date date = new Date();
+		return "picture_transportation_postUserID_" + String.valueOf(postUserID) + "_" + dateFormat.format(date)  + ".jpg";
 	}
 }
