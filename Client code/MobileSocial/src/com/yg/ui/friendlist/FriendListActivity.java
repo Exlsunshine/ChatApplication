@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
+import com.yg.ui.MainActivity;
 import com.yg.ui.friendlist.implementation.CircleBitmap;
 import com.yg.ui.friendlist.implementation.FinalListView;
 import com.yg.ui.friendlist.implementation.FinalListView.OnRefreshListener;
@@ -183,6 +184,12 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		unregisterReceiver(broadcastReceiver);
 		Log.i(DEBUG_TAG, "FriendList pause.");
 		super.onPause();
+	}
+	
+	@Override
+	public void onBackPressed() 
+	{
+		MainActivity.minimizeApp(FriendListActivity.this);
 	}
 
 	@Override

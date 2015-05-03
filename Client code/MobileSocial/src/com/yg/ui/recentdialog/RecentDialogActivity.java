@@ -24,6 +24,7 @@ import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
 import com.yg.message.AbstractMessage;
 import com.yg.message.TextMessage;
+import com.yg.ui.MainActivity;
 import com.yg.ui.dialog.DialogActivity;
 import com.yg.ui.dialog.implementation.DateUtil;
 import com.yg.ui.friendlist.implementation.CircleBitmap;
@@ -68,6 +69,12 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		super.onPause();
 		
 		isRunningAtBackground = true;
+	}
+	
+	@Override
+	public void onBackPressed() 
+	{
+		MainActivity.minimizeApp(RecentDialogActivity.this);
 	}
 	
 	private void loadRecentDialogs()

@@ -234,6 +234,20 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		return false;
 	}
 	
+	@Override
+	public void onBackPressed() 
+	{
+		minimizeApp(MainActivity.this);
+	}
+
+	public static void minimizeApp(Context context)
+	{
+		Intent startMain = new Intent(Intent.ACTION_MAIN);
+		startMain.addCategory(Intent.CATEGORY_HOME);
+		startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(startMain);
+	}
+	
 	/*********************		以下是RecentDialog ActionBar相关设置		*********************/
 	private void setupRecentDialogActionBar()
 	{

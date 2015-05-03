@@ -294,6 +294,7 @@ public class LoginGuideActivity extends Activity
 				loginDialog.cancel();
 				Intent intent = new Intent(LoginGuideActivity.this, MainActivity.class);
 				startActivity(intent);
+				LoginGuideActivity.this.finish();
 				break;
 			case 1:
 				email.startAnimation(shake);
