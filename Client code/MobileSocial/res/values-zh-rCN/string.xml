@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="yg_str_main_activity_bottom_tab_chats">消息</string>
+    <string name="yg_str_main_activity_bottom_tab_friends">好友</string>
+    
+    <string name="yg_str_recent_chat_activity_title">消息</string>
+    <string name="yg_str_recent_chat_activity_image_message">[图片]</string>
+    <string name="yg_str_recent_chat_activity_audio_message">[语音]</string>
+    <string name="yg_str_recent_chat_activity_time_unit_day">天前</string>
+    <string name="yg_str_recent_chat_activity_time_unit_hour">小时前</string>
+    <string name="yg_str_recent_chat_activity_time_unit_minute">分钟前</string>
+    <string name="yg_str_recent_chat_activity_time_unit_justnow">刚刚</string>
+    
+    <string name="yg_str_friendslist_activity_title">好友</string>
+    <string name="yg_str_friendslist_activity_search_hint">试试搜索好友的昵称</string>
+</resources>
