@@ -49,8 +49,6 @@ import com.lj.shake.ActivityShake;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.SendPostActivity;
 import com.yg.ui.friendlist.FriendListActivity;
-import com.yg.ui.login.LoginGuideActivity;
-import com.yg.ui.login.WelcomeActivity;
 import com.yg.ui.recentdialog.RecentDialogActivity;
 
 @SuppressWarnings("deprecation")
@@ -76,7 +74,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	private final int MENU_SENDPOST_INDEX = 4;
 	private final int MENU_PROFILE_INDEX = 5;
 	
-	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -175,7 +172,6 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 						}
 					}
 				}, 800);
-				
 			}
 		});
 	}
@@ -190,7 +186,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			public boolean onTouch(View v, MotionEvent event) 
 			{
 				int action = event.getAction();
-				if (action == event.ACTION_DOWN)
+				if (action == MotionEvent.ACTION_DOWN)
 					centerControlMenu.onClick();
 				return true;
 			}

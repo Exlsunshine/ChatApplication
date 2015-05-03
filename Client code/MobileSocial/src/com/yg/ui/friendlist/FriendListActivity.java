@@ -16,8 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
@@ -43,7 +43,49 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	FinalListView finalListView = null;
 	Bitmap bmp;
 	
-	private void refreshFriendsData()
+	private class DownloadPortraitTask extends AsyncTask<Void, Void, Void>
+	{
+		@Override
+		protected void onPreExecute() 
+		{
+			super.onPreExecute();
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params)
+		{
+			ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
+			if (friends == null)
+				return null;
+
+			for (int i = 0; i <friends.size(); i++)
+			{
+				userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
+				bmp = friends.get(i).getPortraitBmp();
+				bmp = CircleBitmap.circleBitmap(bmp);
+				portrait.add(bmp);
+				ids.add(friends.get(i).getID());
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			setupLayout();
+			myAdapter.notifyDataSetChanged();
+			super.onPostExecute(result);
+		}
+		
+		@Override
+		protected void onCancelled()
+		{
+			super.onCancelled();
+		}
+	}
+	
+/*	private void refreshFriendsData()
 	{
 		Thread td = new Thread(new Runnable()
 		{
@@ -57,7 +99,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				for (int i = 0; i <friends.size(); i++)
 				{
 					userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
-					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
+					bmp = friends.get(i).getPortraitBmp();
 					bmp = CircleBitmap.circleBitmap(bmp);
 					portrait.add(bmp);
 					ids.add(friends.get(i).getID());
@@ -71,7 +113,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	private void refreshDataFromQuery(final String query)
 	{
@@ -92,14 +134,12 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 					String name = friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias() + "(" + friends.get(i).getNickName() +")";
 					
 					if ((query.length() == 0 || query == null) || (name.toLowerCase().contains(query.toLowerCase())))
-					{	userNmae.add(name);
-					//else if (name.toLowerCase().contains(query.toLowerCase()))
-					//	userNmae.add(name);
-					
-					bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
-					bmp = CircleBitmap.circleBitmap(bmp);
-					portrait.add(bmp);
-					ids.add(friends.get(i).getID());
+					{
+						userNmae.add(name);
+						bmp = friends.get(i).getPortraitBmp();
+						bmp = CircleBitmap.circleBitmap(bmp);
+						portrait.add(bmp);
+						ids.add(friends.get(i).getID());
 					}
 				}
 			}
@@ -113,19 +153,14 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		}
 	}
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	private void setupLayout()
 	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_friend_list);
-		
 		finalListView = (FinalListView) super.findViewById(R.id.listview);
 		finalListView.setRemoveListener(this);
 
 		myAdapter = new MyAdapter(this, userNmae, portrait);
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
-
 		
 		finalListView.setOnScrollListener(new OnScrollListener()
 		{
@@ -134,10 +169,6 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			{
 				if (scrollState == SCROLL_STATE_IDLE)
 				{
-					Log.i(DEBUG_TAG, "Idle");
-					Log.i(DEBUG_TAG, "First visible item " + String.valueOf(firstVisibleItem));
-					Log.i(DEBUG_TAG, "Visible item count " + String.valueOf(visibleItemCount));
-					
 					Intent intent = new Intent("firstVisibleItem");
 					intent.putExtra("firstVisibleItem", firstVisibleItem);
 					intent.putExtra("visibleItemCount", visibleItemCount);
@@ -153,8 +184,17 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				FriendListActivity.this.visibleItemCount = visibleItemCount;
 			}
 		});
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_friend_list);
 		
-		finalListView.setonRefreshListener(new OnRefreshListener()
+		
+		
+		/*finalListView.setonRefreshListener(new OnRefreshListener()
 		{
 			public void onRefresh()
 			{
@@ -174,7 +214,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 							for (int i = 0; i <friends.size(); i++)
 							{
 								userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
-								bmp = friends.get(i).getPortraitBmp();//BitmapFactory.decodeByteArray(friends.get(i).getPortrait(), 0, friends.get(i).getPortrait().length);
+								bmp = friends.get(i).getPortraitBmp();
 								bmp = CircleBitmap.circleBitmap(bmp);
 								portrait.add(bmp);
 								ids.add(friends.get(i).getID());
@@ -215,18 +255,32 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 					}
 				}.execute(null, null, null);
 			}
-		});
+		});*/
 		
-		refreshFriendsData();
-		
+		//refreshFriendsData();
+		DownloadPortraitTask dpt = new DownloadPortraitTask();
+		dpt.execute();
+	}
+	
+	@Override
+	protected void onResume()
+	{
 		registerReceiver(broadcastReceiver, intentFilter());
+		Log.i(DEBUG_TAG, "FriendList resume.");
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() 
+	{
+		unregisterReceiver(broadcastReceiver);
+		Log.i(DEBUG_TAG, "FriendList pause.");
+		super.onPause();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
-		//getMenuInflater().inflate(R.menu.friend_list, menu);
-		//return true;
 		return false;
 	}
 	
@@ -239,10 +293,6 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			Intent intent = new Intent(FriendListActivity.this, FriendDetailActivity.class);
 			intent.putExtra("friendUserID", ids.get(position - 2));
 			startActivity(intent);
-			/*String ab = (String) myAdapter.getItem(position - 2);
-			Intent it1 = new Intent(MainActivity.this, Talk.class);
-			it1.putExtra("reveiewer", ab);
-			MainActivity.this.startActivity(it1);*/
 		}
 	}
 	
