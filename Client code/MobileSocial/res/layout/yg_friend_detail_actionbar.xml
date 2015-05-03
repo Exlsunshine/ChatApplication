@@ -25,7 +25,7 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Friends"
+            android:text="好友"
             android:textColor="#FFFFFF"
             android:textSize="17sp" />
     </LinearLayout>
@@ -38,7 +38,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="Profile"
+        android:text="资料"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
 

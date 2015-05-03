@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/yg_activity_friend_detail_name"
-                android:text="3 years"
+                android:text="3 年"
                 android:textColor="@android:color/darker_gray" />
 
             <ImageView
@@ -229,7 +229,7 @@
             android:layout_marginTop="10dp"
             android:background="@android:color/holo_green_dark"
             android:gravity="center"
-            android:text="Message"
+            android:text="发送消息"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

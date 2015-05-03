@@ -25,7 +25,7 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Chats"
+            android:text="消息"
             android:textColor="#FFFFFF"
             android:textSize="17sp" />
     </LinearLayout>

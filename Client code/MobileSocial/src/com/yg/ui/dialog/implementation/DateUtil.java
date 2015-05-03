@@ -27,19 +27,19 @@ public class DateUtil
 		//long seconds = diff - day * 3600 * 24 - hour * 3600 - min * 60;
 		
 		if (day == 1)
-			return "Yesterday";
+			return "昨天";
 		if (day >= 2 && day < 5)
-			return String.valueOf(day) + " days ago";
+			return String.valueOf(day) + " 天前";
 		
 		if (hour >= 1)
-			return String.valueOf(hour) + " hours ago";
+			return String.valueOf(hour) + " 小时前";
 		
 		if (min > 1 && min < 5)
-			return "Few minitues ago";
+			return "几分钟前";
 		if (min >= 5)
-			return String.valueOf(min) + " minitues ago";
+			return String.valueOf(min) + " 分钟前";
 		
-		return "Few seconds ago";
+		return "刚刚";
 	}
 	
 	public static boolean lessThan5Mins(String dateStr, String dateStr2)

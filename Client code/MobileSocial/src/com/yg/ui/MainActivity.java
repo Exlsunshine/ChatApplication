@@ -435,7 +435,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 					});
 				}
 				else
-					setTitle("Friends");
+					setTitle("∫√”—");
 			}
 			
 			@Override

@@ -1014,24 +1014,35 @@ containing a value of this type.
         public static final int tp_sendpost_menu=0x7f0b000b;
     }
     public static final class string {
-        public static final int action_settings=0x7f090002;
-        public static final int app_name=0x7f090001;
+        public static final int action_settings=0x7f09000d;
+        public static final int app_name=0x7f09000c;
         public static final int empty=0x7f090000;
-        public static final int hello_world=0x7f090003;
-        public static final int pull_to_refresh_pull_down_label=0x7f09000e;
-        public static final int pull_to_refresh_refreshing_label=0x7f090010;
-        public static final int pull_to_refresh_release_label=0x7f09000f;
-        public static final int pull_to_refresh_tap_label=0x7f090011;
-        public static final int title_activity_activity_shake=0x7f09000b;
-        public static final int title_activity_client_user_unit_test=0x7f090004;
-        public static final int title_activity_forget=0x7f090007;
-        public static final int title_activity_friend_detail=0x7f09000d;
-        public static final int title_activity_friend_list=0x7f090009;
-        public static final int title_activity_login=0x7f090006;
-        public static final int title_activity_main=0x7f090008;
-        public static final int title_activity_recent_dialog=0x7f09000a;
-        public static final int title_activity_register=0x7f090005;
-        public static final int title_activity_signup=0x7f09000c;
+        public static final int hello_world=0x7f09000e;
+        public static final int pull_to_refresh_pull_down_label=0x7f090019;
+        public static final int pull_to_refresh_refreshing_label=0x7f09001b;
+        public static final int pull_to_refresh_release_label=0x7f09001a;
+        public static final int pull_to_refresh_tap_label=0x7f09001c;
+        public static final int title_activity_activity_shake=0x7f090016;
+        public static final int title_activity_client_user_unit_test=0x7f09000f;
+        public static final int title_activity_forget=0x7f090012;
+        public static final int title_activity_friend_detail=0x7f090018;
+        public static final int title_activity_friend_list=0x7f090014;
+        public static final int title_activity_login=0x7f090011;
+        public static final int title_activity_main=0x7f090013;
+        public static final int title_activity_recent_dialog=0x7f090015;
+        public static final int title_activity_register=0x7f090010;
+        public static final int title_activity_signup=0x7f090017;
+        public static final int yg_str_friendslist_activity_search_hint=0x7f09000b;
+        public static final int yg_str_friendslist_activity_title=0x7f09000a;
+        public static final int yg_str_main_activity_bottom_tab_chats=0x7f090001;
+        public static final int yg_str_main_activity_bottom_tab_friends=0x7f090002;
+        public static final int yg_str_recent_chat_activity_audio_message=0x7f090005;
+        public static final int yg_str_recent_chat_activity_image_message=0x7f090004;
+        public static final int yg_str_recent_chat_activity_time_unit_day=0x7f090006;
+        public static final int yg_str_recent_chat_activity_time_unit_hour=0x7f090007;
+        public static final int yg_str_recent_chat_activity_time_unit_justnow=0x7f090009;
+        public static final int yg_str_recent_chat_activity_time_unit_minute=0x7f090008;
+        public static final int yg_str_recent_chat_activity_title=0x7f090003;
     }
     public static final class style {
         /** 

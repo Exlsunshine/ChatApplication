@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Friends"
+            android:text="好友"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
@@ -28,7 +28,7 @@
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:queryHint="Try a firend name :)" >
+            android:queryHint="试着搜搜好友昵称 :)" >
         </SearchView>
     </RelativeLayout>
 

@@ -130,10 +130,10 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 			result = ((TextMessage)msg).getText();
 			break;
 		case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
-			result = "[Picture]";
+			result = "[图片]";//发来消息时候更新最近一条消息的地方别忘了也要改
 			break;
 		case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
-			result = "[Audio]";
+			result = "[音频]";//发来消息时候更新最近一条消息的地方别忘了也要改
 			break;
 		default:
 			break;
@@ -325,9 +325,9 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 					String msg = null;
 					
 					if (dialog.getLastMessage().getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO)
-						msg = "[Audio]";
+						msg = "[音频]";//加载数据库消息的地方别忘了也要改
 					else if (dialog.getLastMessage().getMessageType() == ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE)
-						msg = "[Picture]";
+						msg = "[图片]";//加载数据库消息的地方别忘了也要改
 					else
 						msg = ((TextMessage)dialog.getLastMessage()).getText();
 					

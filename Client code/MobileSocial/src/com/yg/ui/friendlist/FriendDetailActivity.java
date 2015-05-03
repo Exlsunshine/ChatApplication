@@ -77,7 +77,7 @@ public class FriendDetailActivity extends Activity
 		
 		portrait.setImageBitmap(friend.getPortraitBmp());
 		name.setText(friend.getAlias() == null ? friend.getNickName() : friend.getAlias() + "(" + friend.getNickName() + ")");
-		joinDate.setText("1 month");
+		joinDate.setText("已加入 1  个月");
 		sexIcon.setImageDrawable(friend.getSex().equals("male") 
 				? getResources().getDrawable(R.drawable.yg_appkefu_ic_sex_male)
 				: getResources().getDrawable(R.drawable.yg_appkefu_ic_sex_female));

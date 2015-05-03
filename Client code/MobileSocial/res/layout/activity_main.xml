@@ -49,7 +49,7 @@
                     android:checked="true"
                     android:drawableTop="@color/yg_main_chat_selector"
                     android:gravity="center"
-                    android:text="Chats"
+                    android:text="消息"
                     android:textColor="@color/yg_main_chat_text_selector"
                     android:textSize="12sp" />
 
@@ -62,7 +62,7 @@
                     android:button="@null"
                     android:drawableTop="@color/yg_main_friend_selector"
                     android:gravity="center"
-                    android:text="Friends"
+                    android:text="好友"
                     android:textColor="@color/yg_main_friend_text_selector"
                     android:textSize="12sp" />
             </RadioGroup>
