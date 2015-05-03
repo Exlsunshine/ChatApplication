@@ -3,14 +3,11 @@ package com.yg.ui.friendlist.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.testmobiledatabase.R;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +16,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.testmobiledatabase.R;
 
 public class MyAdapter extends BaseAdapter
 {
@@ -110,7 +109,7 @@ public class MyAdapter extends BaseAdapter
 			else
 				delay += 800;
 
-			Log.i(DEBUG_TAG, "Delay is " + String.valueOf(delay) + "Position is " + String.valueOf(position - firstVisibleItem - visibleItemCount + 1));
+			//Log.i(DEBUG_TAG, "Delay is " + String.valueOf(delay) + "Position is " + String.valueOf(position - firstVisibleItem - visibleItemCount + 1));
 
 			translate.setDuration(delay);
 			convertView.startAnimation(translate);
@@ -126,7 +125,7 @@ public class MyAdapter extends BaseAdapter
 			else
 				delay += 800;
 
-			Log.i(DEBUG_TAG, "Delay is " + String.valueOf(delay) + "Position is " + String.valueOf(position - firstVisibleItem - visibleItemCount + 1));
+			//Log.i(DEBUG_TAG, "Delay is " + String.valueOf(delay) + "Position is " + String.valueOf(position - firstVisibleItem - visibleItemCount + 1));
 
 			translate.setDuration(delay);
 			convertView.startAnimation(translate);

@@ -54,6 +54,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		@Override
 		protected Void doInBackground(Void... params)
 		{
+			userNmae.clear();
+			portrait.clear();
+			ids.clear();
 			ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
 			if (friends == null)
 				return null;
@@ -84,36 +87,6 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			super.onCancelled();
 		}
 	}
-	
-/*	private void refreshFriendsData()
-	{
-		Thread td = new Thread(new Runnable()
-		{
-			@Override
-			public void run() 
-			{
-				ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
-				if (friends == null)
-					return;
-
-				for (int i = 0; i <friends.size(); i++)
-				{
-					userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
-					bmp = friends.get(i).getPortraitBmp();
-					bmp = CircleBitmap.circleBitmap(bmp);
-					portrait.add(bmp);
-					ids.add(friends.get(i).getID());
-				}
-			}
-		});
-		td.start();
-		try {
-			td.join();
-			myAdapter.notifyDataSetChanged();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 	private void refreshDataFromQuery(final String query)
 	{
@@ -191,73 +164,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_list);
-		
-		
-		
-		/*finalListView.setonRefreshListener(new OnRefreshListener()
-		{
-			public void onRefresh()
-			{
-				new AsyncTask<Void, Void, Void>()
-				{
-					protected Void doInBackground(Void... params) 
-					{
-						try
-						{
-							ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
-							if (friends == null)
-								return null;
-							
-							userNmae.clear();
-							portrait.clear();
-							ids.clear();
-							for (int i = 0; i <friends.size(); i++)
-							{
-								userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
-								bmp = friends.get(i).getPortraitBmp();
-								bmp = CircleBitmap.circleBitmap(bmp);
-								portrait.add(bmp);
-								ids.add(friends.get(i).getID());
-							}
-							Thread.sleep(1000);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
 
-						return null;
-					}
-
-					@Override
-					protected void onPostExecute(Void result)
-					{
-						myAdapter.notifyDataSetChanged();
-						finalListView.Refresh();
-					}
-				}.execute(null, null, null);
-
-				new AsyncTask<Void, Void, Void>()
-				{
-					protected Void doInBackground(Void... params) 
-					{
-						try {
-							Thread.sleep(1000);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
-						return null;
-					}
-
-					@Override
-					protected void onPostExecute(Void result) 
-					{
-						finalListView.onRefreshComplete();
-					}
-				}.execute(null, null, null);
-			}
-		});*/
-		
-		//refreshFriendsData();
 		DownloadPortraitTask dpt = new DownloadPortraitTask();
 		dpt.execute();
 	}
