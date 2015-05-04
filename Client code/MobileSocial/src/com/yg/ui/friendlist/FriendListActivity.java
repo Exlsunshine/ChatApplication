@@ -28,7 +28,7 @@ import com.yg.ui.friendlist.implementation.CircleBitmap;
 import com.yg.ui.friendlist.implementation.FinalListView;
 import com.yg.ui.friendlist.implementation.FinalListView.OnRefreshListener;
 import com.yg.ui.friendlist.implementation.FinalListView.RemoveListener;
-import com.yg.ui.friendlist.implementation.MyAdapter;
+import com.yg.ui.friendlist.implementation.FriendlistAdapter;
 import com.yg.user.FriendUser;
 
 public class FriendListActivity extends Activity implements RemoveListener, OnRefreshListener 
@@ -37,12 +37,12 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	private int firstVisibleItem;
 	private int visibleItemCount;
 	
-	List<String> userNmae = new ArrayList<String>();
-	List<Bitmap> portrait = new ArrayList<Bitmap>();
-	List<Integer> ids = new ArrayList<Integer>();
-	MyAdapter myAdapter = null;
-	FinalListView finalListView = null;
-	Bitmap bmp;
+	private List<String> friendsName = new ArrayList<String>();
+	private List<Bitmap> friendsPortrait = new ArrayList<Bitmap>();
+	private List<Integer> friendsID = new ArrayList<Integer>();
+	private FriendlistAdapter myAdapter = null;
+	private FinalListView finalListView = null;
+	private Bitmap bmp;
 	
 	private class DownloadPortraitTask extends AsyncTask<Void, Void, Void>
 	{
@@ -55,20 +55,20 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		@Override
 		protected Void doInBackground(Void... params)
 		{
-			userNmae.clear();
-			portrait.clear();
-			ids.clear();
+			friendsName.clear();
+			friendsPortrait.clear();
+			friendsID.clear();
 			ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
 			if (friends == null)
 				return null;
 
 			for (int i = 0; i <friends.size(); i++)
 			{
-				userNmae.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
+				friendsName.add(friends.get(i).getAlias() == null ? friends.get(i).getNickName() : friends.get(i).getAlias());
 				bmp = friends.get(i).getPortraitBmp();
 				bmp = CircleBitmap.circleBitmap(bmp);
-				portrait.add(bmp);
-				ids.add(friends.get(i).getID());
+				friendsPortrait.add(bmp);
+				friendsID.add(friends.get(i).getID());
 			}
 			
 			return null;
@@ -96,9 +96,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			@Override
 			public void run() 
 			{
-				userNmae.clear();
-				portrait.clear();
-				ids.clear();
+				friendsName.clear();
+				friendsPortrait.clear();
+				friendsID.clear();
 				ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
 				if (friends == null)
 					return;
@@ -109,11 +109,11 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 					
 					if ((query.length() == 0 || query == null) || (name.toLowerCase().contains(query.toLowerCase())))
 					{
-						userNmae.add(name);
+						friendsName.add(name);
 						bmp = friends.get(i).getPortraitBmp();
 						bmp = CircleBitmap.circleBitmap(bmp);
-						portrait.add(bmp);
-						ids.add(friends.get(i).getID());
+						friendsPortrait.add(bmp);
+						friendsID.add(friends.get(i).getID());
 					}
 				}
 			}
@@ -132,7 +132,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		finalListView = (FinalListView) super.findViewById(R.id.listview);
 		finalListView.setRemoveListener(this);
 
-		myAdapter = new MyAdapter(this, userNmae, portrait);
+		myAdapter = new FriendlistAdapter(this, friendsName, friendsPortrait);
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 		
@@ -182,6 +182,10 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	protected void onPause() 
 	{
 		unregisterReceiver(broadcastReceiver);
+
+		//reload all friends data(in case of leaving this activity while
+		//not cancel the query, that would be a UI bug.)
+		refreshDataFromQuery("");
 		Log.i(DEBUG_TAG, "FriendList pause.");
 		super.onPause();
 	}
@@ -205,7 +209,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				long id)
 		{
 			Intent intent = new Intent(FriendListActivity.this, FriendDetailActivity.class);
-			intent.putExtra("friendUserID", ids.get(position - 2));
+			intent.putExtra("friendUserID", friendsID.get(position - 2));
 			startActivity(intent);
 		}
 	}
@@ -244,7 +248,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 					{
 						Intent it = new Intent("friendlist_query_refresh_complete");
 						it.putExtra("query", intent.getStringExtra("query"));
-						it.putExtra("number", String.valueOf(userNmae.size()));
+						it.putExtra("number", String.valueOf(friendsName.size()));
 						sendBroadcast(it);
 					}
 				}, 800);

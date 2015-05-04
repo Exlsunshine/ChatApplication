@@ -40,10 +40,11 @@ public abstract class AbstractUser
 	{
 		if (portraitBmp == null)
 		{
-			Log.i(DEBUG_TAG, "Downloading portrait at " + portraitUrl);
 			DownloadManager dm = new DownloadManager(portraitUrl);
 			portraitBmp = dm.getBmpFile();
 		}
+		
+		//Log.i(DEBUG_TAG, "Return portrait.");
 		
 		return portraitBmp;
 	}
