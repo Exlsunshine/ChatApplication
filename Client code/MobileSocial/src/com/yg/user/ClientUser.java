@@ -2,6 +2,7 @@ package com.yg.user;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.json.JSONException;
@@ -574,6 +575,9 @@ public class ClientUser extends AbstractUser
 							Integer.parseInt((String) map.get(JSON_INFO_KEY_USER_CLOSE_FRIEND_FLAG)) == 1);
 			friendList.add(friend);
 		}
+		
+		Collections.sort(friendList);
+		
 		printFriendlist();
 	}
 	

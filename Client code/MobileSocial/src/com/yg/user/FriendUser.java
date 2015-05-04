@@ -1,6 +1,8 @@
 package com.yg.user;
 
-public class FriendUser extends AbstractUser
+import com.yg.ui.friendlist.implementation.PinyinUtils;
+
+public class FriendUser extends AbstractUser implements Comparable<FriendUser>
 {
 	private String groupName;
 	private String alias;
@@ -34,4 +36,16 @@ public class FriendUser extends AbstractUser
 	 * @return
 	 */
 	public boolean isCloseFriend() { return closeFriend; }
+
+	@Override
+	public int compareTo(FriendUser another)
+	{
+		String str1 = (alias == null)? nickName : alias + " " + nickName;
+		String str2 = (another.getAlias() == null)? another.getNickName() : another.getAlias() + " " + another.getNickName();
+		
+		String pinyin1 = PinyinUtils.getPinYin(str1);
+		String pinyin2 = PinyinUtils.getPinYin(str2);
+		
+		return pinyin1.compareToIgnoreCase(pinyin2);
+	}
 }
