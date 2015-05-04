@@ -1,16 +1,30 @@
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"  
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#F8F8FF" >
 
-    <com.yg.ui.friendlist.implementation.FinalListView
-        android:id="@+id/listview"  
-    	android:layout_width="fill_parent"  
-        android:layout_height="fill_parent"   
-        android:divider="#DCDCDC"  
-        android:dividerHeight="2px" >  
-    </com.yg.ui.friendlist.implementation.FinalListView>  
+    <TextView
+        android:id="@+id/yg_friendlist_alphabet_indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="#"
+        android:gravity="center"
+        android:visibility="gone" />
 
-</LinearLayout >
+    <com.yg.ui.friendlist.implementation.FinalListView
+        android:id="@+id/listview"
+        android:layout_below="@+id/yg_friendlist_alphabet_indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="#DCDCDC"
+        android:dividerHeight="2px" >
+    </com.yg.ui.friendlist.implementation.FinalListView>
+
+    <com.yg.ui.friendlist.implementation.SlideBar
+        android:id="@+id/yg_friendlist_sliderBar"
+        android:layout_width="30dip"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>

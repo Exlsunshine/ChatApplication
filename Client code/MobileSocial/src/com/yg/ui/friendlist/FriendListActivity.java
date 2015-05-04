@@ -19,6 +19,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
@@ -29,6 +30,8 @@ import com.yg.ui.friendlist.implementation.FinalListView;
 import com.yg.ui.friendlist.implementation.FinalListView.OnRefreshListener;
 import com.yg.ui.friendlist.implementation.FinalListView.RemoveListener;
 import com.yg.ui.friendlist.implementation.FriendlistAdapter;
+import com.yg.ui.friendlist.implementation.SlideBar;
+import com.yg.ui.friendlist.implementation.SlideBar.OnTouchingLetterChangedListener;
 import com.yg.user.FriendUser;
 
 public class FriendListActivity extends Activity implements RemoveListener, OnRefreshListener 
@@ -43,6 +46,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	private FriendlistAdapter myAdapter = null;
 	private FinalListView finalListView = null;
 	private Bitmap bmp;
+	
+	private SlideBar slidebar = null;
+	private TextView indecator = null;
 	
 	private class DownloadPortraitTask extends AsyncTask<Void, Void, Void>
 	{
@@ -129,6 +135,11 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	
 	private void setupLayout()
 	{
+		indecator = (TextView) findViewById(R.id.yg_friendlist_alphabet_indicator);
+				
+		slidebar = (SlideBar) findViewById(R.id.yg_friendlist_sliderBar);
+		slidebar.setOnTouchingLetterChangedListener(new LetterListViewListener());
+		
 		finalListView = (FinalListView) super.findViewById(R.id.listview);
 		finalListView.setRemoveListener(this);
 
@@ -158,6 +169,36 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				FriendListActivity.this.visibleItemCount = visibleItemCount;
 			}
 		});
+	}
+	
+	private class LetterListViewListener implements  OnTouchingLetterChangedListener  
+	{  
+		@Override  
+		public void onTouchingLetterChanged(final String s, float y, float x)  
+		{
+			myAdapter.enableAnimation(false);
+			indecator.setVisibility(View.VISIBLE);
+			indecator.setText(s);
+			for (int i = 0; i < ConstantValues.user.getFriendList().size(); i++)
+			{
+				String fullName = (String)ConstantValues.user.getFriendList().get(i).getFullNameInPinyin();
+				fullName = fullName.toUpperCase();
+				if (fullName.startsWith(String.valueOf(s)))
+				{
+					//I don't know why I always have to set offset 2 to the listview position...
+					//the same situation with onItemClickListener...
+					finalListView.setSelection(i + 2);
+					return ;
+				}
+			}
+		}  
+		
+		@Override  
+		public void onTouchingLetterEnd()  
+		{  
+			myAdapter.enableAnimation(true);
+			indecator.setVisibility(View.GONE);
+		}  
 	}
 	
 	@Override
