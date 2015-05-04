@@ -7,6 +7,8 @@ public class FriendUser extends AbstractUser implements Comparable<FriendUser>
 	private String groupName;
 	private String alias;
 	private boolean closeFriend;
+	private String fullName;
+	private String fullNamePinyin;
 	
 	public FriendUser(int id, String loginAccount, String nickName, String email, String phoneNumber,
 					String sex, String birthday, String portraitUrl, String hometown,
@@ -17,6 +19,8 @@ public class FriendUser extends AbstractUser implements Comparable<FriendUser>
 		this.groupName = groupName;
 		this.alias = alias;
 		this.closeFriend = closeFriend;
+		this.fullName = null;
+		this.fullNamePinyin = null;
 	}
 	
 	/**
@@ -37,15 +41,39 @@ public class FriendUser extends AbstractUser implements Comparable<FriendUser>
 	 */
 	public boolean isCloseFriend() { return closeFriend; }
 
+	/**
+	 * 获取该好友的全名，即用户对这个好友设置的备注名 + 该好友自己设置的昵称<br>
+	 * 格式如：哥哥(张三)
+	 * @return 全名
+	 */
+	public String getFullName()
+	{
+		if (fullName == null)
+		{
+			if (alias != null && alias.length() > 0)
+				fullName = alias + "(" + nickName + ")";
+			else
+				fullName = nickName;
+		}
+
+		return fullName;
+	}
+	
+	/**
+	 * 获取该好友的全名的拼音形式(带数字形式的声调)
+	 * @return 全名的拼音形式
+	 */
+	public String getFullNameInPinyin()
+	{
+		if (fullNamePinyin == null)
+			fullNamePinyin = PinyinUtils.getPinYin(getFullName());
+		
+		return fullNamePinyin;
+	}
+	
 	@Override
 	public int compareTo(FriendUser another)
 	{
-		String str1 = (alias == null)? nickName : alias + " " + nickName;
-		String str2 = (another.getAlias() == null)? another.getNickName() : another.getAlias() + " " + another.getNickName();
-		
-		String pinyin1 = PinyinUtils.getPinYin(str1);
-		String pinyin2 = PinyinUtils.getPinYin(str2);
-		
-		return pinyin1.compareToIgnoreCase(pinyin2);
+		return getFullNameInPinyin().compareToIgnoreCase(another.getFullNameInPinyin());
 	}
 }
