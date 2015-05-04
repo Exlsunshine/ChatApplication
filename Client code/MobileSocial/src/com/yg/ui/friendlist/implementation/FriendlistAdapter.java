@@ -32,6 +32,8 @@ public class FriendlistAdapter extends BaseAdapter
 	private LayoutInflater inflater = null;
 	private int viewWidth = 0;
 	
+	private boolean animationEnabled = true;
+	
 	/**
 	 * minimum milliseconds for the show up animation
 	 */
@@ -100,41 +102,50 @@ public class FriendlistAdapter extends BaseAdapter
 		holder.tvTitle.setText(this.friendsName.get(position));
 		holder.btnIM.setImageBitmap(this.friendsPortrait.get(position));
 
-		int innerAnimationDuration = 80;
-		if (position > firstVisibleItem || (position == 0 && firstVisibleItem == 0))
+		if (animationEnabled)
 		{
-			TranslateAnimation translate = new TranslateAnimation(-3000, 0, 0, 0);
-			
-			int delay = (position - firstVisibleItem - visibleItemCount + 3) * innerAnimationDuration;
-			
-			if (delay <= 0)
-				delay = MIN_ANIM_DURATION;
+			int innerAnimationDuration = 80;
+			if (position > firstVisibleItem || (position == 0 && firstVisibleItem == 0))
+			{
+				TranslateAnimation translate = new TranslateAnimation(-3000, 0, 0, 0);
+				
+				int delay = (position - firstVisibleItem - visibleItemCount + 3) * innerAnimationDuration;
+				
+				if (delay <= 0)
+					delay = MIN_ANIM_DURATION;
+				else
+					delay += MIN_ANIM_DURATION;
+				
+				translate.setDuration(delay);
+				convertView.startAnimation(translate);
+			}
 			else
-				delay += MIN_ANIM_DURATION;
-
-			Log.i(DEBUG_TAG, "Delay is " + String.valueOf(delay) + "Position is " + String.valueOf(position - firstVisibleItem - visibleItemCount + 1));
-
-			translate.setDuration(delay);
-			convertView.startAnimation(translate);
-		}
-		else
-		{
-			TranslateAnimation translate = new TranslateAnimation(3000, 0, 0, 0);
-			
-			int delay = (firstVisibleItem - position) * innerAnimationDuration;
-			
-			if (delay <= 0)
-				delay = MIN_ANIM_DURATION;
-			else
-				delay += MIN_ANIM_DURATION;
-
-			Log.i(DEBUG_TAG, "Delay is " + String.valueOf(delay) + "Position is " + String.valueOf(position - firstVisibleItem - visibleItemCount + 1));
-
-			translate.setDuration(delay);
-			convertView.startAnimation(translate);
+			{
+				TranslateAnimation translate = new TranslateAnimation(3000, 0, 0, 0);
+				
+				int delay = (firstVisibleItem - position) * innerAnimationDuration;
+				
+				if (delay <= 0)
+					delay = MIN_ANIM_DURATION;
+				else
+					delay += MIN_ANIM_DURATION;
+	
+				translate.setDuration(delay);
+				convertView.startAnimation(translate);
+			}
 		}
 		
 		return convertView;
+	}
+	
+	/**
+	 * 开启或关闭动画效果
+	 * @param enable
+	 */
+	public void enableAnimation(boolean enable)
+	{
+		Log.i(DEBUG_TAG, "Set animation as " + enable);
+		animationEnabled = enable;
 	}
 
 	final static class ViewHolder
