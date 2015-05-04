@@ -9,6 +9,12 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 
 public class PinyinUtils
 {
+	/**
+	 * 返回字符串的拼音格式(带数字形式的声调)
+	 * @param str
+	 * @return 字符串的拼音格式<br>
+	 * <b>小写，无空格</b>
+	 */
 	public static String getPinYin(String str)
     {
         HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
