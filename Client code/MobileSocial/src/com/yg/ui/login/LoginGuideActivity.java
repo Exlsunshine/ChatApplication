@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -23,11 +24,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
+import com.yg.commons.ConstantValues;
 import com.yg.ui.MainActivity;
+import com.yg.ui.login.implementation.CrossingAnimation;
 import com.yg.ui.login.implementation.ForgetImplementation;
 import com.yg.ui.login.implementation.LoginImplementation;
 import com.yg.ui.signup.SignupActivity;
@@ -278,9 +283,9 @@ public class LoginGuideActivity extends Activity
 		@Override
 		public void onClick(View arg0) 
 		{
-			Window window = loginDialog.getWindow();
-			EditText email = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_email);
-			EditText password = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_password);
+			final Window window = loginDialog.getWindow();
+			final EditText email = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_email);
+			final EditText password = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_password);
 			String emailStr = email.getText().toString();
 			String pwdStr = password.getText().toString();
 			
@@ -291,10 +296,54 @@ public class LoginGuideActivity extends Activity
 			switch (result)
 			{
 			case 0:
-				loginDialog.cancel();
+				/*loginDialog.cancel();
 				Intent intent = new Intent(LoginGuideActivity.this, MainActivity.class);
 				startActivity(intent);
-				LoginGuideActivity.this.finish();
+				LoginGuideActivity.this.finish();*/
+				
+				runOnUiThread(new Runnable() 
+				{
+					public void run()
+					{
+						loginDialog.setCancelable(false);
+						LinearLayout buttonsLayout = (LinearLayout)window.findViewById(R.id.yg_loginguide_page3_dialog_login_button_layout);
+						buttonsLayout.setVisibility(View.GONE);
+						email.setVisibility(View.GONE);
+						password.setVisibility(View.GONE);
+						
+						RelativeLayout loadingLayout = (RelativeLayout)window.findViewById(R.id.yg_loginguide_page3_dialog_login_loading_layout);
+						loadingLayout.setVisibility(View.VISIBLE);
+						ImageView leftImg = (ImageView)window.findViewById(R.id.yg_loginguide_page3_dialog_login_loading_layout_left_icon);
+						ImageView rightImg = (ImageView)window.findViewById(R.id.yg_loginguide_page3_dialog_login_loading_layout_right_icon);
+						
+						CrossingAnimation ca = new CrossingAnimation(leftImg, rightImg);
+						ca.startAnimation();
+					}
+				});
+				
+				Thread td = new Thread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						//load data first
+						try {
+							Thread.sleep(2000);
+							ConstantValues.user.setContext(LoginGuideActivity.this);
+							ConstantValues.user.getFriendList();
+							ConstantValues.user.getRecentDialogs();
+							
+							Intent intent = new Intent(LoginGuideActivity.this, MainActivity.class);
+							startActivity(intent);
+							LoginGuideActivity.this.finish();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+					}
+				});
+				td.start();
+				
 				break;
 			case 1:
 				email.startAnimation(shake);
