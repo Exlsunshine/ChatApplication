@@ -296,11 +296,7 @@ public class LoginGuideActivity extends Activity
 			switch (result)
 			{
 			case 0:
-				/*loginDialog.cancel();
-				Intent intent = new Intent(LoginGuideActivity.this, MainActivity.class);
-				startActivity(intent);
-				LoginGuideActivity.this.finish();*/
-				
+				//add loading animation
 				runOnUiThread(new Runnable() 
 				{
 					public void run()
