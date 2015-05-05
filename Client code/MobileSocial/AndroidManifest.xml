@@ -154,6 +154,16 @@
         </activity>
         <activity android:name="com.tp.ui.MyselfPostActivity" >
         </activity>
+         <activity android:name="com.lj.settings.ActivitySettings" >
+        </activity>
+        <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" >
+        </activity>
+        <activity android:name="com.lj.setting.userinfo.ActivityAgeSetting" >
+        </activity>
+        <activity android:name="com.lj.setting.userinfo.ActivityHometownSetting" >
+        </activity>
+        <activity android:name="com.lj.setting.userinfo.ActivityPasswordSetting" >
+        </activity>
     </application>
 
 </manifest>

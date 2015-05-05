@@ -70,6 +70,7 @@ public class ConstantValues
 		public static final int GAMESET_HANDLER_DOWNLOAD_IMAGE = 1;
 		public static final int GAMESET_HANDLER_INIT_SONG = 2;
 		public static final int GAMESET_HANDLER_INIT_MOLE = 3;
+		public static final int GAMESET_HANDLER_INIT_GAMETYPE = 4;
 		public static final int GAMESET_REQUESTCODE_SONG = 3;
 
 		public static final String GAMESET_IMAGE_NAME = "EightPuzzleGame.jpg";
@@ -106,12 +107,16 @@ public class ConstantValues
 		public static final int BAZINGABALL_HANDLER_MOVE = 1;
 		public static final int BAZINGABALL_HANDLER_UPDATE_SCORE = 2;
 		public static final int BAZINGABALL_HANDLER_GET_SCORE = 3;
+		
+		public static final int USERSTATISTICS_HANDLER_GETDATA = 1;
 	}
 	
 	public class Configs
 	{
 		public static final String WEBSERVICE_NAMESPACE = "http://network.com";
 		public static final String OPENFIRE_SERVER_IP = "172.18.8.142";
+		public static final String WEBSERVICE_SERVER_IP = "192.168.95.1";
+		public static final int WEBSERVICE_SERVER_PORT = 8080;
 		public static final String WEBSERVICE_ENDPOINT = "http://" + OPENFIRE_SERVER_IP + ":8080/WebServiceProject/services/NetworkHandler";
 		
 		public static final int OPENFIRE_SERVER_PORT = 5222;

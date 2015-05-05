@@ -20,4 +20,12 @@
     <string name="pull_to_refresh_refreshing_label">加载中</string>
     <string name="pull_to_refresh_tap_label">点击刷新</string>
     
+    <string name="lj_achieve_title_1">社交达人</string>
+    <string name="lj_achieve_title_2">动感达人</string>
+    <string name="lj_achieve_title_3">兵临城下</string>
+    <string name="lj_achieve_title_4">固若金汤</string>
+    <string name="lj_achieve_title_5">战无不胜</string>
+    <string name="lj_achieve_title_6">不屈不挠</string>
+    <string name="lj_achieve_title_7">滔滔不绝</string>
+    <string name="lj_achieve_title_8">久经沙场</string>
 </resources>

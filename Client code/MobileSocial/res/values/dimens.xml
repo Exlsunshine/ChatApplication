@@ -3,7 +3,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">8dp</dimen>
     <dimen name="activity_vertical_margin">8dp</dimen>
-	<dimen name="lj_activity_eightpuzzle_imageview_interval">2dp</dimen>
+    <dimen name="lj_activity_eightpuzzle_imageview_interval">2dp</dimen>
     <dimen name="lj_activity_eightpuzzle_imageview_interval2">12dp</dimen>
     <dimen name="lj_activity_eightpuzzle_imageview_size">124dp</dimen>
     <dimen name="lj_activity_text_size">36sp</dimen>
@@ -15,6 +15,17 @@
     <dimen name="lj_activity_songpuzzle_slideway_width">30dp</dimen>
     <dimen name="lj_activity_songpuzzle_slide_height">80dp</dimen>
     <dimen name="lj_activity_songpuzzle_slide_width">80dp</dimen>
-    
     <dimen name="lj_activity_map_text_size">18sp</dimen>
+    <dimen name="lj_userinfo_setting_top_marign">30dp</dimen>
+    <dimen name="lj_userinfo_setting_left_marign">15dp</dimen>
+    <dimen name="lj_userinfo_text_size">20sp</dimen>
+    <dimen name="lj_userinfo_item_height">60dp</dimen>
+    <dimen name="lj_userinfo_item_width">80dp</dimen>
+    <dimen name="lj_userinfo_portrait_height">80dp</dimen>
+    <dimen name="lj_userinfo_item_left_marign">30dp</dimen>
+    <dimen name="lj_game_setting_top_marign">30dp</dimen>
+    <dimen name="lj_game_setting_left_marign">15dp</dimen>
+    <dimen name="lj_game_setting_eightpuzzle_left_marign">30dp</dimen>
+    <dimen name="lj_userinfo_eightpuzzle_image_height">100dp</dimen>
+
 </resources>

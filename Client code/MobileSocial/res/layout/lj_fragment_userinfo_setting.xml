@@ -1,0 +1,392 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lj_setting_background_color" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lj_setting_background_color"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lj_userinfo_setting_top_marign"
+            android:background="@color/lj_setting_background_color"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_cancel"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_confirm"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="完成"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lj_userinfo_setting_top_marign"
+            android:background="@color/lj_setting_background_color"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_portrait_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="头像"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <ImageView
+                    android:id="@+id/lj_userinfo_setting_portrait"
+                    android:layout_width="@dimen/lj_userinfo_portrait_height"
+                    android:layout_height="@dimen/lj_userinfo_portrait_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
+                    android:background="@drawable/ic_launcher"
+                    android:scaleType="fitCenter" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="昵称"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <EditText
+                    android:id="@+id/lj_userinfo_setting_nickname"
+                    style="@style/my_edittext_style"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
+                    android:gravity="center_vertical"
+                    android:text="nickname"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:id="@+id/lj_userinfo_setting_sex_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_sex_text"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="性别"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_sex_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
+                    android:layout_toRightOf="@id/lj_userinfo_setting_sex_text"
+                    android:gravity="center_vertical"
+                    android:text="男"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <ImageView
+                    android:id="@+id/lj_userinfo_setting_sex_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
+                    android:src="@drawable/lj_userinfo_setting_arrow" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:id="@+id/lj_userinfo_setting_age_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_age_text"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="生日"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_age_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
+                    android:layout_toRightOf="@id/lj_userinfo_setting_age_text"
+                    android:gravity="center_vertical"
+                    android:text="1992-02-11"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <ImageView
+                    android:id="@+id/lj_userinfo_setting_age_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
+                    android:src="@drawable/lj_userinfo_setting_arrow" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:id="@+id/lj_userinfo_setting_constellation_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_constellation_text"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="星座"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_constellation_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
+                    android:layout_toRightOf="@id/lj_userinfo_setting_constellation_text"
+                    android:gravity="center_vertical"
+                    android:text="双鱼座"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <ImageView
+                    android:id="@+id/lj_userinfo_setting_constellation_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
+                    android:src="@drawable/lj_userinfo_setting_arrow" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lj_userinfo_setting_top_marign"
+            android:background="@color/lj_setting_background_color"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:id="@+id/lj_userinfo_setting_hometown_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_hometown_text"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="故乡"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_hometown_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
+                    android:layout_toRightOf="@id/lj_userinfo_setting_hometown_text"
+                    android:gravity="center_vertical"
+                    android:text="福建省 福州市 福州市"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <ImageView
+                    android:id="@+id/lj_userinfo_setting_hometown_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
+                    android:src="@drawable/lj_userinfo_setting_arrow" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="手机号"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <EditText
+                    android:id="@+id/lj_userinfo_setting_phone"
+                    style="@style/my_edittext_style"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
+                    android:gravity="center_vertical"
+                    android:inputType="phone"
+                    android:text="13569852365"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:id="@+id/lj_userinfo_setting_password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_password_text"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="修改密码"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <ImageView
+                    android:id="@+id/lj_userinfo_setting_password_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
+                    android:src="@drawable/lj_userinfo_setting_arrow" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lj_userinfo_setting_top_marign"
+            android:background="@color/lj_setting_background_color"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="退出当前帐号"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

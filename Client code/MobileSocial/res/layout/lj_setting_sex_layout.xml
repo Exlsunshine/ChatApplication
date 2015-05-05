@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lj_setting_background_color" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/lj_userinfo_setting_top_marign"
+        android:background="@color/lj_setting_background_color"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:src="@drawable/lj_setting_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/lj_userinfo_item_width"
+                android:layout_height="@dimen/lj_userinfo_item_height"
+                android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                android:gravity="center"
+                android:text="性别"
+                android:textSize="@dimen/lj_userinfo_text_size" />
+
+            <TextView
+                android:id="@+id/lj_sex_setting_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/lj_userinfo_item_height"
+                android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
+                android:gravity="center_vertical"
+                android:text="男"
+                android:textSize="@dimen/lj_userinfo_text_size" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:src="@drawable/lj_setting_line" />
+    </LinearLayout>
+	
+   
+    
+    <com.lj.datapicker.WheelView
+        android:id="@+id/lj_picker_sex"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true"/>
+ <ImageView
+            android:layout_width="match_parent"
+            android:layout_above="@id/lj_picker_sex"
+            android:layout_height="2dp"
+            android:src="@drawable/lj_setting_line" />
+</RelativeLayout>
