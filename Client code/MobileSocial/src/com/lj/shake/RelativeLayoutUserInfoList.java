@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,12 +24,12 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 {
 	private final float MOVE_THREAD = 0.5f;
 	private final float TOUCH_THREAD = 1.5f;
-	private final int SPEED_THREOLD = 500;
+	private final int USERDATALIST_MOVE_THREAD = 5;
 	
 	private FrameLayoutUserInfo gUserInfoViewCenter = null;
 	private FrameLayoutUserInfo gUserInfoViewLeft = null;
 	private FrameLayoutUserInfo gUserInfoViewRight = null;
-	private GestureDetector gestureDetector;
+	
 	private UserDataModel gUserData = null;
 	private int gViewWidth = 0;
 	private int gViewHeight = 0;
@@ -44,8 +43,6 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 	private boolean flag = true;
 	
 	private Handler gHandler;
-	
-	
 	
 	private AnimationListener viewTranslateFalseListener = new AnimationListener() 
 	{
@@ -76,50 +73,23 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 		}
 	};
 	
-	private void startTranslateAnimation(int offset)
-	{
-		TranslateAnimation animation = new TranslateAnimation(0, offset, 0, 0);
-		animation.setDuration(300);
-		animation.setAnimationListener(viewTranslateFalseListener);
-		gUserInfoViewRight.startAnimation(animation);
-		gUserInfoViewCenter.startAnimation(animation);
-		gUserInfoViewLeft.startAnimation(animation);
-	}
-	
-	GestureDetector.OnGestureListener onGestureListener = new GestureDetector.SimpleOnGestureListener()
-	{
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) 
-		{
-		
-			if (Math.abs(velocityX) - Math.abs(velocityY) >= SPEED_THREOLD)
-			{
-				int x = (int) gUserInfoViewCenter.getX();
-				if (velocityX > 0)
-				{
-					startTranslateAnimation(gRightLeft - x);
-					gUserData.gotoPrior();
-					return true;
-				}
-				else
-				{
-					startTranslateAnimation(gLeftLeft - x);
-					gUserData.gotoNext();
-					return true;
-				}
-			}
-			return false;
-		};
-	};
 	private OnTouchListener userInfoCenterOnTouchListener = new OnTouchListener() 
 	{
 		private int touchX;
 		
+		private void startTranslateAnimation(int offset)
+		{
+			TranslateAnimation animation = new TranslateAnimation(0, offset, 0, 0);
+			animation.setDuration(300);
+			animation.setAnimationListener(viewTranslateFalseListener);
+			gUserInfoViewRight.startAnimation(animation);
+			gUserInfoViewCenter.startAnimation(animation);
+			gUserInfoViewLeft.startAnimation(animation);
+		}
 		
 		@Override
 		public boolean onTouch(View v, MotionEvent event)
 		{
-			if (gestureDetector.onTouchEvent(event))
-				return true;
 			int action = event.getAction();
 			if (action == MotionEvent.ACTION_DOWN)
 			{
@@ -134,11 +104,15 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 			}
 			else if (action == MotionEvent.ACTION_MOVE)
 			{
+				
 				int dx = (int)event.getX()- touchX;
-	            int left = gUserInfoViewCenter.getLeft() + dx;
-	            gUserInfoViewCenter.layout(left, gTop, left + gUserInfoViewCenter.getWidth(), gTop + gUserInfoViewCenter.getHeight());
-	            gUserInfoViewLeft.layout(gUserInfoViewLeft.getLeft() + dx, gTop, gUserInfoViewLeft.getLeft() + dx + gViewWidth, gTop + gViewHeight);
-	            gUserInfoViewRight.layout(gUserInfoViewRight.getLeft() + dx, gTop, gUserInfoViewRight.getLeft() + dx + gViewWidth, gTop + gViewHeight);
+				if (Math.abs(dx) >= USERDATALIST_MOVE_THREAD)
+				{
+					int left = gUserInfoViewCenter.getLeft() + dx;
+		            gUserInfoViewCenter.layout(left, gTop, left + gUserInfoViewCenter.getWidth(), gTop + gUserInfoViewCenter.getHeight());
+		            gUserInfoViewLeft.layout(gUserInfoViewLeft.getLeft() + dx, gTop, gUserInfoViewLeft.getLeft() + dx + gViewWidth, gTop + gViewHeight);
+		            gUserInfoViewRight.layout(gUserInfoViewRight.getLeft() + dx, gTop, gUserInfoViewRight.getLeft() + dx + gViewWidth, gTop + gViewHeight);
+				}
 			}
 			else if (action == MotionEvent.ACTION_UP)
 			{
@@ -167,7 +141,6 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 		@Override
 		public boolean onTouch(View v, MotionEvent event) 
 		{
-			gestureDetector.onTouchEvent(event);
 			int action = event.getAction();
 			userInfoCenterOnTouchListener.onTouch(v, event);
 			if (action == MotionEvent.ACTION_DOWN)
@@ -217,7 +190,6 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 	private void init(Context context)
 	{
 		LayoutInflater.from(context).inflate(R.layout.lj_map_userinfo_list, this, true);
-		gestureDetector = new GestureDetector(onGestureListener);
 	}
 	
 	public void initView(Context context, int width, ArrayList<UserShakeData> data, Handler handler)

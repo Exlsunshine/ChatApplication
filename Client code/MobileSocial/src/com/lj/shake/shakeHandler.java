@@ -208,6 +208,7 @@ public class shakeHandler extends Handler
 			myContext.gMaleSelect.setVisibility(View.VISIBLE);*/
 			myContext.gFemaleSelect.bringToFront();
 			myContext.gMaleSelect.bringToFront();
+			myContext.findViewById(R.id.lj_map_linear).bringToFront();
 			myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
 			myContext.gMaleSelect.setOnClickListener(gSexClickListener);
 			gUserShakeDataList = (ArrayList<UserShakeData>) msg.obj;

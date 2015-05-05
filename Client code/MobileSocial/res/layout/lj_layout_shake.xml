@@ -3,35 +3,45 @@
     android:id="@+id/lj_shake_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <LinearLayout 
+
+    <LinearLayout
         android:id="@+id/lj_map_male_female_layout"
-        android:visibility="invisible"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:gravity="right"
         android:orientation="vertical"
-        android:gravity="right">
-        <ImageView 
+        android:visibility="invisible" >
+
+        <ImageView
             android:id="@+id/lj_map_male"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/lj_map_male_unselect"/>
-        <ImageView 
+            android:src="@drawable/lj_map_male_unselect" />
+
+        <ImageView
             android:id="@+id/lj_map_female"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/lj_map_female_unselect"/>
+            android:src="@drawable/lj_map_female_unselect" />
     </LinearLayout>
-    
-	<com.lj.shake.RelativeLayoutUserInfoList
-        android:id="@+id/lj_map_userinfo"
-   	    android:layout_width="fill_parent"
-   	    android:layout_alignParentBottom="true"
-   	    android:layout_marginBottom="10dp"
-   	    android:layout_height="100dp"
-   	    android:visibility="invisible"/>
+
+    <LinearLayout
+        android:id="@+id/lj_map_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <com.lj.shake.RelativeLayoutUserInfoList
+            android:id="@+id/lj_map_userinfo"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="invisible" />
+    </LinearLayout>
+
 </RelativeLayout>
