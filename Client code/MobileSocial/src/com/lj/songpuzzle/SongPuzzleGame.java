@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.kobjects.base64.Base64;
 
+import com.yg.user.DownloadManager;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -25,7 +27,9 @@ public class SongPuzzleGame
 			HashMap<String, Object> map = songData.get(i);
 			gAnswer[i] = map.get("song").toString();
 			gChoiceChar[i] = map.get("char").toString();
-			gAMRPlayer[i] = new AMRPlayer(Base64.decode(map.get("record").toString()));
+			String url = map.get("url").toString();
+			DownloadManager manager = new DownloadManager(url);
+			gAMRPlayer[i] = new AMRPlayer(manager.getAudioFile());
 		}
 	}
 	
@@ -46,11 +50,15 @@ public class SongPuzzleGame
 	
 	public void stop()
 	{
+		if (gCurrentIndex == gAnswer.length)
+			return;
 		gAMRPlayer[gCurrentIndex].stop();
 	}
 	
 	public void play(Context context)
 	{
+		if (gCurrentIndex == gAnswer.length)
+			return;
 		gAMRPlayer[gCurrentIndex].play(context);
 	}
 	

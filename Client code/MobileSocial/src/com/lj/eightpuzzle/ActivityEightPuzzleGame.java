@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.testmobiledatabase.R;
-import com.lj.gameSetting.ThreadDownloadGameImage;
 import com.lj.satellitemenu.SatelliteMenu;
 import com.lj.satellitemenu.SatelliteMenuItem;
 import com.lj.satellitemenu.SatelliteMenu.SateliteClickedListener;

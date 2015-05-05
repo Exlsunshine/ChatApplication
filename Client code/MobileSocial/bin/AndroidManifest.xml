@@ -54,7 +54,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="vocLIrS7d3C4mWHdCOUuLxx3" />
+            android:value="QE0CcmzMbOQNNrHW6GH7mEGv" />
 
         <activity
             android:name="com.yg.ui.login.WelcomeActivity"
@@ -153,6 +153,16 @@
         <activity android:name="com.tp.ui.SendPostActivity" >
         </activity>
         <activity android:name="com.tp.ui.MyselfPostActivity" >
+        </activity>
+         <activity android:name="com.lj.settings.ActivitySettings" >
+        </activity>
+        <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" >
+        </activity>
+        <activity android:name="com.lj.setting.userinfo.ActivityAgeSetting" >
+        </activity>
+        <activity android:name="com.lj.setting.userinfo.ActivityHometownSetting" >
+        </activity>
+        <activity android:name="com.lj.setting.userinfo.ActivityPasswordSetting" >
         </activity>
     </application>
 

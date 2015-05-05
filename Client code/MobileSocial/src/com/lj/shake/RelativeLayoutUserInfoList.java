@@ -24,6 +24,7 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 {
 	private final float MOVE_THREAD = 0.5f;
 	private final float TOUCH_THREAD = 1.5f;
+	private final int USERDATALIST_MOVE_THREAD = 5;
 	
 	private FrameLayoutUserInfo gUserInfoViewCenter = null;
 	private FrameLayoutUserInfo gUserInfoViewLeft = null;
@@ -103,11 +104,15 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 			}
 			else if (action == MotionEvent.ACTION_MOVE)
 			{
+				
 				int dx = (int)event.getX()- touchX;
-	            int left = gUserInfoViewCenter.getLeft() + dx;
-	            gUserInfoViewCenter.layout(left, gTop, left + gUserInfoViewCenter.getWidth(), gTop + gUserInfoViewCenter.getHeight());
-	            gUserInfoViewLeft.layout(gUserInfoViewLeft.getLeft() + dx, gTop, gUserInfoViewLeft.getLeft() + dx + gViewWidth, gTop + gViewHeight);
-	            gUserInfoViewRight.layout(gUserInfoViewRight.getLeft() + dx, gTop, gUserInfoViewRight.getLeft() + dx + gViewWidth, gTop + gViewHeight);
+				if (Math.abs(dx) >= USERDATALIST_MOVE_THREAD)
+				{
+					int left = gUserInfoViewCenter.getLeft() + dx;
+		            gUserInfoViewCenter.layout(left, gTop, left + gUserInfoViewCenter.getWidth(), gTop + gUserInfoViewCenter.getHeight());
+		            gUserInfoViewLeft.layout(gUserInfoViewLeft.getLeft() + dx, gTop, gUserInfoViewLeft.getLeft() + dx + gViewWidth, gTop + gViewHeight);
+		            gUserInfoViewRight.layout(gUserInfoViewRight.getLeft() + dx, gTop, gUserInfoViewRight.getLeft() + dx + gViewWidth, gTop + gViewHeight);
+				}
 			}
 			else if (action == MotionEvent.ACTION_UP)
 			{

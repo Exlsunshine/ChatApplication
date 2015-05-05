@@ -4,8 +4,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import Decoder.BASE64Encoder;
 
+import com.commonapi.ConstantValues;
 import com.commonapi.PackString;
 import com.database.SQLServerEnd;
 
@@ -67,10 +69,13 @@ public class GameSong {
 			HashMap<String, String> item = new HashMap<String, String>();
 			String song = map.get("song");
 			item.put("song", song);
+			
 			String path = map.get("song_path");
 			System.out.println(i +" " + path + "ss " + song);
-			String record = audio2String(path);
-			item.put("record", record);
+			path = path.replace("C:/Users/USER007/Desktop/IM/data/", "");
+			String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+					+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + path;
+			item.put("url", audioUrl);
 			item.put("char", getCharList(song));
 			result.add(item);
 		}

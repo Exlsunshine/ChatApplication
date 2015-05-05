@@ -19,6 +19,7 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -35,6 +36,9 @@ public class ActivityShake extends Activity
 	public LoadingView loadingView;
 	public MapView mapView;
 	public BaiduMap baiduMap;
+	
+	public ImageView gMaleSelect;
+	public ImageView gFemaleSelect;
 	
 	public shakeListener shakelistener;
 	public locationListener locationlistener;
@@ -68,6 +72,9 @@ public class ActivityShake extends Activity
 		mainLayout.addView(mapView);
 		
 		userDataListView = (RelativeLayoutUserInfoList)findViewById(R.id.lj_map_userinfo);
+		
+		gMaleSelect = (ImageView)findViewById(R.id.lj_map_male);
+		gFemaleSelect = (ImageView)findViewById(R.id.lj_map_female);
 		
 /*		userDataListView = new RelativeLayoutUserInfoList(this);
 		RelativeLayout.LayoutParams layout = new LayoutParams(LayoutParams.FILL_PARENT, 100);
