@@ -217,7 +217,13 @@ public class SendPostActivity extends Activity
 						try 
 						{
 							fis = new FileInputStream(picturePath);
-							postphoto = BitmapFactory.decodeStream(fis);
+							BitmapFactory.Options options = new BitmapFactory.Options();
+							options.inPurgeable = true;
+							options.inInputShareable = true;
+							options.inSampleSize = 8;
+							
+							postphoto = BitmapFactory.decodeStream(fis, null, options);
+							//postphoto = BitmapFactory.decodeStream(fis);
 						} 
 						catch (FileNotFoundException e) 
 						{
