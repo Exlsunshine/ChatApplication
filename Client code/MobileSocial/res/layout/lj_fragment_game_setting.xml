@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lj_setting_background_color"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lj_userinfo_setting_top_marign"
+            android:background="@color/lj_setting_background_color"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/lj_game_setting_cancel"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <TextView
+                    android:id="@+id/lj_game_setting_confirm"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="完成"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lj_game_setting_top_marign"
+            android:background="@color/lj_setting_background_color"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/lj_game_setting_left_marign"
+                    android:gravity="center"
+                    android:text="声音"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <Switch
+                    android:id="@+id/lj_game_setting_sound_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/lj_game_setting_left_marign" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/lj_game_setting_left_marign"
+                    android:gravity="center"
+                    android:text="震动"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <Switch
+                    android:id="@+id/lj_game_setting_shake_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/lj_game_setting_left_marign" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lj_game_setting_top_marign"
+            android:background="@color/lj_setting_background_color"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <Switch
+                    android:id="@+id/lj_game_setting_eightpuzzle_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/lj_game_setting_left_marign" />
+
+                <TextView
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/lj_game_setting_eightpuzzle_left_marign"
+                    android:layout_toRightOf="@id/lj_game_setting_eightpuzzle_switch"
+                    android:gravity="center"
+                    android:text="更换图像"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <ImageView
+                    android:id="@+id/lj_game_setting_eightpuzzle_image"
+                    android:layout_width="@dimen/lj_userinfo_eightpuzzle_image_height"
+                    android:layout_height="@dimen/lj_userinfo_eightpuzzle_image_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/lj_game_setting_left_marign"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_launcher" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <Switch
+                    android:id="@+id/lj_game_setting_song_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/lj_game_setting_left_marign" />
+
+                <TextView
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/lj_game_setting_eightpuzzle_left_marign"
+                    android:layout_toRightOf="@id/lj_game_setting_song_switch"
+                    android:gravity="center"
+                    android:text="音乐游戏描述"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <Switch
+                    android:id="@+id/lj_game_setting_bazinga_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/lj_game_setting_left_marign" />
+
+                <TextView
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/lj_game_setting_eightpuzzle_left_marign"
+                    android:layout_toRightOf="@id/lj_game_setting_bazinga_switch"
+                    android:gravity="center"
+                    android:text="气泡游戏描述"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/lj_game_setting_left_marign"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/lj_game_setting_bazinga_score"
+                        android:layout_width="@dimen/lj_userinfo_item_width"
+                        android:layout_height="@dimen/lj_userinfo_item_height"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textSize="@dimen/lj_userinfo_text_size" />
+
+                    <TextView
+                        android:id="@+id/lj_game_setting_bazinga_begin"
+                        android:layout_width="@dimen/lj_userinfo_item_width"
+                        android:layout_height="@dimen/lj_userinfo_item_height"
+                        android:gravity="center"
+                        android:text="再挑战"
+                        android:textSize="@dimen/lj_userinfo_text_size" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

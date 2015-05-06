@@ -30,6 +30,7 @@ import android.os.SystemClock;
 import android.sax.StartElementListener;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +40,45 @@ public class shakeHandler extends Handler
 	private int viewY;
 	ActivityShake myContext;
 	ArrayList<UserShakeData> gUserShakeDataList = null;
+	ArrayList<UserShakeData> gUserShakeDataListMale = null;
+	ArrayList<UserShakeData> gUserShakeDataListFemale = null;
+	
+	private final int SEX_MALE = 1;
+	private final int SEX_FEMALE = 2;
+	private final int SEX_NONE = 0;
+	private int gSexStatus = SEX_NONE;
 
+	private OnClickListener gSexClickListener = new OnClickListener() 
+	{
+		@Override
+		public void onClick(View v) 
+		{
+			int id = v.getId();
+			myContext.baiduMap.clear();
+			if (id == R.id.lj_map_female && gSexStatus != SEX_FEMALE)
+			{ 
+				gSexStatus = SEX_FEMALE;
+				locateUsers(gUserShakeDataListFemale);
+				myContext.gFemaleSelect.setImageResource(R.drawable.lj_map_female_select);
+				myContext.gMaleSelect.setImageResource(R.drawable.lj_map_male_unselect);
+			}
+			else if (id == R.id.lj_map_male && gSexStatus != SEX_MALE)
+			{
+				gSexStatus = SEX_MALE;
+				locateUsers(gUserShakeDataListMale);
+				myContext.gFemaleSelect.setImageResource(R.drawable.lj_map_female_unselect);
+				myContext.gMaleSelect.setImageResource(R.drawable.lj_map_male_select);
+			}
+			else if ((id == R.id.lj_map_female && gSexStatus == SEX_FEMALE) || (id == R.id.lj_map_male && gSexStatus == SEX_MALE))
+			{
+				gSexStatus = SEX_NONE;
+				locateUsers(gUserShakeDataList);
+				myContext.gFemaleSelect.setImageResource(R.drawable.lj_map_female_unselect);
+				myContext.gMaleSelect.setImageResource(R.drawable.lj_map_male_unselect);
+			}
+		}
+	};
+	
 	public shakeHandler(ActivityShake context) 
 	{ 
 		myContext = context;
@@ -84,6 +123,7 @@ public class shakeHandler extends Handler
         Bitmap bitmap = view.getDrawingCache(true);  
         return bitmap;  
     }
+	
 	private void locateOtherLocation(UserShakeData userShakeData, int index)
 	{ 
 		LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
@@ -103,18 +143,6 @@ public class shakeHandler extends Handler
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("index", index);
 		marker.setExtraInfo(bundle);
-		/*
-		if (sex.equals("female"))      
-			markIcon = BitmapDescriptorFactory.fromResource(R.drawable.lj_map_female_location);
-		else
-			markIcon = BitmapDescriptorFactory.fromResource(R.drawable.lj_map_male_location);  
-		OverlayOptions option = new MarkerOptions().position(cenpt).icon(markIcon);
-		Marker marker = (Marker)myContext.baiduMap.addOverlay(option); 
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("nickname", userShakeData.getNickName());
-		bundle.putSerializable("userID", userShakeData.getUserId());
-		bundle.putSerializable("gametype", userShakeData.getGameType());
-		marker.setExtraInfo(bundle);*/
 	}
 	
 	private void locateUsers(ArrayList<UserShakeData> userShakeDataList)
@@ -140,6 +168,20 @@ public class shakeHandler extends Handler
 		}
 	}
 	
+	private void initUserShakeData()
+	{
+		gUserShakeDataListFemale = new ArrayList<UserShakeData>();
+		gUserShakeDataListMale = new ArrayList<UserShakeData>();
+		for (int i = 0; i < gUserShakeDataList.size(); i++)
+		{
+			UserShakeData temp = gUserShakeDataList.get(i);
+			if (temp.getSex().equals("male"))
+				gUserShakeDataListMale.add(temp);
+			else
+				gUserShakeDataListFemale.add(temp);
+		}
+	}
+	
 	@Override
 	public void handleMessage(Message msg) 
 	{
@@ -162,8 +204,18 @@ public class shakeHandler extends Handler
 			myContext.mapView.setVisibility(View.VISIBLE);
 			myContext.userDataListView.setVisibility(View.VISIBLE);
 			myContext.userDataListView.bringToFront();
+	/*		myContext.gFemaleSelect.setVisibility(View.VISIBLE);
+			myContext.gMaleSelect.setVisibility(View.VISIBLE);*/
+			myContext.gFemaleSelect.bringToFront();
+			myContext.gMaleSelect.bringToFront();
+			myContext.findViewById(R.id.lj_map_linear).bringToFront();
+			myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
+			myContext.gMaleSelect.setOnClickListener(gSexClickListener);
 			gUserShakeDataList = (ArrayList<UserShakeData>) msg.obj;
+			myContext.findViewById(R.id.lj_map_male_female_layout).bringToFront();
+			myContext.findViewById(R.id.lj_map_male_female_layout).setVisibility(View.VISIBLE);
 			locateUsers(gUserShakeDataList);
+			initUserShakeData();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_SHAKE_SENSOR:
 			myContext.vibrator.vibrate(ConstantValues.InstructionCode.VIBRATE_TIME);
@@ -202,7 +254,13 @@ public class shakeHandler extends Handler
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_CHANGE_MARK:
 			int indexs = msg.arg1;
-			UserShakeData userShakeDatas = gUserShakeDataList.get(indexs);
+			UserShakeData userShakeDatas = null;//gUserShakeDataList.get(indexs);
+			if (gSexStatus == SEX_MALE)
+				userShakeDatas = gUserShakeDataListMale.get(indexs);
+			else if (gSexStatus == SEX_FEMALE)
+				userShakeDatas = gUserShakeDataListFemale.get(indexs);
+			else
+				userShakeDatas = gUserShakeDataList.get(indexs);
 			LatLng cenpts = new LatLng(userShakeDatas.getLatitude() ,userShakeDatas.getLongitude());
 			locatePotin(cenpts);
 			break;

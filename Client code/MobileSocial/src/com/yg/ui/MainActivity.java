@@ -44,7 +44,7 @@ import com.example.testmobiledatabase.R;
 import com.lj.satellitemenu.SatelliteMenu;
 import com.lj.satellitemenu.SatelliteMenu.SateliteClickedListener;
 import com.lj.satellitemenu.SatelliteMenuItem;
-import com.lj.settings.ActivitySetting;
+import com.lj.settings.ActivitySettings;
 import com.lj.shake.ActivityShake;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.SendPostActivity;
@@ -118,11 +118,14 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		mask = (ImageView)findViewById(R.id.main_activity_mask);
 		
 		centerControlMenu = (SatelliteMenu)findViewById(R.id.lj_menu);
+		centerControlMenu.setMainImage(R.drawable.sat_main_style2);
+		/*
 		centerControlMenu.setSatelliteDistance(340);
 		centerControlMenu.setMainImage(R.drawable.sat_main_style2);
 		centerControlMenu.setTotalSpacingDegree(180);
 		centerControlMenu.setCloseItemsOnClick(true);
 		centerControlMenu.setExpandDuration(500);
+		*/
 		centerControlMenu.setMaskView(mask);
 		
 		List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
@@ -167,7 +170,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 						else if (id == MENU_PROFILE_INDEX)
 						{
 							Intent intent = new Intent();
-							intent.setClass(MainActivity.this, ActivitySetting.class);
+							intent.setClass(MainActivity.this, ActivitySettings.class);
 							startActivity(intent);
 						}
 					}

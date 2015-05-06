@@ -1,6 +1,7 @@
 package com.lj.gameSetting;
 
 
+import com.lj.eightpuzzle.WebEightPuzzleImageTransfer;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 

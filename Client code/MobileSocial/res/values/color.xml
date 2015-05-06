@@ -57,4 +57,7 @@
     <color name="sleep_dialog_time">#ff675475</color>
     <color name="sleep_duration_message">#ff462e59</color>
     
+    <color name="lj_touch_color">#DDDDDD</color>
+    <color name="lj_setting_background_color">#F8F9FA</color>
+    
 </resources>

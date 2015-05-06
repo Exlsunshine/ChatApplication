@@ -31,6 +31,15 @@ public class ConstantValues {
 		//Tp
 		public static final String POST_TYPE_TEXT = "1";
 		public static final String POST_TYPE_IMAGE = "2";
+		
+		//LJ
+		public static final int STATISTICS_FRIENDS_NUM_TYPE = 0;
+		public static final int STATISTICS_SHAKE_NUM_TYPE = 1;
+		public static final int STATISTICS_GAME_CHALLENGED_SUCCESS_TYPE = 2;
+		public static final int STATISTICS_GAME_CHALLENGED_FAIL_TYPE = 3;
+		public static final int STATISTICS_GAME_CHALLENG_SUCCESS_TYPE = 4;
+		public static final int STATISTICS_GAME_CHALLENG_FAIL_TYPE = 5;
+		public static final int STATISTICS_VOICE_NUM_TYPE = 6;
 	}
 
 	public class Configs 
@@ -42,7 +51,7 @@ public class ConstantValues {
 		public static final String MESSAGE_AUDIO_HEAD = "0x213";
 		public static final String MESSAGE_IMAGE_HEAD = "0x213";
 		
-		public static final String TORNADO_SERVER_IP = "172.18.8.142";
+		public static final String TORNADO_SERVER_IP = "192.168.95.1";
 		public static final String TORNADO_SERVER_PORT = "8887";
 		
 		public static final String DATABASE_SERVER_IP = "172.18.8.142";

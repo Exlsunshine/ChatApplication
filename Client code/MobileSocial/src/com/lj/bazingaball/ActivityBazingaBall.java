@@ -36,6 +36,8 @@ public class ActivityBazingaBall extends Activity
 {
 	private final int MAX_VELOCITY = 6;   //max velocity of random velocity
 	public static final int BUTTON_SIZE = 500;  //initial button's size
+	public static final int BAZINGABALL_REQUEST_CODE = 0x10;
+	public static final int BAZINGABALL_RESULT_CODE = 0x11;
 	private final int UPLEFT = 0x00;
 	private final int UPRIGHT = 0x01;
 	private final int BOTTOMLEFT = 0x10;
@@ -60,6 +62,7 @@ public class ActivityBazingaBall extends Activity
 	private ThreadUpdateScore gThreadUpdateScore;
 	
 	private int userID;
+	private int gRequestCode = 0;
 	
 	Handler myhandler = new Handler()
 	{
@@ -99,26 +102,53 @@ public class ActivityBazingaBall extends Activity
 					layout.addRule(RelativeLayout.CENTER_IN_PARENT);
 					gameOverText.setLayoutParams(layout);
 					int myScore = Integer.valueOf(myScoreTextView.getText().toString());
-					String str = "游戏结束\r\n" + "您当前得分：" + myScore + "\r\n" + "您挑战对象得分：" + goalScore + "\r\n";
-					if (myScore >= goalScore)
+					if (gRequestCode != BAZINGABALL_REQUEST_CODE)
 					{
-						str += "恭喜您挑战成功\r\n" + "请点击叉子气泡浏览信息";
-						isWin = true;
+						String str = "游戏结束\r\n" + "您当前得分：" + myScore + "\r\n" + "您挑战对象得分：" + goalScore + "\r\n";
+						if (myScore >= goalScore)
+						{
+							str += "恭喜您挑战成功\r\n" + "请点击叉子气泡浏览信息";
+							isWin = true;
+						}
+						else
+						{
+							str += "很遗憾您挑战失败\r\n" + "请点击叉子退出游戏";
+							isWin = false;
+						}
+						gameOverText.setGravity(Gravity.CENTER);
+						gameOverText.setText(str);
+						gameOverText.setTextColor(Color.WHITE);
+						mainlayout.addView(gameOverText);
+						
+						for (int i = 0; i < buttonset.size(); i++)
+						{
+							BazingaButton a = buttonset.get(i);
+							a.viewtype = BazingaButton.COLLISION_VIEW;
+						}
 					}
 					else
 					{
-						str += "很遗憾您挑战失败\r\n" + "请点击叉子退出游戏";
-						isWin = false;
-					}
-					gameOverText.setGravity(Gravity.CENTER);
-					gameOverText.setText(str);
-					gameOverText.setTextColor(Color.WHITE);
-					mainlayout.addView(gameOverText);
-					
-					for (int i = 0; i < buttonset.size(); i++)
-					{
-						BazingaButton a = buttonset.get(i);
-						a.viewtype = BazingaButton.COLLISION_VIEW;
+						String str = "游戏结束\r\n" + "您当前得分：" + myScore + "\r\n" + "您最高得分：" + goalScore + "\r\n";
+						if (myScore >= goalScore)
+						{
+							str += "恭喜您挑战成功\r\n" + "请点击叉子气泡返回上级";
+							isWin = true;
+						}
+						else
+						{
+							str += "很遗憾您挑战失败\r\n" + "请点击叉子返回上级";
+							isWin = false;
+						}
+						gameOverText.setGravity(Gravity.CENTER);
+						gameOverText.setText(str);
+						gameOverText.setTextColor(Color.WHITE);
+						mainlayout.addView(gameOverText);
+						
+						for (int i = 0; i < buttonset.size(); i++)
+						{
+							BazingaButton a = buttonset.get(i);
+							a.viewtype = BazingaButton.COLLISION_VIEW;
+						}
 					}
 				}
 				return;
@@ -219,7 +249,6 @@ public class ActivityBazingaBall extends Activity
 		{
 			if (event.getAction() == MotionEvent.ACTION_DOWN)
 			{
-				
 				if (((BazingaButton)v).isAlive())
 				{
 					mainlayout.removeView(v);
@@ -230,12 +259,39 @@ public class ActivityBazingaBall extends Activity
 						mainlayout.addView(btnarray[i]);
 				}
 				else if (!((BazingaButton)v).isAlive() && gamebegin == 2)
-					if (isWin)
-						Toast.makeText(ActivityBazingaBall.this, "Win", Toast.LENGTH_LONG).show();
+				{
+					if (gRequestCode != BAZINGABALL_REQUEST_CODE)
+					{
+						if (isWin)
+							Toast.makeText(ActivityBazingaBall.this, "Win", Toast.LENGTH_LONG).show();
+						else
+							Toast.makeText(ActivityBazingaBall.this, "Lose", Toast.LENGTH_LONG).show();
+					}
 					else
-						Toast.makeText(ActivityBazingaBall.this, "Lose", Toast.LENGTH_LONG).show();
+					{
+						if (isWin)
+						{
+							int myScore = Integer.valueOf(myScoreTextView.getText().toString());
+							Intent intent = new Intent();
+							intent.putExtra("score", myScore);
+							setResult(BAZINGABALL_RESULT_CODE, intent);
+							iniMode();
+							reStart();
+							finish();
+						}
+						else
+						{
+							Intent intent = new Intent();
+							intent.putExtra("score", goalScore);
+							setResult(BAZINGABALL_RESULT_CODE, intent);
+							iniMode();
+							reStart();
+							finish();
+						}
+					}
+				}
 			}
-			return false;
+			return true;
 		}
 	};
 	
@@ -340,6 +396,7 @@ public class ActivityBazingaBall extends Activity
 		init();
 		Intent intent = getIntent();
 //		goalScore = intent.getIntExtra("goalScore", 50);
+		gRequestCode = intent.getIntExtra("requestCode", 0);
 		userID = intent.getIntExtra("userID", 0);
 	}
 
@@ -353,17 +410,9 @@ public class ActivityBazingaBall extends Activity
 			phoneWidth = mainlayout.getMeasuredWidth();
 			phoneHeight = mainlayout.getMeasuredHeight();
 			initMoleScore();
-			
 		}
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
-		//getMenuInflater().inflate(R.menu.main, menu);  
-		//return super.onCreateOptionsMenu(menu);
-		return false;
-	}
 	
 	private void iniMode()
 	{
@@ -380,12 +429,6 @@ public class ActivityBazingaBall extends Activity
 		mainlayout.removeAllViews();
 		buttonset.clear();
 		setStartView();
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override

@@ -28,10 +28,12 @@ import com.yg.network.openfire.OpenfireHandler;
 public class ClientUser extends AbstractUser
 {
 	private final static String DEBUG_TAG = "______ClientUser";
+	private final static String PACKAGE_NAME = "network.com";
+	private final static String CLASS_NAME = "NetworkHandler";
 	private Context context;
 	private OpenfireHandler ofhandler;
 	private Handler msgHandler;
-	private WebServiceAPI wsAPI = new WebServiceAPI("network.com", "NetworkHandler");
+	
 	
 	private String JSON_INFO_KEY_USER_FRIENDS_LIST = "friends_list";
 	private String JSON_INFO_KEY_USER_ID = "user_id";
@@ -169,7 +171,7 @@ public class ClientUser extends AbstractUser
 		params[1] = "password";
 		vlaues[0] = this.id;
 		vlaues[1] = password;
-		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setPassword", params, vlaues);
 		
 		Log.e("______", ret.toString());
@@ -187,7 +189,7 @@ public class ClientUser extends AbstractUser
 		params[1] = "nickName";
 		vlaues[0] = this.id;
 		vlaues[1] = nickName;
-		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setNickName", params, vlaues);
 
 		this.nickName = nickName;
@@ -206,7 +208,7 @@ public class ClientUser extends AbstractUser
 		params[1] = "email";
 		vlaues[0] = this.id;
 		vlaues[1] = email;
-		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setEmail", params, vlaues);
 
 		this.email = email;
@@ -226,6 +228,7 @@ public class ClientUser extends AbstractUser
 		vlaues[0] = this.id;
 		vlaues[1] = sex;
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setSex", params, vlaues);
 		
 		this.sex = sex;
@@ -245,6 +248,7 @@ public class ClientUser extends AbstractUser
 		vlaues[0] = this.id;
 		vlaues[1] = birthday;
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setBirthday", params, vlaues);
 		
 		this.birthday = birthday;
@@ -269,6 +273,8 @@ public class ClientUser extends AbstractUser
 			Object [] vlaues = new Object[1];
 			params[0] = "userID";
 			vlaues[0] = this.id;
+			
+			WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 			Object ret = wsAPI.callFuntion("setPortrait", params, vlaues);
 			
 			String portraitUrl = ret.toString();
@@ -302,6 +308,7 @@ public class ClientUser extends AbstractUser
 		vlaues[0] = this.id;
 		vlaues[1] = hometown;
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setHometown", params, vlaues);
 		
 		this.hometown = hometown;
@@ -321,6 +328,7 @@ public class ClientUser extends AbstractUser
 		vlaues[0] = this.id;
 		vlaues[1] = phoneNumber;
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setPhoneNumber", params, vlaues);
 		
 		this.phoneNumber = phoneNumber;
@@ -457,6 +465,7 @@ public class ClientUser extends AbstractUser
 		vlaues[1] = other.getID();
 		vlaues[2] = alias;
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setAlias", params, vlaues);
 		
 		Log.e("______", ret.toString());
@@ -478,6 +487,7 @@ public class ClientUser extends AbstractUser
 		vlaues[1] = other.getID();
 		vlaues[2] = groupName;
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("moveFriendToGroup", params, vlaues);
 		
 		Log.e("______", ret.toString());
@@ -499,6 +509,7 @@ public class ClientUser extends AbstractUser
 		vlaues[1] = other.getID();
 		vlaues[2] = enable;
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setAsCloseFriend", params, vlaues);
 		
 		Log.e("______", ret.toString());
@@ -517,6 +528,7 @@ public class ClientUser extends AbstractUser
 		vlaues[0] = this.id;
 		vlaues[1] = other.getID();
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("blockUser", params, vlaues);
 		
 		Log.e("______", ret.toString());
@@ -535,6 +547,7 @@ public class ClientUser extends AbstractUser
 		vlaues[0] = this.id;
 		vlaues[1] = other.getID();
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("deleteUser", params, vlaues);
 		
 		Log.e("______", ret.toString());
@@ -548,7 +561,9 @@ public class ClientUser extends AbstractUser
 		params[0] = "userID";
 		vlaues[0] = this.id;
 		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("getFriendList", params, vlaues);
+		
 		if (ret == null)
 			return;
 		String str = ret.toString();

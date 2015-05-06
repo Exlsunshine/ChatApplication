@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res/com.example.testmobiledatabase"  
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
@@ -81,7 +82,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp" 
+            my:expandDuration="500"
+            my:satelliteDistance="130dp"
+            my:mainImage="@drawable/sat_main_style2"
+            my:closeOnClick="true"
+            my:totalSpacingDegree="180" />
     </FrameLayout>
 
 </TabHost>

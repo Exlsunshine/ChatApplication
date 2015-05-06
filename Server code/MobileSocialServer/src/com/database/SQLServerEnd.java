@@ -455,6 +455,36 @@ public class SQLServerEnd
 		return -1;
 	}
 	
+	/**
+	 * @author LJ
+	 * 执行原始的SQL语句<br>
+	 * <b>范例:</b><br>
+	 * excecuteRawQuery("select id, name from tableA where age = 1", new String [] {"id", "name"})
+	 * @param rawSqlStatment SQL语句
+	 * @param query 待查询的列列名（应与SQL语句中select中的内容一 一对应）
+	 * @return 查询结果<br>
+	 * null 失败：表示 一个或多个参数为null、传入的成对的数组长度不一致、数据库操作错误<br>
+	 * not null 成功<br>
+	 */
+	public void excecuteRawQuery(String rawSqlStatment)
+	{
+		if (rawSqlStatment == null)
+		{
+			System.out.print(DEBUG_MODEL ? "Error:\tRawSqlStatment or query null." : "");
+			return;
+		}
+		
+		try
+		{
+			Statement s1 = connection.createStatement();
+			s1.execute(rawSqlStatment);
+			System.out.print(DEBUG_MODEL ? "\tRawSqlStatment success." : "");
+		} catch (SQLException e) {
+			System.out.print(DEBUG_MODEL ? "Error:\tRawSqlStatment failed." : "");
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args)
 	{
 		SQLServerEnd se = new SQLServerEnd("test_smack_db", "mytest");

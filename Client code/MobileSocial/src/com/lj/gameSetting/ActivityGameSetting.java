@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
+import com.lj.eightpuzzle.ThreadDownloadGameImage;
 import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
 

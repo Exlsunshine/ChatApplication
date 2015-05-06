@@ -18,4 +18,15 @@ public class WebGameSetting
 		else
 			return Integer.parseInt(result.toString());
 	}
+	
+	public int getSetGameType(int userId)
+	{
+		String[] name = {"userId"};
+		Object[] values = {userId};
+		Object result = webserviceGame.callFuntion("getSetGameType", name, values);
+		if (CommonUtil.isNetWorkError(result))
+			return ConstantValues.InstructionCode.ERROR_NETWORK;
+		else
+			return Integer.parseInt(result.toString());
+	}
 }
