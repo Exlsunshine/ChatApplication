@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -24,6 +25,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,6 +35,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -136,6 +140,8 @@ public class FragmentGameSetting extends Fragment
 				};
 			}.start();
 		}
+		gChangeMap.clear();
+		Toast.makeText(gContext, "保存游戏设置成功", Toast.LENGTH_LONG).show();
 	}
 	
 	private OnTouchListener gViewOnTouchListener = new OnTouchListener() 
@@ -169,15 +175,6 @@ public class FragmentGameSetting extends Fragment
 							dialog.dismiss();  
 						}
 					}).setNegativeButton("取消", null).show();
-				}
-				else if (id == R.id.lj_game_setting_confirm)
-				{
-					save();
-					gChangeMap.clear();
-				}
-				else if (id == R.id.lj_game_setting_cancel)
-				{
-					gChangeMap.clear();
 				}
 				else if (id == R.id.lj_game_setting_bazinga_begin)
 				{
@@ -254,14 +251,40 @@ public class FragmentGameSetting extends Fragment
 		
 		gBazingaScoreText = (TextView)gView.findViewById(R.id.lj_game_setting_bazinga_score);
 		
-		gConfirmText = (TextView)gView.findViewById(R.id.lj_game_setting_confirm);
-		gConfirmText.setOnTouchListener(gViewOnTouchListener);
-		
 		gBazingaBeginText = (TextView)gView.findViewById(R.id.lj_game_setting_bazinga_begin);
 		gBazingaBeginText.setOnTouchListener(gViewOnTouchListener);
 		
 		gChangeMap = new HashMap<String, String>();
 		initGameData();
+		setupDialogActionBar();
+	}
+	
+	private void setupDialogActionBar()
+	{
+		((Activity) gContext).getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		((Activity) gContext).getActionBar().setDisplayShowHomeEnabled(false);
+		((Activity) gContext).getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		((Activity) gContext).getActionBar().setCustomView(R.layout.lj_settings_game_actionbar);
+	
+		LinearLayout back = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_game_actionbar_back);
+		LinearLayout confirm = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_game_actionbar_confirm);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				gChangeMap.clear();
+				((Activity) gContext).finish();
+			}
+		});
+		confirm.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				save();
+			}
+		});
 	}
 	
 	private void startPhotoZoom(Uri uri) 

@@ -125,7 +125,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
         	else if (position == FRAGMENT_GAMESETTING_INDEX)
         		fragment = new FragmentGameSetting(ActivitySettings.this);
         	else if (position == FRAGMENT_ACHIEVE_INDEX)
-        		fragment = new FragmentAchieve();
+        		fragment = new FragmentAchieve(ActivitySettings.this);
             return fragment;
         }
 
