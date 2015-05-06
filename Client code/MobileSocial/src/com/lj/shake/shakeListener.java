@@ -17,7 +17,7 @@ public class shakeListener implements SensorEventListener
 	{
 		if ((Math.abs(values[0]) > ConstantValues.InstructionCode.THRESHOLD_SPEED 
 			|| Math.abs(values[1]) > ConstantValues.InstructionCode.THRESHOLD_SPEED 
-			|| Math.abs(values[2]) > ConstantValues.InstructionCode.THRESHOLD_SPEED)) 
+			|| Math.abs(values[2]) > ConstantValues.InstructionCode.THRESHOLD_SPEED + 9.8)) 
 			return true;
 		else
 			return false;

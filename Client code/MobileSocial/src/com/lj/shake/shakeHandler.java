@@ -254,7 +254,13 @@ public class shakeHandler extends Handler
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_CHANGE_MARK:
 			int indexs = msg.arg1;
-			UserShakeData userShakeDatas = gUserShakeDataList.get(indexs);
+			UserShakeData userShakeDatas = null;//gUserShakeDataList.get(indexs);
+			if (gSexStatus == SEX_MALE)
+				userShakeDatas = gUserShakeDataListMale.get(indexs);
+			else if (gSexStatus == SEX_FEMALE)
+				userShakeDatas = gUserShakeDataListFemale.get(indexs);
+			else
+				userShakeDatas = gUserShakeDataList.get(indexs);
 			LatLng cenpts = new LatLng(userShakeDatas.getLatitude() ,userShakeDatas.getLongitude());
 			locatePotin(cenpts);
 			break;

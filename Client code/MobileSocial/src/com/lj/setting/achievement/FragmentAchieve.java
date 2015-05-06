@@ -14,15 +14,23 @@ import com.yg.commons.ConstantValues;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 
 public class FragmentAchieve extends Fragment
 {
 	private View gView;
+	private Context gContext;
 	
 	private final int[] ACHIEVE_ITEM_ID = {R.id.lj_setting_achieve_1, R.id.lj_setting_achieve_2, R.id.lj_setting_achieve_3, R.id.lj_setting_achieve_4,
 			                               R.id.lj_setting_achieve_5, R.id.lj_setting_achieve_6, R.id.lj_setting_achieve_7, R.id.lj_setting_achieve_8};
@@ -73,7 +81,32 @@ public class FragmentAchieve extends Fragment
 		for (int i = 0; i < ACHIEVE_ITEM_ID.length; i++)
 			gAchieveItemList[i] = (LinearLayoutAchieveItem) gView.findViewById(ACHIEVE_ITEM_ID[i]);
 		initData();
+		setupDialogActionBar();
 	} 
+
+	public FragmentAchieve(Context context) 
+	{
+		gContext = context;
+	}
+	
+	
+	private void setupDialogActionBar()
+	{
+		((Activity) gContext).getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		((Activity) gContext).getActionBar().setDisplayShowHomeEnabled(false);
+		((Activity) gContext).getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		((Activity) gContext).getActionBar().setCustomView(R.layout.lj_settings_achieve_actionbar);
+	
+		LinearLayout back = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_achieve_actionbar_back);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				((Activity) gContext).finish();
+			}
+		});
+	}
 	
 	private void initData()
 	{

@@ -17,10 +17,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -36,6 +39,7 @@ import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
 import android.webkit.WebView.FindListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +75,7 @@ public class FragmentUserInfoSetting extends Fragment
 								   R.id.lj_userinfo_setting_constellation_layout, R.id.lj_userinfo_setting_constellation_text, R.id.lj_userinfo_setting_constellation_image,
 								   R.id.lj_userinfo_setting_hometown_layout, R.id.lj_userinfo_setting_hometown_text, R.id.lj_userinfo_setting_hometown_image,
 								   R.id.lj_userinfo_setting_password_layout, R.id.lj_userinfo_setting_password_text, R.id.lj_userinfo_setting_password_image,
-								   R.id.lj_userinfo_setting_cancel, R.id.lj_userinfo_setting_confirm, R.id.lj_userinfo_setting_portrait};
+								   R.id.lj_userinfo_setting_portrait};
 	
 	public FragmentUserInfoSetting(Context context) 
 	{
@@ -110,6 +114,7 @@ public class FragmentUserInfoSetting extends Fragment
 			}.start();
 		}
 		gChangeMap.clear();
+		Toast.makeText(gContext, "保存资料成功", Toast.LENGTH_LONG).show();
 	}
 	
 	private OnClickListener gSettingOnClick = new OnClickListener() 
@@ -149,10 +154,6 @@ public class FragmentUserInfoSetting extends Fragment
 				intent.setClass(getActivity(), ActivityPasswordSetting.class);
 				startActivity(intent);
 			}
-			else if (id == R.id.lj_userinfo_setting_cancel)
-				gChangeMap.clear();
-			else if (id == R.id.lj_userinfo_setting_confirm)
-				save();
 			else if (id == R.id.lj_userinfo_setting_portrait)
 			{
 				new AlertDialog.Builder(gContext).setTitle("请选择")
@@ -230,7 +231,7 @@ public class FragmentUserInfoSetting extends Fragment
 		gPhoneEditText.setText(ConstantValues.user.getPhoneNumber());
 	}
 	
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) 
 	{
@@ -260,8 +261,37 @@ public class FragmentUserInfoSetting extends Fragment
         
         gPortraitImage =(ImageView)gView.findViewById(R.id.lj_userinfo_setting_portrait);
         initData();
+        
+        setupDialogActionBar();
 	}
 	
+	private void setupDialogActionBar()
+	{
+		((Activity) gContext).getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		((Activity) gContext).getActionBar().setDisplayShowHomeEnabled(false);
+		((Activity) gContext).getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		((Activity) gContext).getActionBar().setCustomView(R.layout.lj_settings_userinfo_actionbar);
+	
+		LinearLayout back = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_userinfo_actionbar_back);
+		LinearLayout confirm = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_userinfo_actionbar_confirm);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				gChangeMap.clear();
+				((Activity) gContext).finish();
+			}
+		});
+		confirm.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				save();
+			}
+		});
+	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
