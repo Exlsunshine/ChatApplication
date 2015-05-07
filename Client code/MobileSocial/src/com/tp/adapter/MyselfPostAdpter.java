@@ -6,6 +6,7 @@ import java.util.List;
 import org.kobjects.base64.Base64;
 
 import com.example.testmobiledatabase.R;
+import com.tp.adapter.PublicActivityAdapter.GetImageTask;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
 import com.tp.views.CircularImage;
@@ -17,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -287,14 +289,11 @@ public class MyselfPostAdpter extends BaseAdapter
                     
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
+                   
                     ImagePost ip = (ImagePost) post;
                     Bitmap bm = ip.getImage();
-                    //byte[] buffer = new Base64().decode(ConvertUtil.bytes2String(post.getContent()));
-                    //Log.e("getview__", post.getContent().toString());
-                    //Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
-                    Drawable dr = new BitmapDrawable(bm);
-                    photoView.setBackground(dr);
-                    //photoView.setImageResource(R.drawable.coffe0);
+                    GetImageTask task = new GetImageTask(photoView, ip);
+                    task.execute(0);
                     
                     int size = post.getComments().size();
                     switch (size)
@@ -389,4 +388,33 @@ public class MyselfPostAdpter extends BaseAdapter
         TextView status;
         int flag = -1;
     }
+    
+    public class GetImageTask extends AsyncTask<Integer, Integer, String> 
+    {  
+    	private ImageView iv;
+    	private ImagePost post;
+    	private Drawable dr;
+    	
+        public GetImageTask(ImageView imageView,ImagePost Post) 
+        {  
+            super();  
+            this.iv = imageView;
+            this.post = Post;
+        }  
+      
+        @Override  
+        protected String doInBackground(Integer... params) 
+        {  
+        	Bitmap bm = post.getImage();
+        	Log.e("doInBackground___", "get image" + post.getPostID());
+            dr = new BitmapDrawable(bm);
+            return "1";  
+        }  
+        @Override  
+        protected void onPostExecute(String result) 
+        {  	
+        	Log.e("onPostExecute_____", result);
+        	iv.setBackground(dr); 
+        }  
+    }  
 }

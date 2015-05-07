@@ -15,7 +15,7 @@
     <!-- "@android:color/white" -->
 
     <EditText
-        android:text="UserC@126.com"
+        android:text="UserA@126.com"
         android:id="@+id/yg_loginguide_page3_dialog_email"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         android:paddingTop="10dp" />
 
     <EditText
-        android:text="6"
+        android:text="4"
         android:id="@+id/yg_loginguide_page3_dialog_password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

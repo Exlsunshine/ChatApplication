@@ -1,23 +1,18 @@
 package com.tp.messege;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import org.kobjects.base64.Base64;
-
-import com.yg.message.ConvertUtil;
 import com.yg.user.DownloadManager;
 import com.yg.user.PackString;
 import com.yg.user.UploadManager;
 import com.yg.user.WebServiceAPI;
 
 import android.graphics.Bitmap;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 public class ImagePost extends AbstractPost
@@ -29,8 +24,7 @@ public class ImagePost extends AbstractPost
 	private Bitmap image;
 	private String imgPath;
 	private String imgUrl;
-	private final static String SAVED_DIRECTORY = "/sdcard/tp/";
-	private File imgFile;
+	private final static String SAVED_DIRECTORY = "/sdcard/JMMSR/FRIEND_CIRCLE/";
 	/**
 	 * 新建ImagePost时调用<br>
 	 * <b>用法参看AbstractPost<br>
@@ -49,6 +43,9 @@ public class ImagePost extends AbstractPost
 		
 		try 
 		{
+			File file = new File(imgPath);
+			file.getParentFile().mkdirs();
+			
 			FileOutputStream out = new FileOutputStream(imgPath);
 			image.compress(Bitmap.CompressFormat.PNG, 90, out);
 		} 
@@ -56,8 +53,6 @@ public class ImagePost extends AbstractPost
 		{
 			System.out.println(ex);
 		}
-		
-		
 		publish();
 	}
 
