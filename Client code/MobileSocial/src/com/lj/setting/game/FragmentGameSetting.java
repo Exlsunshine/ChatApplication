@@ -103,9 +103,10 @@ public class FragmentGameSetting extends Fragment
 		new ThreadGetBazingaScore(ConstantValues.user.getID(), gHandler).start();
 	}
 	
-	public FragmentGameSetting(Context context) 
+	public FragmentGameSetting(Context context, HashMap<String, String> map) 
 	{
 		gContext = context;
+		gChangeMap = map;
 	}
 	
 	private void save()
@@ -254,37 +255,7 @@ public class FragmentGameSetting extends Fragment
 		gBazingaBeginText = (TextView)gView.findViewById(R.id.lj_game_setting_bazinga_begin);
 		gBazingaBeginText.setOnTouchListener(gViewOnTouchListener);
 		
-		gChangeMap = new HashMap<String, String>();
 		initGameData();
-		setupDialogActionBar();
-	}
-	
-	private void setupDialogActionBar()
-	{
-		((Activity) gContext).getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
-		((Activity) gContext).getActionBar().setDisplayShowHomeEnabled(false);
-		((Activity) gContext).getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
-		((Activity) gContext).getActionBar().setCustomView(R.layout.lj_settings_game_actionbar);
-	
-		LinearLayout back = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_game_actionbar_back);
-		LinearLayout confirm = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_game_actionbar_confirm);
-		back.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				gChangeMap.clear();
-				((Activity) gContext).finish();
-			}
-		});
-		confirm.setOnClickListener(new OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				save();
-			}
-		});
 	}
 	
 	private void startPhotoZoom(Uri uri) 
