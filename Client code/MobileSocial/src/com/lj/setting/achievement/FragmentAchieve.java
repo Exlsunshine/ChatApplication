@@ -81,32 +81,11 @@ public class FragmentAchieve extends Fragment
 		for (int i = 0; i < ACHIEVE_ITEM_ID.length; i++)
 			gAchieveItemList[i] = (LinearLayoutAchieveItem) gView.findViewById(ACHIEVE_ITEM_ID[i]);
 		initData();
-		setupDialogActionBar();
 	} 
 
 	public FragmentAchieve(Context context) 
 	{
 		gContext = context;
-	}
-	
-	
-	public void setupDialogActionBar()
-	{
-		Log.e("achieve", "sss");
-		((Activity) gContext).getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
-		((Activity) gContext).getActionBar().setDisplayShowHomeEnabled(false);
-		((Activity) gContext).getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
-		((Activity) gContext).getActionBar().setCustomView(R.layout.lj_settings_achieve_actionbar);
-	
-		LinearLayout back = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_achieve_actionbar_back);
-		back.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				((Activity) gContext).finish();
-			}
-		});
 	}
 	
 	private void initData()

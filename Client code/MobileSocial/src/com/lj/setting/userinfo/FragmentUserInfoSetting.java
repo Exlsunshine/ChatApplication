@@ -77,44 +77,10 @@ public class FragmentUserInfoSetting extends Fragment
 								   R.id.lj_userinfo_setting_password_layout, R.id.lj_userinfo_setting_password_text, R.id.lj_userinfo_setting_password_image,
 								   R.id.lj_userinfo_setting_portrait};
 	
-	public FragmentUserInfoSetting(Context context) 
+	public FragmentUserInfoSetting(Context context, HashMap<String, String> map) 
 	{
+		gChangeMap = map;
 		gContext = context;
-	}
-	
-	
-	private void save()
-	{
-		gNicknameEditText.clearFocus();
-		gPhoneEditText.clearFocus();
-		Iterator iter = gChangeMap.entrySet().iterator();
-		while (iter.hasNext()) 
-		{
-			Map.Entry entry = (Map.Entry) iter.next();
-			final String key = entry.getKey().toString();
-			final String val = entry.getValue().toString();
-			
-			new Thread()
-			{
-				public void run() 
-				{
-					if (key.equals("nickname"))
-						ConstantValues.user.setNickName(val);
-					else if (key.equals("sex"))
-						ConstantValues.user.setSex(val);
-					else if (key.equals("date"))
-						ConstantValues.user.setBirthday(val);
-					else if (key.equals("hometown"))
-						ConstantValues.user.setHometown(val);
-					else if (key.equals("phone"))
-						ConstantValues.user.setPhoneNumber(val);
-					else if (key.equals("portrait"))
-						ConstantValues.user.setPortrait(val);
-				};
-			}.start();
-		}
-		gChangeMap.clear();
-		Toast.makeText(gContext, "保存资料成功", Toast.LENGTH_LONG).show();
 	}
 	
 	private OnClickListener gSettingOnClick = new OnClickListener() 
@@ -257,42 +223,10 @@ public class FragmentUserInfoSetting extends Fragment
         gPhoneEditText = (EditText)gView.findViewById(R.id.lj_userinfo_setting_phone);
         gPhoneEditText.setOnFocusChangeListener(gEditTextFocusChangeListener);
         
-        gChangeMap = new HashMap<String, String>();
-        
         gPortraitImage =(ImageView)gView.findViewById(R.id.lj_userinfo_setting_portrait);
         initData();
-        
-        setupDialogActionBar();
 	}
 	
-	public void setupDialogActionBar()
-	{
-		Log.e("userinfo", "sss");
-		((Activity) gContext).getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
-		((Activity) gContext).getActionBar().setDisplayShowHomeEnabled(false);
-		((Activity) gContext).getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
-		((Activity) gContext).getActionBar().setCustomView(R.layout.lj_settings_userinfo_actionbar);
-	
-		LinearLayout back = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_userinfo_actionbar_back);
-		LinearLayout confirm = (LinearLayout)((Activity) gContext).findViewById(R.id.lj_setting_userinfo_actionbar_confirm);
-		back.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				gChangeMap.clear();
-				((Activity) gContext).finish();
-			}
-		});
-		confirm.setOnClickListener(new OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				save();
-			}
-		});
-	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
@@ -356,6 +290,12 @@ public class FragmentUserInfoSetting extends Fragment
 			}.start();*/
 			bitmap = null;
 		}
+	}
+	
+	public void clearTextFocus()
+	{
+		gNicknameEditText.clearFocus();
+		gPhoneEditText.clearFocus();
 	}
 	
 	private void startPhotoZoom(Uri uri) 
