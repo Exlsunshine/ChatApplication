@@ -265,8 +265,9 @@ public class FragmentUserInfoSetting extends Fragment
         setupDialogActionBar();
 	}
 	
-	private void setupDialogActionBar()
+	public void setupDialogActionBar()
 	{
+		Log.e("userinfo", "sss");
 		((Activity) gContext).getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
 		((Activity) gContext).getActionBar().setDisplayShowHomeEnabled(false);
 		((Activity) gContext).getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 

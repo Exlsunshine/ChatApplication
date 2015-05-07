@@ -11,6 +11,7 @@ import com.lj.satellitemenu.SatelliteMenuItem;
 import com.lj.satellitemenu.SatelliteMenu.SateliteClickedListener;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +19,8 @@ import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +34,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -305,9 +309,30 @@ public class ActivityEightPuzzleGame extends Activity
         
         new ThreadDownloadGameImage(userID, gHandler).start();
         
-        
+        setupDialogActionBar();
     }
 
+
+
+    private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleTextView.setText("Õº∆¨√‘≥«");
+		back.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+	}
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -315,22 +340,4 @@ public class ActivityEightPuzzleGame extends Activity
     	super.onWindowFocusChanged(hasFocus);
     	
     }
-  
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) 
-    {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }

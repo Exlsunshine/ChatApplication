@@ -17,6 +17,7 @@ import android.app.FragmentTransaction;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -93,6 +94,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) 
     {
         mViewPager.setCurrentItem(tab.getPosition());
+        Log.e("ss", "tab");
     }
 
     @Override
@@ -121,11 +123,20 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
         {
         	Fragment fragment = null;
         	if (position == FRAGMENT_USERSETTING_INDEX)
+        	{
         		fragment = new FragmentUserInfoSetting(ActivitySettings.this);
+        	//	((FragmentUserInfoSetting)fragment).setupDialogActionBar();
+        	}
         	else if (position == FRAGMENT_GAMESETTING_INDEX)
+        	{
         		fragment = new FragmentGameSetting(ActivitySettings.this);
+        	//	((FragmentGameSetting)fragment).setupDialogActionBar();
+        	}
         	else if (position == FRAGMENT_ACHIEVE_INDEX)
+        	{
         		fragment = new FragmentAchieve(ActivitySettings.this);
+        	//	((FragmentAchieve)fragment).setupDialogActionBar();
+        	}
             return fragment;
         }
 
