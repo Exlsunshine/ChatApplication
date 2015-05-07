@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ public class PublicActivityAdapter extends BaseAdapter
     private List<AbstractPost> posts;
     private int likedNumber = 0;
     private boolean isLiked = false;
+    /*private ImageView imagephoto;*/
+    
     public PublicActivityAdapter(Context context, List<AbstractPost> posts) 
     {
         super();
@@ -295,15 +298,11 @@ public class PublicActivityAdapter extends BaseAdapter
                     
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
-                    //Log.e("getview__", ConvertUtil.bytes2String(post.getContent()));
                     Log.e("getview__", post.getPostID() + "");
-                    /*byte[] buffer = post.getContent();
-                    Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);*/
                     ImagePost ip = (ImagePost) post;
-                    Bitmap bm = ip.getImage();
-                    Drawable dr = new BitmapDrawable(bm);
-                    photoView.setBackground(dr);
-                    //photoView.setImageResource(R.drawable.coffe0);
+                    
+                    GetImageTask task = new GetImageTask(photoView, ip);
+                    task.execute(0);
                     
                     int size = post.getComments().size();
                     switch (size)
@@ -358,7 +357,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     		commentprotrait3.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
-                    	//RL.setVisibility(View.INVISIBLE);
+                    	RL.setVisibility(View.GONE);
                     	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -398,4 +397,34 @@ public class PublicActivityAdapter extends BaseAdapter
         TextView status;
         int flag = -1;
     }
+    
+    public class GetImageTask extends AsyncTask<Integer, Integer, String> 
+    {  
+    	private ImageView iv;
+    	private ImagePost post;
+    	private Drawable dr;
+    	
+        public GetImageTask(ImageView imageView,ImagePost Post) 
+        {  
+            super();  
+            this.iv = imageView;
+            this.post = Post;
+        }  
+      
+        @Override  
+        protected String doInBackground(Integer... params) 
+        {  
+        	Bitmap bm = post.getImage();
+        	Log.e("doInBackground___", "get image" + post.getPostID());
+            dr = new BitmapDrawable(bm);
+            return "1";  
+        }  
+        
+        @Override  
+        protected void onPostExecute(String result) 
+        {  	
+        	Log.e("onPostExecute_____", result);
+        	iv.setBackground(dr); 
+        }  
+    }  
 }
