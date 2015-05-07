@@ -8,9 +8,13 @@ import com.baidu.mapapi.map.MapView;
 import com.example.testmobiledatabase.R;
 import com.lj.customview.LoadingView;
 import com.yg.commons.ConstantValues;
+
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -20,8 +24,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 public class ActivityShake extends Activity
 {
@@ -118,21 +124,26 @@ public class ActivityShake extends Activity
         initView();
         initListener();
 	//	setContentView(mainLayout);
+        setupDialogActionBar();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) 
-    {
-        int id = item.getItemId();
-        if (id == R.id.action_settings)
-            return true;
-        return super.onOptionsItemSelected(item);
-    }
+    private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleTextView.setText("ҡһҡ");
+		back.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+	}
 }
