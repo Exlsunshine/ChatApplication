@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -271,42 +272,27 @@ public class ActivityEightPuzzleGame extends Activity
         
         
         
-        SatelliteMenu menu = (SatelliteMenu) findViewById(R.id.menu);
-        List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
-        items.add(new SatelliteMenuItem(0, R.drawable.ic_1));
-        items.add(new SatelliteMenuItem(MENU_ITEM_RESTART, R.drawable.ic_3));
-        items.add(new SatelliteMenuItem(2, R.drawable.ic_4));
-        items.add(new SatelliteMenuItem(3, R.drawable.ic_5));
-        items.add(new SatelliteMenuItem(4, R.drawable.ic_6));
-        items.add(new SatelliteMenuItem(0, R.drawable.ic_2));
-        menu.addItems(items);     
-        menu.setOnItemClickedListener(new SateliteClickedListener() 
+        Button restartBtn = (Button) findViewById(R.id.lj_eightpuzzle_restart_button);
+        restartBtn.setOnClickListener(new View.OnClickListener() 
         {
-			public void eventOccured(int id) {
-				Log.e("sat", "Clicked on " + id);
-				switch (id)
+			@Override
+			public void onClick(View v) 
+			{
+				new AlertDialog.Builder(ActivityEightPuzzleGame.this)   
+				.setTitle("确认")  
+				.setMessage("确定重新开始？")  
+				.setPositiveButton("是", new OnClickListener() 
 				{
-				case MENU_ITEM_RESTART:
-					new AlertDialog.Builder(ActivityEightPuzzleGame.this)   
-						.setTitle("确认")  
-						.setMessage("确定重新开始？")  
-						.setPositiveButton("是", new OnClickListener() 
-						{
-							@Override
-							public void onClick(DialogInterface dialog, int which) 
-							{
-								restart();
-							}
-						})  
-						.setNegativeButton("否", null)  
-						.show();  
-					break;
-				case MENU_ITEM_HINT:
-					break;
-				}
+					@Override
+					public void onClick(DialogInterface dialog, int which) 
+					{
+						restart();
+					}
+				})  
+				.setNegativeButton("否", null)  
+				.show();  
 			}
 		});
-        
         new ThreadDownloadGameImage(userID, gHandler).start();
         
         setupDialogActionBar();

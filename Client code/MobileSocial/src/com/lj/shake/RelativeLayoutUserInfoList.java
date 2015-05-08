@@ -104,7 +104,6 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 			}
 			else if (action == MotionEvent.ACTION_MOVE)
 			{
-				
 				int dx = (int)event.getX()- touchX;
 				if (Math.abs(dx) >= USERDATALIST_MOVE_THREAD)
 				{

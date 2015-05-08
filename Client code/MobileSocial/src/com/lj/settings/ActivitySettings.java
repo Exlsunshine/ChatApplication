@@ -49,6 +49,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 	
 	private FragmentUserInfoSetting gFragmentUserInfoSetting = null;
 	private int gCurrentPosition = 0;
+	private TextView gRightText = null;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -175,16 +176,19 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 		Toast.makeText(this, "保存资料成功", Toast.LENGTH_LONG).show();
 	}
     
-    
     private void setupDialogActionBar()
 	{
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
 		getActionBar().setDisplayShowHomeEnabled(false);
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
-		getActionBar().setCustomView(R.layout.lj_settings_userinfo_actionbar);
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
 	
-		LinearLayout back = (LinearLayout)findViewById(R.id.lj_setting_userinfo_actionbar_back);
-		LinearLayout confirm = (LinearLayout)findViewById(R.id.lj_setting_userinfo_actionbar_confirm);
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		LinearLayout confirm = (LinearLayout)findViewById(R.id.lj_common_actionbar_confirm);
+		TextView titleText = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleText.setText("资料");
+		gRightText = (TextView)findViewById(R.id.lj_common_actionbar_confirm_text);
+		gRightText.setText("保存");
 		back.setOnClickListener(new OnClickListener()
 		{
 			@Override
@@ -217,7 +221,13 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     {
         mViewPager.setCurrentItem(tab.getPosition());
         gCurrentPosition = tab.getPosition();
-        Log.e("ss", "tab");
+        if (gRightText != null)
+	        if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
+	        	gRightText.setText("保存");
+	        else if (gCurrentPosition == FRAGMENT_GAMESETTING_INDEX)
+	        	gRightText.setText("保存");
+	        else if (gCurrentPosition == FRAGMENT_ACHIEVE_INDEX)
+	        	gRightText.setText("完成");
     }
 
     @Override
@@ -249,17 +259,14 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
         	{
         		fragment = new FragmentUserInfoSetting(ActivitySettings.this, gChangeMap);
         		gFragmentUserInfoSetting = (FragmentUserInfoSetting) fragment;
-        	//	((FragmentUserInfoSetting)fragment).setupDialogActionBar();
         	}
         	else if (position == FRAGMENT_GAMESETTING_INDEX)
         	{
         		fragment = new FragmentGameSetting(ActivitySettings.this, gChangeMap);
-        	//	((FragmentGameSetting)fragment).setupDialogActionBar();
         	}
         	else if (position == FRAGMENT_ACHIEVE_INDEX)
         	{
         		fragment = new FragmentAchieve(ActivitySettings.this);
-        	//	((FragmentAchieve)fragment).setupDialogActionBar();
         	}
             return fragment;
         }

@@ -143,16 +143,12 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.lj.satellitemenu.SatelliteMenu 
-        android:id="@+id/menu"
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/lj_eightpuzzle_restart_button"
+        android:text="restart"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:layout_margin="8dp"
-        app:closeOnClick="true"
-        app:expandDuration="500"
-        app:satelliteDistance="130dp"
-        app:totalSpacingDegree="180" >
-    </com.lj.satellitemenu.SatelliteMenu>
+        android:layout_margin="8dp"/>
 
 </FrameLayout>
