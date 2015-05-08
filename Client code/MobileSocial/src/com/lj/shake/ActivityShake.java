@@ -20,6 +20,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -142,8 +143,21 @@ public class ActivityShake extends Activity
 			@Override
 			public void onClick(View v)
 			{
+				sensorManager.unregisterListener(shakelistener);
 				finish();
 			}
 		});
 	}
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {
+    	if (keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		sensorManager.unregisterListener(shakelistener);
+    		finish();
+    	}
+    	return super.onKeyDown(keyCode, event);
+    }
+    
 }

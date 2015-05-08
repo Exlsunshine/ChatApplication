@@ -6,10 +6,13 @@ import java.util.HashMap;
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.os.Handler;
@@ -285,6 +288,27 @@ public class ActivitySongPuzzle extends Activity {
 		gCharZoomout = AnimationUtils.loadAnimation(ActivitySongPuzzle.this, R.anim.lj_songpuzzle_char_zoomout);
 		Intent intent = getIntent();
 	    userID = intent.getIntExtra("userID", 0);
+	    setupDialogActionBar();
+	}
+	
+	private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleTextView.setText("“Ù¿÷¥≥πÿ");
+		back.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
 	}
 	
 	@Override
