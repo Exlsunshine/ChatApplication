@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.example.testmobiledatabase.R;
+import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.lj.setting.achievement.FragmentAchieve;
 import com.lj.setting.game.FragmentGameSetting;
 import com.lj.setting.game.GameSetting;
@@ -16,9 +17,11 @@ import com.yg.commons.ConstantValues;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -26,6 +29,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -176,6 +180,43 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 		Toast.makeText(this, "保存资料成功", Toast.LENGTH_LONG).show();
 	}
     
+    private void save()
+    {
+    	if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
+		{
+			gFragmentUserInfoSetting.clearTextFocus();
+			saveUserinfo();
+		}
+		else if (gCurrentPosition == FRAGMENT_GAMESETTING_INDEX)
+			saveGame();
+    }
+    
+    private void back()
+    {
+    	if (!gChangeMap.isEmpty())
+		{
+			new AlertDialog.Builder(ActivitySettings.this)   
+			.setTitle("确认")  
+			.setMessage("您有未保存的信息，是否退出？")  
+			.setPositiveButton("是", new DialogInterface.OnClickListener() 
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which) 
+				{
+					gChangeMap.clear();
+					finish();
+				}
+			})  
+			.setNegativeButton("否", null)  
+			.show();  
+		}
+		else
+		{
+			gChangeMap.clear();
+			finish();
+		}
+    }
+    
     private void setupDialogActionBar()
 	{
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
@@ -194,8 +235,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 			@Override
 			public void onClick(View v)
 			{
-				gChangeMap.clear();
-				finish();
+				back();
 			}
 		});
 		confirm.setOnClickListener(new OnClickListener() 
@@ -203,15 +243,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 			@Override
 			public void onClick(View v) 
 			{
-				if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
-				{
-					gFragmentUserInfoSetting.clearTextFocus();
-					saveUserinfo();
-				}
-				else if (gCurrentPosition == FRAGMENT_GAMESETTING_INDEX)
-					saveGame();
-				else if (gCurrentPosition == FRAGMENT_ACHIEVE_INDEX)
-					finish();
+				save();
 			}
 		});
 	}
@@ -223,11 +255,20 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
         gCurrentPosition = tab.getPosition();
         if (gRightText != null)
 	        if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
-	        	gRightText.setText("保存");
+	        {
+	        	gRightText.setVisibility(View.VISIBLE);
+	        	gChangeMap.clear();
+	        }
 	        else if (gCurrentPosition == FRAGMENT_GAMESETTING_INDEX)
-	        	gRightText.setText("保存");
+	        {
+	        	gRightText.setVisibility(View.VISIBLE);
+	        	gChangeMap.clear();
+	        }
 	        else if (gCurrentPosition == FRAGMENT_ACHIEVE_INDEX)
-	        	gRightText.setText("完成");
+	        {
+	        	gRightText.setVisibility(View.INVISIBLE);
+	        	gChangeMap.clear();
+	        }
     }
 
     @Override
@@ -292,5 +333,13 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
         }
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {
+    	if (keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		back();
+    	}
+    	return super.onKeyDown(keyCode, event);
+    }
 }

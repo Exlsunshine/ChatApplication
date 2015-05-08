@@ -1,14 +1,8 @@
 package com.lj.eightpuzzle;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 
 import com.example.testmobiledatabase.R;
-import com.lj.satellitemenu.SatelliteMenu;
-import com.lj.satellitemenu.SatelliteMenuItem;
-import com.lj.satellitemenu.SatelliteMenu.SateliteClickedListener;
 import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
@@ -18,16 +12,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
