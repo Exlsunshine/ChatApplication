@@ -167,6 +167,7 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 					UserShakeData data = gUserData.getCurrentUserData();
 					msg.arg1 = data.getUserId();
 					msg.arg2 = data.getGameType();
+					msg.obj = data.getNickName();
 					gHandler.sendMessage(msg);
 				}
 			}

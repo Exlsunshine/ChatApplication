@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res/com.example.testmobiledatabase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/lj_eightpuzzle_layout_background" >
+    android:background="#1E90FF">
 
     <LinearLayout
         android:id="@+id/lj_eightpuzzle_layout"
@@ -31,7 +31,7 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/lj_nickname"
+                    android:id="@+id/lj_eightpuzzle_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -60,7 +60,7 @@
         <RelativeLayout
             android:layout_width="400dp"
             android:layout_height="400dp"
-            android:background="@drawable/lj_eightpuzzle_board_background"
+            android:background="@color/white"
             android:orientation="vertical" >
 
             <ImageView
@@ -143,12 +143,32 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/lj_eightpuzzle_restart_button"
-        android:text="restart"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/lj_eightpuzzle_restart_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#1E90FF"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/yg_loginguide_login_dialog_coror_shape"
+            android:text="重新开始" />
+
+        <Button
+            android:id="@+id/lj_eightpuzzle_success_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#1E90FF"
+            android:visibility="invisible"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/yg_loginguide_login_dialog_coror_shape"
+            android:text="查看信息" />
+    </LinearLayout>
 
 </FrameLayout>
