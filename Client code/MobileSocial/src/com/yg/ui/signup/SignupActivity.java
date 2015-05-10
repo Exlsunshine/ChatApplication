@@ -1,21 +1,16 @@
 package com.yg.ui.signup;
 
-import java.io.File;
 import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +31,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.example.testmobiledatabase.R;
-import com.yg.commons.ConstantValues;
+import com.yg.image.select.ui.SelectImageActivity;
 import com.yg.ui.login.LoginGuideActivity;
 import com.yg.ui.signup.implementation.SignupImplementation;
 
@@ -49,6 +44,8 @@ public class SignupActivity extends Activity
 	private String email, nickname, password;
 	private String portraitPath, phoneNumber, sex;
 	private String birthday;
+	
+	private static final int SELECT_PORTRAIT_REQUEST = 34;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -105,7 +102,7 @@ public class SignupActivity extends Activity
 	/**********************										***********************/
 	/**********************			以下是选图相关函数				***********************/
 	/**********************										***********************/
-	private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT));
+	/*private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT));
 	
 	private void startPhotoZoom(Uri uri) 
 	{  
@@ -120,14 +117,18 @@ public class SignupActivity extends Activity
         intent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CROP);  
-    }  
+    }*/
 	
 	private class onPortraitImgClickListener implements OnClickListener
 	{
 		@Override
 		public void onClick(View arg0) 
 		{
-			new AlertDialog.Builder(SignupActivity.this).setTitle("请选择")
+			Intent intent = new Intent(SignupActivity.this, SelectImageActivity.class);
+			intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
+			startActivityForResult(intent, SELECT_PORTRAIT_REQUEST);
+			
+			/*new AlertDialog.Builder(SignupActivity.this).setTitle("请选择")
 			.setIcon(R.drawable.ic_launcher)
 			.setItems(new String[] {"本地图库", "照相机"}, new DialogInterface.OnClickListener() 
 			{
@@ -147,7 +148,7 @@ public class SignupActivity extends Activity
 					}
 					dialog.dismiss();  
 				}
-			}).setNegativeButton("取消", null).show(); 
+			}).setNegativeButton("取消", null).show(); */
 		}
 	}
 	
@@ -155,7 +156,26 @@ public class SignupActivity extends Activity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == RESULT_OK)
+		
+		if (requestCode == SELECT_PORTRAIT_REQUEST && resultCode == RESULT_OK)
+		{
+			String filePath = data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH);
+			
+			Bitmap bitmap = null;
+			try 
+			{
+				bitmap = BitmapFactory.decodeFile(filePath);
+				portraitPath = filePath;
+				Window window = firstDialog.getWindow();
+				ImageView portraitIv = (ImageView)window.findViewById(R.id.yg_signup_first_dialog_portrait);
+				portraitIv.setImageBitmap(bitmap);
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		/*if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == RESULT_OK)
 		{
 			Uri selectedImage =  data.getData();
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
@@ -193,7 +213,7 @@ public class SignupActivity extends Activity
 			
 			
 			bitmap = null;
-		}
+		}*/
 	}
 
 	/**********************										***********************/

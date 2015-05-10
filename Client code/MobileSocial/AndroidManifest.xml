@@ -132,6 +132,14 @@
             android:label="@string/title_activity_friend_detail" >
         </activity>
         <activity
+            android:name="com.yg.image.select.ui.SelectImageActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.yg.image.filter.ui.FilterActivity"
+            android:label="title_activity_filter" >
+        </activity>
+        <activity
             android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame"
             android:label="itle_activity_activity_song_puzzle" />
         <activity
