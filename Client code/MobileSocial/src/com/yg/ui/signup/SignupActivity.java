@@ -1,21 +1,16 @@
 package com.yg.ui.signup;
 
-import java.io.File;
 import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +31,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.example.testmobiledatabase.R;
-import com.yg.commons.ConstantValues;
+import com.yg.image.select.ui.SelectImageActivity;
 import com.yg.ui.login.LoginGuideActivity;
 import com.yg.ui.signup.implementation.SignupImplementation;
 
@@ -49,6 +44,8 @@ public class SignupActivity extends Activity
 	private String email, nickname, password;
 	private String portraitPath, phoneNumber, sex;
 	private String birthday;
+	
+	private static final int SELECT_PORTRAIT_REQUEST = 34;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -105,49 +102,14 @@ public class SignupActivity extends Activity
 	/**********************										***********************/
 	/**********************			以下是选图相关函数				***********************/
 	/**********************										***********************/
-	private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT));
-	
-	private void startPhotoZoom(Uri uri) 
-	{  
-        Intent intent = new Intent("com.android.camera.action.CROP");  
-        intent.setDataAndType(uri, "image/*");  
-        //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪  
-        intent.putExtra("crop", "true");  
-        // aspectX aspectY 是宽高的比例  
-        intent.putExtra("aspectX", 1);  
-        intent.putExtra("aspectY", 1);  
-        intent.putExtra("return-data", false);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CROP);  
-    }  
-	
 	private class onPortraitImgClickListener implements OnClickListener
 	{
 		@Override
 		public void onClick(View arg0) 
 		{
-			new AlertDialog.Builder(SignupActivity.this).setTitle("请选择")
-			.setIcon(R.drawable.ic_launcher)
-			.setItems(new String[] {"本地图库", "照相机"}, new DialogInterface.OnClickListener() 
-			{
-				@Override
-				public void onClick(DialogInterface dialog, int which) 
-				{
-					if (which == 0)
-					{
-						Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-						startActivityForResult(i, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
-					}							
-					else if (which == 1)
-					{
-						Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
-						intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT)));  
-						startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CAMERA);  
-					}
-					dialog.dismiss();  
-				}
-			}).setNegativeButton("取消", null).show(); 
+			Intent intent = new Intent(SignupActivity.this, SelectImageActivity.class);
+			intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
+			startActivityForResult(intent, SELECT_PORTRAIT_REQUEST);
 		}
 	}
 	
@@ -155,44 +117,24 @@ public class SignupActivity extends Activity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == RESULT_OK)
+		
+		if (requestCode == SELECT_PORTRAIT_REQUEST && resultCode == RESULT_OK)
 		{
-			Uri selectedImage =  data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-			Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-			cursor.moveToFirst();
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			cursor.close();
-			File temp = new File(picturePath);
-			startPhotoZoom(Uri.fromFile(temp)); 
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CAMERA && resultCode == RESULT_OK)
-		{
-			File temp = new File(Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.USERSET_PORTRAIT);  
-            startPhotoZoom(Uri.fromFile(temp));  
+			String filePath = data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH);
 			
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CROP && resultCode == RESULT_OK)
-		{
 			Bitmap bitmap = null;
 			try 
 			{
-				bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), IMAGE_URI);
+				bitmap = BitmapFactory.decodeFile(filePath);
+				portraitPath = filePath;
+				Window window = firstDialog.getWindow();
+				ImageView portraitIv = (ImageView)window.findViewById(R.id.yg_signup_first_dialog_portrait);
+				portraitIv.setImageBitmap(bitmap);
 			} 
 			catch (Exception e) 
 			{
 				e.printStackTrace();
 			}
-			
-			
-			portraitPath = Environment.getExternalStorageDirectory() + "/Portrait.jpg";
-			Window window = firstDialog.getWindow();
-			ImageView portraitIv = (ImageView)window.findViewById(R.id.yg_signup_first_dialog_portrait);
-			portraitIv.setImageBitmap(bitmap);
-			
-			
-			bitmap = null;
 		}
 	}
 
