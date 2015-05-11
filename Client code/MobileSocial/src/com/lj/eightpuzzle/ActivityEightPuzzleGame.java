@@ -59,7 +59,6 @@ public class ActivityEightPuzzleGame extends Activity
 	
 	private AlertDialog gRestartDialog = null;
 	private AlertDialog gSuccessDialog = null;
-	private Button gSuccessBtn = null;
 	
 	private TranslateAnimation updateStep;
 	
@@ -119,7 +118,7 @@ public class ActivityEightPuzzleGame extends Activity
 		@Override
 		public void onAnimationEnd(Animation animation) 
 		{
-			gStepTextView.setText(gStep + "");
+			gStepTextView.setText(String.valueOf(gStep));
 		}
 	};
 	
@@ -145,8 +144,7 @@ public class ActivityEightPuzzleGame extends Activity
 			gStepTextView.startAnimation(updateStep);
 			if (gImageViewBoard.isWin())
 			{
-				Toast.makeText(ActivityEightPuzzleGame.this, "Wwwwwwwwwwwwwwwwwwwwwwwin", Toast.LENGTH_LONG).show();
-				gSuccessBtn.setVisibility(View.VISIBLE);
+				showSuccessDialog();
 				gGameStatus = GAME_END;
 				moveStepList.clear();
 			}
@@ -269,25 +267,6 @@ public class ActivityEightPuzzleGame extends Activity
         
         new ThreadDownloadGameImage(userID, gHandler).start();
         
-        Button restartBtn = (Button) findViewById(R.id.lj_eightpuzzle_restart_button);
-        restartBtn.setOnClickListener(new View.OnClickListener() 
-        {
-			@Override
-			public void onClick(View v) 
-			{
-				showRestartDialog();
-			}
-		});
-        
-        
-        gSuccessBtn = (Button) findViewById(R.id.lj_eightpuzzle_success_button);
-        gSuccessBtn.setOnClickListener(new View.OnClickListener() 
-        {
-			public void onClick(View v) 
-			{
-				showSuccessDialog();
-			}
-		});
         setupDialogActionBar();
         gGameStatus = GAME_ING;
     }
@@ -302,6 +281,18 @@ public class ActivityEightPuzzleGame extends Activity
 		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
 		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
 		titleTextView.setText("Õº∆¨√‘≥«");
+		
+		TextView restartTextView = (TextView)findViewById(R.id.lj_common_actionbar_confirm_text);
+		restartTextView.setText("÷ÿ¿¥");
+		restartTextView.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				showRestartDialog();
+			}
+		});
+		
 		back.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -364,6 +355,7 @@ public class ActivityEightPuzzleGame extends Activity
 		window.setContentView(R.layout.lj_eightpuzzle_success_dialog);
 		
 		
+		gSuccessDialog.setCancelable(false);
 		Button look = (Button) window.findViewById(R.id.lj_eightpuzzle_dialog_op);
 		look.setOnClickListener(new OnClickListener() 
 		{
@@ -371,6 +363,7 @@ public class ActivityEightPuzzleGame extends Activity
 			public void onClick(View v) 
 			{
 				Toast.makeText(ActivityEightPuzzleGame.this, "see", Toast.LENGTH_LONG).show();
+				gSuccessDialog.dismiss();
 			}
 		});
     }

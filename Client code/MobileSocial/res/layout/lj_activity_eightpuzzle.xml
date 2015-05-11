@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval2"
             android:layout_marginRight="@dimen/lj_activity_eightpuzzle_imageview_interval2"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -34,7 +34,7 @@
                     android:id="@+id/lj_eightpuzzle_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center"
                     android:text="nickname"
                     android:textColor="@color/white"
                     android:textSize="@dimen/lj_activity_text_size" />
@@ -44,24 +44,33 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:gravity="center"
+                android:orientation="horizontal" >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="当前步数："
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+                
                 <TextView
                     android:id="@+id/lj_step"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/lj_activity_text_size" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
 
         <RelativeLayout
+            android:layout_marginTop="20dp"
             android:layout_width="400dp"
             android:layout_height="400dp"
-            android:background="@color/white"
-            android:orientation="vertical" >
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/lj_img_00"
@@ -143,32 +152,5 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="8dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/lj_eightpuzzle_restart_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#1E90FF"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/yg_loginguide_login_dialog_coror_shape"
-            android:text="重新开始" />
-
-        <Button
-            android:id="@+id/lj_eightpuzzle_success_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#1E90FF"
-            android:visibility="invisible"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/yg_loginguide_login_dialog_coror_shape"
-            android:text="查看信息" />
-    </LinearLayout>
 
 </FrameLayout>
