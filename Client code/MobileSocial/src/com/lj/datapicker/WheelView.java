@@ -683,19 +683,6 @@ public class WheelView extends View {
 	}
 
 	/**
-	 * Draws shadows on top and bottom of control
-	 * @param canvas the canvas for drawing
-	 */
-	private void drawShadows(Canvas canvas) {
-		topShadow.setBounds(0, 0, getWidth(), getHeight() / visibleItems);
-		topShadow.draw(canvas);
-
-		bottomShadow.setBounds(0, getHeight() - getHeight() / visibleItems,
-				getWidth(), getHeight());
-		bottomShadow.draw(canvas);
-	}
-
-	/**
 	 * Draws value and label layout
 	 * @param canvas the canvas for drawing
 	 */

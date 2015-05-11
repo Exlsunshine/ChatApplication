@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.yg.commons.ConstantValues;
 
-import android.widget.ImageView;
 
 public class EightPuzzleBoard 
 {

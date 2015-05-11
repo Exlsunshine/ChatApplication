@@ -2,35 +2,25 @@ package com.lj.setting.achievement;
 
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
 
 public class FragmentAchieve extends Fragment
 {
 	private View gView;
-	private Context gContext;
 	
 	private final int[] ACHIEVE_ITEM_ID = {R.id.lj_setting_achieve_1, R.id.lj_setting_achieve_2, R.id.lj_setting_achieve_3, R.id.lj_setting_achieve_4,
 			                               R.id.lj_setting_achieve_5, R.id.lj_setting_achieve_6, R.id.lj_setting_achieve_7, R.id.lj_setting_achieve_8};
@@ -52,10 +42,10 @@ public class FragmentAchieve extends Fragment
 				UserStatistics userStatistics = (UserStatistics) msg.obj;
 				ArrayList<HashMap<String, Object>> result = userStatistics.getUserStatistics();
 				HashMap<String, Object> item = result.get(0);
-				Iterator iter = item.entrySet().iterator();
+				Iterator<Entry<String, Object>> iter = item.entrySet().iterator();
 				while (iter.hasNext()) 
 				{
-					Map.Entry entry = (Map.Entry) iter.next();
+					Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iter.next();
 					String key = entry.getKey().toString();
 					String val = entry.getValue().toString();
 					LinearLayoutAchieveItem achieveItem = gMapItem.get(key);
@@ -83,11 +73,6 @@ public class FragmentAchieve extends Fragment
 		initData();
 	} 
 
-	public FragmentAchieve(Context context) 
-	{
-		gContext = context;
-	}
-	
 	private void initData()
 	{
 		gMapItem = new HashMap<String, LinearLayoutAchieveItem>();

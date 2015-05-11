@@ -8,7 +8,6 @@ import com.yg.commons.CommonUtil;
 import com.yg.user.WebServiceAPI;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 public class WebEightPuzzleImageTransfer 
 {
@@ -40,16 +39,9 @@ public class WebEightPuzzleImageTransfer
 		return true;
 	}
 	
-	private Bitmap string2Bitmap(String imageBuffer)
-	{
-		byte[] buffer = Base64.decode(imageBuffer);
-		Bitmap bitmap = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
-		return bitmap;
-	}
 	
 	public String getImageUrl(int userID)
 	{
-		Bitmap bitmap = null;
 		String[] name = {"userID"};
 		Object[] values = {userID};
 		Object result = imageApi.callFuntion(WEBSERVICE_FUNCTION_DOWNLOAD, name, values);

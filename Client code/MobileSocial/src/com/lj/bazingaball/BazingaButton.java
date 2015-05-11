@@ -154,8 +154,6 @@ public class BazingaButton extends View implements Comparable<BazingaButton>{
 		if (d < 0)
 			return Double.POSITIVE_INFINITY;
 		
-		
-		double t= -(dvdr + Math.sqrt(d)) / dvdv;;
 		return -(dvdr + Math.sqrt(d)) / dvdv;
 	}
 	

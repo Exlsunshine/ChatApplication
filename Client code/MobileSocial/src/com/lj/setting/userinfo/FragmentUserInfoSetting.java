@@ -2,13 +2,8 @@ package com.lj.setting.userinfo;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.example.testmobiledatabase.R;
-import com.lj.bazingaball.ActivityBazingaBall;
-import com.lj.settings.ActivitySettings;
-import com.lj.userbasicsetting.ActivityUserBasicSetting;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
@@ -17,31 +12,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
-import android.webkit.WebView.FindListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class FragmentUserInfoSetting extends Fragment
 {

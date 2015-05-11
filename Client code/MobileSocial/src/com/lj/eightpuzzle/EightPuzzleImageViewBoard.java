@@ -2,24 +2,18 @@ package com.lj.eightpuzzle;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.Config;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 public class EightPuzzleImageViewBoard 
 {
 	private Bitmap eightPuzzleAnswerImage;
-	private final float GAUSSION_VALUE_ONE = 5;
-	private Bitmap imageGaussianOne;
-	private Bitmap imageGaussianTwo;
 	private ImageView[] gImageViewBoard;
 	private EightPuzzleBoard gGameBoard;
 	private Context context;

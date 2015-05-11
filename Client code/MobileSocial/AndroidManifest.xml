@@ -115,7 +115,7 @@
         <activity android:name="com.tp.ui.MyselfPostActivity" >
         </activity>
         <activity android:name="com.lj.shake.ActivityShake" />
-        <activity android:name="com.lj.settings.ActivitySettings" />
+        <activity android:name="com.lj.settings.ActivitySettings"/>
         <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityAgeSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityHometownSetting" />

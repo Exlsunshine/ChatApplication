@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.example.testmobiledatabase.R;
-import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.lj.setting.achievement.FragmentAchieve;
 import com.lj.setting.game.FragmentGameSetting;
 import com.lj.setting.game.GameSetting;
@@ -27,14 +27,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -114,10 +108,10 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     
     private void saveGame()
 	{
-		Iterator iter = gChangeMap.entrySet().iterator();
+		Iterator<Entry<String, String>> iter = gChangeMap.entrySet().iterator();
 		while (iter.hasNext()) 
 		{
-			Map.Entry entry = (Map.Entry) iter.next();
+			Map.Entry<String, String> entry = (Map.Entry<String, String>) iter.next();
 			final String key = entry.getKey().toString();
 			final String val = entry.getValue().toString();
 			
@@ -150,10 +144,10 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     
     private void saveUserinfo()
 	{
-		Iterator iter = gChangeMap.entrySet().iterator();
+		Iterator<Entry<String, String>> iter = gChangeMap.entrySet().iterator();
 		while (iter.hasNext()) 
 		{
-			Map.Entry entry = (Map.Entry) iter.next();
+			Map.Entry<String, String> entry = (Map.Entry<String, String>) iter.next();
 			final String key = entry.getKey().toString();
 			final String val = entry.getValue().toString();
 			
@@ -307,7 +301,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
         	}
         	else if (position == FRAGMENT_ACHIEVE_INDEX)
         	{
-        		fragment = new FragmentAchieve(ActivitySettings.this);
+        		fragment = new FragmentAchieve();
         	}
             return fragment;
         }

@@ -123,6 +123,11 @@ public class ActivitySongPuzzle extends Activity {
 						else
 							answer += gBlankView[i].getText().toString();
 					}
+					if (answer.length() < gSongPuzzleGame.getCurrentAnswer().length())
+					{
+						showAnswerFullDialog();
+						return true;
+					}
 					if (gSongPuzzleGame.isRight(answer))
 					{ 
 						showAnswerDialog(gSongPuzzleGame.getCurrentAnswer(), answer, true);
@@ -144,6 +149,27 @@ public class ActivitySongPuzzle extends Activity {
 		}
 	};
 	
+	private void showAnswerFullDialog()
+	{
+		final AlertDialog dialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = dialog.getWindow();
+		window.setContentView(R.layout.lj_songpuzzle_remindnotfull_dialog);
+		Button btn = (Button) window.findViewById(R.id.lj_songpuzzle_remind_dialog_btn);
+		btn.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				dialog.dismiss();
+			}
+		});
+	}
+	
 	private void showGameEndDialog(int num)
 	{
 		gGameEndDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
@@ -157,8 +183,6 @@ public class ActivitySongPuzzle extends Activity {
 		
 		TextView correctText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_correctnum_text);
 		String str = "您回答正确数量：" + num;
-		if (correctText == null)
-			Log.e("ss", "sss");
 		correctText.setText(str);
 		
 		TextView status = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_end_status_test);
@@ -278,7 +302,6 @@ public class ActivitySongPuzzle extends Activity {
 			}
 		}
 	};
-	
 	
 	private void initData()
 	{

@@ -36,13 +36,9 @@ public class ActivityEightPuzzleGame extends Activity
 	private final int[] EIGHTPUZZLE_IMAGEVIEW_ID = {R.id.lj_img_00, R.id.lj_img_01, R.id.lj_img_02,
 													R.id.lj_img_10, R.id.lj_img_11, R.id.lj_img_12,
 													R.id.lj_img_20, R.id.lj_img_21, R.id.lj_img_22};
-	private final int SPEED_MIN = 3000;
-	private final int SPEED_MAX = 4500;
 	private final int SPEED_THREOLD = 1000;
 	private final int ANIMATION_DURATION = 300;
 	
-	private final int MENU_ITEM_RESTART = 1;
-	private final int MENU_ITEM_HINT = 2;
 	
 	private final int GAME_ING = 0;
 	private final int GAME_END = 1;
