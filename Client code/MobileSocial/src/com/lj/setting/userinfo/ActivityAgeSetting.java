@@ -11,7 +11,6 @@ import com.yg.commons.CommonUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
 

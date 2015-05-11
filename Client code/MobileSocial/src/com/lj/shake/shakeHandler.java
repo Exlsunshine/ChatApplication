@@ -240,6 +240,7 @@ public class shakeHandler extends Handler
 			case 1:
 				intent.setClass(myContext, ActivityEightPuzzleGame.class);
 				intent.putExtra("userID", id);
+				intent.putExtra("nickname", msg.obj.toString());
 				break;
 			case 2:
 				intent.setClass(myContext, ActivitySongPuzzle.class);

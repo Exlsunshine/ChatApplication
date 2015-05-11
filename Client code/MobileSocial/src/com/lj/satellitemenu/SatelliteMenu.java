@@ -20,8 +20,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -73,8 +71,6 @@ public class SatelliteMenu extends FrameLayout {
 	
 	
 	
-	private Animation buttonOut; 
-	private Animation buttonIn;
 	
 	public SatelliteMenu(Context context) {
 		super(context);

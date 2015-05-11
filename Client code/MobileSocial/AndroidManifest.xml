@@ -9,36 +9,26 @@
         android:targetSdkVersion="18" />
 
     <!-- 这个权限用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 这个权限用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 允许应用读取低级别的系统日志文件 -->
-    <uses-permission android:name="android.permission.READ_LOGS" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -95,26 +85,6 @@
             android:label="@string/title_activity_recent_dialog" >
         </activity>
         <activity
-            android:name="com.lj.shake.ActivityShake"
-            android:label="@string/title_activity_activity_shake" >
-        </activity>
-        <activity
-            android:name="com.lj.gameSetting.ActivityGameSetting"
-            android:label="@string/title_activity_activity_shake" >
-        </activity>
-        <activity
-            android:name="com.lj.gameSetting.ActivitySongSetting"
-            android:label="@string/title_activity_activity_shake" >
-        </activity>
-        <activity
-            android:name="com.lj.settings.ActivitySetting"
-            android:label="@string/title_activity_activity_shake" >
-        </activity>
-        <activity
-            android:name="com.lj.userbasicsetting.ActivityUserBasicSetting"
-            android:label="@string/title_activity_activity_shake" >
-        </activity>
-        <activity
             android:name="com.yg.ui.login.LoginGuideActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/login_animation_style" >
@@ -132,16 +102,6 @@
             android:label="@string/title_activity_friend_detail" >
         </activity>
         <activity
-            android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame"
-            android:label="itle_activity_activity_song_puzzle" />
-        <activity
-            android:name="com.lj.songpuzzle.ActivitySongPuzzle"
-            android:label="title_activity_activity_song_puzzle" />
-        <activity
-            android:name="com.lj.bazingaball.ActivityBazingaBall"
-            android:label="title_activity_activity_bazinga"
-            android:noHistory="true" />
-        <activity
             android:name="com.tp.ui.PublicActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask" >
@@ -154,16 +114,15 @@
         </activity>
         <activity android:name="com.tp.ui.MyselfPostActivity" >
         </activity>
-         <activity android:name="com.lj.settings.ActivitySettings" >
-        </activity>
-        <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" >
-        </activity>
-        <activity android:name="com.lj.setting.userinfo.ActivityAgeSetting" >
-        </activity>
-        <activity android:name="com.lj.setting.userinfo.ActivityHometownSetting" >
-        </activity>
-        <activity android:name="com.lj.setting.userinfo.ActivityPasswordSetting" >
-        </activity>
+        <activity android:name="com.lj.shake.ActivityShake" />
+        <activity android:name="com.lj.settings.ActivitySettings"/>
+        <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" />
+        <activity android:name="com.lj.setting.userinfo.ActivityAgeSetting" />
+        <activity android:name="com.lj.setting.userinfo.ActivityHometownSetting" />
+        <activity android:name="com.lj.setting.userinfo.ActivityPasswordSetting" />
+        <activity android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame" />
+        <activity android:name="com.lj.songpuzzle.ActivitySongPuzzle" />
+        <activity android:name="com.lj.bazingaball.ActivityBazingaBall" android:noHistory="true" />
     </application>
 
 </manifest>

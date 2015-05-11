@@ -19,8 +19,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -64,7 +62,7 @@ public class ActivityBazingaBall extends Activity
 	private int userID;
 	private int gRequestCode = 0;
 	
-	Handler myhandler = new Handler()
+	private Handler myhandler = new Handler()
 	{
 		private void checkGone()
 		{
@@ -265,7 +263,10 @@ public class ActivityBazingaBall extends Activity
 						if (isWin)
 							Toast.makeText(ActivityBazingaBall.this, "Win", Toast.LENGTH_LONG).show();
 						else
+						{
 							Toast.makeText(ActivityBazingaBall.this, "Lose", Toast.LENGTH_LONG).show();
+							gameFinish();
+						}
 					}
 					else
 					{
@@ -275,18 +276,14 @@ public class ActivityBazingaBall extends Activity
 							Intent intent = new Intent();
 							intent.putExtra("score", myScore);
 							setResult(BAZINGABALL_RESULT_CODE, intent);
-							iniMode();
-							reStart();
-							finish();
+							gameFinish();
 						}
 						else
 						{
 							Intent intent = new Intent();
 							intent.putExtra("score", goalScore);
 							setResult(BAZINGABALL_RESULT_CODE, intent);
-							iniMode();
-							reStart();
-							finish();
+							gameFinish();
 						}
 					}
 				}
@@ -431,15 +428,18 @@ public class ActivityBazingaBall extends Activity
 		setStartView();
 	}
 	
+	private void gameFinish()
+	{
+		iniMode();
+		reStart();
+		finish();
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
-		{
-			iniMode();
-			reStart();
-			this.finish();
-		}
+			gameFinish();
 		return super.onKeyDown(keyCode, event);
 	}
 	

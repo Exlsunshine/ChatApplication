@@ -20,13 +20,11 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.Display;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 public class ActivityShake extends Activity
@@ -49,8 +47,6 @@ public class ActivityShake extends Activity
 	public shakeListener shakelistener;
 	public locationListener locationlistener;
 	public markerClickListener markerclicklistener;
-	public mapStatusChangeListener mapstatuslistener;
-	public mapTouchListener maptouchlistener;
 	
 	shakeHandler myHandler;
 	
@@ -106,11 +102,7 @@ public class ActivityShake extends Activity
         locationClient.registerLocationListener(locationlistener);
         
         markerclicklistener = new markerClickListener(myHandler);
-        mapstatuslistener = new mapStatusChangeListener(myHandler);
-        maptouchlistener = new mapTouchListener(myHandler);
         baiduMap.setOnMarkerClickListener(markerclicklistener);
-        baiduMap.setOnMapTouchListener(maptouchlistener);
-        baiduMap.setOnMapStatusChangeListener(mapstatuslistener);
 	}
 	
     @Override
@@ -142,8 +134,21 @@ public class ActivityShake extends Activity
 			@Override
 			public void onClick(View v)
 			{
+				sensorManager.unregisterListener(shakelistener);
 				finish();
 			}
 		});
 	}
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {
+    	if (keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		sensorManager.unregisterListener(shakelistener);
+    		finish();
+    	}
+    	return super.onKeyDown(keyCode, event);
+    }
+    
 }

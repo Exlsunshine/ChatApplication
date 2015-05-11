@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.example.testmobiledatabase.R;
 import com.lj.setting.achievement.FragmentAchieve;
@@ -16,21 +17,18 @@ import com.yg.commons.ConstantValues;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,6 +47,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 	
 	private FragmentUserInfoSetting gFragmentUserInfoSetting = null;
 	private int gCurrentPosition = 0;
+	private TextView gRightText = null;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -109,10 +108,10 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     
     private void saveGame()
 	{
-		Iterator iter = gChangeMap.entrySet().iterator();
+		Iterator<Entry<String, String>> iter = gChangeMap.entrySet().iterator();
 		while (iter.hasNext()) 
 		{
-			Map.Entry entry = (Map.Entry) iter.next();
+			Map.Entry<String, String> entry = (Map.Entry<String, String>) iter.next();
 			final String key = entry.getKey().toString();
 			final String val = entry.getValue().toString();
 			
@@ -145,10 +144,10 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     
     private void saveUserinfo()
 	{
-		Iterator iter = gChangeMap.entrySet().iterator();
+		Iterator<Entry<String, String>> iter = gChangeMap.entrySet().iterator();
 		while (iter.hasNext()) 
 		{
-			Map.Entry entry = (Map.Entry) iter.next();
+			Map.Entry<String, String> entry = (Map.Entry<String, String>) iter.next();
 			final String key = entry.getKey().toString();
 			final String val = entry.getValue().toString();
 			
@@ -175,23 +174,62 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 		Toast.makeText(this, "保存资料成功", Toast.LENGTH_LONG).show();
 	}
     
+    private void save()
+    {
+    	if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
+		{
+			gFragmentUserInfoSetting.clearTextFocus();
+			saveUserinfo();
+		}
+		else if (gCurrentPosition == FRAGMENT_GAMESETTING_INDEX)
+			saveGame();
+    }
+    
+    private void back()
+    {
+    	if (!gChangeMap.isEmpty())
+		{
+			new AlertDialog.Builder(ActivitySettings.this)   
+			.setTitle("确认")  
+			.setMessage("您有未保存的信息，是否退出？")  
+			.setPositiveButton("是", new DialogInterface.OnClickListener() 
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which) 
+				{
+					gChangeMap.clear();
+					finish();
+				}
+			})  
+			.setNegativeButton("否", null)  
+			.show();  
+		}
+		else
+		{
+			gChangeMap.clear();
+			finish();
+		}
+    }
     
     private void setupDialogActionBar()
 	{
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
 		getActionBar().setDisplayShowHomeEnabled(false);
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
-		getActionBar().setCustomView(R.layout.lj_settings_userinfo_actionbar);
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
 	
-		LinearLayout back = (LinearLayout)findViewById(R.id.lj_setting_userinfo_actionbar_back);
-		LinearLayout confirm = (LinearLayout)findViewById(R.id.lj_setting_userinfo_actionbar_confirm);
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		LinearLayout confirm = (LinearLayout)findViewById(R.id.lj_common_actionbar_confirm);
+		TextView titleText = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleText.setText("资料");
+		gRightText = (TextView)findViewById(R.id.lj_common_actionbar_confirm_text);
+		gRightText.setText("保存");
 		back.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				gChangeMap.clear();
-				finish();
+				back();
 			}
 		});
 		confirm.setOnClickListener(new OnClickListener() 
@@ -199,15 +237,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 			@Override
 			public void onClick(View v) 
 			{
-				if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
-				{
-					gFragmentUserInfoSetting.clearTextFocus();
-					saveUserinfo();
-				}
-				else if (gCurrentPosition == FRAGMENT_GAMESETTING_INDEX)
-					saveGame();
-				else if (gCurrentPosition == FRAGMENT_ACHIEVE_INDEX)
-					finish();
+				save();
 			}
 		});
 	}
@@ -217,7 +247,22 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     {
         mViewPager.setCurrentItem(tab.getPosition());
         gCurrentPosition = tab.getPosition();
-        Log.e("ss", "tab");
+        if (gRightText != null)
+	        if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
+	        {
+	        	gRightText.setVisibility(View.VISIBLE);
+	        	gChangeMap.clear();
+	        }
+	        else if (gCurrentPosition == FRAGMENT_GAMESETTING_INDEX)
+	        {
+	        	gRightText.setVisibility(View.VISIBLE);
+	        	gChangeMap.clear();
+	        }
+	        else if (gCurrentPosition == FRAGMENT_ACHIEVE_INDEX)
+	        {
+	        	gRightText.setVisibility(View.INVISIBLE);
+	        	gChangeMap.clear();
+	        }
     }
 
     @Override
@@ -249,17 +294,14 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
         	{
         		fragment = new FragmentUserInfoSetting(ActivitySettings.this, gChangeMap);
         		gFragmentUserInfoSetting = (FragmentUserInfoSetting) fragment;
-        	//	((FragmentUserInfoSetting)fragment).setupDialogActionBar();
         	}
         	else if (position == FRAGMENT_GAMESETTING_INDEX)
         	{
         		fragment = new FragmentGameSetting(ActivitySettings.this, gChangeMap);
-        	//	((FragmentGameSetting)fragment).setupDialogActionBar();
         	}
         	else if (position == FRAGMENT_ACHIEVE_INDEX)
         	{
-        		fragment = new FragmentAchieve(ActivitySettings.this);
-        	//	((FragmentAchieve)fragment).setupDialogActionBar();
+        		fragment = new FragmentAchieve();
         	}
             return fragment;
         }
@@ -285,5 +327,13 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
         }
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
+    {
+    	if (keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		back();
+    	}
+    	return super.onKeyDown(keyCode, event);
+    }
 }

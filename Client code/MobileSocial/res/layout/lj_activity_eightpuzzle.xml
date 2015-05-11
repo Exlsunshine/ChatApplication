@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res/com.example.testmobiledatabase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/lj_eightpuzzle_layout_background" >
+    android:background="#1E90FF">
 
     <LinearLayout
         android:id="@+id/lj_eightpuzzle_layout"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/lj_activity_eightpuzzle_imageview_interval2"
             android:layout_marginRight="@dimen/lj_activity_eightpuzzle_imageview_interval2"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -31,10 +31,10 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/lj_nickname"
+                    android:id="@+id/lj_eightpuzzle_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center"
                     android:text="nickname"
                     android:textColor="@color/white"
                     android:textSize="@dimen/lj_activity_text_size" />
@@ -44,24 +44,33 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:gravity="center"
+                android:orientation="horizontal" >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="当前步数："
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+                
                 <TextView
                     android:id="@+id/lj_step"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/lj_activity_text_size" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
 
         <RelativeLayout
+            android:layout_marginTop="20dp"
             android:layout_width="400dp"
             android:layout_height="400dp"
-            android:background="@drawable/lj_eightpuzzle_board_background"
-            android:orientation="vertical" >
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/lj_img_00"
@@ -143,16 +152,5 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.lj.satellitemenu.SatelliteMenu 
-        android:id="@+id/menu"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="8dp"
-        app:closeOnClick="true"
-        app:expandDuration="500"
-        app:satelliteDistance="130dp"
-        app:totalSpacingDegree="180" >
-    </com.lj.satellitemenu.SatelliteMenu>
 
 </FrameLayout>

@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="ClickableViewAccessibility">
+        <ignore path="src/com/lj/bazingaball/ActivityBazingaBall.java" />
+        <ignore path="src/com/lj/datapicker/WheelView.java" />
+        <ignore path="src/com/lj/setting/game/FragmentGameSetting.java" />
+    </issue>
+    <issue id="FloatMath">
+        <ignore path="src/com/lj/datapicker/WheelView.java" />
+    </issue>
+    <issue id="HandlerLeak" severity="ignore">
+        <ignore path="src/com/lj/bazingaball/ActivityBazingaBall.java" />
+    </issue>
     <issue id="NewApi">
         <ignore path="src/com/lj/bazingaball/ActivityBazingaBall.java" />
+        <ignore path="src/com/lj/eightpuzzle/EightPuzzleImageViewBoard.java" />
+    </issue>
+    <issue id="SimpleDateFormat">
+        <ignore path="src/com/lj/setting/achievement/UserStatistics.java" />
+        <ignore path="src/com/lj/setting/userinfo/ActivityAgeSetting.java" />
     </issue>
 </lint>

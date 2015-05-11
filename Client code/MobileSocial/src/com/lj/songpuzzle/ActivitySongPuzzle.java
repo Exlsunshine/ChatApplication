@@ -6,10 +6,14 @@ import java.util.HashMap;
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,11 +25,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +53,9 @@ public class ActivitySongPuzzle extends Activity {
 	private int[] gBlankSet;
 	private Animation gCharZoomin;
 	private Animation gCharZoomout;
+	
+	private AlertDialog gRightDialog = null;
+	private AlertDialog gGameEndDialog = null;
 	
 	private int gRightNum = 0;
 	
@@ -113,20 +123,136 @@ public class ActivitySongPuzzle extends Activity {
 						else
 							answer += gBlankView[i].getText().toString();
 					}
-					if (gSongPuzzleGame.isRight(answer))
+					if (answer.length() < gSongPuzzleGame.getCurrentAnswer().length())
 					{
+						showAnswerFullDialog();
+						return true;
+					}
+					if (gSongPuzzleGame.isRight(answer))
+					{ 
+						showAnswerDialog(gSongPuzzleGame.getCurrentAnswer(), answer, true);
 						gRightNum++;
-						Toast.makeText(ActivitySongPuzzle.this, "Right", Toast.LENGTH_LONG).show();
 					}
 					else
-						Toast.makeText(ActivitySongPuzzle.this, "Wrong", Toast.LENGTH_LONG).show();
+						showAnswerDialog(gSongPuzzleGame.getCurrentAnswer(), answer, false);
 					gSongPuzzleGame.next();
-					initData();
+					if (!gSongPuzzleGame.isFinish())
+						initData();
+					else
+					{
+						gRightDialog.dismiss();
+						showGameEndDialog(gRightNum);
+					}
 				}
 			}
 			return true;
 		}
 	};
+	
+	private void showAnswerFullDialog()
+	{
+		final AlertDialog dialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = dialog.getWindow();
+		window.setContentView(R.layout.lj_songpuzzle_remindnotfull_dialog);
+		Button btn = (Button) window.findViewById(R.id.lj_songpuzzle_remind_dialog_btn);
+		btn.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				dialog.dismiss();
+			}
+		});
+	}
+	
+	private void showGameEndDialog(int num)
+	{
+		gGameEndDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		gGameEndDialog.setCanceledOnTouchOutside(true);
+		gGameEndDialog.show();
+		gGameEndDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		gGameEndDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = gGameEndDialog.getWindow();
+		window.setContentView(R.layout.lj_songpuzzle_gameend_dialog);
+		
+		TextView correctText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_correctnum_text);
+		String str = "您回答正确数量：" + num;
+		correctText.setText(str);
+		
+		TextView status = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_end_status_test);
+		Button btn = (Button) window.findViewById(R.id.lj_songpuzzle_dialog_op);
+		if (num >= 1)
+		{
+			status.setText("恭喜您挑战成功");
+			btn.setText("查看信息");
+			btn.setOnClickListener(new OnClickListener() 
+			{
+				@Override
+				public void onClick(View v) 
+				{
+					Toast.makeText(ActivitySongPuzzle.this, "See", Toast.LENGTH_LONG).show();
+				}
+			});
+		}
+		else
+		{
+			status.setText("很遗憾您挑战失败");
+			btn.setText("退出");
+			btn.setOnClickListener(new OnClickListener() 
+			{
+				@Override
+				public void onClick(View v) 
+				{
+					finish();
+				}
+			});
+		}
+		
+	}
+	
+	private void showAnswerDialog(String rightAnswer, String userAnswer, boolean flag)
+	{
+		gRightDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		gRightDialog.setCanceledOnTouchOutside(true);
+		gRightDialog.show();
+		gRightDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		gRightDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = gRightDialog.getWindow();
+		window.setContentView(R.layout.lj_songpuzzle_right_dialog);
+		
+		TextView flagText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_status);
+		if (flag)
+			flagText.setText("恭喜您回答正确");
+		else
+			flagText.setText("很遗憾您回答错误");
+		TextView rightAnswerText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_rightanswer);
+		rightAnswerText.setText(rightAnswer);
+		
+		TextView userAnswerText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_useranswer);
+		userAnswerText.setText(userAnswer);
+		
+		Button next = (Button) window.findViewById(R.id.lj_songpuzzle_dialog_next);
+		next.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				gRightDialog.dismiss();
+			}
+		});
+	//	Button forgot = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_forgot);
+	//	forgot.setOnClickListener(new onForgotBtnClickListener());
+		
+	//	Button login = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_login);
+//		login.setOnClickListener(new onLoginBtnClickListener());
+	}
 	
 	OnClickListener charClickListener = new OnClickListener() 
 	{
@@ -176,7 +302,6 @@ public class ActivitySongPuzzle extends Activity {
 			}
 		}
 	};
-	
 	
 	private void initData()
 	{
@@ -285,6 +410,27 @@ public class ActivitySongPuzzle extends Activity {
 		gCharZoomout = AnimationUtils.loadAnimation(ActivitySongPuzzle.this, R.anim.lj_songpuzzle_char_zoomout);
 		Intent intent = getIntent();
 	    userID = intent.getIntExtra("userID", 0);
+	    setupDialogActionBar();
+	}
+	
+	private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleTextView.setText("音乐闯关");
+		back.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
 	}
 	
 	@Override

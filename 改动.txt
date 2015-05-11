@@ -1,0 +1,12 @@
+重要：
+1、
+2、选择性别后数据加载错误
+3、进入摇一摇界面后，不摇退出，摇动后手机震动
+4、地图界面     usershakedatalist   显示bug
+5、setting activity 改动信息后，点击取消或返回时提示用户是否放弃更改
+6、三个游戏最终的效果定型
+
+次要：
+5、setting activity的tab颜色条把黑色改成蓝色（暂时是蓝色）
+6、修改eight puzzle 背景
+7、修改song puzzle 背景

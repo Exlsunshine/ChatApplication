@@ -3,8 +3,6 @@ package com.lj.setting.game;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
@@ -16,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -25,9 +22,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,7 +29,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +43,6 @@ public class FragmentGameSetting extends Fragment
 	private Switch gBazingaSwitch = null;
 	private ImageView gEightPuzzleImage = null;
 	private TextView gBazingaScoreText = null;
-	private TextView gConfirmText = null;
 	private TextView gBazingaBeginText = null;
 	
 	private HashMap<String, String> gChangeMap = null;
@@ -107,42 +99,6 @@ public class FragmentGameSetting extends Fragment
 	{
 		gContext = context;
 		gChangeMap = map;
-	}
-	
-	private void save()
-	{
-		Iterator iter = gChangeMap.entrySet().iterator();
-		while (iter.hasNext()) 
-		{
-			Map.Entry entry = (Map.Entry) iter.next();
-			final String key = entry.getKey().toString();
-			final String val = entry.getValue().toString();
-			
-			new Thread()
-			{
-				public void run() 
-				{
-					if (key.equals("game"))
-					{
-						int gametype = Integer.valueOf(val);
-						GameSetting gameSetting = new GameSetting();
-						gameSetting.setGameType(ConstantValues.user.getID(), gametype);
-					}
-					else if (key.equals("eightpuzzle"))
-					{
-						GameSetting gameSetting = new GameSetting();
-						gameSetting.setEightPuzzleImage(ConstantValues.user.getID(), val);
-					}
-					else if (key.equals("bazinga"))
-					{
-						GameSetting gameSetting = new GameSetting();
-						gameSetting.setBazingaScore(ConstantValues.user.getID(), Integer.valueOf(val));
-					}
-				};
-			}.start();
-		}
-		gChangeMap.clear();
-		Toast.makeText(gContext, "保存游戏设置成功", Toast.LENGTH_LONG).show();
 	}
 	
 	private OnTouchListener gViewOnTouchListener = new OnTouchListener() 

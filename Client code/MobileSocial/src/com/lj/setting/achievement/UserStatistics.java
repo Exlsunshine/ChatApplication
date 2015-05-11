@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-import android.util.Log;
 
 import com.yg.user.PackString;
 import com.yg.user.WebServiceAPI;

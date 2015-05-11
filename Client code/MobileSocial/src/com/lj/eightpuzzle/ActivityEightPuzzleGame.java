@@ -1,38 +1,29 @@
 package com.lj.eightpuzzle;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
 
 import com.example.testmobiledatabase.R;
-import com.lj.satellitemenu.SatelliteMenu;
-import com.lj.satellitemenu.SatelliteMenuItem;
-import com.lj.satellitemenu.SatelliteMenu.SateliteClickedListener;
 import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,13 +36,13 @@ public class ActivityEightPuzzleGame extends Activity
 	private final int[] EIGHTPUZZLE_IMAGEVIEW_ID = {R.id.lj_img_00, R.id.lj_img_01, R.id.lj_img_02,
 													R.id.lj_img_10, R.id.lj_img_11, R.id.lj_img_12,
 													R.id.lj_img_20, R.id.lj_img_21, R.id.lj_img_22};
-	private final int SPEED_MIN = 3000;
-	private final int SPEED_MAX = 4500;
 	private final int SPEED_THREOLD = 1000;
 	private final int ANIMATION_DURATION = 300;
 	
-	private final int MENU_ITEM_RESTART = 1;
-	private final int MENU_ITEM_HINT = 2;
+	
+	private final int GAME_ING = 0;
+	private final int GAME_END = 1;
+	private int gGameStatus = GAME_ING;
 	
 	private float moveLength ;
 	private EightPuzzleImageViewBoard gImageViewBoard;
@@ -65,6 +56,9 @@ public class ActivityEightPuzzleGame extends Activity
 	private TranslateAnimation moveLeft;
 	private TranslateAnimation moveUp;
 	private TranslateAnimation moveDown;
+	
+	private AlertDialog gRestartDialog = null;
+	private AlertDialog gSuccessDialog = null;
 	
 	private TranslateAnimation updateStep;
 	
@@ -124,7 +118,7 @@ public class ActivityEightPuzzleGame extends Activity
 		@Override
 		public void onAnimationEnd(Animation animation) 
 		{
-			gStepTextView.setText(gStep + "");
+			gStepTextView.setText(String.valueOf(gStep));
 		}
 	};
 	
@@ -150,7 +144,8 @@ public class ActivityEightPuzzleGame extends Activity
 			gStepTextView.startAnimation(updateStep);
 			if (gImageViewBoard.isWin())
 			{
-				Toast.makeText(ActivityEightPuzzleGame.this, "Wwwwwwwwwwwwwwwwwwwwwwwin", Toast.LENGTH_LONG).show();
+				showSuccessDialog();
+				gGameStatus = GAME_END;
 				moveStepList.clear();
 			}
 			if (!moveStepList.isEmpty())
@@ -227,14 +222,14 @@ public class ActivityEightPuzzleGame extends Activity
 		};
 	};
 	
-	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) 
 	{
-		return gestureDetector.onTouchEvent(event);
+		if (gGameStatus == GAME_ING)
+			return gestureDetector.onTouchEvent(event);
+		else
+			return false;
 	}
-	
-
 	
 	private ImageView[] createImageVIewBoard()
 	{
@@ -251,8 +246,6 @@ public class ActivityEightPuzzleGame extends Activity
 		gStepTextView.setText("0");
 	}
 	
-
-	
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
@@ -262,57 +255,21 @@ public class ActivityEightPuzzleGame extends Activity
         
         Intent intent = getIntent();
         userID = intent.getIntExtra("userID", 0);
-        
+        String nikcname = intent.getStringExtra("nickname");
         gestureDetector = new GestureDetector(this,onGestureListener);
         
         moveStepList = new LinkedList<Integer>();
         
         gStepTextView = (TextView)findViewById(R.id.lj_step);
         
-        
-        
-        SatelliteMenu menu = (SatelliteMenu) findViewById(R.id.menu);
-        List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
-        items.add(new SatelliteMenuItem(0, R.drawable.ic_1));
-        items.add(new SatelliteMenuItem(MENU_ITEM_RESTART, R.drawable.ic_3));
-        items.add(new SatelliteMenuItem(2, R.drawable.ic_4));
-        items.add(new SatelliteMenuItem(3, R.drawable.ic_5));
-        items.add(new SatelliteMenuItem(4, R.drawable.ic_6));
-        items.add(new SatelliteMenuItem(0, R.drawable.ic_2));
-        menu.addItems(items);     
-        menu.setOnItemClickedListener(new SateliteClickedListener() 
-        {
-			public void eventOccured(int id) {
-				Log.e("sat", "Clicked on " + id);
-				switch (id)
-				{
-				case MENU_ITEM_RESTART:
-					new AlertDialog.Builder(ActivityEightPuzzleGame.this)   
-						.setTitle("确认")  
-						.setMessage("确定重新开始？")  
-						.setPositiveButton("是", new OnClickListener() 
-						{
-							@Override
-							public void onClick(DialogInterface dialog, int which) 
-							{
-								restart();
-							}
-						})  
-						.setNegativeButton("否", null)  
-						.show();  
-					break;
-				case MENU_ITEM_HINT:
-					break;
-				}
-			}
-		});
+        TextView nicknameText = (TextView)findViewById(R.id.lj_eightpuzzle_nickname);
+        nicknameText.setText(nikcname);
         
         new ThreadDownloadGameImage(userID, gHandler).start();
         
         setupDialogActionBar();
+        gGameStatus = GAME_ING;
     }
-
-
 
     private void setupDialogActionBar()
 	{
@@ -324,6 +281,18 @@ public class ActivityEightPuzzleGame extends Activity
 		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
 		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
 		titleTextView.setText("图片迷城");
+		
+		TextView restartTextView = (TextView)findViewById(R.id.lj_common_actionbar_confirm_text);
+		restartTextView.setText("重来");
+		restartTextView.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				showRestartDialog();
+			}
+		});
+		
 		back.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -335,9 +304,67 @@ public class ActivityEightPuzzleGame extends Activity
 	}
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-    	// TODO Auto-generated method stub
+    public void onWindowFocusChanged(boolean hasFocus) 
+    {
     	super.onWindowFocusChanged(hasFocus);
     	
+    }
+
+    private void showRestartDialog()
+	{
+		gRestartDialog = new android.app.AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		gRestartDialog.setCanceledOnTouchOutside(true);
+		gRestartDialog.show();
+		gRestartDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		gRestartDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = gRestartDialog.getWindow();
+		window.setContentView(R.layout.lj_eightpuzzle_restart_dialog);
+		
+		
+		Button cancel = (Button) window.findViewById(R.id.lj_eightpuzzle_restart_dialog_button_cancel);
+		Button confirm = (Button) window.findViewById(R.id.lj_eightpuzzle_restart_dialog_button_confirm);
+		cancel.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				gRestartDialog.dismiss();
+			}
+		});
+		confirm.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				restart();
+				gRestartDialog.dismiss();
+			}
+		});
+	}
+    
+    private void showSuccessDialog()
+    {
+    	gSuccessDialog = new android.app.AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+    	gSuccessDialog.setCanceledOnTouchOutside(true);
+    	gSuccessDialog.show();
+    	gSuccessDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+    	gSuccessDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = gSuccessDialog.getWindow();
+		window.setContentView(R.layout.lj_eightpuzzle_success_dialog);
+		
+		
+		gSuccessDialog.setCancelable(false);
+		Button look = (Button) window.findViewById(R.id.lj_eightpuzzle_dialog_op);
+		look.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Toast.makeText(ActivityEightPuzzleGame.this, "see", Toast.LENGTH_LONG).show();
+				gSuccessDialog.dismiss();
+			}
+		});
     }
 }
