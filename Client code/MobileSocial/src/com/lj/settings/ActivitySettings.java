@@ -187,6 +187,8 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     
     private void back()
     {
+    	if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
+    		gFragmentUserInfoSetting.clearTextFocus();
     	if (!gChangeMap.isEmpty())
 		{
 			new AlertDialog.Builder(ActivitySettings.this)   
