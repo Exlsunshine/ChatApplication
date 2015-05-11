@@ -54,6 +54,7 @@ import com.yg.ui.recentdialog.RecentDialogActivity;
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity implements OnCheckedChangeListener
 {
+	public static final String CLEAR_ACTIONBAR_REQUEST = "clearActionbar";
 	private class TabTags
 	{
 		public static final String recentDialogTab = "recentDialogTab";
@@ -94,6 +95,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	{
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("friendlist_query_refresh_complete");
+		filter.addAction(CLEAR_ACTIONBAR_REQUEST);
 		
 		return filter;		
 	}
@@ -107,6 +109,16 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			{
 				TextView title = (TextView)findViewById(R.id.yg_friendlist_actionbar_result_layout_title);
 				title.setText(intent.getStringExtra("query") + "(" + intent.getStringExtra("number") + ")");
+			}
+			else if (intent.getAction().equals(CLEAR_ACTIONBAR_REQUEST))
+			{
+				RelativeLayout defaultLayout = (RelativeLayout) findViewById(R.id.yg_friendlist_actionbar_default_layout);
+				defaultLayout.setVisibility(View.VISIBLE);
+
+				RelativeLayout resultLayout = (RelativeLayout) findViewById(R.id.yg_friendlist_actionbar_result_layout);
+				TextView title = (TextView)findViewById(R.id.yg_friendlist_actionbar_result_layout_title);
+				title.setText("");
+				resultLayout.setVisibility(View.GONE);
 			}
 		}
 	};

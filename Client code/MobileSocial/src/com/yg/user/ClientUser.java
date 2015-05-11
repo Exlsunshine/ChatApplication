@@ -555,6 +555,8 @@ public class ClientUser extends AbstractUser
 	
 	private void getFriendListFromServer()
 	{
+		friendList = new ArrayList<FriendUser>();
+		
 		/**********		str应从服务器处获取		**********/
 		String [] params = new String[1];
 		Object [] vlaues = new Object[1];
@@ -571,7 +573,7 @@ public class ClientUser extends AbstractUser
 		
 		PackString ps = new PackString(str);
 		ArrayList<HashMap<String, Object>> result = ps.jsonString2Arrylist(JSON_INFO_KEY_USER_FRIENDS_LIST);
-		friendList = new ArrayList<FriendUser>();
+		
 		for (int i = 0; i < result.size(); i++)
 		{
 			HashMap<String, Object> map = result.get(i);
@@ -606,6 +608,9 @@ public class ClientUser extends AbstractUser
 			return friendList;
 		
 		getFriendListFromServer();
+		
+		if (friendList == null)
+			Log.e(DEBUG_TAG, "2Friend list is null.");
 		
 		return friendList;
 	}
@@ -642,6 +647,9 @@ public class ClientUser extends AbstractUser
 			return dialogList;
 		
 		dialogList = new ArrayList<Dialog>();
+		
+		if (friendList == null)
+			Log.e(DEBUG_TAG, "3Friend list is null.");
 		
 		for (int i = 0; i < friendList.size(); i++)
 		{

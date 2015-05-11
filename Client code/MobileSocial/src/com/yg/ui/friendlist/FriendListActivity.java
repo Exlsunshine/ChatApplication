@@ -39,6 +39,8 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	private static final String DEBUG_TAG = "FriendListActivity______";
 	private int firstVisibleItem;
 	private int visibleItemCount;
+	private boolean needRefresh = false;
+	private boolean initDataFinish = false;
 	
 	private List<String> friendsName = new ArrayList<String>();
 	private List<Bitmap> friendsPortrait = new ArrayList<Bitmap>();
@@ -85,6 +87,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		{
 			setupLayout();
 			myAdapter.notifyDataSetChanged();
+			initDataFinish = true;
 			super.onPostExecute(result);
 		}
 		
@@ -207,6 +210,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_list);
 
+		initDataFinish = false;
+		needRefresh = false;
+		
 		DownloadPortraitTask dpt = new DownloadPortraitTask();
 		dpt.execute();
 	}
@@ -216,6 +222,16 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	{
 		registerReceiver(broadcastReceiver, intentFilter());
 		Log.i(DEBUG_TAG, "FriendList resume.");
+		
+		if (needRefresh)
+		{
+			//reload all friends data(in case of leaving this activity while
+			//not cancel the query, that would be a UI bug.)
+			refreshDataFromQuery("");
+			Log.i(DEBUG_TAG, "FriendList onResume.");
+			needRefresh = false;
+		}
+		
 		super.onResume();
 	}
 	
@@ -226,8 +242,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 
 		//reload all friends data(in case of leaving this activity while
 		//not cancel the query, that would be a UI bug.)
-		refreshDataFromQuery("");
-		Log.i(DEBUG_TAG, "FriendList pause.");
+		//refreshDataFromQuery("");
+		//Log.i(DEBUG_TAG, "FriendList pause.");
+		needRefresh = initDataFinish;
 		super.onPause();
 	}
 	
@@ -252,7 +269,15 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			Intent intent = new Intent(FriendListActivity.this, FriendDetailActivity.class);
 			intent.putExtra("friendUserID", friendsID.get(position - 2));
 			startActivity(intent);
+			
+			requestForCleanActionbar();
 		}
+	}
+	
+	private void requestForCleanActionbar()
+	{
+		Intent intent = new Intent(MainActivity.CLEAR_ACTIONBAR_REQUEST);
+		sendBroadcast(intent);
 	}
 	
 	public void removeItem(int position, int id)
