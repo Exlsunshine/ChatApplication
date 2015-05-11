@@ -50,8 +50,6 @@ public class ActivityShake extends Activity
 	public shakeListener shakelistener;
 	public locationListener locationlistener;
 	public markerClickListener markerclicklistener;
-	public mapStatusChangeListener mapstatuslistener;
-	public mapTouchListener maptouchlistener;
 	
 	shakeHandler myHandler;
 	
@@ -107,11 +105,7 @@ public class ActivityShake extends Activity
         locationClient.registerLocationListener(locationlistener);
         
         markerclicklistener = new markerClickListener(myHandler);
-        mapstatuslistener = new mapStatusChangeListener(myHandler);
-        maptouchlistener = new mapTouchListener(myHandler);
         baiduMap.setOnMarkerClickListener(markerclicklistener);
-        baiduMap.setOnMapTouchListener(maptouchlistener);
-        baiduMap.setOnMapStatusChangeListener(mapstatuslistener);
 	}
 	
     @Override
