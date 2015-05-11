@@ -6,12 +6,15 @@ import java.util.HashMap;
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.image.select.ui.SelectImageActivity;
+import com.yg.ui.signup.SignupActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +24,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -41,6 +45,9 @@ public class FragmentUserInfoSetting extends Fragment
 	
 	public static final int ACTIVITY_RESULT_CODE_HOMETOWN = 3;
 	public static final int ACTIVITY_REQUEST_CODE_HOMETOWN = 3;
+	
+	private static final int ACTIVITY_RESULT_CODE_PORTRAIT = 4;
+	private static final int ACTIVITY_REQUEST_CODE_PORTRAIT = 4;
 	
 	private ImageView gPortraitImage = null;
 	private EditText gNicknameEditText = null;
@@ -107,7 +114,10 @@ public class FragmentUserInfoSetting extends Fragment
 			}
 			else if (id == R.id.lj_userinfo_setting_portrait)
 			{
-				new AlertDialog.Builder(gContext).setTitle("请选择")
+				Intent intent = new Intent(gContext, SelectImageActivity.class);
+				intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
+				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_PORTRAIT);
+				/*new AlertDialog.Builder(gContext).setTitle("请选择")
 					.setIcon(R.drawable.ic_launcher)
 					.setItems(new String[] {"本地图库", "照相机"}, new DialogInterface.OnClickListener() 
 					{
@@ -127,7 +137,7 @@ public class FragmentUserInfoSetting extends Fragment
 							}
 							dialog.dismiss();  
 						}
-					}).setNegativeButton("取消", null).show(); 
+					}).setNegativeButton("取消", null).show(); */
 			}
 		}
 	};
@@ -238,42 +248,22 @@ public class FragmentUserInfoSetting extends Fragment
 			gHometownTextView.setText(hometown);
 			gChangeMap.put("hometown", hometown);
 		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == Activity.RESULT_OK)
+		else if (requestCode == ACTIVITY_REQUEST_CODE_PORTRAIT && resultCode == Activity.RESULT_OK)
 		{
-			Uri selectedImage =  data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-			Cursor cursor = gContext.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-			cursor.moveToFirst();
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			cursor.close();
-			File temp = new File(picturePath);
-			startPhotoZoom(Uri.fromFile(temp)); 
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CAMERA && resultCode == Activity.RESULT_OK)
-		{
-			File temp = new File(Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.USERSET_PORTRAIT);  
-            startPhotoZoom(Uri.fromFile(temp));  
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CROP && resultCode == Activity.RESULT_OK)
-		{
+			String filePath = data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH);
+			
 			Bitmap bitmap = null;
-			try {
-				bitmap = MediaStore.Images.Media.getBitmap(gContext.getContentResolver(), IMAGE_URI);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
+			try 
+			{
+				bitmap = BitmapFactory.decodeFile(filePath);
+				gPortraitImage.setImageBitmap(bitmap);
+				gChangeMap.put("portrait", filePath);
+				bitmap = null;
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
-			gPortraitImage.setImageBitmap(bitmap);
-			gChangeMap.put("portrait", Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.USERSET_PORTRAIT);
-		/*	new Thread()
-			{
-				public void run() 
-				{
-					ConstantValues.user.setPortrait(Environment.getExternalStorageDirectory() + "/Portrait.jpg");
-				};
-			}.start();*/
-			bitmap = null;
 		}
 	}
 	
@@ -282,19 +272,4 @@ public class FragmentUserInfoSetting extends Fragment
 		gNicknameEditText.clearFocus();
 		gPhoneEditText.clearFocus();
 	}
-	
-	private void startPhotoZoom(Uri uri) 
-	{  
-        Intent intent = new Intent("com.android.camera.action.CROP");  
-        intent.setDataAndType(uri, "image/*");  
-        //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪  
-        intent.putExtra("crop", "true");  
-        // aspectX aspectY 是宽高的比例  
-        intent.putExtra("aspectX", 1);  
-        intent.putExtra("aspectY", 1);  
-        intent.putExtra("return-data", false);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CROP);  
-    }  
 }
