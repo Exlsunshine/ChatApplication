@@ -24,6 +24,7 @@ import com.yg.message.AudioMessage;
 import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.network.openfire.OpenfireHandler;
+import com.yg.ui.login.implementation.LoginInfo;
 
 public class ClientUser extends AbstractUser
 {
@@ -347,8 +348,11 @@ public class ClientUser extends AbstractUser
 	/**
 	 * ×¢Ïú
 	 */
-	public void signoff()
+	public void signoff(Context context)
 	{
+		LoginInfo loginInfo = new LoginInfo(context);
+		loginInfo.logoff();
+		
 		ofhandler.signoff();
 	}
 
