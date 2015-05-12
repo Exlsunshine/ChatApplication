@@ -60,8 +60,6 @@ public class FragmentUserInfoSetting extends Fragment
 	
 	private HashMap<String, String> gChangeMap = null;  
 	
-	private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT));
-	
 	private final int[] VIEW_ID = {R.id.lj_userinfo_setting_sex_layout, R.id.lj_userinfo_setting_sex_text, R.id.lj_userinfo_setting_sex_image,
 								   R.id.lj_userinfo_setting_age_layout, R.id.lj_userinfo_setting_age_text, R.id.lj_userinfo_setting_age_image,
 								   R.id.lj_userinfo_setting_constellation_layout, R.id.lj_userinfo_setting_constellation_text, R.id.lj_userinfo_setting_constellation_image,
@@ -117,27 +115,6 @@ public class FragmentUserInfoSetting extends Fragment
 				Intent intent = new Intent(gContext, SelectImageActivity.class);
 				intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
 				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_PORTRAIT);
-				/*new AlertDialog.Builder(gContext).setTitle("请选择")
-					.setIcon(R.drawable.ic_launcher)
-					.setItems(new String[] {"本地图库", "照相机"}, new DialogInterface.OnClickListener() 
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int which) 
-						{
-							if (which == 0)
-							{
-								Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-								startActivityForResult(i, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
-							}							
-							else if (which == 1)
-							{
-								Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
-								intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT)));  
-								startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CAMERA);  
-							}
-							dialog.dismiss();  
-						}
-					}).setNegativeButton("取消", null).show(); */
 			}
 		}
 	};
