@@ -235,7 +235,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			//reload all friends data(in case of leaving this activity while
 			//not cancel the query, that would be a UI bug.)
 			refreshDataFromQuery("");
-			Log.i(DEBUG_TAG, "FriendList onResume.");
+			requestForCleanActionbar();
 			needRefresh = false;
 		}
 		
@@ -246,11 +246,11 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	protected void onPause() 
 	{
 		unregisterReceiver(broadcastReceiver);
-
-		//reload all friends data(in case of leaving this activity while
-		//not cancel the query, that would be a UI bug.)
-		//refreshDataFromQuery("");
-		//Log.i(DEBUG_TAG, "FriendList pause.");
+		
+		Log.i(DEBUG_TAG, "FriendList onPause.\n" + "initDataFinish is " + initDataFinish);
+		
+		//Only initial data loading finished, 
+		//can we refresh the listview(Or system will crash).
 		needRefresh = initDataFinish;
 		super.onPause();
 	}
