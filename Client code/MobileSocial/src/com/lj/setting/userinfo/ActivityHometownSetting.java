@@ -6,11 +6,17 @@ import com.lj.datapicker.OnWheelChangedListener;
 import com.lj.datapicker.WheelView;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ActivityHometownSetting extends Activity
@@ -126,6 +132,30 @@ public class ActivityHometownSetting extends Activity
 		String hometown = intent.getStringExtra("hometown");
 		gHometownText.setText(hometown);
 		new ThreadGetProvinceArray(gHandler).start();
+		setupDialogActionBar();
+	}
+	
+	private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		TextView titleText = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleText.setText("¼ÒÏç");
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent = new Intent();  
+				intent.putExtra("hometown", gHometownText.getText().toString());
+				setResult(FragmentUserInfoSetting.ACTIVITY_RESULT_CODE_HOMETOWN, intent);  
+				finish();
+			}
+		});
 	}
 	
 	@Override
