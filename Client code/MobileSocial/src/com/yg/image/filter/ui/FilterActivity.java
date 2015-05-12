@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FilterActivity extends Activity
 {
@@ -127,12 +128,17 @@ public class FilterActivity extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				filterCache.clearCacheExcept(String.valueOf(currentSelection));
-				
-				Intent intent = FilterActivity.this.getIntent();
-				intent.putExtra(RESULT_IMAGE_PATH, filterCache.getFilterBmpPath(String.valueOf(currentSelection)));
-				FilterActivity.this.setResult(RESULT_OK, intent);
-				FilterActivity.this.finish();
+				if (filterCache.hasFinished(String.valueOf(currentSelection)))
+				{
+					filterCache.clearCacheExcept(String.valueOf(currentSelection));
+					
+					Intent intent = FilterActivity.this.getIntent();
+					intent.putExtra(RESULT_IMAGE_PATH, filterCache.getFilterBmpPath(String.valueOf(currentSelection)));
+					FilterActivity.this.setResult(RESULT_OK, intent);
+					FilterActivity.this.finish();
+				}
+				else
+					Toast.makeText(FilterActivity.this, "还在处理中...稍安勿躁:)", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
