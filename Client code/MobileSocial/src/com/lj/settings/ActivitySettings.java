@@ -111,6 +111,11 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     
     private void saveGame()
 	{
+    	if (gChangeMap.size() == 0)
+    	{
+    		Toast.makeText(this, "没有未保存的信息", Toast.LENGTH_LONG).show();
+    		return;
+    	}
 		Iterator<Entry<String, String>> iter = gChangeMap.entrySet().iterator();
 		while (iter.hasNext()) 
 		{
@@ -147,6 +152,11 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     
     private void saveUserinfo()
 	{
+    	if (gChangeMap.size() == 0)
+    	{
+    		Toast.makeText(this, "没有未保存的信息", Toast.LENGTH_LONG).show();
+    		return;
+    	}
 		Iterator<Entry<String, String>> iter = gChangeMap.entrySet().iterator();
 		while (iter.hasNext()) 
 		{

@@ -104,30 +104,26 @@ public class FragmentGameSetting extends Fragment
 		gChangeMap = map;
 	}
 	
-	private OnTouchListener gViewOnTouchListener = new OnTouchListener() 
+	private OnClickListener gViewOnClickListener = new OnClickListener() 
 	{
 		@Override
-		public boolean onTouch(View v, MotionEvent event) 
+		public void onClick(View v) 
 		{
 			int id = v.getId();
-			if (event.getAction() == MotionEvent.ACTION_DOWN)
+			if (id == R.id.lj_game_setting_eightpuzzle_image || id == R.id.lj_game_setting_eightpuzzle_image_text)
 			{
-				if (id == R.id.lj_game_setting_eightpuzzle_image)
-				{
-					Intent intent = new Intent(gContext, SelectImageActivity.class);
-					intent.putExtra(SelectImageActivity.FILTER_ENABLE, false);
-					startActivityForResult(intent, ACTIVITY_REQUEST_CODE_EIGHTPUZZLE);
-				}
-				else if (id == R.id.lj_game_setting_bazinga_begin)
-				{
-					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityBazingaBall.class);
-					intent.putExtra("userID", ConstantValues.user.getID());  
-					intent.putExtra("requestCode", ActivityBazingaBall.BAZINGABALL_REQUEST_CODE);  
-					startActivityForResult(intent, ActivityBazingaBall.BAZINGABALL_REQUEST_CODE);
-				}
+				Intent intent = new Intent(gContext, SelectImageActivity.class);
+				intent.putExtra(SelectImageActivity.FILTER_ENABLE, false);
+				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_EIGHTPUZZLE);
 			}
-			return true;
+			else if (id == R.id.lj_game_setting_bazinga_begin)
+			{
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityBazingaBall.class);
+				intent.putExtra("userID", ConstantValues.user.getID());  
+				intent.putExtra("requestCode", ActivityBazingaBall.BAZINGABALL_REQUEST_CODE);  
+				startActivityForResult(intent, ActivityBazingaBall.BAZINGABALL_REQUEST_CODE);
+			}
 		}
 	};
 	
@@ -189,12 +185,15 @@ public class FragmentGameSetting extends Fragment
 		gBazingaSwitch.setOnClickListener(gSwitchClickListener);
 		
 		gEightPuzzleImage = (ImageView)gView.findViewById(R.id.lj_game_setting_eightpuzzle_image);
-		gEightPuzzleImage.setOnTouchListener(gViewOnTouchListener);
+		gEightPuzzleImage.setOnClickListener(gViewOnClickListener);
+		
+		TextView eightpuzzleText = (TextView)gView.findViewById(R.id.lj_game_setting_eightpuzzle_image_text);
+		eightpuzzleText.setOnClickListener(gViewOnClickListener);
 		
 		gBazingaScoreText = (TextView)gView.findViewById(R.id.lj_game_setting_bazinga_score);
 		
 		gBazingaBeginText = (TextView)gView.findViewById(R.id.lj_game_setting_bazinga_begin);
-		gBazingaBeginText.setOnTouchListener(gViewOnTouchListener);
+		gBazingaBeginText.setOnClickListener(gViewOnClickListener);
 		
 		initGameData();
 	}

@@ -104,6 +104,7 @@
                     android:layout_marginLeft="@dimen/lj_game_setting_left_marign" />
 
                 <TextView
+                    android:id="@+id/lj_game_setting_eightpuzzle_image_text"
                     android:layout_width="@dimen/lj_userinfo_item_width"
                     android:layout_height="@dimen/lj_userinfo_item_height"
                     android:layout_centerVertical="true"
