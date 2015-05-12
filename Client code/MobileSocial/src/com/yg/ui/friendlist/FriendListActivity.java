@@ -199,7 +199,14 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		@Override  
 		public void onTouchingLetterEnd()  
 		{  
-			myAdapter.enableAnimation(true);
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run() 
+				{
+					myAdapter.enableAnimation(true);
+				}
+			}, 300);
 			indecator.setVisibility(View.GONE);
 		}  
 	}
