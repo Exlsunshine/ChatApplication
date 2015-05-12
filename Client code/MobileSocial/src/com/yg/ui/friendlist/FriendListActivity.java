@@ -53,6 +53,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	
 	private SlideBar slidebar = null;
 	private TextView indecator = null;
+
+	private static final int FRIENDSHIP_REQUEST_STAR = 0;
+	private static final int FRIENDSHIP_REQUEST_DELETE = 1;
 	
 	private class DownloadPortraitTask extends AsyncTask<Void, Void, Void>
 	{
@@ -293,17 +296,79 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		sendBroadcast(intent);
 	}
 	
+	private class FriendshipOperationTask extends AsyncTask<Integer, Void, Void>
+	{
+		private int cmd;
+		private int position;
+		
+		@Override
+		protected Void doInBackground(Integer... params)
+		{
+			int position = params[0];
+			int cmd = params[1];
+			this.cmd = cmd;
+			this.position = position;
+			
+			switch (cmd)
+			{
+			case FRIENDSHIP_REQUEST_DELETE:
+				ConstantValues.user.deleteUser(friendsID.get(position - 2));
+				break;
+			case FRIENDSHIP_REQUEST_STAR:
+				boolean isCloseFriends = !friendsStarMark.get(position - 2);
+				friendsStarMark.set(position - 2, isCloseFriends);
+				ConstantValues.user.setAsCloseFriend(friendsID.get(position - 2), isCloseFriends);
+				break;
+			default:
+				break;
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			super.onPostExecute(result);
+			
+			if (cmd == FRIENDSHIP_REQUEST_DELETE)
+				myAdapter.remove(position - 2);
+			
+			myAdapter.enableAnimation(false);
+			myAdapter.notifyDataSetChanged();
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run() 
+				{
+					myAdapter.enableAnimation(true);
+				}
+			}, 300);
+		}
+	}
 	public void removeItem(int position, int id)
 	{
-		//Add star to a friend
+		new FriendshipOperationTask().execute(position, id);
+		/*//Add star to a friend
 		if (id == 0)
 		{
-			Toast.makeText(this, "没有呼叫功能", Toast.LENGTH_SHORT).show();
+			Thread td = new Thread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					boolean isCloseFriends = !friendsStarMark.get(position - 2);
+					friendsStarMark.set(position - 2, isCloseFriends);
+					ConstantValues.user.setAsCloseFriend(friendsID.get(position - 2), isCloseFriends);
+					
+				}
+			});
+			td.start();
 		}
 		else //Delete a friend
 		{
 			myAdapter.remove(position - 2);
-		}
+		}*/
 	}
 
 	@Override

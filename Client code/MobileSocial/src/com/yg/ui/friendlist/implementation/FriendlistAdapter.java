@@ -74,7 +74,8 @@ public class FriendlistAdapter extends BaseAdapter
 	{
 		friendsName.remove(position);
 		friendsPortrait.remove(position);
-		notifyDataSetChanged();
+		friendsStarMark.remove(position);
+		//notifyDataSetChanged();
 	}
 
 	public int viewWidth() 

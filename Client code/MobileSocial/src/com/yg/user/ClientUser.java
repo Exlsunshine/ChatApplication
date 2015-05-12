@@ -498,8 +498,15 @@ public class ClientUser extends AbstractUser
 	 * @param other 待设置的目标用户
 	 * @param enable 使能选项  true 表示设置为星标好友;false 表示取消设置星标好友
 	 */
-	public void setAsCloseFriend(FriendUser other, boolean enable)
+	public void setAsCloseFriend(int friendID, boolean enable)
 	{
+		FriendUser other = getFriendByID(friendID);
+		if (other == null)
+		{
+			Log.e(DEBUG_TAG, "Does not find friend with given ID: " + friendID);
+			return ;
+		}
+			
 		String [] params = new String[3];
 		Object [] vlaues = new Object[3];
 		params[0] = "userID";
@@ -512,7 +519,7 @@ public class ClientUser extends AbstractUser
 		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setAsCloseFriend", params, vlaues);
 		
-		Log.e("______", ret.toString());
+		Log.i(DEBUG_TAG, ret.toString());
 	}
 	
 	/**
@@ -538,8 +545,15 @@ public class ClientUser extends AbstractUser
 	 * 将other这个用户解除好友关系
 	 * @param other 待设置的目标用户
 	 */
-	public void deleteUser(FriendUser other)
+	public void deleteUser(int friendID)
 	{
+		FriendUser other = getFriendByID(friendID);
+		if (other == null)
+		{
+			Log.e(DEBUG_TAG, "Does not find friend with given ID: " + friendID);
+			return ;
+		}
+		
 		String [] params = new String[2];
 		Object [] vlaues = new Object[2];
 		params[0] = "userID";
@@ -549,8 +563,23 @@ public class ClientUser extends AbstractUser
 		
 		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("deleteUser", params, vlaues);
+		Log.i("______", ret.toString());
 		
-		Log.e("______", ret.toString());
+		removeFriendFromList(friendID);
+	}
+	
+	private void removeFriendFromList(int friendID)
+	{
+		if (friendList != null)
+		{
+			for (int i = 0 ; i < friendList.size(); i++)
+				if (friendList.get(i).getID() == friendID)
+				{
+					friendList.remove(i);
+					Log.i(DEBUG_TAG, "Remove friend successful.");
+					break;
+				}
+		}
 	}
 	
 	private void getFriendListFromServer()
