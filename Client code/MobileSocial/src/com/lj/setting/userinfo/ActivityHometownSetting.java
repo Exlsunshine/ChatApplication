@@ -144,7 +144,7 @@ public class ActivityHometownSetting extends Activity
 	
 		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
 		TextView titleText = (TextView)findViewById(R.id.lj_common_actionbar_title);
-		titleText.setText("¼ÒÏç");
+		titleText.setText("¹ÊÏç");
 		back.setOnClickListener(new OnClickListener()
 		{
 			@Override

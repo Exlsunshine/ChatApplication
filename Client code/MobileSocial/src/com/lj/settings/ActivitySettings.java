@@ -29,7 +29,10 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -185,13 +188,44 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 			saveGame();
     }
     
+    private void showBackDialog()
+	{
+		final AlertDialog dialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = dialog.getWindow();
+		window.setContentView(R.layout.lj_setting_remind_dialog);
+		Button cancel = (Button) window.findViewById(R.id.lj_setting_remind_dialog_cancel);
+		cancel.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				dialog.dismiss();
+			}
+		});
+		Button confirm = (Button) window.findViewById(R.id.lj_setting_remind_dialog_confirm);
+		confirm.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				gChangeMap.clear();
+				finish();
+			}
+		});
+	}
+    
     private void back()
     {
     	if (gCurrentPosition == FRAGMENT_USERSETTING_INDEX)
     		gFragmentUserInfoSetting.clearTextFocus();
     	if (!gChangeMap.isEmpty())
-		{
-			new AlertDialog.Builder(ActivitySettings.this)   
+    		showBackDialog();
+			/*new AlertDialog.Builder(ActivitySettings.this)   
 			.setTitle("确认")  
 			.setMessage("您有未保存的信息，是否退出？")  
 			.setPositiveButton("是", new DialogInterface.OnClickListener() 
@@ -204,8 +238,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
 				}
 			})  
 			.setNegativeButton("否", null)  
-			.show();  
-		}
+			.show();  */
 		else
 		{
 			gChangeMap.clear();
