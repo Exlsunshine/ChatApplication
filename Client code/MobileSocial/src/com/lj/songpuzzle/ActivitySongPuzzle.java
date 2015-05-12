@@ -233,10 +233,10 @@ public class ActivitySongPuzzle extends Activity {
 		else
 			flagText.setText("很遗憾您回答错误");
 		TextView rightAnswerText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_rightanswer);
-		rightAnswerText.setText(rightAnswer);
+		rightAnswerText.setText("正确答案："  + rightAnswer);
 		
 		TextView userAnswerText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_useranswer);
-		userAnswerText.setText(userAnswer);
+		userAnswerText.setText("您的答案：" + userAnswer);
 		
 		Button next = (Button) window.findViewById(R.id.lj_songpuzzle_dialog_next);
 		next.setOnClickListener(new OnClickListener() 
@@ -247,11 +247,6 @@ public class ActivitySongPuzzle extends Activity {
 				gRightDialog.dismiss();
 			}
 		});
-	//	Button forgot = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_forgot);
-	//	forgot.setOnClickListener(new onForgotBtnClickListener());
-		
-	//	Button login = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_login);
-//		login.setOnClickListener(new onLoginBtnClickListener());
 	}
 	
 	OnClickListener charClickListener = new OnClickListener() 
