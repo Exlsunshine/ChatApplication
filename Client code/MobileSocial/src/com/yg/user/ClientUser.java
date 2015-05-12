@@ -722,6 +722,30 @@ public class ClientUser extends AbstractUser
 	}
 	
 	/**
+	 * @see #makeDialogWith(FriendUser)
+	 */
+	public Dialog makeDialogWith(int friendID)
+	{
+		return makeDialogWith(getFriendByID(friendID));
+	}
+	
+	/**
+	 * 清除与指定用户的本地聊天记录
+	 * @param friendID 指定的用户ID
+	 */
+	public void eraseDialogHistory(int friendID)
+	{
+		Dialog dialog = makeDialogWith(friendID);
+		
+		if (dialog != null)
+			dialog.deleteDialogHistory();
+		
+		for (int i = 0; i < dialogList.size(); i++)
+			if (dialogList.get(i).getAnotherUserID() == dialog.getAnotherUserID())
+				dialogList.remove(i);
+	}
+	
+	/**
 	 * 从本地对话中查找：当前用户与ID为targetUserID的用户之间的对话
 	 * @param targetUserID 另一用户ID
 	 * @return 当前用户与ID为targetUserID的用户之间的对话<br>

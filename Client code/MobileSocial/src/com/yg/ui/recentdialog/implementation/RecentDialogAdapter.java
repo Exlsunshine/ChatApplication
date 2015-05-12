@@ -25,7 +25,7 @@ import com.yg.emoji.ParseEmojiMsgUtil;
 
 public class RecentDialogAdapter extends BaseAdapter
 {
-	private static final String DEBUG_TAG = "RecentDialogAdapter______";
+	//private static final String DEBUG_TAG = "RecentDialogAdapter______";
 	private List<String> names = null;
 	private List<Bitmap> portraits = new ArrayList<Bitmap>();
 	private Context mContext;
@@ -74,7 +74,7 @@ public class RecentDialogAdapter extends BaseAdapter
 		dates.remove(position);
 		ids.remove(position);
 		unreadAmount.remove(position);
-		notifyDataSetChanged();
+		//notifyDataSetChanged();
 	}
 
 	public int viewWidth() 

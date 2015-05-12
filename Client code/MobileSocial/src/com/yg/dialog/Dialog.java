@@ -127,4 +127,17 @@ public class Dialog
 		
 		return cnt;
 	}
+	
+	/**
+	 * 删除此条对话所有消息记录
+	 */
+	public void deleteDialogHistory()
+	{
+		DatabaseHandler db = new DatabaseHandler(context);
+		
+		for (int i = 0; i < dialogHistory.size(); i++)
+			db.deleteMessage(dialogHistory.get(i));
+		
+		db.close();
+	}
 }
