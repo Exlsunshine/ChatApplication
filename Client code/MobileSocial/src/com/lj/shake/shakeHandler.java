@@ -196,29 +196,38 @@ public class shakeHandler extends Handler
 			break;
 		case ConstantValues.InstructionCode.HANDLER_WAIT_FOR_DATA:
 			myContext.sensorManager.unregisterListener(myContext.shakelistener);
-			myContext.loadingView.setVisibility(View.VISIBLE);
 			myContext.locationClient.start();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_SUCCESS_GET_DATA:
-			myContext.loadingView.setVisibility(View.INVISIBLE);
+			myContext.gShakeBall.startZoominAnimation();
+			gUserShakeDataList = (ArrayList<UserShakeData>) msg.obj;
+			break;
+		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_SHOW:
+			myContext.gShakeBall.setVisibility(View.GONE);
+			myContext.gShakeBallLayout.setVisibility(View.GONE);
 			myContext.mapView.setVisibility(View.VISIBLE);
 			myContext.userDataListView.setVisibility(View.VISIBLE);
 			myContext.userDataListView.bringToFront();
-	/*		myContext.gFemaleSelect.setVisibility(View.VISIBLE);
-			myContext.gMaleSelect.setVisibility(View.VISIBLE);*/
 			myContext.gFemaleSelect.bringToFront();
 			myContext.gMaleSelect.bringToFront();
 			myContext.findViewById(R.id.lj_map_linear).bringToFront();
 			myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
 			myContext.gMaleSelect.setOnClickListener(gSexClickListener);
-			gUserShakeDataList = (ArrayList<UserShakeData>) msg.obj;
 			myContext.findViewById(R.id.lj_map_male_female_layout).bringToFront();
 			myContext.findViewById(R.id.lj_map_male_female_layout).setVisibility(View.VISIBLE);
 			locateUsers(gUserShakeDataList);
 			initUserShakeData();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_SHAKE_SENSOR:
+			myContext.sensorManager.unregisterListener(myContext.shakelistener);
 			myContext.vibrator.vibrate(ConstantValues.InstructionCode.VIBRATE_TIME);
+			float[] values = (float[]) msg.obj;
+			float x = values[0];
+			float y = values[1];
+			float z =  values[2];
+			myContext.gShakeBall.setRotateAnimation(Math.abs((int)(10000 / z * 2)));
+			myContext.gShakeBall.setVelocity((int)(x * 1.5) , (int)(y * 1.5));
+			myContext.gShakeBall.setStartRotate(true);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_MARKER_CLICK:
 			Marker marker = (Marker) msg.obj;
@@ -264,6 +273,9 @@ public class shakeHandler extends Handler
 				userShakeDatas = gUserShakeDataList.get(indexs);
 			LatLng cenpts = new LatLng(userShakeDatas.getLatitude() ,userShakeDatas.getLongitude());
 			locatePotin(cenpts);
+			break;
+		case ConstantValues.InstructionCode.SHAKE_HANDLER_COLLISION:
+			myContext.vibrator.vibrate(ConstantValues.InstructionCode.VIBRATE_TIME);
 			break;
 		}
 	}

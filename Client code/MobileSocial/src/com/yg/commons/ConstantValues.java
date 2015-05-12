@@ -50,8 +50,8 @@ public class ConstantValues
 		public static final int HANDLER_SUCCESS_GET_DATA = 0x101;
 
 		//shake activity
-		public static final int THRESHOLD_SPEED = 10;
-		public static final int VIBRATE_TIME = 1000;
+		public static final int THRESHOLD_SPEED = 17;
+		public static final int VIBRATE_TIME = 200;
 		public static final int MAP_ZOOM_INITIALIZATION = 16;
 		public static final double MAP_ZOOM_CHANGE_VALUE = 0.00001;
 		public static final float MAP_MOVE_MAX_SPEED = 500;
@@ -65,6 +65,8 @@ public class ConstantValues
 		public static final int SHAKE_HANDLER_MAP_FAST_MOVE = 7;
 		public static final int SHAKE_HANDLER_GAME = 8;
 		public static final int SHAKE_HANDLER_CHANGE_MARK = 9;
+		public static final int SHAKE_HANDLER_COLLISION = 10;
+		public static final int SHAKE_HANDLER_MAP_SHOW = 11;
 		
 		//game setting activity
 		public static final int GAMESET_HANDLER_DOWNLOAD_IMAGE = 1;
