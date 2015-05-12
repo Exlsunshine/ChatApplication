@@ -78,11 +78,19 @@
             android:src="@drawable/lj_setting_line" />
     </LinearLayout>
 
+    
+    <ImageView
+        android:id="@+id/lj_setting_age_ling_img"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/lj_setting_line" />
     <LinearLayout
         android:id="@+id/lj_setting_age_date_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/lj_setting_age_ling_img"
         android:orientation="horizontal" >
 
         <com.lj.datapicker.WheelView
@@ -109,5 +117,15 @@
         android:layout_height="2dp"
         android:layout_above="@id/lj_setting_age_date_layout"
         android:src="@drawable/lj_setting_line" />
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="选择出生日期，系统会自动转换为星座。"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@id/lj_setting_age_date_layout"
+        android:layout_marginBottom="10dp"
+        android:enabled="false"/>
+    
 
 </RelativeLayout>
