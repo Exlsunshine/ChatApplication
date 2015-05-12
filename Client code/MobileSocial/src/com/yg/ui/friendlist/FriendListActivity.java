@@ -45,6 +45,8 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	private List<String> friendsName = new ArrayList<String>();
 	private List<Bitmap> friendsPortrait = new ArrayList<Bitmap>();
 	private List<Integer> friendsID = new ArrayList<Integer>();
+	private List<Boolean> friendsStarMark = new ArrayList<Boolean>();
+	
 	private FriendlistAdapter myAdapter = null;
 	private FinalListView finalListView = null;
 	private Bitmap bmp;
@@ -66,6 +68,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			friendsName.clear();
 			friendsPortrait.clear();
 			friendsID.clear();
+			friendsStarMark.clear();
 			ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
 			if (friends == null)
 				return null;
@@ -77,6 +80,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				bmp = CircleBitmap.circleBitmap(bmp);
 				friendsPortrait.add(bmp);
 				friendsID.add(friends.get(i).getID());
+				friendsStarMark.add(friends.get(i).isCloseFriend());
 			}
 			
 			return null;
@@ -108,6 +112,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				friendsName.clear();
 				friendsPortrait.clear();
 				friendsID.clear();
+				friendsStarMark.clear();
 				ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
 				if (friends == null)
 					return;
@@ -123,6 +128,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 						bmp = CircleBitmap.circleBitmap(bmp);
 						friendsPortrait.add(bmp);
 						friendsID.add(friends.get(i).getID());
+						friendsStarMark.add(friends.get(i).isCloseFriend());
 					}
 				}
 			}
@@ -146,7 +152,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		finalListView = (FinalListView) super.findViewById(R.id.listview);
 		finalListView.setRemoveListener(this);
 
-		myAdapter = new FriendlistAdapter(this, friendsName, friendsPortrait);
+		myAdapter = new FriendlistAdapter(this, friendsName, friendsPortrait, friendsStarMark);
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 		
@@ -289,10 +295,15 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	
 	public void removeItem(int position, int id)
 	{
+		//Add star to a friend
 		if (id == 0)
+		{
 			Toast.makeText(this, "没有呼叫功能", Toast.LENGTH_SHORT).show();
-		else 
+		}
+		else //Delete a friend
+		{
 			myAdapter.remove(position - 2);
+		}
 	}
 
 	@Override

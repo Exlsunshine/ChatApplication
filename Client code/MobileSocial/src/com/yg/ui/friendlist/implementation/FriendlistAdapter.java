@@ -28,6 +28,7 @@ public class FriendlistAdapter extends BaseAdapter
 	
 	private List<String> friendsName = null;
 	private List<Bitmap> friendsPortrait = new ArrayList<Bitmap>();
+	private List<Boolean> friendsStarMark = new ArrayList<Boolean>();
 	private Context context;
 	private LayoutInflater inflater = null;
 	private int viewWidth = 0;
@@ -39,11 +40,13 @@ public class FriendlistAdapter extends BaseAdapter
 	 */
 	private final int MIN_ANIM_DURATION = 800;
 
-	public FriendlistAdapter(Context context, List<String> friendsName, List<Bitmap> friendsPortrait)
+	public FriendlistAdapter(Context context, List<String> friendsName,
+					List<Bitmap> friendsPortrait, List<Boolean> friendsStarMark)
 	{
 		this.context = context;
 		this.friendsName = friendsName;
 		this.friendsPortrait = friendsPortrait;
+		this.friendsStarMark = friendsStarMark;
 		this.inflater = LayoutInflater.from(this.context);
 		
 		this.context.registerReceiver(broadcastReceiver, intentFilter());
@@ -92,6 +95,8 @@ public class FriendlistAdapter extends BaseAdapter
 			holder.btnIM = (ImageView) convertView.findViewById(R.id.picture);
 			holder.btnDel = (ImageView) convertView.findViewById(R.id.button);
 			holder.ll = (LinearLayout) convertView.findViewById(R.id.list1);
+			holder.star = (ImageView) convertView.findViewById(R.id.yg_friendlist_item_star);
+			
 			viewWidth = holder.btnDel.getWidth();
 			holder.ll.scrollTo(0, 0);
 			convertView.setTag(holder);
@@ -99,9 +104,15 @@ public class FriendlistAdapter extends BaseAdapter
 		else
 			holder = (ViewHolder) convertView.getTag();
 
-		holder.tvTitle.setText(this.friendsName.get(position));
-		holder.btnIM.setImageBitmap(this.friendsPortrait.get(position));
-
+		holder.tvTitle.setText(friendsName.get(position));
+		holder.btnIM.setImageBitmap(friendsPortrait.get(position));
+		if (friendsStarMark.get(position))
+			holder.star.setImageResource(R.drawable.yg_slide_yellow_star_yellow_icon);
+		else
+			holder.star.setImageResource(R.drawable.yg_slide_yellow_star_gray_icon);
+		
+		Log.i(DEBUG_TAG, "friendsStarMark.get(position) is " + friendsStarMark.get(position));
+		
 		if (animationEnabled)
 		{
 			int innerAnimationDuration = 80;
@@ -154,6 +165,7 @@ public class FriendlistAdapter extends BaseAdapter
 		ImageView btnIM;
 		ImageView btnDel;
 		LinearLayout ll;
+		ImageView star;
 	}
 	
 	private IntentFilter intentFilter()
