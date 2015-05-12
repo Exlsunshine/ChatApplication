@@ -3,6 +3,7 @@ package com.tp.ui;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -13,13 +14,19 @@ import com.tp.messege.PostManager;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +40,8 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SendPostActivity extends Activity
@@ -45,27 +54,6 @@ public class SendPostActivity extends Activity
 	private final int intent = 2;
 	private boolean isSendPhoto = false;
 	
-	@Override  
-    public boolean onCreateOptionsMenu(Menu menu)
-	{  
-        getMenuInflater().inflate(R.menu.tp_sendpost_menu, menu);  
-        return true;  
-    }
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-	    int id = item.getItemId();
-	    switch (id) 
-	    {
-	        case R.id.action_send:
-	        	sendPost();
-	            break;
-	        default:
-	            break;
-	    }
-	    return super.onOptionsItemSelected(item);
-	}
 	
 	private void sendPost()
 	{
@@ -74,7 +62,7 @@ public class SendPostActivity extends Activity
 		final String location = "北京";
 		if (commentET.getText().toString().trim().equals("") && isSendPhoto == false)
 		{
-			Toast.makeText(getApplicationContext(), "无法发送",Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "不能发送空的消息",Toast.LENGTH_SHORT).show();
 		}
 		else
 		{
@@ -142,11 +130,42 @@ public class SendPostActivity extends Activity
 		}
 	}
 	
+	private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.tp_sendpostactivity_actionbar);
+		
+		TextView title = (TextView)findViewById(R.id.tp_sendpostactivity_actionbar_title);
+		title.setText("分享");
+		LinearLayout back = (LinearLayout)findViewById(R.id.tp_sendpostactivity_actionbar_back);
+		LinearLayout send = (LinearLayout)findViewById(R.id.tp_sendpostactivity_actionbar_send);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+		
+		send.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				sendPost();
+			}
+		});
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tp_sendpostactivity);
+		setupDialogActionBar();
 		initview();
 	}
 	
@@ -190,6 +209,7 @@ public class SendPostActivity extends Activity
 				isSendPhoto = false;
 				Intent intent = new Intent(SendPostActivity.this, PublicActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		}
 	};
@@ -213,19 +233,59 @@ public class SendPostActivity extends Activity
 						int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 						String picturePath = cursor.getString(columnIndex);
 						cursor.close();
-						FileInputStream fis;
+						FileInputStream fis = null;
+						ExifInterface exif = null; 
+						int degree=0;
 						try 
 						{
 							fis = new FileInputStream(picturePath);
-							BitmapFactory.Options options = new BitmapFactory.Options();
+							
+							/*BitmapFactory.Options options = new BitmapFactory.Options();
 							options.inPurgeable = true;
 							options.inInputShareable = true;
-							options.inSampleSize = 8;
-							
-							postphoto = BitmapFactory.decodeStream(fis, null, options);
+							options.inSampleSize = 2;
+							postphoto = BitmapFactory.decodeStream(fis, null, options);*/
 							//postphoto = BitmapFactory.decodeStream(fis);
+							postphoto = decodeSampledBitmapFromPath(picturePath, dip2px(SendPostActivity.this,300), dip2px(SendPostActivity.this,300));
+							Log.e("SPA____", dip2px(SendPostActivity.this,300) + " dp");
 						} 
-						catch (FileNotFoundException e) 
+						catch (FileNotFoundException e1) 
+						{
+							e1.printStackTrace();
+						}
+						try 
+						{
+							exif = new ExifInterface(picturePath);
+							if (exif != null) 
+							{  
+								// 读取图片中相机方向信息  
+								int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);  
+								// 计算旋转角度  
+								switch (ori) 
+								{  
+								case ExifInterface.ORIENTATION_ROTATE_90:  
+									degree = 90;  
+									break;  
+								case ExifInterface.ORIENTATION_ROTATE_180:  
+									degree = 180;  
+									break;  
+								case ExifInterface.ORIENTATION_ROTATE_270:  
+									degree = 270;  
+									break;  
+								default:  
+									degree = 0;  
+									break;  
+								}
+							}
+							if (degree != 0) 
+							{  
+						         // 旋转图片  
+						         Matrix m = new Matrix();  
+						         m.postRotate(degree);  
+						         postphoto = Bitmap.createBitmap(postphoto, 0, 0, postphoto.getWidth(), postphoto.getHeight(), m, true);  
+						     }							
+						}
+						catch (IOException e) 
 						{
 							e.printStackTrace();
 						}
@@ -249,5 +309,39 @@ public class SendPostActivity extends Activity
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 	    return sdf.format(cal.getTime());
 	}
+	
+	public Bitmap decodeSampledBitmapFromPath(String path, int reqWidth, int reqHeight) 
+	{
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(path, options);
 
+		options.inSampleSize = calculateInSampleSize(options, reqWidth,
+		        reqHeight);
+		Log.e("SPA____", options.inSampleSize + " inSampleSize");
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+		Bitmap bmp = BitmapFactory.decodeFile(path, options);
+		return bmp;
+	}
+	public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) 
+	{
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+
+		if (height > reqHeight || width > reqWidth) {
+		    if (width > height) {
+		        inSampleSize = Math.round((float) height / (float) reqHeight);
+		    } else {
+		        inSampleSize = Math.round((float) width / (float) reqWidth);
+		     }
+		 }
+		 return inSampleSize;
+	}
+	public int dip2px(Context context, float dpValue) 
+	{  
+        final float scale = context.getResources().getDisplayMetrics().density;  
+        return (int) (dpValue * scale + 0.5f);  
+    } 
 }
