@@ -527,7 +527,7 @@ public class NetworkHandler
 		return null;
 	}
 	
-	public int makeFriendWith(int userID, String targetUserID) 
+	public int makeFriendWith(int userID, int targetUserID) 
 	{
 		initUserRelationshipTB();
 
