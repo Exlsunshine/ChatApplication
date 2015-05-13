@@ -6,16 +6,39 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.util.Log;
+
 public class DateUtil
 {
+	private static final String DEBUG_TAG = "DateUtil______";
+	/**
+	 * 给出两个时间点的文字形式的时间间隔描述
+	 * @param currentDateStr 较近的时间
+	 * @param earlyDateStr 较早的时间
+	 * @return 如"x分钟前","x天前"<br>
+	 * null 表示输入的日期格式或前后关系有误
+	 */
 	public static String getSuggestion(String currentDateStr, String earlyDateStr)
 	{
+		if ((currentDateStr.length() != earlyDateStr.length())
+			|| (currentDateStr.length() != 19) || (earlyDateStr.length() != 19))
+		{
+			Log.e(DEBUG_TAG, "输入的日期格式有误");
+			return null;
+		}
+		
 		Date current = null, early = null;
 		
 		try {
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss", Locale.ENGLISH);
 			current = format.parse(currentDateStr);
 			early = format.parse(earlyDateStr);
+			
+			if (current.before(early))
+			{
+				Log.e(DEBUG_TAG, "输入的日期先后顺序有误");
+				return null;
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -26,10 +49,15 @@ public class DateUtil
 		long min = (diff - day * 3600 * 24 - hour * 3600) / 60;
 		//long seconds = diff - day * 3600 * 24 - hour * 3600 - min * 60;
 		
+		if (day > 0 && hour != 0 || min != 0)
+			day++;
+		
 		if (day == 1)
 			return "昨天";
-		if (day >= 2 && day < 5)
+		else if (day >= 2 && day <= 7)
 			return String.valueOf(day) + " 天前";
+		else if (day > 7)
+			return earlyDateStr.substring(0, 10);
 		
 		if (hour >= 1)
 			return String.valueOf(hour) + " 小时前";
