@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -362,7 +363,18 @@ public class ActivityEightPuzzleGame extends Activity
 			@Override
 			public void onClick(View v) 
 			{
-				Toast.makeText(ActivityEightPuzzleGame.this, "see", Toast.LENGTH_LONG).show();
+				Toast.makeText(ActivityEightPuzzleGame.this, "ÃÙ’Ω≥…π¶", Toast.LENGTH_SHORT).show();
+				
+				Thread td = new Thread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						ConstantValues.user.makeFriendWith(userID, ActivityEightPuzzleGame.this);
+					}
+				});
+				td.start();
+				
 				gSuccessDialog.dismiss();
 			}
 		});

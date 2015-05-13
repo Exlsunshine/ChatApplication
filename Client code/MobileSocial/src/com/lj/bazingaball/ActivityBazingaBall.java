@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import com.example.testmobiledatabase.R;
+import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
 
@@ -263,7 +264,18 @@ public class ActivityBazingaBall extends Activity
 					if (gRequestCode != BAZINGABALL_REQUEST_CODE)
 					{
 						if (isWin)
-							Toast.makeText(ActivityBazingaBall.this, "Win", Toast.LENGTH_LONG).show();
+						{
+							Toast.makeText(ActivityBazingaBall.this, "ÃÙ’Ω≥…π¶", Toast.LENGTH_SHORT).show();
+							Thread td = new Thread(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									ConstantValues.user.makeFriendWith(userID, ActivityBazingaBall.this);
+								}
+							});
+							td.start();
+						}
 						else
 						{
 							Toast.makeText(ActivityBazingaBall.this, "Lose", Toast.LENGTH_LONG).show();
