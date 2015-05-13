@@ -14,20 +14,20 @@
 
     <!-- "@android:color/white" -->
 
-    <TextView 
-	    android:id="@+id/lj_eightpuzzle_restart_dialog_des"
-	    android:text="确认重新开始？"
-	    android:layout_width="250dp"
+    <TextView
+        android:text="您有未保存的信息，是否退出？"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-	    android:layout_marginTop="15dp"
-	    android:gravity="center"
-	    android:textColor="#1E90FF"
-	    android:paddingBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:focusable="true"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:textColor="#1E90FF"
         android:paddingLeft="5dp"
         android:paddingTop="10dp" />
 
     <LinearLayout
-        android:id="@+id/lj_eightpuzzle_restart_dialog_button_layout"
+        android:id="@+id/lj_setting_remind_dialog_button_layout"
         android:layout_width="fill_parent"
         android:layout_height="60.0dip"
         android:layout_gravity="bottom"
@@ -36,24 +36,24 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/lj_eightpuzzle_restart_dialog_button_cancel"
+            android:id="@+id/lj_setting_remind_dialog_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="取消"
+            android:text="否"
             android:textColor="#1E90FF" />
 
         <Button
-            android:id="@+id/lj_eightpuzzle_restart_dialog_button_confirm"
+            android:id="@+id/lj_setting_remind_dialog_confirm"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20.0dip"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="确认"
+            android:text="是"
             android:textColor="#1E90FF"/>
     </LinearLayout>
 

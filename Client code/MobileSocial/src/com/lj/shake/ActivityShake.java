@@ -19,6 +19,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,7 +38,6 @@ public class ActivityShake extends Activity
 	public Vibrator vibrator;
 	
 	public RelativeLayout mainLayout;
-	public LoadingView loadingView;
 	public MapView mapView;
 	public BaiduMap baiduMap;
 	
@@ -48,7 +48,12 @@ public class ActivityShake extends Activity
 	public locationListener locationlistener;
 	public markerClickListener markerclicklistener;
 	
-	shakeHandler myHandler;
+	private shakeHandler myHandler;
+	
+	public LinearLayout gShakeBallLayout;
+	public ShakeBall gShakeBall;
+	
+	private boolean flag = false;
 	
 	public RelativeLayoutUserInfoList userDataListView;
 	
@@ -61,12 +66,7 @@ public class ActivityShake extends Activity
 	
 	private void initView()
 	{
-		//laytou
-	//	mainLayout = new RelativeLayout(this);
-
-		loadingView = new LoadingView(this, dpiWidth >> 1, dpiHight >> 1);
-        loadingView.setVisibility(View.INVISIBLE);
-        mainLayout.addView(loadingView);
+        gShakeBallLayout = (LinearLayout)findViewById(R.id.lj_shake_ball_layout);
 
         mapView = new MapView(this);
 		baiduMap = mapView.getMap();
@@ -115,10 +115,22 @@ public class ActivityShake extends Activity
         initDpi();
         initView();
         initListener();
-	//	setContentView(mainLayout);
         setupDialogActionBar();
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) 
+    {
+    	super.onWindowFocusChanged(hasFocus);
+    	if (hasFocus && !flag)
+    	{
+    		gShakeBall = (ShakeBall)findViewById(R.id.lj_shake_ball);
+    		gShakeBall.setHandler(myHandler);
+    		gShakeBall.setMoveRange(mainLayout.getWidth(), mainLayout.getHeight());
+    		flag = true;
+    	}
+    }
+    
     private void setupDialogActionBar()
 	{
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
