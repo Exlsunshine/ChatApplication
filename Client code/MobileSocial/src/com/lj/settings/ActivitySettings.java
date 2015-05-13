@@ -72,7 +72,9 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lj_setting_activity_main);
+        gChangeMap = new HashMap<String, String>();
         // Set up the action bar.
+        setupDialogActionBar();
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -105,8 +107,6 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-        gChangeMap = new HashMap<String, String>();
-        setupDialogActionBar();
     }
     
     private void saveGame()
