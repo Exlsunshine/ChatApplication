@@ -526,4 +526,21 @@ public class NetworkHandler
 		
 		return null;
 	}
+	
+	public int makeFriendWith(int userID, String targetUserID) 
+	{
+		initUserRelationshipTB();
+
+		int errorCode1 = userRelationshipTB.insert( new String [] {"first_userid", "second_userid", "group_name", "close_friend_flag"},
+				                new String [] {String.valueOf(userID), String.valueOf(targetUserID), "Friend", "0"});
+		int errorCode2 = userRelationshipTB.insert( new String [] {"first_userid", "second_userid", "group_name", "close_friend_flag"},
+                new String [] {String.valueOf(targetUserID), String.valueOf(userID), "Friend", "0"});
+		
+		if (errorCode1 == 0 && errorCode2 == 0)
+			System.out.println("makeFriend success.");
+		else
+			System.out.println("makeFriend failed.");
+		
+		return errorCode1 | errorCode2;
+	}
 }

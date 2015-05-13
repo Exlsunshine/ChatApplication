@@ -17,6 +17,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.tp.messege.PostManager;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
 import com.yg.message.AbstractMessage;
@@ -24,6 +25,8 @@ import com.yg.message.AudioMessage;
 import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.network.openfire.OpenfireHandler;
+import com.yg.ui.friendlist.FriendDetailActivity;
+import com.yg.ui.friendlist.FriendListActivity;
 import com.yg.ui.login.implementation.LoginInfo;
 
 public class ClientUser extends AbstractUser
@@ -830,5 +833,43 @@ public class ClientUser extends AbstractUser
 		}
 		
 		return -2;
+	}
+	
+	/**
+	 * 将两个人设置为双向好友
+	 * @param targetUserID targetUserID 目标用户ID
+	 * @param context activity context
+	 * @return 0表示加好友成功<br>-1表示失败
+	 */
+	public int makeFriendWith(int targetUserID, Context context)
+	{
+		String [] params = new String[2];
+		Object [] vlaues = new Object[2];
+		params[0] = "userID";
+		params[1] = "targetUserID";
+		vlaues[0] = this.id;
+		vlaues[1] = targetUserID;
+		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
+		Object ret = wsAPI.callFuntion("makeFriendWith", params, vlaues);
+		
+		int resultCode = Integer.parseInt(ret.toString());
+		
+		if (resultCode == 0)
+			getFriendListFromServer();
+		else
+			return -1;
+		
+		FriendUser friend = getFriendByID(targetUserID);
+		sendMsgTo(friend, new TextMessage(this.id, targetUserID, "Hi " + friend.getNickName() + ", 我是" + getNickName() + ", 你好啊 :)", CommonUtil.now(), true));
+		
+		Intent broadcastIntent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+		context.sendBroadcast(broadcastIntent);
+		
+		Intent intent = new Intent(context, FriendDetailActivity.class);
+		intent.putExtra("friendUserID", targetUserID);
+		context.startActivity(intent);
+		
+		return 0;
 	}
 }
