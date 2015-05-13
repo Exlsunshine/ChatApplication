@@ -6,13 +6,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -35,11 +33,12 @@ import com.yg.ui.MainActivity;
 import com.yg.ui.login.implementation.CrossingAnimation;
 import com.yg.ui.login.implementation.ForgetImplementation;
 import com.yg.ui.login.implementation.LoginImplementation;
+import com.yg.ui.login.implementation.LoginInfo;
 import com.yg.ui.signup.SignupActivity;
 
 public class LoginGuideActivity extends Activity
 {
-	private static final String DEBUG_TAG = "LoginGuideActivity______";
+	//private static final String DEBUG_TAG = "LoginGuideActivity______";
 	private AlertDialog loginDialog, forgotDialog, signupDialog;
 	
 	private ViewPager viewPager;
@@ -61,8 +60,24 @@ public class LoginGuideActivity extends Activity
 		loadViewpagerData();
 
 		Bundle bundle = this.getIntent().getExtras();
-		Log.i(DEBUG_TAG, String.valueOf(bundle == null ? 0 : bundle.getInt("index", 0)));
 		viewPager.setCurrentItem(bundle == null ? 0 : bundle.getInt("index", 0));
+		
+		if (bundle != null)
+		{
+			boolean autoLogin = bundle.getBoolean(WelcomeActivity.AUTO_LOGIN_FLAG, false);
+			
+			if (autoLogin)
+			{
+				showLoginDialog();
+				Window window = loginDialog.getWindow();
+				EditText email = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_email);
+				EditText password = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_password);
+				
+				LoginInfo loginInfo = new LoginInfo(LoginGuideActivity.this);
+				email.setText(loginInfo.getLoginAccount());
+				password.setText(loginInfo.getLoginPassword());
+			}
+		}
 	}
 	
 	private void showLoginDialog()
@@ -286,8 +301,8 @@ public class LoginGuideActivity extends Activity
 			final Window window = loginDialog.getWindow();
 			final EditText email = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_email);
 			final EditText password = (EditText)window.findViewById(R.id.yg_loginguide_page3_dialog_password);
-			String emailStr = email.getText().toString();
-			String pwdStr = password.getText().toString();
+			final String emailStr = email.getText().toString();
+			final String pwdStr = password.getText().toString();
 			
 			LoginImplementation login = new LoginImplementation(emailStr, pwdStr);
 			int result = login.tryToLogin();
@@ -328,6 +343,10 @@ public class LoginGuideActivity extends Activity
 							ConstantValues.user.setContext(LoginGuideActivity.this);
 							ConstantValues.user.getFriendList();
 							ConstantValues.user.getRecentDialogs();
+							
+							LoginInfo loginInfo = new LoginInfo(LoginGuideActivity.this);
+							loginInfo.saveLoginAccount(emailStr);
+							loginInfo.saveLoginPassword(pwdStr);
 							
 							Intent intent = new Intent(LoginGuideActivity.this, MainActivity.class);
 							startActivity(intent);

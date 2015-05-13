@@ -19,6 +19,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -206,6 +208,23 @@ public class DialogActivity extends Activity
 
 		initEmoji();
 		
+		editText.setOnFocusChangeListener(new OnFocusChangeListener()
+		{
+			@Override
+			public void onFocusChange(View v, boolean hasFocus)
+			{
+				if (hasFocus)
+				{
+					//set emoji invisible
+					View view = (View) findViewById(R.id.yg_dialog_activity_emoji_layout);
+					view.setVisibility(View.GONE);
+
+					//set plus panel invisible
+					plusRelativelayout.setVisibility(View.GONE);
+				}
+			}
+		});
+		
 		editText.addTextChangedListener(new TextWatcher()
 		{
 			@Override
@@ -286,16 +305,26 @@ public class DialogActivity extends Activity
 			{
 				if (plusRelativelayout.getVisibility() == View.GONE) 
 				{
-					plusRelativelayout.setVisibility(View.VISIBLE);
+					//disable edittext and IM
+					editText.clearFocus();
 					imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+				
+					//disable emoji
+					View view = (View) findViewById(R.id.yg_dialog_activity_emoji_layout);
+					view.setVisibility(View.GONE);
 					
+					//show plus panel
+					plusRelativelayout.setVisibility(View.VISIBLE);
 					ImageButton imgPicker = (ImageButton)findViewById(R.id.yg_dialog_activity_appkefu_plus_pick_picture_btn);
 					imgPicker.setOnClickListener(new onImageSelectClickListener());
 				} 
 				else 
 				{
+					//disable plus panel
 					plusRelativelayout.setVisibility(View.GONE);
-					imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+					
+					//enable edittext
+					editText.requestFocus();
 				}
 			}
 		});
@@ -329,9 +358,26 @@ public class DialogActivity extends Activity
 				View view = (View) findViewById(R.id.yg_dialog_activity_emoji_layout);
 				
 				if (view.getVisibility() == View.GONE)
+				{
+					//disable edittext and IM
+					editText.clearFocus();
+					hideInputManager(DialogActivity.this);
+					
+					//disable plus panel
+					plusRelativelayout.setVisibility(View.GONE);
+					
+					//show emoji
 					view.setVisibility(View.VISIBLE);
+					listView.setSelection(listView.getCount() - 1);
+				}
 				else
+				{
+					//disable emoji
 					view.setVisibility(View.GONE);
+					
+					//enable edittext
+					editText.requestFocus();
+				}
 			}
 		});
 

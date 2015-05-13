@@ -9,7 +9,9 @@ import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.Comment;
 import com.tp.messege.ImagePost;
+import com.yg.commons.CommonUtil;
 import com.yg.message.ConvertUtil;
+import com.yg.ui.dialog.implementation.DateUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -80,17 +82,21 @@ public class PostCommentListAdapter extends BaseAdapter
                 if (post.getPostType() == 1)
                 {
                 	String postContent = post.getContent().toString();
-                    String time = post.getPostDate();
+                    String earlyTime = post.getPostDate();
+                    String currentTime = CommonUtil.now();
+                    earlyTime = earlyTime.replace(" ", "-");
+                    earlyTime = earlyTime.replace(":", "-");
+                    
+                    Log.i("_____________________________",  earlyTime.substring(0, 19));
+                    
+                    String suggestiontime = DateUtil.getSuggestion(currentTime, earlyTime.substring(0, 19));
                     holder.commentContent.setText(postContent);
-                    holder.commentTime.setText(time);
+                    holder.commentTime.setText(suggestiontime);
                 }
                 else
                 {
                 	ImagePost ip = (ImagePost) post;
                 	Bitmap bm = ip.getImage();
-                	/*byte[] buffer = new Base64().decode(ConvertUtil.bytes2String(post.getContent()));
-                    Log.e("getview__", post.getContent().toString());
-                    Bitmap bm = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);*/
                     Drawable dr = new BitmapDrawable(bm);
                     holder.postphoto.setBackground(dr);
                     holder.postphoto.setVisibility(View.VISIBLE);
@@ -110,7 +116,13 @@ public class PostCommentListAdapter extends BaseAdapter
                 holder.postphoto.setVisibility(View.GONE);
             	holder.flag = position;
             	holder.commentContent.setText(comment.getComment());
-                holder.commentTime.setText(comment.getCommentDate());
+            	
+            	String earlyTime = comment.getCommentDate();
+                String currentTime = CommonUtil.now();
+                earlyTime = earlyTime.replace(" ", "-");
+                earlyTime = earlyTime.replace(":", "-");
+                String suggestiontime = DateUtil.getSuggestion(earlyTime, currentTime);
+                holder.commentTime.setText(suggestiontime);
             }
             convertView.setTag(holder);
         }

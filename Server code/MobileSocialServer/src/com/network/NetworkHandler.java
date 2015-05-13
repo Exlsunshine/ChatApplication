@@ -16,6 +16,7 @@ public class NetworkHandler
 {
 	private SQLServerEnd userBasicInfoTB = null;
 	private SQLServerEnd userRelationshipTB = null;
+	private SQLServerEnd userStatisticTB = null;
 	
 	private void initUserBasicInfoTB()
 	{
@@ -27,6 +28,12 @@ public class NetworkHandler
 	{
 		if (userRelationshipTB == null)
 			userRelationshipTB = new SQLServerEnd("JMMSRDB", "user_relationship");
+	}
+	
+	private void initUserStatisticTB()
+	{
+		if (userStatisticTB == null)
+			userStatisticTB = new SQLServerEnd("JMMSRDB", "user_statistics");
 	}
 	
 	public int setPassword(int userID, String password)
@@ -486,7 +493,9 @@ public class NetworkHandler
 							 String portrait, String hometown, String phoneNumber)
 	{
 		initUserBasicInfoTB();
-
+		initUserStatisticTB();
+		
+		
 		int prevID = userBasicInfoTB.getLatestID();
 		userBasicInfoTB.insert( new String [] {"login_account", "login_pwd", "nick_name", "email", "sex", "birthday", "portrait_path", "hometown", "phone_number"},
 								new String [] {loginAccount, pwd, nickname, email, sex, birthday, "temp", hometown, phoneNumber});
@@ -494,6 +503,8 @@ public class NetworkHandler
 		
 		if (Math.abs(prevID - currentID) == 1)
 		{
+			userStatisticTB.insert(new String [] {"user_id"}, new String [] {String.valueOf(currentID)});
+			
 			String portraitUrl = setPortrait(currentID);
 			if (portraitUrl != null)
 			{
@@ -514,5 +525,22 @@ public class NetworkHandler
 		}
 		
 		return null;
+	}
+	
+	public int makeFriendWith(int userID, String targetUserID) 
+	{
+		initUserRelationshipTB();
+
+		int errorCode1 = userRelationshipTB.insert( new String [] {"first_userid", "second_userid", "group_name", "close_friend_flag"},
+				                new String [] {String.valueOf(userID), String.valueOf(targetUserID), "Friend", "0"});
+		int errorCode2 = userRelationshipTB.insert( new String [] {"first_userid", "second_userid", "group_name", "close_friend_flag"},
+                new String [] {String.valueOf(targetUserID), String.valueOf(userID), "Friend", "0"});
+		
+		if (errorCode1 == 0 && errorCode2 == 0)
+			System.out.println("makeFriend success.");
+		else
+			System.out.println("makeFriend failed.");
+		
+		return errorCode1 | errorCode2;
 	}
 }

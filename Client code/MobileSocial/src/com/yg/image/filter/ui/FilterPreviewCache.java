@@ -36,7 +36,7 @@ public class FilterPreviewCache
 	 * key   represents the filter name<br>
 	 * value represents the path of the image which has been applied with the filter.
 	 */
-	private HashMap<String, String> filterCache;
+	private HashMap<String, FilterCacheItem> filterCache;
 	private List<IImageFilter> avaliableFilters;
 	private Bitmap target;
 	private ImageView imageview;
@@ -54,7 +54,7 @@ public class FilterPreviewCache
 		this.imageview.setImageBitmap(target);
 		
 		avaliableFilters = new ArrayList<IImageFilter>();
-		filterCache = new HashMap<String, String>();
+		filterCache = new HashMap<String, FilterCacheItem>();
 		loadFilters();
 		saveTragetBmp(target);
 		//preProcess();
@@ -81,7 +81,7 @@ public class FilterPreviewCache
 			}
 		}
 		
-		filterCache.put("0", imagePath);
+		filterCache.put("0", new FilterCacheItem(imagePath, FilterCacheItem.STATUS_DONE));
 	}
 	
 	/*private void preProcess()
@@ -110,7 +110,7 @@ public class FilterPreviewCache
 			options.inPurgeable = true;
 			options.inInputShareable = true;
 			
-			imageview.setImageBitmap(BitmapFactory.decodeFile(filterCache.get(tag), options));
+			imageview.setImageBitmap(BitmapFactory.decodeFile(filterCache.get(tag).getFilterPath(), options));
 		}
 		else
 		{
@@ -137,7 +137,7 @@ public class FilterPreviewCache
 	 */
 	public String getFilterBmpPath(String tag)
 	{
-		return filterCache.get(tag);
+		return filterCache.get(tag).getFilterPath();
 	}
 	
 	
@@ -158,7 +158,7 @@ public class FilterPreviewCache
 				{
 					if (!key.equals(tag))
 					{
-						File file = new File(filterCache.get(key));
+						File file = new File(filterCache.get(key).getFilterPath());
 						boolean deleted = file.delete();
 						Log.i(DEBUG_TAG, "Delete filter cache status:" + deleted + ". (" + key + ")");
 					}
@@ -166,6 +166,25 @@ public class FilterPreviewCache
 			}
 		});
 		td.start();
+	}
+	
+	/**
+	 * Check if the given tag filter finishes processing.
+	 * @param tag filter's tag
+	 * @return true if has finished<br>
+	 * false otherwise
+	 */
+	public boolean hasFinished(String tag)
+	{
+		boolean result = false;
+		
+		if (filterCache.containsKey(tag))
+		{
+			if (filterCache.get(tag).getStatus() == FilterCacheItem.STATUS_DONE)
+				result = true;
+		}
+		
+		return result;
 	}
 	
 	private void loadFilters() 

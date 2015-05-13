@@ -12,9 +12,11 @@ import com.tp.views.ExtendedListView.OnPositionChangedListener;
 import com.tp.views.MenuRightAnimations;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +31,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +50,34 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
     private MyselfPostAdpter chatHistoryAdapter;
     private boolean isOncreate = false;
     
+    
+    private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.tp_myselfpostactivity_actionbar);
+		
+		TextView title = (TextView)findViewById(R.id.tp_myselfpostactivity_actionbar_title);
+		title.setText("ÎÒµÄ·ÖÏí");
+		LinearLayout back = (LinearLayout)findViewById(R.id.tp_myselftpostactivity_actionbar_back);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+	}
+    
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tp_myselfpostactivity);
         MenuRightAnimations.initOffset(MyselfPostActivity.this);
+        setupDialogActionBar();
         
         new Thread()
         {
@@ -61,7 +86,9 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         		try
         		{
         			ap.add(empty);
-          			ap.addAll(ConstantValues.user.pm.getMyselfPosts());
+        			ArrayList<AbstractPost> posts = ConstantValues.user.pm.getMyselfPosts();
+        			if (posts != null)
+        				ap.addAll(posts);
           			Message message = Message.obtain();
     				message.what = setAdpter;
     				handler.sendMessage(message);

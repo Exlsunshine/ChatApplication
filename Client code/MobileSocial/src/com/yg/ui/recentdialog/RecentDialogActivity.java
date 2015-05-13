@@ -276,10 +276,33 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 	@Override
 	public void removeItem(int position, int id) 
 	{
-		if (id == 0)
+		new DeleteDataFromDB().execute(position);
+		/*if (id == 0)
 			Toast.makeText(this, "没有呼叫功能", Toast.LENGTH_SHORT).show();
 		else 
+			myAdapter.remove(position - 2);*/
+	}
+	
+	private class DeleteDataFromDB extends AsyncTask<Integer, Void, Void>
+	{
+		private int position;
+		
+		@Override
+		protected Void doInBackground(Integer... params)
+		{
+			position = params[0];
+			ConstantValues.user.eraseDialogHistory(ids.get(position - 2));
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			super.onPostExecute(result);
+			
 			myAdapter.remove(position - 2);
+			myAdapter.notifyDataSetChanged();
+		}
 	}
 	
 	private IntentFilter intentFilter()

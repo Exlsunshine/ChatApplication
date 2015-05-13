@@ -3,25 +3,19 @@ package com.tp.adapter;
 
 import java.util.List;
 
-import org.kobjects.base64.Base64;
-
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
-import com.tp.ui.PublicActivity;
-import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
-import com.yg.message.ConvertUtil;
+import com.yg.ui.dialog.implementation.DateUtil;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +34,6 @@ public class PublicActivityAdapter extends BaseAdapter
     private List<AbstractPost> posts;
     private int likedNumber = 0;
     private boolean isLiked = false;
-    /*private ImageView imagephoto;*/
     
     public PublicActivityAdapter(Context context, List<AbstractPost> posts) 
     {
@@ -122,6 +115,7 @@ public class PublicActivityAdapter extends BaseAdapter
 
                 // content layout
                 LinearLayout contentLayout = (LinearLayout) convertView.findViewById(R.id.publicactivityadpter_feed_post_body);
+                String currentTime = CommonUtil.now();
                 
                 // Text
                 if (post.getPostType() == 1) 
@@ -180,7 +174,11 @@ public class PublicActivityAdapter extends BaseAdapter
                     	break;
                     case 1:
                     	comment1.setText(post.getComments().get(0).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
+                    	String earlyTimecase1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase1 = earlyTimecase1.replace(" ", "-");
+                        earlyTimecase1 = earlyTimecase1.replace(":", "-");
+                        String suggestiontime = DateUtil.getSuggestion(earlyTimecase1, currentTime);
+                    	commentDate1.setText(suggestiontime);
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -192,8 +190,18 @@ public class PublicActivityAdapter extends BaseAdapter
                     case 2:
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 1).getCommentDate());
+                    	String earlyTimecase2_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase2_1 = earlyTimecase2_1.replace(" ", "-");
+                        earlyTimecase2_1 = earlyTimecase2_1.replace(":", "-");
+                        String suggestiontimecase2_1 = DateUtil.getSuggestion(earlyTimecase2_1, currentTime);
+                    	commentDate1.setText(suggestiontimecase2_1);
+                    	
+                    	String earlyTimecase2_2 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecase2_2 = earlyTimecase2_2.replace(" ", "-");
+                        earlyTimecase2_2 = earlyTimecase2_2.replace(":", "-");
+                        String suggestiontimecase2_2 = DateUtil.getSuggestion(earlyTimecase2_2, currentTime);
+                    	commentDate2.setText(suggestiontimecase2_2);
+                    	
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -209,9 +217,25 @@ public class PublicActivityAdapter extends BaseAdapter
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
                     	comment3.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
-                    	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
+                    	
+                    	String earlyTimecase3_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase3_1 = earlyTimecase3_1.replace(" ", "-");
+                        earlyTimecase3_1 = earlyTimecase3_1.replace(":", "-");
+                        String suggestiontimecase3_1 = DateUtil.getSuggestion(earlyTimecase3_1, currentTime);
+                    	commentDate1.setText(suggestiontimecase3_1);
+                    	
+                    	String earlyTimecase3_2 = post.getComments().get(size - 2).getCommentDate();
+                        earlyTimecase3_2 = earlyTimecase3_2.replace(" ", "-");
+                        earlyTimecase3_2 = earlyTimecase3_2.replace(":", "-");
+                        String suggestiontimecase3_2 = DateUtil.getSuggestion(earlyTimecase3_2, currentTime);
+                    	commentDate2.setText(suggestiontimecase3_2);
+                    	
+                    	String earlyTimecase3_3 = post.getComments().get(size).getCommentDate();
+                        earlyTimecase3_3 = earlyTimecase3_3.replace(" ", "-");
+                        earlyTimecase3_3 = earlyTimecase3_3.replace(":", "-");
+                        String suggestiontimecase3_3 = DateUtil.getSuggestion(earlyTimecase3_3, currentTime);
+                    	commentDate3.setText(suggestiontimecase3_3);
+                    	
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -230,9 +254,25 @@ public class PublicActivityAdapter extends BaseAdapter
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
                     	comment3.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
-                    	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
+                    	
+                    	String earlyTimecasedefault_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecasedefault_1 = earlyTimecasedefault_1.replace(" ", "-");
+                        earlyTimecasedefault_1 = earlyTimecasedefault_1.replace(":", "-");
+                        String suggestiontimecasedefault_1 = DateUtil.getSuggestion(earlyTimecasedefault_1, currentTime);
+                    	commentDate1.setText(suggestiontimecasedefault_1);
+                    	
+                    	String earlyTimecasedefault_2 = post.getComments().get(size - 2).getCommentDate();
+                        earlyTimecasedefault_2 = earlyTimecasedefault_2.replace(" ", "-");
+                        earlyTimecasedefault_2 = earlyTimecasedefault_2.replace(":", "-");
+                        String suggestiontimecasedefault_2 = DateUtil.getSuggestion(earlyTimecasedefault_2, currentTime);
+                    	commentDate2.setText(suggestiontimecasedefault_2);
+                    	
+                    	String earlyTimecasedefault_3 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecasedefault_3 = earlyTimecasedefault_3.replace(" ", "-");
+                        earlyTimecasedefault_3 = earlyTimecasedefault_3.replace(":", "-");
+                        String suggestiontimecasedefault_3 = DateUtil.getSuggestion(earlyTimecasedefault_3, currentTime);
+                    	commentDate3.setText(suggestiontimecasedefault_3);
+                    	
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -298,6 +338,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
+                    
                     Log.e("getview__", post.getPostID() + "");
                     ImagePost ip = (ImagePost) post;
                     
@@ -313,7 +354,11 @@ public class PublicActivityAdapter extends BaseAdapter
                     	break;
                     case 1:
                     	comment1.setText(post.getComments().get(0).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
+                    	String earlyTimecase1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase1 = earlyTimecase1.replace(" ", "-");
+                        earlyTimecase1 = earlyTimecase1.replace(":", "-");
+                        String suggestiontime = DateUtil.getSuggestion(earlyTimecase1, currentTime);
+                    	commentDate1.setText(suggestiontime);
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -325,8 +370,19 @@ public class PublicActivityAdapter extends BaseAdapter
                     case 2:
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 1).getCommentDate());
+                    	
+                    	String earlyTimecase2_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase2_1 = earlyTimecase2_1.replace(" ", "-");
+                        earlyTimecase2_1 = earlyTimecase2_1.replace(":", "-");
+                        String suggestiontimecase2_1 = DateUtil.getSuggestion(earlyTimecase2_1, currentTime);
+                    	commentDate1.setText(suggestiontimecase2_1);
+                    	
+                    	String earlyTimecase2_2 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecase2_2 = earlyTimecase2_2.replace(" ", "-");
+                        earlyTimecase2_2 = earlyTimecase2_2.replace(":", "-");
+                        String suggestiontimecase2_2 = DateUtil.getSuggestion(earlyTimecase2_2, currentTime);
+                    	commentDate2.setText(suggestiontimecase2_2);
+                    	
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -342,9 +398,25 @@ public class PublicActivityAdapter extends BaseAdapter
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
                     	comment3.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
-                    	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
+                    	
+                    	String earlyTimecase3_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase3_1 = earlyTimecase3_1.replace(" ", "-");
+                        earlyTimecase3_1 = earlyTimecase3_1.replace(":", "-");
+                        String suggestiontimecase3_1 = DateUtil.getSuggestion(earlyTimecase3_1, currentTime);
+                    	commentDate1.setText(suggestiontimecase3_1);
+                    	
+                    	String earlyTimecase3_2 = post.getComments().get(size - 2).getCommentDate();
+                        earlyTimecase3_2 = earlyTimecase3_2.replace(" ", "-");
+                        earlyTimecase3_2 = earlyTimecase3_2.replace(":", "-");
+                        String suggestiontimecase3_2 = DateUtil.getSuggestion(earlyTimecase3_2, currentTime);
+                    	commentDate2.setText(suggestiontimecase3_2);
+                    	
+                    	String earlyTimecase3_3 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecase3_3 = earlyTimecase3_3.replace(" ", "-");
+                        earlyTimecase3_3 = earlyTimecase3_3.replace(":", "-");
+                        String suggestiontimecase3_3 = DateUtil.getSuggestion(earlyTimecase3_3, currentTime);
+                    	commentDate3.setText(suggestiontimecase3_3);
+                    	
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -363,9 +435,25 @@ public class PublicActivityAdapter extends BaseAdapter
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
                     	comment3.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
-                    	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
+                    	
+                    	String earlyTimecasedefault_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecasedefault_1 = earlyTimecasedefault_1.replace(" ", "-");
+                        earlyTimecasedefault_1 = earlyTimecasedefault_1.replace(":", "-");
+                        String suggestiontimecasedefault_1 = DateUtil.getSuggestion(earlyTimecasedefault_1, currentTime);
+                    	commentDate1.setText(suggestiontimecasedefault_1);
+                    	
+                    	String earlyTimecasedefault_2 = post.getComments().get(size - 2).getCommentDate();
+                        earlyTimecasedefault_2 = earlyTimecasedefault_2.replace(" ", "-");
+                        earlyTimecasedefault_2 = earlyTimecasedefault_2.replace(":", "-");
+                        String suggestiontimecasedefault_2 = DateUtil.getSuggestion(earlyTimecasedefault_2, currentTime);
+                    	commentDate2.setText(suggestiontimecasedefault_2);
+                    	
+                    	String earlyTimecasedefault_3 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecasedefault_3 = earlyTimecasedefault_3.replace(" ", "-");
+                        earlyTimecasedefault_3 = earlyTimecasedefault_3.replace(":", "-");
+                        String suggestiontimecasedefault_3 = DateUtil.getSuggestion(earlyTimecasedefault_3, currentTime);
+                    	commentDate3.setText(suggestiontimecasedefault_3);
+                    	
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -424,7 +512,18 @@ public class PublicActivityAdapter extends BaseAdapter
         protected void onPostExecute(String result) 
         {  	
         	Log.e("onPostExecute_____", result);
+        	int maxHeight = dp2px(context, 300);
+            int height = (int) ((float) iv.getWidth() / dr.getMinimumWidth() * dr.getMinimumHeight());
+            if (height > maxHeight) height = maxHeight;
+            Log.e("paa____", height + " " + maxHeight + " " + iv.getWidth() + " " + dr.getMinimumWidth() + " " + dr.getMinimumHeight());
+            iv.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
         	iv.setBackground(dr); 
         }  
-    }  
+    }
+    
+    private int dp2px(Context context, int dp)
+    {
+    	float scale = context.getResources().getDisplayMetrics().density;
+    	return (int) (dp * scale + 0.5f);
+    }
 }

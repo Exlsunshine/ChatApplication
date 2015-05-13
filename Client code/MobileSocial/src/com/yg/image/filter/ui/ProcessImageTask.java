@@ -18,13 +18,13 @@ public class ProcessImageTask extends AsyncTask<Void, Void, Bitmap>
 	private IImageFilter filter;
     private Bitmap target = null;
     private String tag;
-    private HashMap<String, String> filterCache;
+    private HashMap<String, FilterCacheItem> filterCache;
     private ImageView imageview;
     
     private Image img = null;
     
     public ProcessImageTask(IImageFilter imageFilter, Bitmap target, 
-    		String tag, HashMap<String, String> filterCache, ImageView imageview) 
+    		String tag, HashMap<String, FilterCacheItem> filterCache, ImageView imageview) 
 	{
 		this.filter = imageFilter;
 		this.target = target;
@@ -48,6 +48,7 @@ public class ProcessImageTask extends AsyncTask<Void, Void, Bitmap>
 	{
 		try
     	{
+			filterCache.put(tag, new FilterCacheItem(null, FilterCacheItem.STATUS_PROCESSING));
 			img = new Image(target);
 			if (filter != null)
 			{
@@ -82,7 +83,8 @@ public class ProcessImageTask extends AsyncTask<Void, Void, Bitmap>
 		if(result != null)
 		{
 			super.onPostExecute(result);
-			filterCache.put(tag, retriveSaveBmpPath(result));
+			filterCache.get(tag).setFilterPath(retriveSaveBmpPath(result));
+			filterCache.get(tag).setStatus(FilterCacheItem.STATUS_DONE);
 			
 			if (imageview != null)
 				imageview.setImageBitmap(result);

@@ -13,9 +13,13 @@ import com.tp.messege.EmptyPost;
 import com.tp.messege.PostManager;
 import com.tp.views.MenuRightAnimations;
 import com.yg.commons.ConstantValues;
+import com.yg.ui.dialog.DialogActivity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +37,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,7 +46,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class PublicActivity extends Activity implements OnTouchListener, OnPositionChangedListener 
 {
-    
     // clock
     private FrameLayout clockLayout;
     private PullToRefreshListView mPullRefreshListView;
@@ -54,8 +58,28 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     private final int pulluprefreshempty = 3;
     private final int refresh = 4;
     private int position1 = 0;
-    private final int textBtn = 2131034131;
     private boolean isOncreate = false;
+    
+    
+    private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.tp_publicactivity_actionbar);
+		
+		TextView title = (TextView)findViewById(R.id.tp_publicactivity_actionbar_title);
+		title.setText("≈Û”—»¶");
+		LinearLayout back = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_back);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+	}
     
     @Override
     public void onCreate(Bundle savedInstanceState) 
@@ -63,6 +87,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tp_feed_activity2);
         MenuRightAnimations.initOffset(PublicActivity.this);
+        setupDialogActionBar();
         new Thread()
         {
         	public void run() 
@@ -70,7 +95,9 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         		try
         		{
         			ap.add(empty);
-          			ap.addAll(ConstantValues.user.pm.get10Posts());
+        			ArrayList<AbstractPost> posts = ConstantValues.user.pm.get10Posts();
+        			if (posts != null)
+        				ap.addAll(ConstantValues.user.pm.get10Posts());
           			Message message = Message.obtain();
     				message.what = setAdpter;
     				handler.sendMessage(message);
@@ -164,6 +191,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		public void onItemClick(AdapterView<?> parent, View view, int position,long id) 
 		{
 			Log.d("OnItemClickListenerImpl", " 111111111");
+			position1 = mListView.getFirstVisiblePosition();
 			if (position == 1)
 			{
 				Intent intent = new Intent(PublicActivity.this,MyselfPostActivity.class);
@@ -189,7 +217,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     	if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) 
     	{
     		Log.e("onScrollStateChanged", mListView.getFirstVisiblePosition() + "");
-    		position1 = mListView.getFirstVisiblePosition();
     	}
     }
     
@@ -203,8 +230,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         TextView datestr = ((TextView) findViewById(R.id.clock_digital_date));
     	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size())
     	{
-    		/*datestr.setText("…œŒÁ");
-    		clocktext.setText("00:00");*/
     	    RotateAnimation[] tmp = computeAni(0,0);
     	    minView.startAnimation(tmp[0]);
     	    hourView.startAnimation(tmp[1]);

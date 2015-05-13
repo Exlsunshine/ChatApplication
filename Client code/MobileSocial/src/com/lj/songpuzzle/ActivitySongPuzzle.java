@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
+import com.lj.bazingaball.ActivityBazingaBall;
 import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
@@ -191,7 +192,16 @@ public class ActivitySongPuzzle extends Activity {
 				@Override
 				public void onClick(View v) 
 				{
-					Toast.makeText(ActivitySongPuzzle.this, "See", Toast.LENGTH_LONG).show();
+					Toast.makeText(ActivitySongPuzzle.this, "ÃÙ’Ω≥…π¶", Toast.LENGTH_SHORT).show();
+					Thread td = new Thread(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							ConstantValues.user.makeFriendWith(userID, ActivitySongPuzzle.this);
+						}
+					});
+					td.start();
 					gGameEndDialog.dismiss();
 				}
 			});

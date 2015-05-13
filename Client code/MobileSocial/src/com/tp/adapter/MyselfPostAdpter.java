@@ -291,7 +291,6 @@ public class MyselfPostAdpter extends BaseAdapter
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
                    
                     ImagePost ip = (ImagePost) post;
-                    Bitmap bm = ip.getImage();
                     GetImageTask task = new GetImageTask(photoView, ip);
                     task.execute(0);
                     
@@ -414,7 +413,18 @@ public class MyselfPostAdpter extends BaseAdapter
         protected void onPostExecute(String result) 
         {  	
         	Log.e("onPostExecute_____", result);
+        	int maxHeight = dp2px(context, 300);
+            int height = (int) ((float) iv.getWidth() / dr.getMinimumWidth() * dr.getMinimumHeight());
+            if (height > maxHeight) height = maxHeight;
+            Log.e("paa____", height + " " + maxHeight + " " + iv.getWidth() + " " + dr.getMinimumWidth() + " " + dr.getMinimumHeight());
+            iv.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, height));
         	iv.setBackground(dr); 
         }  
     }  
+    
+    private int dp2px(Context context, int dp)
+    {
+    	float scale = context.getResources().getDisplayMetrics().density;
+    	return (int) (dp * scale + 0.5f);
+    }
 }

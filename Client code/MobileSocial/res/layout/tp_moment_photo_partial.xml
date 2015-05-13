@@ -36,10 +36,10 @@
         <ImageView
             android:id="@+id/publicactivityadpter_photo"
             android:layout_width="fill_parent"
-            android:layout_height="300dp"
+            android:layout_height="fill_parent"
             android:background="@color/gray"
             android:scaleType="centerCrop" />
-
+        
         <include layout="@layout/tp_feed_comment_button_thumbnail" />
     </RelativeLayout>
 

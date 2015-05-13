@@ -17,6 +17,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.tp.messege.PostManager;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
 import com.yg.message.AbstractMessage;
@@ -24,6 +25,9 @@ import com.yg.message.AudioMessage;
 import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.network.openfire.OpenfireHandler;
+import com.yg.ui.friendlist.FriendDetailActivity;
+import com.yg.ui.friendlist.FriendListActivity;
+import com.yg.ui.login.implementation.LoginInfo;
 
 public class ClientUser extends AbstractUser
 {
@@ -347,8 +351,11 @@ public class ClientUser extends AbstractUser
 	/**
 	 * 注销
 	 */
-	public void signoff()
+	public void signoff(Context context)
 	{
+		LoginInfo loginInfo = new LoginInfo(context);
+		loginInfo.logoff();
+		
 		ofhandler.signoff();
 	}
 
@@ -498,8 +505,15 @@ public class ClientUser extends AbstractUser
 	 * @param other 待设置的目标用户
 	 * @param enable 使能选项  true 表示设置为星标好友;false 表示取消设置星标好友
 	 */
-	public void setAsCloseFriend(FriendUser other, boolean enable)
+	public void setAsCloseFriend(int friendID, boolean enable)
 	{
+		FriendUser other = getFriendByID(friendID);
+		if (other == null)
+		{
+			Log.e(DEBUG_TAG, "Does not find friend with given ID: " + friendID);
+			return ;
+		}
+			
 		String [] params = new String[3];
 		Object [] vlaues = new Object[3];
 		params[0] = "userID";
@@ -512,7 +526,7 @@ public class ClientUser extends AbstractUser
 		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setAsCloseFriend", params, vlaues);
 		
-		Log.e("______", ret.toString());
+		Log.i(DEBUG_TAG, ret.toString());
 	}
 	
 	/**
@@ -538,8 +552,15 @@ public class ClientUser extends AbstractUser
 	 * 将other这个用户解除好友关系
 	 * @param other 待设置的目标用户
 	 */
-	public void deleteUser(FriendUser other)
+	public void deleteUser(int friendID)
 	{
+		FriendUser other = getFriendByID(friendID);
+		if (other == null)
+		{
+			Log.e(DEBUG_TAG, "Does not find friend with given ID: " + friendID);
+			return ;
+		}
+		
 		String [] params = new String[2];
 		Object [] vlaues = new Object[2];
 		params[0] = "userID";
@@ -549,8 +570,23 @@ public class ClientUser extends AbstractUser
 		
 		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("deleteUser", params, vlaues);
+		Log.i("______", ret.toString());
 		
-		Log.e("______", ret.toString());
+		removeFriendFromList(friendID);
+	}
+	
+	private void removeFriendFromList(int friendID)
+	{
+		if (friendList != null)
+		{
+			for (int i = 0 ; i < friendList.size(); i++)
+				if (friendList.get(i).getID() == friendID)
+				{
+					friendList.remove(i);
+					Log.i(DEBUG_TAG, "Remove friend successful.");
+					break;
+				}
+		}
 	}
 	
 	private void getFriendListFromServer()
@@ -693,6 +729,30 @@ public class ClientUser extends AbstractUser
 	}
 	
 	/**
+	 * @see #makeDialogWith(FriendUser)
+	 */
+	public Dialog makeDialogWith(int friendID)
+	{
+		return makeDialogWith(getFriendByID(friendID));
+	}
+	
+	/**
+	 * 清除与指定用户的本地聊天记录
+	 * @param friendID 指定的用户ID
+	 */
+	public void eraseDialogHistory(int friendID)
+	{
+		Dialog dialog = makeDialogWith(friendID);
+		
+		if (dialog != null)
+			dialog.deleteDialogHistory();
+		
+		for (int i = 0; i < dialogList.size(); i++)
+			if (dialogList.get(i).getAnotherUserID() == dialog.getAnotherUserID())
+				dialogList.remove(i);
+	}
+	
+	/**
 	 * 从本地对话中查找：当前用户与ID为targetUserID的用户之间的对话
 	 * @param targetUserID 另一用户ID
 	 * @return 当前用户与ID为targetUserID的用户之间的对话<br>
@@ -773,5 +833,43 @@ public class ClientUser extends AbstractUser
 		}
 		
 		return -2;
+	}
+	
+	/**
+	 * 将两个人设置为双向好友
+	 * @param targetUserID targetUserID 目标用户ID
+	 * @param context activity context
+	 * @return 0表示加好友成功<br>-1表示失败
+	 */
+	public int makeFriendWith(int targetUserID, Context context)
+	{
+		String [] params = new String[2];
+		Object [] vlaues = new Object[2];
+		params[0] = "userID";
+		params[1] = "targetUserID";
+		vlaues[0] = this.id;
+		vlaues[1] = targetUserID;
+		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
+		Object ret = wsAPI.callFuntion("makeFriendWith", params, vlaues);
+		
+		int resultCode = Integer.parseInt(ret.toString());
+		
+		if (resultCode == 0)
+			getFriendListFromServer();
+		else
+			return -1;
+		
+		FriendUser friend = getFriendByID(targetUserID);
+		sendMsgTo(friend, new TextMessage(this.id, targetUserID, "Hi " + friend.getNickName() + ", 我是" + getNickName() + ", 你好啊 :)", CommonUtil.now(), true));
+		
+		Intent broadcastIntent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+		context.sendBroadcast(broadcastIntent);
+		
+		Intent intent = new Intent(context, FriendDetailActivity.class);
+		intent.putExtra("friendUserID", targetUserID);
+		context.startActivity(intent);
+		
+		return 0;
 	}
 }
