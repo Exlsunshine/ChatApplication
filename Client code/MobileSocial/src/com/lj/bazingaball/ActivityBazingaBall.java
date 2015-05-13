@@ -36,6 +36,7 @@ public class ActivityBazingaBall extends Activity
 	public static final int BUTTON_SIZE = 500;  //initial button's size
 	public static final int BAZINGABALL_REQUEST_CODE = 0x10;
 	public static final int BAZINGABALL_RESULT_CODE = 0x11;
+	private final int GAMEEND_TEXT_SIZE = 20;
 	private final int UPLEFT = 0x00;
 	private final int UPRIGHT = 0x01;
 	private final int BOTTOMLEFT = 0x10;
@@ -96,6 +97,7 @@ public class ActivityBazingaBall extends Activity
 					gamebegin = 2;
 					gThreadUpdateScore.disableUpdateScore();
 					TextView gameOverText = new TextView(ActivityBazingaBall.this);
+					gameOverText.setTextSize(GAMEEND_TEXT_SIZE);
 					RelativeLayout.LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 					layout.addRule(RelativeLayout.CENTER_IN_PARENT);
 					gameOverText.setLayoutParams(layout);

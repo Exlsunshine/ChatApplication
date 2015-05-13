@@ -3,7 +3,6 @@ package com.lj.songpuzzle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.kobjects.base64.Base64;
 
 import com.yg.user.DownloadManager;
 
@@ -64,7 +63,6 @@ public class SongPuzzleGame
 	
 	public String getCurrentAnswer()
 	{
-		Log.e("sss", gCurrentIndex + " " + gAnswer.length);
 		if (isFinish())
 			return null;
 		else

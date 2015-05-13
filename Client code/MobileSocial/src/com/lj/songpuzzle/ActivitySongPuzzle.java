@@ -10,19 +10,14 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -30,10 +25,8 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -142,6 +135,7 @@ public class ActivitySongPuzzle extends Activity {
 					{
 						gRightDialog.dismiss();
 						showGameEndDialog(gRightNum);
+						gRightDialog.show();
 					}
 				}
 			}
@@ -177,6 +171,7 @@ public class ActivitySongPuzzle extends Activity {
 		gGameEndDialog.show();
 		gGameEndDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		gGameEndDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		gGameEndDialog.setCancelable(false);
 		
 		Window window = gGameEndDialog.getWindow();
 		window.setContentView(R.layout.lj_songpuzzle_gameend_dialog);
@@ -197,6 +192,7 @@ public class ActivitySongPuzzle extends Activity {
 				public void onClick(View v) 
 				{
 					Toast.makeText(ActivitySongPuzzle.this, "See", Toast.LENGTH_LONG).show();
+					gGameEndDialog.dismiss();
 				}
 			});
 		}
@@ -221,7 +217,7 @@ public class ActivitySongPuzzle extends Activity {
 		gRightDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
 		gRightDialog.setCanceledOnTouchOutside(true);
 		gRightDialog.show();
-		gRightDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		gRightDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
 		gRightDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		
 		Window window = gRightDialog.getWindow();
@@ -233,10 +229,10 @@ public class ActivitySongPuzzle extends Activity {
 		else
 			flagText.setText("很遗憾您回答错误");
 		TextView rightAnswerText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_rightanswer);
-		rightAnswerText.setText(rightAnswer);
+		rightAnswerText.setText("正确答案："  + rightAnswer);
 		
 		TextView userAnswerText = (TextView) window.findViewById(R.id.lj_songpuzzle_dialog_useranswer);
-		userAnswerText.setText(userAnswer);
+		userAnswerText.setText("您的答案：" + userAnswer);
 		
 		Button next = (Button) window.findViewById(R.id.lj_songpuzzle_dialog_next);
 		next.setOnClickListener(new OnClickListener() 
@@ -247,11 +243,6 @@ public class ActivitySongPuzzle extends Activity {
 				gRightDialog.dismiss();
 			}
 		});
-	//	Button forgot = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_forgot);
-	//	forgot.setOnClickListener(new onForgotBtnClickListener());
-		
-	//	Button login = (Button) window.findViewById(R.id.yg_loginguide_page3_dialog_login);
-//		login.setOnClickListener(new onLoginBtnClickListener());
 	}
 	
 	OnClickListener charClickListener = new OnClickListener() 

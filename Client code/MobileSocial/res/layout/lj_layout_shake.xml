@@ -2,7 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lj_shake_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/lj_shake_ball_layout"
+        android:background="#000"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true" >
+
+        <com.lj.shake.ShakeBall
+            android:id="@+id/lj_shake_ball"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/lj_shake_ball" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/lj_map_male_female_layout"

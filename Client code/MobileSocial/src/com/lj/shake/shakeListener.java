@@ -17,7 +17,7 @@ public class shakeListener implements SensorEventListener
 	{
 		if ((Math.abs(values[0]) > ConstantValues.InstructionCode.THRESHOLD_SPEED 
 			|| Math.abs(values[1]) > ConstantValues.InstructionCode.THRESHOLD_SPEED 
-			|| Math.abs(values[2]) > ConstantValues.InstructionCode.THRESHOLD_SPEED + 9.8)) 
+			|| Math.abs(values[2]) > ConstantValues.InstructionCode.THRESHOLD_SPEED)) 
 			return true;
 		else
 			return false;
@@ -37,6 +37,7 @@ public class shakeListener implements SensorEventListener
 		{
 			Message msg = new Message();
 			msg.what = ConstantValues.InstructionCode.SHAKE_HANDLER_SHAKE_SENSOR;
+			msg.obj = values;
 			myHandler.sendMessage(msg);
 			Thread thread = new ThreadCheckGameSet(myHandler, userID);
 			thread.start();
