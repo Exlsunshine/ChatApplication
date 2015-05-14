@@ -18,7 +18,7 @@ import org.json.JSONObject;
  */
 public class HometownHandler
 {
-	private static String cityProvienceDataPath = "C:\\Users\\USER007\\Desktop\\IM\\data\\hometownProvinceAndCityJson.js";
+	private static String cityProvienceDataPath = "C:\\Users\\USER007\\Desktop\\IM\\data\\hometown\\ProvinceAndCityJson.js";
 	//private static String cityProvienceDataPath = "C:\\Users\\USER007\\Desktop\\IM\\data\\hometown\\ProvinceAndCityJson.js";
 	private HashMap<String,HashMap<String, ArrayList<String>>> proviences = null;
 	private static HometownHandler instance = null;

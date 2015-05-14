@@ -45,14 +45,12 @@ public class ActivityHometownSetting extends Activity
 			if (id == gPickerProvience.getId())
 			{
 				int provienceIndex = gPickerProvience.getCurrentItem();
-		//		gHometownText.setText(generateHometown(gProviences[provienceIndex], "---", "---"));
 				new ThreadGetCityArray(gHandler, gProviences[provienceIndex]).start();
 			}
 			else if (id == gPickerCity.getId())
 			{
 				int cityIndex = gPickerCity.getCurrentItem();
 				int provienceIndex = gPickerProvience.getCurrentItem();
-	//			gHometownText.setText(generateHometown(gProviences[provienceIndex], gCitys[cityIndex], "---"));
 				new ThreadGetDistrictArray(gHandler, gProviences[provienceIndex], gCitys[cityIndex]).start();
 			}
 			else if (id == gPickerDistrict.getId())
