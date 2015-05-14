@@ -221,7 +221,7 @@
                 android:layout_below="@+id/yg_dialog_activity_appkefu_plus_show_faq_btn"
                 android:layout_marginLeft="23dp"
                 android:layout_marginTop="5dp"
-                android:text="建议" />
+                android:text="位置" />
 
             <ImageButton
                 android:id="@+id/yg_dialog_activity_appkefu_plus_rate_btn"
@@ -241,7 +241,7 @@
                 android:layout_below="@+id/yg_dialog_activity_appkefu_plus_rate_btn"
                 android:layout_marginLeft="23dp"
                 android:layout_marginTop="5dp"
-                android:text="未知" />
+                android:text="话题" />
 
             <View
                 android:id="@+id/yg_dialog_activity_appkefu_plus_view_placeholder"
