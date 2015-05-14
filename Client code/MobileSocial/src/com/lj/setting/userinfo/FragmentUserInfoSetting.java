@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
+import com.lj.settings.ActivitySettings;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.image.select.ui.SelectImageActivity;
+import com.yg.ui.MainActivity;
 import com.yg.ui.signup.SignupActivity;
 
 import android.content.Context;
@@ -118,7 +120,10 @@ public class FragmentUserInfoSetting extends Fragment
 				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_PORTRAIT);
 			}
 			else if (id == R.id.lj_userinfo_setting_singoff)
-				ConstantValues.user.signoff(gContext);
+			{
+				((ActivitySettings)gContext).setResult(MainActivity.RESULT_CODE_SIGNOFF);
+				((ActivitySettings)gContext).finish();
+			}
 		}
 	};
 	
