@@ -299,6 +299,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	{
 		private int cmd;
 		private int position;
+		private int friendID;
 		
 		@Override
 		protected Void doInBackground(Integer... params)
@@ -307,16 +308,17 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			int cmd = params[1];
 			this.cmd = cmd;
 			this.position = position;
+			this.friendID = friendsID.get(position - 2);
 			
 			switch (cmd)
 			{
 			case FRIENDSHIP_REQUEST_DELETE:
-				ConstantValues.user.deleteUser(friendsID.get(position - 2));
+				ConstantValues.user.deleteUser(friendID);
 				break;
 			case FRIENDSHIP_REQUEST_STAR:
 				boolean isCloseFriends = !friendsStarMark.get(position - 2);
 				friendsStarMark.set(position - 2, isCloseFriends);
-				ConstantValues.user.setAsCloseFriend(friendsID.get(position - 2), isCloseFriends);
+				ConstantValues.user.setAsCloseFriend(friendID, isCloseFriends);
 				break;
 			default:
 				break;
@@ -335,6 +337,10 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				myAdapter.remove(position - 2);
 				refreshDataFromQuery("");
 				requestForCleanActionbar();
+				
+				Intent intent = new Intent(ConstantValues.InstructionCode.ERASE_LOCAL_HISTORY);
+				intent.putExtra("friendUserID", friendID);
+				sendBroadcast(intent);
 			}
 			
 			myAdapter.enableAnimation(false);

@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
@@ -314,6 +313,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
 		intentFilter.addAction(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
 		intentFilter.addAction(ConstantValues.InstructionCode.CLEAR_MESSAGE_RED_DOT);
+		intentFilter.addAction(ConstantValues.InstructionCode.ERASE_LOCAL_HISTORY);
 		
 		return intentFilter;
 	}
@@ -412,6 +412,16 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 						refreshRecentDialogs();
 						myAdapter.notifyDataSetChanged();
 					}
+				}
+			}
+			else if (intent.getAction().equals(ConstantValues.InstructionCode.ERASE_LOCAL_HISTORY))
+			{
+				int friendUserID = intent.getIntExtra("friendUserID", -1);
+				
+				for (int i = 0; i < ids.size(); i++)
+				{
+					if (ids.get(i) == friendUserID)
+						new DeleteDataFromDB().execute(i + 2);
 				}
 			}
 		}
