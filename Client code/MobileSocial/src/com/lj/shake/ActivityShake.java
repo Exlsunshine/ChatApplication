@@ -157,7 +157,7 @@ public class ActivityShake extends Activity
     		sensorManager.unregisterListener(shakelistener);
     		finish();
     	}
-    	return super.onKeyDown(keyCode, event);
+    	return super.onKeyDown(keyCode, event); 
     }
     
     @Override
