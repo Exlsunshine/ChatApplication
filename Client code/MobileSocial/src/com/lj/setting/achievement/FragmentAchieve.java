@@ -26,6 +26,9 @@ public class FragmentAchieve extends Fragment
 			                               R.id.lj_setting_achieve_5, R.id.lj_setting_achieve_6, R.id.lj_setting_achieve_7, R.id.lj_setting_achieve_8};
 	private final int[] ACHIEVE_TITLE_ID = {R.string.lj_achieve_title_1, R.string.lj_achieve_title_2, R.string.lj_achieve_title_3, R.string.lj_achieve_title_4,
 			                                R.string.lj_achieve_title_5, R.string.lj_achieve_title_6, R.string.lj_achieve_title_7, R.string.lj_achieve_title_8};
+	private final int[] ACHIEVE_DES_ID = {R.string.lj_achieve_des_1, R.string.lj_achieve_des_2, R.string.lj_achieve_des_3, R.string.lj_achieve_des_4,
+			                              R.string.lj_achieve_des_5, R.string.lj_achieve_des_6, R.string.lj_achieve_des_7, R.string.lj_achieve_des_8};
+	
 	private final String[] COLUMN_NAME_LIST = {"friends_num", "shake_num", "game_challenged_success", "game_challenged_fail",
             								   "game_challeng_success", "game_challeng_fail", "voice_num", "register_time"};
 	
@@ -78,10 +81,12 @@ public class FragmentAchieve extends Fragment
 		gMapItem = new HashMap<String, LinearLayoutAchieveItem>();
 		
 		String[] achieveTitle = new String[ACHIEVE_TITLE_ID.length];
+		String[] achieveDes = new String[ACHIEVE_DES_ID.length];
 		for (int i = 0; i < ACHIEVE_TITLE_ID.length; i++)
 		{
 			achieveTitle[i] = getString(ACHIEVE_TITLE_ID[i]);
-			gAchieveItemList[i].setAchieveTitleDes(achieveTitle[i], "");
+			achieveDes[i] = getString(ACHIEVE_DES_ID[i]);
+			gAchieveItemList[i].setAchieveTitleDes(achieveTitle[i], achieveDes[i]);
 			gMapItem.put(COLUMN_NAME_LIST[i], gAchieveItemList[i]);
 		}
 		new ThreadGetUserStatistics(ConstantValues.user.getID(), gHandler).start();

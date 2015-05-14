@@ -13,6 +13,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
@@ -32,6 +33,9 @@ public class ActivityShake extends Activity
 {
 	public int dpiWidth;
 	public int dpiHight;
+	
+	public static final int REQUEST_CODE_BEGINGAME = 0x20;
+	public static final int RESULT_CODE_FRIENDADD = 0x21;
 	
 	public SensorManager sensorManager;
 	public LocationClient locationClient = null;
@@ -77,13 +81,6 @@ public class ActivityShake extends Activity
 		
 		gMaleSelect = (ImageView)findViewById(R.id.lj_map_male);
 		gFemaleSelect = (ImageView)findViewById(R.id.lj_map_female);
-		
-/*		userDataListView = new RelativeLayoutUserInfoList(this);
-		RelativeLayout.LayoutParams layout = new LayoutParams(LayoutParams.FILL_PARENT, 100);
-		layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		layout.bottomMargin = 10;
-		userDataListView.setLayoutParams(layout);
-		mainLayout.addView(userDataListView);*/
 	}
 	
 	private void initListener()
@@ -160,7 +157,14 @@ public class ActivityShake extends Activity
     		sensorManager.unregisterListener(shakelistener);
     		finish();
     	}
-    	return super.onKeyDown(keyCode, event);
+    	return super.onKeyDown(keyCode, event); 
     }
     
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+    {
+    	super.onActivityResult(requestCode, resultCode, data);
+    	if (requestCode == REQUEST_CODE_BEGINGAME && resultCode == RESULT_CODE_FRIENDADD)
+    		finish();
+    }
 }

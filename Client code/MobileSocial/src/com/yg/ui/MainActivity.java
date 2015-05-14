@@ -48,6 +48,7 @@ import com.lj.settings.ActivitySettings;
 import com.lj.shake.ActivityShake;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.SendPostActivity;
+import com.yg.commons.ConstantValues;
 import com.yg.ui.friendlist.FriendListActivity;
 import com.yg.ui.recentdialog.RecentDialogActivity;
 
@@ -74,6 +75,9 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	private final int MENU_FRIENDCIRCLE_INDEX = 3;
 	private final int MENU_SENDPOST_INDEX = 4;
 	private final int MENU_PROFILE_INDEX = 5;
+	
+	public static final int REQUEST_CODE_SIGNOFF = 0x30;
+	public static final int RESULT_CODE_SIGNOFF = 0x31;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -183,7 +187,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 						{
 							Intent intent = new Intent();
 							intent.setClass(MainActivity.this, ActivitySettings.class);
-							startActivity(intent);
+							startActivityForResult(intent, REQUEST_CODE_SIGNOFF);
 						}
 					}
 				}, 800);
@@ -459,4 +463,15 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		flipAnimationSet.start();
 	}
 	/*********************		以上是FriendList ActionBar相关设置		*********************/
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
+		if (requestCode == REQUEST_CODE_SIGNOFF && resultCode == RESULT_CODE_SIGNOFF)
+		{
+			ConstantValues.user.signoff(this);
+			finish();
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 }
