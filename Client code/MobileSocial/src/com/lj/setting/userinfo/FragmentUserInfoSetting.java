@@ -28,9 +28,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -120,10 +122,7 @@ public class FragmentUserInfoSetting extends Fragment
 				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_PORTRAIT);
 			}
 			else if (id == R.id.lj_userinfo_setting_singoff)
-			{
-				((ActivitySettings)gContext).setResult(MainActivity.RESULT_CODE_SIGNOFF);
-				((ActivitySettings)gContext).finish();
-			}
+				showSignOffDialog();
 		}
 	};
 	
@@ -256,5 +255,36 @@ public class FragmentUserInfoSetting extends Fragment
 	{
 		gNicknameEditText.clearFocus();
 		gPhoneEditText.clearFocus();
+	}
+	
+	private void showSignOffDialog()
+	{
+		final AlertDialog dialog = new AlertDialog.Builder(gContext, R.style.LoginDialogAnimation).create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = dialog.getWindow();
+		window.setContentView(R.layout.lj_userinfo_setting_singoff_remind_dialog);
+		Button cancel = (Button) window.findViewById(R.id.lj_userinfo_setting_singoff_dialog_button_cancel);
+		cancel.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				dialog.dismiss();
+			}
+		});
+		Button confirm = (Button) window.findViewById(R.id.lj_userinfo_setting_singoff_dialog_button_confirm);
+		confirm.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				((ActivitySettings)gContext).setResult(MainActivity.RESULT_CODE_SIGNOFF);
+				((ActivitySettings)gContext).finish();
+			}
+		});
 	}
 }
