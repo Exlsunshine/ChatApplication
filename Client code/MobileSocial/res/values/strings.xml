@@ -21,11 +21,20 @@
     <string name="pull_to_refresh_tap_label">点击刷新</string>
     
     <string name="lj_achieve_title_1">社交达人</string>
-    <string name="lj_achieve_title_2">动感达人</string>
+    <string name="lj_achieve_title_2">不摇不相识</string>
     <string name="lj_achieve_title_3">兵临城下</string>
     <string name="lj_achieve_title_4">固若金汤</string>
     <string name="lj_achieve_title_5">战无不胜</string>
     <string name="lj_achieve_title_6">不屈不挠</string>
     <string name="lj_achieve_title_7">滔滔不绝</string>
     <string name="lj_achieve_title_8">久经沙场</string>
+    
+    <string name="lj_achieve_des_1">好友数量</string>
+    <string name="lj_achieve_des_2">使用摇一摇次数</string>
+    <string name="lj_achieve_des_3">被解密成功次数</string>
+    <string name="lj_achieve_des_4">被解密失败次数</string>
+    <string name="lj_achieve_des_5">解密成功次数</string>
+    <string name="lj_achieve_des_6">解密失败次数</string>
+    <string name="lj_achieve_des_7">发语音次数</string>
+    <string name="lj_achieve_des_8">使用时间</string>
 </resources>

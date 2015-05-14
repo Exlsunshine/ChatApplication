@@ -325,6 +325,7 @@
                 android:src="@drawable/lj_setting_line" />
 
             <LinearLayout
+                android:id="@+id/lj_userinfo_setting_singoff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

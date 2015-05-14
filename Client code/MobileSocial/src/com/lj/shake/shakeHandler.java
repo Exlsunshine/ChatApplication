@@ -28,6 +28,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.sax.StartElementListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -199,8 +200,13 @@ public class shakeHandler extends Handler
 			myContext.locationClient.start();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_SUCCESS_GET_DATA:
-			myContext.gShakeBall.startZoominAnimation();
 			gUserShakeDataList = (ArrayList<UserShakeData>) msg.obj;
+			if (gUserShakeDataList.size() == 1)
+			{
+				Toast.makeText(myContext, "很抱歉您的附近没有其他用户。", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			myContext.gShakeBall.startZoominAnimation();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_SHOW:
 			myContext.gShakeBall.setVisibility(View.GONE);
@@ -260,7 +266,7 @@ public class shakeHandler extends Handler
 				intent.putExtra("userID", id);
 				break;
 			}
-			myContext.startActivity(intent);
+			myContext.startActivityForResult(intent, ActivityShake.REQUEST_CODE_BEGINGAME);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_CHANGE_MARK:
 			int indexs = msg.arg1;

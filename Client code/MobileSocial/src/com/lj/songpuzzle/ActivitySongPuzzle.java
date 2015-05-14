@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
+import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
@@ -202,7 +203,8 @@ public class ActivitySongPuzzle extends Activity {
 						}
 					});
 					td.start();
-					gGameEndDialog.dismiss();
+					setResult(ActivityShake.RESULT_CODE_FRIENDADD);
+					finish();
 				}
 			});
 		}
