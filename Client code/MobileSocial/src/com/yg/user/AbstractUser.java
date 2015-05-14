@@ -1,11 +1,10 @@
 package com.yg.user;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 public abstract class AbstractUser
 {
-	private static final String DEBUG_TAG = "AbstractUser______";
+	//private static final String DEBUG_TAG = "AbstractUser______";
 	protected int id;
 	protected String loginAccount;
 	protected String nickName;
