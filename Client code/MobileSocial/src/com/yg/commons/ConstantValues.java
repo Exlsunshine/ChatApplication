@@ -118,7 +118,7 @@ public class ConstantValues
 		public static final String WEBSERVICE_NAMESPACE = "http://network.com";
 		public static final String OPENFIRE_SERVER_IP = "172.18.8.102";
 
-		public static final String WEBSERVICE_SERVER_IP = "172.18.8.102";
+		public static final String WEBSERVICE_SERVER_IP = "192.168.95.1";
 		public static final int WEBSERVICE_SERVER_PORT = 8080;
 		public static final String WEBSERVICE_ENDPOINT = "http://" + WEBSERVICE_SERVER_IP + ":8080/WebServiceProject/services/NetworkHandler";
 		

@@ -29,8 +29,11 @@ public class WebMapLocation
 		String[] name = {"userId"};
 		Object[] values = {userId};
 		Object result = webserviceGame.callFuntion("getNearbyUser", name, values);
+		
 		if (CommonUtil.isNetWorkError(result))
 			return null;
+		if (result.toString().equals("null"))
+			return userShakeDataList;
 		PackString ps = new PackString(result.toString());
 		ArrayList<HashMap<String, Object>> map_NearbyUser = ps.jsonString2Arrylist("nearbyusers");
 		for (int i =0; i < map_NearbyUser.size(); i++) 

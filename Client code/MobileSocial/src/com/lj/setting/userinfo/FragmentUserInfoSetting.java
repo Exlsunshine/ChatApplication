@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -65,7 +66,7 @@ public class FragmentUserInfoSetting extends Fragment
 								   R.id.lj_userinfo_setting_constellation_layout, R.id.lj_userinfo_setting_constellation_text, R.id.lj_userinfo_setting_constellation_image,
 								   R.id.lj_userinfo_setting_hometown_layout, R.id.lj_userinfo_setting_hometown_text, R.id.lj_userinfo_setting_hometown_image,
 								   R.id.lj_userinfo_setting_password_layout, R.id.lj_userinfo_setting_password_text, R.id.lj_userinfo_setting_password_image,
-								   R.id.lj_userinfo_setting_portrait};
+								   R.id.lj_userinfo_setting_portrait, R.id.lj_userinfo_setting_singoff};
 	
 	public FragmentUserInfoSetting(Context context, HashMap<String, String> map) 
 	{
@@ -116,6 +117,8 @@ public class FragmentUserInfoSetting extends Fragment
 				intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
 				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_PORTRAIT);
 			}
+			else if (id == R.id.lj_userinfo_setting_singoff)
+				ConstantValues.user.signoff(gContext);
 		}
 	};
 	
