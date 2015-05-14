@@ -28,4 +28,13 @@
     <string name="lj_achieve_title_6">不屈不挠</string>
     <string name="lj_achieve_title_7">滔滔不绝</string>
     <string name="lj_achieve_title_8">久经沙场</string>
+    
+    <string name="lj_achieve_des_1">结交更多好友</string>
+    <string name="lj_achieve_des_2">搜索更多好友</string>
+    <string name="lj_achieve_des_3">游戏被挑战成功</string>
+    <string name="lj_achieve_des_4">游戏被挑战失败</string>
+    <string name="lj_achieve_des_5">挑战成功</string>
+    <string name="lj_achieve_des_6">挑战石板</string>
+    <string name="lj_achieve_des_7">发言次数</string>
+    <string name="lj_achieve_des_8">注册时间</string>
 </resources>
