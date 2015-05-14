@@ -1,25 +1,19 @@
 package com.yg.ui.dialog;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -46,6 +40,7 @@ import com.yg.emoji.EmojiParser;
 import com.yg.emoji.ParseEmojiMsgUtil;
 import com.yg.emoji.SelectFaceHelper;
 import com.yg.emoji.SelectFaceHelper.OnFaceOprateListener;
+import com.yg.image.select.ui.SelectImageActivity;
 import com.yg.message.AbstractMessage;
 import com.yg.message.AudioMessage;
 import com.yg.message.ConvertUtil;
@@ -316,6 +311,9 @@ public class DialogActivity extends Activity
 					plusRelativelayout.setVisibility(View.VISIBLE);
 					ImageButton imgPicker = (ImageButton)findViewById(R.id.yg_dialog_activity_appkefu_plus_pick_picture_btn);
 					imgPicker.setOnClickListener(new onImageSelectClickListener());
+					
+					ImageButton imgTaker = (ImageButton)findViewById(R.id.yg_dialog_activity_appkefu_plus_take_picture_btn);
+					imgTaker.setOnClickListener(new onImageTakeClickListener());
 				} 
 				else 
 				{
@@ -547,7 +545,7 @@ public class DialogActivity extends Activity
 	/**********************										***********************/
 	/**********************			以下是选图相关函数				***********************/
 	/**********************										***********************/
-	private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT));
+	/*	private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT));
 	
 	private void startPhotoZoom(Uri uri) 
 	{  
@@ -562,14 +560,29 @@ public class DialogActivity extends Activity
         intent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CROP);  
-    }  
+    }  */
+	
+	private class onImageTakeClickListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View arg0) 
+		{
+			Intent intent = new Intent(DialogActivity.this, SelectImageActivity.class);
+			intent.putExtra(SelectImageActivity.SELECTION_TYPE, SelectImageActivity.FROM_CAMERA);
+			startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
+		}
+	}
 	
 	private class onImageSelectClickListener implements OnClickListener
 	{
 		@Override
 		public void onClick(View arg0) 
 		{
-			new AlertDialog.Builder(DialogActivity.this).setTitle("请选择")
+			Intent intent = new Intent(DialogActivity.this, SelectImageActivity.class);
+			intent.putExtra(SelectImageActivity.SELECTION_TYPE, SelectImageActivity.FROM_GALLERY);
+			startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
+	
+			/*new AlertDialog.Builder(DialogActivity.this).setTitle("请选择")
 			.setIcon(R.drawable.ic_launcher)
 			.setItems(new String[] {"本地图库", "照相机"}, new DialogInterface.OnClickListener() 
 			{
@@ -589,7 +602,7 @@ public class DialogActivity extends Activity
 					}
 					dialog.dismiss();  
 				}
-			}).setNegativeButton("取消", null).show(); 
+			}).setNegativeButton("取消", null).show(); */
 		}
 	}
 	
@@ -597,24 +610,36 @@ public class DialogActivity extends Activity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == RESULT_OK)
+		if(	(requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == RESULT_OK)
+		||  (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CAMERA && resultCode == RESULT_OK))
 		{
-			Uri selectedImage =  data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-			Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-			cursor.moveToFirst();
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			cursor.close();
-			File temp = new File(picturePath);
-			startPhotoZoom(Uri.fromFile(temp)); 
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CAMERA && resultCode == RESULT_OK)
-		{
-			File temp = new File(Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.USERSET_PORTRAIT);  
-            startPhotoZoom(Uri.fromFile(temp));  
+			selectedImg = BitmapFactory.decodeFile(data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH));
+		
+			Thread td = new Thread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					ImageMessage imgMsg = new ImageMessage(ConstantValues.user.getID(), friendID, selectedImg, CommonUtil.now(), true);
+					ConstantValues.user.sendMsgTo(getFriendByID(friendID), imgMsg);
+				}
+			});
+			td.start();
+			try {
+				td.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			
-		}
+			messages.clear();
+			messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
+			msgAdapter.notifyDataSetChanged();
+			listView.setSelection(listView.getCount() - 1);
+
+			Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+			sendBroadcast(intent);
+		
+		}/*
 		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CROP && resultCode == RESULT_OK)
 		{
 			try 
@@ -649,7 +674,7 @@ public class DialogActivity extends Activity
 
 			Intent intent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
 			sendBroadcast(intent);
-		}
+		}*/
 	}
 	/**********************										***********************/
 	/**********************			以上是选图相关函数				***********************/
