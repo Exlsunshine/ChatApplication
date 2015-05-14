@@ -19,7 +19,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -360,8 +359,8 @@ public class DialogActivity extends Activity
 				if (view.getVisibility() == View.GONE)
 				{
 					//disable edittext and IM
-					editText.clearFocus();
 					hideInputManager(DialogActivity.this);
+					editText.clearFocus();
 					
 					//disable plus panel
 					plusRelativelayout.setVisibility(View.GONE);
