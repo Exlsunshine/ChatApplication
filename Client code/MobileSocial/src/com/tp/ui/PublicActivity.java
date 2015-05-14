@@ -57,6 +57,8 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     private final int pulluprefresh = 2;
     private final int pulluprefreshempty = 3;
     private final int refresh = 4;
+    private final int hideclocklayout = 5;
+    private final int showclocklayout = 6;
     private int position1 = 0;
     private boolean isOncreate = false;
     
@@ -115,6 +117,48 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         mPullRefreshListView.setOnPositionChangedListener(this);
         setClickListener();
         clockLayout = (FrameLayout)findViewById(R.id.publicactivity_clock);
+        
+        mPullRefreshListView.setOnScrollListener(new OnScrollListener() 
+        {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) 
+			{
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
+                {
+					Log.e("onScrollStateChanged", mListView.getFirstVisiblePosition() + "");
+					Thread td = new Thread(new Runnable() 
+			        {
+						@Override
+						public void run() 
+						{
+							try 
+							{
+								Thread.sleep(2000);
+								Message message = Message.obtain();
+			    				message.what = hideclocklayout;
+			    				handler.sendMessage(message);
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
+							}
+						}
+					});
+			        td.start();
+                }
+				else
+				{
+					Message message = Message.obtain();
+    				message.what = showclocklayout;
+    				handler.sendMessage(message);
+				}
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) 
+			{
+			}
+		});
         isOncreate = true;
     }
     
@@ -142,6 +186,12 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 				break;
 			case refresh:
 				chatHistoryAdapter.notifyDataSetChanged();
+				break;
+			case hideclocklayout:
+				clockLayout.setVisibility(View.INVISIBLE);
+				break;
+			case showclocklayout:
+				clockLayout.setVisibility(View.VISIBLE);
 				break;
 			}
 		}
@@ -214,6 +264,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) 
     {
+    	Log.e("PA____", "onScrollStateChanged");
     	if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) 
     	{
     		Log.e("onScrollStateChanged", mListView.getFirstVisiblePosition() + "");
@@ -228,8 +279,16 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     	ImageView hourView = (ImageView) findViewById(R.id.clock_face_hour);
         hourView.setImageResource(R.drawable.tp_clock_hour_rotatable);
         TextView datestr = ((TextView) findViewById(R.id.clock_digital_date));
+        if (firstVisiblePosition == 1)
+        {
+        	clockLayout.setVisibility(View.INVISIBLE);
+        	return;
+        }
+        else
+        	clockLayout.setVisibility(View.VISIBLE);
     	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size())
     	{
+    		Log.e("PA_______", "ififiif");
     	    RotateAnimation[] tmp = computeAni(0,0);
     	    minView.startAnimation(tmp[0]);
     	    hourView.startAnimation(tmp[1]);
@@ -263,6 +322,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         RotateAnimation[] tmp = computeAni(min,hour);
         minView.startAnimation(tmp[0]);
         hourView.startAnimation(tmp[1]);
+        
     }
     
     @Override
@@ -273,6 +333,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         System.out.println("left=="+layoutParams.leftMargin+" top=="+layoutParams.topMargin+" bottom=="+layoutParams.bottomMargin+" right=="+layoutParams.rightMargin);
         layoutParams.setMargins(0, top, 0, 0);
         clockLayout.setLayoutParams(layoutParams);
+        //clockLayout.setVisibility(View.VISIBLE);
     }
     
     OnRefreshListener mOnrefreshListener = new OnRefreshListener() 

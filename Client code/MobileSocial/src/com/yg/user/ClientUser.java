@@ -26,7 +26,6 @@ import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.network.openfire.OpenfireHandler;
 import com.yg.ui.friendlist.FriendDetailActivity;
-import com.yg.ui.friendlist.FriendListActivity;
 import com.yg.ui.login.implementation.LoginInfo;
 
 public class ClientUser extends AbstractUser
@@ -748,7 +747,7 @@ public class ClientUser extends AbstractUser
 			dialog.deleteDialogHistory();
 		
 		for (int i = 0; i < dialogList.size(); i++)
-			if (dialogList.get(i).getAnotherUserID() == dialog.getAnotherUserID())
+			if (dialogList.get(i).getAnotherUserID() == friendID)
 				dialogList.remove(i);
 	}
 	

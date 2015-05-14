@@ -18,7 +18,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -30,7 +32,7 @@ import android.widget.Toast;
 
 public class SelectImageActivity extends Activity
 {
-	//private static final String DEBUG_TAG = "SelectImageActivity______";
+	private static final String DEBUG_TAG = "SelectImageActivity______";
 	public static final String RESULT_IMAGE_PATH = "IMAGE_PATH";
 	public static final String FILTER_ENABLE = "FILTER_ENABLE";
 	
@@ -46,8 +48,12 @@ public class SelectImageActivity extends Activity
 	private Uri imageUri;
 	private boolean clickStatus = true;
 	private boolean filterEnabled = false;
+	private String preferredSelectionType = null;
 	
 	public static Bitmap bitmap = null;
+	public static final String FROM_GALLERY = "from_gallery";
+	public static final String FROM_CAMERA = "from_camera";
+	public static final String SELECTION_TYPE = "selection_type";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -55,13 +61,42 @@ public class SelectImageActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.yg_select_image_activity);
 		
+		//check if filter feature is needed or not
 		filterEnabled = getIntent().getBooleanExtra(FILTER_ENABLE, false);
+		//check if already set a selection type
+		preferredSelectionType = getIntent().getStringExtra(SELECTION_TYPE);
 		
 		topHolder = (RelativeLayout) findViewById(R.id.yg_select_picture_top_holder);
 		bottomHolder = (RelativeLayout) findViewById(R.id.yg_select_picture_bottom_holder);
 		middleCircle = (RelativeLayout) findViewById(R.id.yg_select_picture_step_number);
-	
 		setupDialogActionBar();
+		
+		if (preferredSelectionType != null)
+		{
+			Log.i(DEBUG_TAG, preferredSelectionType);
+			if (preferredSelectionType.equals(FROM_GALLERY))
+			{
+				new Handler().postDelayed(new Runnable()
+				{
+					@Override
+					public void run() 
+					{
+						flyOut("displayGallery");						
+					}
+				}, 800);
+			}
+			else if (preferredSelectionType.equals(FROM_CAMERA))
+			{
+				new Handler().postDelayed(new Runnable()
+				{
+					@Override
+					public void run() 
+					{
+						flyOut("displayCamera");
+					}
+				}, 800);
+			}
+		}
 	}
 	
 	private void setupDialogActionBar()
@@ -93,6 +128,7 @@ public class SelectImageActivity extends Activity
 	
 	private void flyIn()
 	{
+		Log.i(DEBUG_TAG, "flyIn");
 		clickStatus = true;
 		
 		animation = AnimationUtils.loadAnimation(this, R.anim.yg_select_image_holder_top);
@@ -124,8 +160,11 @@ public class SelectImageActivity extends Activity
 	
 	private void flyOut(final String methodName)
 	{
+		Log.i(DEBUG_TAG, "flyOut outter");
 		if (clickStatus)
 		{
+
+			Log.i(DEBUG_TAG, "flyOut inner");
 			clickStatus = false;
 			
 			animation = AnimationUtils.loadAnimation(this, R.anim.yg_select_image_middle_circle_back);

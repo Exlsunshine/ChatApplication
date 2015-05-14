@@ -28,6 +28,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -47,6 +49,8 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
     private EmptyPost empty = new EmptyPost();
     private ArrayList<AbstractPost> ap = new ArrayList<AbstractPost>();
     private final int setAdpter = 1;
+    private final int hideclocklayout = 2;
+    private final int showclocklayout = 3;
     private MyselfPostAdpter chatHistoryAdapter;
     private boolean isOncreate = false;
     
@@ -105,6 +109,48 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         dataListView.setOnPositionChangedListener(this);
         clockLayout = (FrameLayout)findViewById(R.id.myselfpostactivity_clock);
         dataListView.setOnItemClickListener(new OnItemClickListenerImpl());
+        dataListView.setOnScrollListener(new OnScrollListener() 
+        {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) 
+			{
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
+                {
+					Thread td = new Thread(new Runnable() 
+			        {
+						@Override
+						public void run() 
+						{
+							try 
+							{
+								Thread.sleep(2000);
+								Message message = Message.obtain();
+			    				message.what = hideclocklayout;
+			    				handler.sendMessage(message);
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
+							}
+						}
+					});
+			        td.start();
+                }
+				else
+				{
+					Message message = Message.obtain();
+    				message.what = showclocklayout;
+    				handler.sendMessage(message);
+				}
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
         isOncreate = true;
     }
 
@@ -121,6 +167,12 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
 				chatHistoryAdapter = new MyselfPostAdpter(MyselfPostActivity.this, ap);
 			    dataListView.setAdapter(chatHistoryAdapter);
 			    dataListView.setOnItemClickListener(new OnItemClickListenerImpl());
+				break;
+			case hideclocklayout:
+				clockLayout.setVisibility(View.INVISIBLE);
+				break;
+			case showclocklayout:
+				clockLayout.setVisibility(View.VISIBLE);
 				break;
 			}
 		}
@@ -163,7 +215,7 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         lastTime[1] = timef[1];
         return rtnAni;
     }
-
+    
     @Override
     public void onPositionChanged(ExtendedListView listView, int firstVisiblePosition,View scrollBarPanel) 
     {
@@ -172,7 +224,14 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
     	ImageView hourView = (ImageView) findViewById(R.id.clock_face_hour);
         hourView.setImageResource(R.drawable.tp_clock_hour_rotatable);
         TextView datestr = ((TextView) findViewById(R.id.clock_digital_date));
-    	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size() || firstVisiblePosition == 0)
+        if (firstVisiblePosition == 0)
+        {
+        	clockLayout.setVisibility(View.INVISIBLE);
+        	return;
+        }
+        else
+        	clockLayout.setVisibility(View.VISIBLE);
+    	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size())
     	{
     		datestr.setText("ÉÏÎç");
     		clocktext.setText("00:00");

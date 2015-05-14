@@ -10,9 +10,9 @@ import java.util.Locale;
 
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
-import com.tp.messege.PostManager;
-import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.image.select.ui.SelectImageActivity;
+import com.yg.ui.signup.SignupActivity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -33,8 +33,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
@@ -53,7 +51,7 @@ public class SendPostActivity extends Activity
 	private final int setpostphoto = 1;
 	private final int intent = 2;
 	private boolean isSendPhoto = false;
-	
+	private static final int SELECT_PORTRAIT_REQUEST = 34;
 	
 	private void sendPost()
 	{
@@ -180,8 +178,9 @@ public class SendPostActivity extends Activity
 			@Override
 			public void onClick(View view) 
 			{
-				Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				startActivityForResult(i, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
+				Intent intent = new Intent(SendPostActivity.this, SelectImageActivity.class);
+				intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
+				startActivityForResult(intent, SELECT_PORTRAIT_REQUEST);
 			}
 		});
 	}
@@ -217,89 +216,68 @@ public class SendPostActivity extends Activity
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, final Intent data) 
 	{
-		if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY)
+		if (requestCode == SELECT_PORTRAIT_REQUEST && resultCode == RESULT_OK)
 		{
-			if (resultCode == Activity.RESULT_OK) 
+			final String filePath = data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH);
+			Log.d("SPA__", filePath);
+			new Thread()
 			{
-				new Thread()
+				public void run() 
 				{
-					public void run() 
+					isSendPhoto = true;
+					FileInputStream fis = null;
+					ExifInterface exif = null; 
+					int degree=0;
+					try 
 					{
-						isSendPhoto = true;
-						Uri selectedImage =  data.getData();
-						String[] filePathColumn = { MediaStore.Images.Media.DATA };
-						Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-						cursor.moveToFirst();
-						int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-						String picturePath = cursor.getString(columnIndex);
-						cursor.close();
-						FileInputStream fis = null;
-						ExifInterface exif = null; 
-						int degree=0;
-						try 
-						{
-							fis = new FileInputStream(picturePath);
-							
-							/*BitmapFactory.Options options = new BitmapFactory.Options();
-							options.inPurgeable = true;
-							options.inInputShareable = true;
-							options.inSampleSize = 2;
-							postphoto = BitmapFactory.decodeStream(fis, null, options);*/
-							//postphoto = BitmapFactory.decodeStream(fis);
-							postphoto = decodeSampledBitmapFromPath(picturePath, dip2px(SendPostActivity.this,300), dip2px(SendPostActivity.this,300));
-							Log.e("SPA____", dip2px(SendPostActivity.this,300) + " dp");
-						} 
-						catch (FileNotFoundException e1) 
-						{
-							e1.printStackTrace();
-						}
-						try 
-						{
-							exif = new ExifInterface(picturePath);
-							if (exif != null) 
-							{  
-								// 读取图片中相机方向信息  
-								int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);  
-								// 计算旋转角度  
-								switch (ori) 
-								{  
-								case ExifInterface.ORIENTATION_ROTATE_90:  
-									degree = 90;  
-									break;  
-								case ExifInterface.ORIENTATION_ROTATE_180:  
-									degree = 180;  
-									break;  
-								case ExifInterface.ORIENTATION_ROTATE_270:  
-									degree = 270;  
-									break;  
-								default:  
-									degree = 0;  
-									break;  
-								}
-							}
-							if (degree != 0) 
-							{  
-						         // 旋转图片  
-						         Matrix m = new Matrix();  
-						         m.postRotate(degree);  
-						         postphoto = Bitmap.createBitmap(postphoto, 0, 0, postphoto.getWidth(), postphoto.getHeight(), m, true);  
-						     }							
-						}
-						catch (IOException e) 
-						{
-							e.printStackTrace();
-						}
-						Message message = Message.obtain();
-						message.what = setpostphoto;
-						handler.sendMessage(message);
+						fis = new FileInputStream(filePath);							
+						postphoto = decodeSampledBitmapFromPath(filePath, dip2px(SendPostActivity.this,300), dip2px(SendPostActivity.this,300));
+						Log.e("SPA____", dip2px(SendPostActivity.this,300) + " dp");
+					} 
+					catch (FileNotFoundException e1) 
+					{
+						e1.printStackTrace();
 					}
-				}.start();
-			 }
-			else
-			{
-				isSendPhoto = false;
-				Log.d("onActivityResult","photo null");
-			}
+					try 
+					{
+						exif = new ExifInterface(filePath);
+						if (exif != null) 
+						{  
+							// 读取图片中相机方向信息  
+							int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);  
+							// 计算旋转角度  
+							switch (ori) 
+							{  
+							case ExifInterface.ORIENTATION_ROTATE_90:  
+								degree = 90;  
+								break;  
+							case ExifInterface.ORIENTATION_ROTATE_180:  
+								degree = 180;  
+								break;  
+							case ExifInterface.ORIENTATION_ROTATE_270:  
+								degree = 270;  
+								break;  
+							default:  
+								degree = 0;  
+								break;  
+							}							}
+						if (degree != 0) 
+						{  
+					         // 旋转图片  
+					         Matrix m = new Matrix();  
+					         m.postRotate(degree);  
+					         postphoto = Bitmap.createBitmap(postphoto, 0, 0, postphoto.getWidth(), postphoto.getHeight(), m, true);  
+					     }							
+					}
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
+					Message message = Message.obtain();						
+					message.what = setpostphoto;
+					handler.sendMessage(message);
+				}
+			}.start();
 		}
 	}
 	

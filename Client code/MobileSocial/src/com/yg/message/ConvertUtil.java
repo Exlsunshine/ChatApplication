@@ -62,7 +62,7 @@ public class ConvertUtil
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inPurgeable = true;
 			options.inInputShareable = true;
-			options.inSampleSize = 8;
+			//options.inSampleSize = 8;
 			
 			return BitmapFactory.decodeFile(path, options);
 			//return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
