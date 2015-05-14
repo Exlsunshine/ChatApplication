@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.example.testmobiledatabase.R;
 import com.lj.eightpuzzle.ActivityEightPuzzleGame;
+import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
 
@@ -275,6 +276,10 @@ public class ActivityBazingaBall extends Activity
 								}
 							});
 							td.start();
+							iniMode();
+							reStart();
+							setResult(ActivityShake.RESULT_CODE_FRIENDADD);
+							finish();
 						}
 						else
 						{

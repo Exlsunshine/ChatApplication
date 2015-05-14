@@ -260,7 +260,7 @@ public class shakeHandler extends Handler
 				intent.putExtra("userID", id);
 				break;
 			}
-			myContext.startActivity(intent);
+			myContext.startActivityForResult(intent, ActivityShake.REQUEST_CODE_BEGINGAME);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_CHANGE_MARK:
 			int indexs = msg.arg1;

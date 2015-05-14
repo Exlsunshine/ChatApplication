@@ -3,6 +3,7 @@ package com.lj.eightpuzzle;
 import java.util.LinkedList;
 
 import com.example.testmobiledatabase.R;
+import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
@@ -374,8 +375,8 @@ public class ActivityEightPuzzleGame extends Activity
 					}
 				});
 				td.start();
-				
-				gSuccessDialog.dismiss();
+				setResult(ActivityShake.RESULT_CODE_FRIENDADD);
+				finish();
 			}
 		});
     }
