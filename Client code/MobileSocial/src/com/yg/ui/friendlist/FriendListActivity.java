@@ -20,7 +20,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
@@ -332,7 +331,11 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			super.onPostExecute(result);
 			
 			if (cmd == FRIENDSHIP_REQUEST_DELETE)
+			{
 				myAdapter.remove(position - 2);
+				refreshDataFromQuery("");
+				requestForCleanActionbar();
+			}
 			
 			myAdapter.enableAnimation(false);
 			myAdapter.notifyDataSetChanged();
