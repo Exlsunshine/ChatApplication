@@ -11,6 +11,7 @@ import com.database.SQLServerEnd;
 import com.mail.SendMailDemo;
 import com.util.HometownHandler;
 import com.util.PortraitTransmit;
+import com.util.SortPlace;
 
 public class NetworkHandler
 {
@@ -450,7 +451,7 @@ public class NetworkHandler
 	
 	public String getDistrictList(String province, String city)
 	{
-		String districts [] = HometownHandler.getInstance().getDistricts(province, city);
+		String districts [] = SortPlace.SortDistricts(HometownHandler.getInstance().getDistricts(province, city));
 		String result = "";
 		
 		for (int i = 0; i < districts.length - 1; i++)
@@ -464,7 +465,7 @@ public class NetworkHandler
 	
 	public String getCityList(String province)
 	{
-		String cities [] = HometownHandler.getInstance().getCities(province);
+		String cities [] = SortPlace.SortCities(HometownHandler.getInstance().getCities(province));
 		String result = "";
 		
 		for (int i = 0; i < cities.length - 1; i++)
@@ -478,7 +479,7 @@ public class NetworkHandler
 	
 	public String getProvienceList()
 	{
-		String provinces [] = HometownHandler.getInstance().getProvinces();
+		String provinces [] = SortPlace.sortProvinces(HometownHandler.getInstance().getProvinces());
 		String result = "";
 		
 		for (int i = 0; i < provinces.length - 1; i++)
