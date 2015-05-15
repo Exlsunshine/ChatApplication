@@ -59,7 +59,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/lj_map_textview_circular"
                 android:gravity="center"
-                android:text="go!"
+                android:text="开始解密"
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
