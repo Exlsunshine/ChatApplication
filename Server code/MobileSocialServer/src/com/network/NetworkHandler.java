@@ -574,6 +574,8 @@ public class NetworkHandler
 				UserStatistics userStatistics = new UserStatistics();
 				userStatistics.increaseStatistic(userID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
 				userStatistics.increaseStatistic(targetUserID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+				userStatistics.increaseStatistic(userID,  ConstantValues.InstructionCode.STATISTICS_GAME_CHALLENG_SUCCESS_TYPE);
+				userStatistics.increaseStatistic(targetUserID,  ConstantValues.InstructionCode.STATISTICS_GAME_CHALLENGED_SUCCESS_TYPE);
 			}
 		}
 		else
