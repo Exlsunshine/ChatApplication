@@ -3,6 +3,7 @@ package com.lj.eightpuzzle;
 import java.util.LinkedList;
 
 import com.example.testmobiledatabase.R;
+import com.lj.setting.achievement.ThreadGameChallengFail;
 import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
 
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -300,6 +302,7 @@ public class ActivityEightPuzzleGame extends Activity
 			@Override
 			public void onClick(View v)
 			{
+				new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
 				finish();
 			}
 		});
@@ -379,5 +382,17 @@ public class ActivityEightPuzzleGame extends Activity
 				finish();
 			}
 		});
+    }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+    	if (keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
+    		finish();
+    	}
+    		
+    	return super.onKeyDown(keyCode, event);
     }
 }
