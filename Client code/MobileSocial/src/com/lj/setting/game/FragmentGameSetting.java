@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.eightpuzzle.ThreadDownloadGameImage;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.image.select.ui.SelectImageActivity;
 
@@ -24,6 +25,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +41,10 @@ public class FragmentGameSetting extends Fragment
 {
 	private static final int ACTIVITY_RESULT_CODE_EIGHTPUZZLE = 1;
 	private static final int ACTIVITY_REQUEST_CODE_EIGHTPUZZLE = 1;
+	
+	private boolean hasEightpuzzle = false;
+	private boolean hasBazingball = false;
+	
 	private Context gContext;
 	private View gView;
 	private Switch gEightPuzzleSwitch = null;
@@ -80,13 +86,18 @@ public class FragmentGameSetting extends Fragment
 			}
 			else if (msg.what == ConstantValues.InstructionCode.GAMESET_HANDLER_DOWNLOAD_IMAGE)
 			{
+				hasEightpuzzle = true;
 				Bitmap bitmap = (Bitmap) msg.obj;
 				gEightPuzzleImage.setImageBitmap(bitmap);
 			}
 			else if (msg.what == ConstantValues.InstructionCode.GAMESET_HANDLER_INIT_MOLE)
 			{
 				String score = msg.obj.toString();
-				gBazingaScoreText.setText(score);
+				if (!score.equals("0"))
+				{
+					gBazingaScoreText.setText(score);
+					hasBazingball = true;
+				}
 			}
 		};
 	};
@@ -118,6 +129,11 @@ public class FragmentGameSetting extends Fragment
 			}
 			else if (id == R.id.lj_game_setting_bazinga_begin)
 			{
+				if (!CommonUtil.isSdkVersionValid())
+				{
+					Toast.makeText(gContext, "此游戏类型暂时仅对Android 4.4及以上用户开放", Toast.LENGTH_SHORT).show();
+					return;
+				}
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityBazingaBall.class);
 				intent.putExtra("userID", ConstantValues.user.getID());  
@@ -138,9 +154,18 @@ public class FragmentGameSetting extends Fragment
 			{
 				if (id == R.id.lj_game_setting_eightpuzzle_switch)
 				{
-					gSongSwitch.setChecked(false);
-					gBazingaSwitch.setChecked(false);
-					gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_EIGHTPUZZLE));
+					if (hasEightpuzzle)
+					{
+						gSongSwitch.setChecked(false);
+						gBazingaSwitch.setChecked(false);
+						gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_EIGHTPUZZLE));
+					}
+					else
+					{
+						Toast.makeText(gContext, "您尚未选择图片", Toast.LENGTH_SHORT).show();
+						((Switch)v).setChecked(false);
+					}
+						
 				}
 				else if (id == R.id.lj_game_setting_song_switch)
 				{
@@ -150,9 +175,17 @@ public class FragmentGameSetting extends Fragment
 				}
 				else if (id == R.id.lj_game_setting_bazinga_switch)
 				{
-					gEightPuzzleSwitch.setChecked(false);
-					gSongSwitch.setChecked(false);
-					gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_BAZINGABALL));
+					if (hasBazingball)
+					{
+						gEightPuzzleSwitch.setChecked(false);
+						gSongSwitch.setChecked(false);
+						gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_BAZINGABALL));
+					}
+					else
+					{
+						Toast.makeText(gContext, "您需要完成一次游戏，初始化分数。", Toast.LENGTH_SHORT).show();
+						((Switch)v).setChecked(false);
+					}
 				}
 			}
 			else
@@ -207,11 +240,12 @@ public class FragmentGameSetting extends Fragment
 			int score = data.getIntExtra("score", 0);
 			gBazingaScoreText.setText(String.valueOf(score));
 			gChangeMap.put("bazinga", String.valueOf(score));
+			hasBazingball = true;
 		}
 		else if (requestCode == ACTIVITY_REQUEST_CODE_EIGHTPUZZLE && resultCode == Activity.RESULT_OK)
 		{
 			String filePath = data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH);
-			
+			hasEightpuzzle = true;
 			Bitmap bitmap = null;
 			try 
 			{

@@ -310,7 +310,11 @@ public class FriendCircleHandler
 		ArrayList<HashMap<String, String>> relationResult = UerRelationTB.select(relationquery, relationcondition, relationconditionVal);
 		UerRelationTB.disconnect();
 		if (relationResult.size() == 0)
-			return null;
+		{
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("second_userid", Integer.toString(userID));
+			relationResult.add(map);
+		}
 		
 		initPostDataTB();
 		
@@ -472,7 +476,11 @@ public class FriendCircleHandler
 		ArrayList<HashMap<String, String>> relationResult = UerRelationTB.select(relationquery, relationcondition, relationconditionVal);
 		UerRelationTB.disconnect();
 		if (relationResult.size() == 0)
-			return null;
+		{
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("second_userid", Integer.toString(userID));
+			relationResult.add(map);
+		}
 		
 		initPostDataTB();
 		String imageUrl;

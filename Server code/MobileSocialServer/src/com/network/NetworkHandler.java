@@ -8,6 +8,9 @@ import org.json.JSONException;
 import com.commonapi.ConstantValues;
 import com.commonapi.PackString;
 import com.database.SQLServerEnd;
+import com.lj.gamePackage.GameSetting;
+import com.lj.gameSettingPackage.GameEightPuzzle;
+import com.lj.statistics.UserStatistics;
 import com.mail.SendMailDemo;
 import com.util.HometownHandler;
 import com.util.PortraitTransmit;
@@ -275,7 +278,15 @@ public class NetworkHandler
 		int errorCode2 = userRelationshipTB.delete(condition, conditionVal);
 		
 		if (errorCode1 == 0 && errorCode2 == 0)
+		{
 			System.out.println("deleteUser success.");
+			{
+				//LJ
+				UserStatistics userStatistics = new UserStatistics();
+				userStatistics.decreaseStatistic(userID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+				userStatistics.decreaseStatistic(anotherUserID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+			}
+		}
 		else
 			System.out.println("deleteUser failed.");
 		
@@ -496,7 +507,6 @@ public class NetworkHandler
 		initUserBasicInfoTB();
 		initUserStatisticTB();
 		
-		
 		int prevID = userBasicInfoTB.getLatestID();
 		userBasicInfoTB.insert( new String [] {"login_account", "login_pwd", "nick_name", "email", "sex", "birthday", "portrait_path", "hometown", "phone_number"},
 								new String [] {loginAccount, pwd, nickname, email, sex, birthday, "temp", hometown, phoneNumber});
@@ -504,9 +514,28 @@ public class NetworkHandler
 		
 		if (Math.abs(prevID - currentID) == 1)
 		{
-			userStatisticTB.insert(new String [] {"user_id"}, new String [] {String.valueOf(currentID)});
-			
 			String portraitUrl = setPortrait(currentID);
+			
+			//userStatisticTB.insert(new String [] {"user_id"}, new String [] {String.valueOf(currentID)});
+			//LJ
+			{
+				UserStatistics userStatistic = new UserStatistics();
+				userStatistic.createNewUser(currentID);
+				GameSetting  gameSetting = new GameSetting();
+				gameSetting.setGameType(currentID, ConstantValues.InstructionCode.GAME_TYPE_EIGHTPUZZLE);
+				
+				
+				String [] query = {"portrait_path"};
+				String [] condition = { "id" };
+				String [] conditionVal = { String.valueOf(currentID) };
+					
+				ArrayList<HashMap<String,String>> list = userBasicInfoTB.select(query, condition, conditionVal);
+				String portaitPath = list.get(0).get("portrait_path");
+				GameEightPuzzle gameEightPuzzle = new GameEightPuzzle();
+				gameEightPuzzle.updateDataBaseWhenUpload(currentID, portaitPath);
+			}
+			//LJ
+			
 			if (portraitUrl != null)
 			{
 				HashMap<String, Object> map = new HashMap<String, Object>();
@@ -538,7 +567,17 @@ public class NetworkHandler
                 new String [] {String.valueOf(targetUserID), String.valueOf(userID), "Friend", "0"});
 		
 		if (errorCode1 == 0 && errorCode2 == 0)
+		{
 			System.out.println("makeFriend success.");
+			{
+				//LJ
+				UserStatistics userStatistics = new UserStatistics();
+				userStatistics.increaseStatistic(userID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+				userStatistics.increaseStatistic(targetUserID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+				userStatistics.increaseStatistic(userID,  ConstantValues.InstructionCode.STATISTICS_GAME_CHALLENG_SUCCESS_TYPE);
+				userStatistics.increaseStatistic(targetUserID,  ConstantValues.InstructionCode.STATISTICS_GAME_CHALLENGED_SUCCESS_TYPE);
+			}
+		}
 		else
 			System.out.println("makeFriend failed.");
 		

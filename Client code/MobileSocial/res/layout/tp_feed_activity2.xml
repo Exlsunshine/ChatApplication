@@ -22,26 +22,25 @@
             android:src="@drawable/tp_feed_item_track" />
     </RelativeLayout>
 
-        
        <com.tp.adapter.PullToRefreshListView
-        xmlns:miles="http://schemas.android.com/apk/res/com.example.testmobiledatabase"
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/publicactivity_pulltorefreshlist_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:cacheColorHint="@color/clear"
-        android:divider="@drawable/tp_moment_divider"
-        android:dividerHeight="4.0px"
-        android:listSelector="@color/clear"
-        android:paddingTop="0dip" 
-        android:scrollbars="vertical"
-        android:fastScrollEnabled="false"
-        android:scrollingCache="false" 
-        miles:scrollBarPanel="@layout/tp_clock" 
-        miles:scrollBarPanelInAnimation="@anim/tp_in"
-        miles:scrollBarPanelOutAnimation="@anim/tp_out"
-        ptr:mode="both"
-        /> 
+           xmlns:miles="http://schemas.android.com/apk/res/com.example.testmobiledatabase"
+           xmlns:ptr="http://schemas.android.com/apk/res-auto"
+           android:id="@+id/publicactivity_pulltorefreshlist_view"
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent"
+           android:cacheColorHint="@color/clear"
+           android:divider="@android:color/transparent"
+           
+           android:fastScrollEnabled="false"
+           android:listSelector="@color/clear"
+           android:paddingTop="0dip"
+           android:scrollbars="vertical"
+           android:scrollingCache="false"
+           miles:scrollBarPanel="@layout/tp_clock"
+           miles:scrollBarPanelInAnimation="@anim/tp_in"
+           miles:scrollBarPanelOutAnimation="@anim/tp_out"
+           ptr:mode="both" />
+ 
  <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >

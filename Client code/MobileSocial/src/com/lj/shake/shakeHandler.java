@@ -16,6 +16,7 @@ import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.lj.songpuzzle.ActivitySongPuzzle;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
 
@@ -148,7 +149,6 @@ public class shakeHandler extends Handler
 	
 	private void locateUsers(ArrayList<UserShakeData> userShakeDataList)
 	{
-		myContext.userDataListView.initView(myContext, myContext.dpiWidth, userShakeDataList, this);
 		UserShakeData temp = null;
 		for (int i = 0; i < userShakeDataList.size(); i++)
 		{
@@ -167,6 +167,7 @@ public class shakeHandler extends Handler
 			UserShakeData userShakeData = userShakeDataList.get(i);
 			locateOtherLocation(userShakeData, i);	
 		}
+		myContext.userDataListView.initView(myContext, myContext.dpiWidth, userShakeDataList, this);
 	}
 	
 	private void initUserShakeData()
@@ -193,7 +194,7 @@ public class shakeHandler extends Handler
 			Toast.makeText(myContext, "网络连接失败", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_USER_GAME_NOT_SET:
-			Toast.makeText(myContext, "用户游戏未设置", Toast.LENGTH_LONG).show();
+			Toast.makeText(myContext, "请先设置自己的解密游戏设置", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_WAIT_FOR_DATA:
 			myContext.sensorManager.unregisterListener(myContext.shakelistener);
@@ -265,6 +266,11 @@ public class shakeHandler extends Handler
 				intent.setClass(myContext, ActivityBazingaBall.class);
 				intent.putExtra("userID", id);
 				break;
+			}
+			if (!CommonUtil.isSdkVersionValid())
+			{
+				Toast.makeText(myContext, "此游戏类型暂时仅对Android 4.4及以上用户开放", Toast.LENGTH_SHORT).show();
+				return;
 			}
 			myContext.startActivityForResult(intent, ActivityShake.REQUEST_CODE_BEGINGAME);
 			break;

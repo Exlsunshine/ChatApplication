@@ -3,6 +3,7 @@ package com.yg.ui.dialog.implementation;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.testmobiledatabase.R;
+import com.tp.ui.MyselfPostActivity;
+import com.tp.ui.PublicActivity;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.emoji.ParseEmojiMsgUtil;
@@ -87,6 +90,16 @@ public class DialogAdapter extends BaseAdapter
 			holder.rlMyLayout.setVisibility(View.VISIBLE);
 			holder.rlFriendLayout.setVisibility(View.GONE);
 			holder.ivMyPortrait.setImageBitmap(ConstantValues.user.getPortraitBmp());
+			
+			holder.ivMyPortrait.setOnClickListener(new OnClickListener()
+			{
+				@Override
+				public void onClick(View v)
+				{
+					Intent intent = new Intent(context, MyselfPostActivity.class);
+					context.startActivity(intent);
+				}
+			});
 			
 			switch (messages.get(position).getMessageType())
 			{

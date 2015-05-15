@@ -19,18 +19,23 @@ import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.example.testmobiledatabase.R;
+import com.lj.datapicker.ArrayWheelAdapter;
+import com.lj.datapicker.OnWheelChangedListener;
+import com.lj.datapicker.WheelView;
+import com.lj.setting.userinfo.ThreadGetCityArray;
+import com.lj.setting.userinfo.ThreadGetDistrictArray;
+import com.lj.setting.userinfo.ThreadGetProvinceArray;
+import com.yg.commons.ConstantValues;
 import com.yg.image.select.ui.SelectImageActivity;
 import com.yg.ui.login.LoginGuideActivity;
 import com.yg.ui.signup.implementation.SignupImplementation;
@@ -46,6 +51,14 @@ public class SignupActivity extends Activity
 	private String birthday;
 	
 	private static final int SELECT_PORTRAIT_REQUEST = 34;
+	
+	private WheelView gPickerProvience = null;
+	private WheelView gPickerCity = null;
+	private WheelView gPickerDistrict = null;
+	private String[] gProviences = null;
+	private String[] gCitys = null;
+	private String[] gDistrict = null;
+	private String gHomttown = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -178,8 +191,8 @@ public class SignupActivity extends Activity
 				firstDialog.cancel();
 				
 				
-				
-				Thread td = new Thread(new Runnable()
+				showSecondeDialog();
+				/*Thread td = new Thread(new Runnable()
 				{
 					@Override
 					public void run() 
@@ -193,10 +206,77 @@ public class SignupActivity extends Activity
 					showSecondeDialog();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
+				}*/
 			}
 		}
 	}
+	
+	private String generateHometown(String provience, String city, String district)
+	{
+		return provience + " " + city + " " + district;
+	}
+	
+	private Handler gHandler = new Handler()
+	{
+		
+		public void handleMessage(android.os.Message msg) 
+		{
+			if (msg.what == ConstantValues.InstructionCode.USERSET_HANDLER_PROVINCE)
+			{
+				gProviences = (String[]) msg.obj;
+				gPickerProvience.setAdapter(new ArrayWheelAdapter<String>(gProviences));
+				String provience = gProviences[0];
+				gPickerProvience.setCurrentItem(0);
+				new ThreadGetCityArray(gHandler, provience).start();
+			}
+			if (msg.what == ConstantValues.InstructionCode.USERSET_HANDLER_CITY)
+			{
+				gCitys = (String[]) msg.obj;
+				gPickerCity.setAdapter(new ArrayWheelAdapter<String>(gCitys));
+				String city = gCitys[0];
+				gPickerCity.setCurrentItem(0);
+				new ThreadGetDistrictArray(gHandler, gProviences[gPickerProvience.getCurrentItem()], city).start();
+			}
+			if (msg.what == ConstantValues.InstructionCode.USERSET_HANDLER_DISTRICT)
+			{
+				gDistrict = (String[]) msg.obj;
+				gPickerDistrict.setAdapter(new ArrayWheelAdapter<String>(gDistrict));
+				String district = gDistrict[0];
+				gPickerDistrict.setCurrentItem(0);
+				int cityIndex = gPickerCity.getCurrentItem();
+				int provienceIndex = gPickerProvience.getCurrentItem();
+				int districtIndex = gPickerDistrict.getCurrentItem();
+				gHomttown = generateHometown(gProviences[provienceIndex], gCitys[cityIndex], gDistrict[districtIndex]);
+			}
+		};
+	};
+	
+	private OnWheelChangedListener gHometownChangeListener = new OnWheelChangedListener() 
+	{
+		@Override
+		public void onChanged(WheelView wheel, int oldValue, int newValue) 
+		{
+			int id = wheel.getId();
+			if (id == gPickerProvience.getId())
+			{
+				int provienceIndex = gPickerProvience.getCurrentItem();
+				new ThreadGetCityArray(gHandler, gProviences[provienceIndex]).start();
+			}
+			else if (id == gPickerCity.getId())
+			{
+				int cityIndex = gPickerCity.getCurrentItem();
+				int provienceIndex = gPickerProvience.getCurrentItem();
+				new ThreadGetDistrictArray(gHandler, gProviences[provienceIndex], gCitys[cityIndex]).start();
+			}
+			else if (id == gPickerDistrict.getId())
+			{
+				int cityIndex = gPickerCity.getCurrentItem();
+				int provienceIndex = gPickerProvience.getCurrentItem();
+				int districtIndex = gPickerDistrict.getCurrentItem();
+				gHomttown = generateHometown(gProviences[provienceIndex], gCitys[cityIndex], gDistrict[districtIndex]);
+			}
+		}
+	};
 	
 	private void showSecondeDialog()
 	{
@@ -208,6 +288,10 @@ public class SignupActivity extends Activity
 		
 		Window window = secondeDialog.getWindow();
 		window.setContentView(R.layout.yg_signup_second_dialog);
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.width = WindowManager.LayoutParams.FILL_PARENT; // ¿í¶È
+        lp.height = WindowManager.LayoutParams.FILL_PARENT;; // ¸ß¶È
+        window.setAttributes(lp);
 		
 		Button done = (Button) window.findViewById(R.id.yg_signup_second_dialog_done);
 		done.setOnClickListener(new onDoneBtnClickListener());
@@ -215,33 +299,18 @@ public class SignupActivity extends Activity
 		TextView birthday = (TextView) window.findViewById(R.id.yg_signup_second_dialog_birthday);
 		birthday.setOnClickListener(new onBirthdayClickListener());
 	
-		Spinner proviences = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_proviences);
-	    Spinner cities = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_cities);
-	    Spinner districts = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_districts);
-	    ArrayAdapter<String> provienceAdapter;
-	    ArrayAdapter<String> cityAdapter;
-	    ArrayAdapter<String> districtAdapter;
+		gPickerProvience = (WheelView) window.findViewById(R.id.lj_picker_hometown_provience);
+		gPickerCity = (WheelView) window.findViewById(R.id.lj_picker_hometown_city);
+		gPickerDistrict = (WheelView) window.findViewById(R.id.lj_picker_hometown_district);
+		
 	
-	    cityAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, loginObj.getCities());
-	    cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    cities.setAdapter(cityAdapter);
-	    cities.setOnItemSelectedListener(new citySelectedListener());
-	    cities.setVisibility(View.VISIBLE);
-	        
-	    provienceAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, loginObj.getProvinces());
-	    provienceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    proviences.setAdapter(provienceAdapter);
-	    proviences.setOnItemSelectedListener(new provienceSelectedListener());
-	    proviences.setVisibility(View.VISIBLE);
-	        
-	    districtAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, loginObj.getDistricts());
-	    districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    districts.setAdapter(provienceAdapter);
-	    districts.setOnItemSelectedListener(new districtSelectedListener());
-	    districts.setVisibility(View.VISIBLE);
+	    gPickerProvience.addChangingListener(gHometownChangeListener);
+		gPickerCity.addChangingListener(gHometownChangeListener);
+		gPickerDistrict.addChangingListener(gHometownChangeListener);
+		new ThreadGetProvinceArray(gHandler).start();
 	}
 	
-	private class districtSelectedListener implements OnItemSelectedListener
+	/*private class districtSelectedListener implements OnItemSelectedListener
 	{
 		@Override
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
@@ -251,9 +320,9 @@ public class SignupActivity extends Activity
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) { }
-    }
+    }*/
 	
-	private class provienceSelectedListener implements OnItemSelectedListener
+	/*private class provienceSelectedListener implements OnItemSelectedListener
 	{
 		@Override
 		public void onItemSelected(AdapterView<?> arg0, View arg1, final int arg2, long arg3)
@@ -276,15 +345,15 @@ public class SignupActivity extends Activity
 			
 			
 			Window window = secondeDialog.getWindow();
-			Spinner cities = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_cities);
-			cities.setAdapter(new ArrayAdapter<String>(SignupActivity.this,android.R.layout.simple_spinner_item, loginObj.getCities()));
+	//		Spinner cities = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_cities);
+	//		cities.setAdapter(new ArrayAdapter<String>(SignupActivity.this,android.R.layout.simple_spinner_item, loginObj.getCities()));
 		}
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) { }
-    }
+    }*/
 	
-	private class citySelectedListener implements OnItemSelectedListener
+	/*private class citySelectedListener implements OnItemSelectedListener
 	{
 		@Override
 		public void onItemSelected(AdapterView<?> arg0, View arg1, final int arg2, long arg3)
@@ -304,8 +373,6 @@ public class SignupActivity extends Activity
 				e.printStackTrace();
 			}
 			
-			
-			
 			Window window = secondeDialog.getWindow();
 			Spinner districts = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_districts);
 			districts.setAdapter(new ArrayAdapter<String>(SignupActivity.this,android.R.layout.simple_spinner_item, loginObj.getDistricts()));
@@ -313,13 +380,14 @@ public class SignupActivity extends Activity
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) { }
-    }
+    }*/
 
 	public class onDoneBtnClickListener implements OnClickListener
 	{
 		@Override
 		public void onClick(View arg0) 
 		{
+			loginObj.setCurrentHometownString(gHomttown);
 			int result = loginObj.register();
 			if (result > 0 && result != 65535)
 			{

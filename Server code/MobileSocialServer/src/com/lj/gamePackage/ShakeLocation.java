@@ -10,6 +10,7 @@ import org.json.JSONException;
 import com.commonapi.ConstantValues;
 import com.commonapi.PackString;
 import com.database.SQLServerEnd;
+import com.lj.statistics.UserStatistics;
 
 public class ShakeLocation 
 {
@@ -63,6 +64,8 @@ public class ShakeLocation
 	
 	public String getNearbyUser(int userId) throws Exception
 	{
+		UserStatistics statisitcs = new UserStatistics();
+		statisitcs.increaseStatistic(userId, ConstantValues.InstructionCode.STATISTICS_SHAKE_NUM_TYPE);
 		String result = getNearbyUserFromDB(userId);
 		return result;
 	}

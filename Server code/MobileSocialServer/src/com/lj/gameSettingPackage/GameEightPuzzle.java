@@ -38,7 +38,7 @@ public class GameEightPuzzle
 		String imagePath = DIR_PATH + "/" + imageName;
         return imagePath;
 	}
-	private void updateDataBaseWhenUpload(int userID, String imagePath)
+	public void updateDataBaseWhenUpload(int userID, String imagePath)
 	{
 		String[] condition = {"user_id"};
         String[] conditionVal = {String.valueOf(userID)};

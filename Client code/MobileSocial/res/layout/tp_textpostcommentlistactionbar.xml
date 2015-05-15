@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/tp_myselftpostactivity_actionbar_back"
+        android:id="@+id/tp_textpostactionbar_actionbar_back"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
@@ -31,7 +31,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tp_myselfpostactivity_actionbar_title"
+        android:id="@+id/tp_textpostactionbar_actionbar_title"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"

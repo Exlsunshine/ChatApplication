@@ -9,7 +9,10 @@ import com.tp.messege.Comment;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,7 +22,9 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class TextPostCommentListActivity extends Activity
@@ -43,6 +48,7 @@ public class TextPostCommentListActivity extends Activity
 		commentEdtxt = (EditText) findViewById(R.id.textpostcomment_et_sendcommemt);
 		commentListView = (ListView) findViewById(R.id.textpostcomment_textpostcommentlistview);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		setupDialogActionBar();
 		initpost();
 		
 		sendBtn.setOnClickListener(new OnClickListener() 
@@ -88,6 +94,25 @@ public class TextPostCommentListActivity extends Activity
 						Toast.makeText(getApplicationContext(), " ‰»ÎŒ™ø’", 300).show();
 					}
 				}
+			}
+		});
+	}
+	
+	 private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 			
+		getActionBar().setCustomView(R.layout.tp_textpostcommentlistactionbar);
+		TextView title = (TextView)findViewById(R.id.tp_textpostactionbar_actionbar_title);
+		title.setText("∆¿¬€");
+		LinearLayout back = (LinearLayout)findViewById(R.id.tp_textpostactionbar_actionbar_back);
+		back.setOnClickListener(new OnClickListener()			
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();				
 			}
 		});
 	}

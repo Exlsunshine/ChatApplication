@@ -73,12 +73,23 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		TextView title = (TextView)findViewById(R.id.tp_publicactivity_actionbar_title);
 		title.setText("≈Û”—»¶");
 		LinearLayout back = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_back);
+		LinearLayout send = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_send);
 		back.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
 				finish();
+			}
+		});
+		
+		send.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Intent intent = new Intent(PublicActivity.this, SendPostActivity.class);
+				startActivity(intent);
 			}
 		});
 	}
