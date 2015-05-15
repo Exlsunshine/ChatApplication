@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+
+import com.commonapi.ConstantValues;
 import com.commonapi.PackString;
 import com.database.SQLServerEnd;
 
@@ -56,5 +58,11 @@ public class UserStatistics
 		ArrayList<HashMap<String, String>> result = sql.select(query, condition, conditionVal);
 		String str = PackString.arrylist2JsonString("statistics", result, 0);
 		return str;
+	}
+	
+	public void increaseGameChallengFail(int challengUserID, int challengedUserID)
+	{
+		increaseStatistic(challengedUserID, ConstantValues.InstructionCode.STATISTICS_GAME_CHALLENGED_FAIL_TYPE);
+		increaseStatistic(challengUserID, ConstantValues.InstructionCode.STATISTICS_GAME_CHALLENG_FAIL_TYPE);
 	}
 }

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import com.example.testmobiledatabase.R;
-import com.lj.eightpuzzle.ActivityEightPuzzleGame;
+import com.lj.setting.achievement.ThreadGameChallengFail;
 import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
@@ -284,6 +284,7 @@ public class ActivityBazingaBall extends Activity
 						else
 						{
 							Toast.makeText(ActivityBazingaBall.this, "Lose", Toast.LENGTH_LONG).show();
+							new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
 							gameFinish();
 						}
 					}
@@ -458,7 +459,20 @@ public class ActivityBazingaBall extends Activity
 	public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
-			gameFinish();
+		{
+			if (gRequestCode == BAZINGABALL_REQUEST_CODE)
+				gameFinish();
+			else
+			{
+				if (isWin)
+					return super.onKeyDown(keyCode, event);
+				else
+				{
+					new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
+					gameFinish();
+				}
+			}
+		}
 		return super.onKeyDown(keyCode, event);
 	}
 	

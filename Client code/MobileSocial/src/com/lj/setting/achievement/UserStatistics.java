@@ -75,4 +75,10 @@ public class UserStatistics
 		return gUserStatistics;
 	}
 	
+	public void updateGameChallengFail(int userID)
+	{
+		String[] name = {"challengUserID", "challengedUserID"};
+		Object[] values = {gUserID, userID};
+		web.callFuntion("increaseGameChallengFail", name, values);
+	}
 }

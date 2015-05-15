@@ -148,7 +148,6 @@ public class shakeHandler extends Handler
 	
 	private void locateUsers(ArrayList<UserShakeData> userShakeDataList)
 	{
-		myContext.userDataListView.initView(myContext, myContext.dpiWidth, userShakeDataList, this);
 		UserShakeData temp = null;
 		for (int i = 0; i < userShakeDataList.size(); i++)
 		{
@@ -167,6 +166,7 @@ public class shakeHandler extends Handler
 			UserShakeData userShakeData = userShakeDataList.get(i);
 			locateOtherLocation(userShakeData, i);	
 		}
+		myContext.userDataListView.initView(myContext, myContext.dpiWidth, userShakeDataList, this);
 	}
 	
 	private void initUserShakeData()
