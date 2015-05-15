@@ -191,8 +191,8 @@ public class SignupActivity extends Activity
 				firstDialog.cancel();
 				
 				
-				
-				Thread td = new Thread(new Runnable()
+				showSecondeDialog();
+				/*Thread td = new Thread(new Runnable()
 				{
 					@Override
 					public void run() 
@@ -206,7 +206,7 @@ public class SignupActivity extends Activity
 					showSecondeDialog();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
+				}*/
 			}
 		}
 	}
@@ -310,7 +310,7 @@ public class SignupActivity extends Activity
 		new ThreadGetProvinceArray(gHandler).start();
 	}
 	
-	private class districtSelectedListener implements OnItemSelectedListener
+	/*private class districtSelectedListener implements OnItemSelectedListener
 	{
 		@Override
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
@@ -320,9 +320,9 @@ public class SignupActivity extends Activity
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) { }
-    }
+    }*/
 	
-	private class provienceSelectedListener implements OnItemSelectedListener
+	/*private class provienceSelectedListener implements OnItemSelectedListener
 	{
 		@Override
 		public void onItemSelected(AdapterView<?> arg0, View arg1, final int arg2, long arg3)
@@ -351,9 +351,9 @@ public class SignupActivity extends Activity
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) { }
-    }
+    }*/
 	
-	private class citySelectedListener implements OnItemSelectedListener
+	/*private class citySelectedListener implements OnItemSelectedListener
 	{
 		@Override
 		public void onItemSelected(AdapterView<?> arg0, View arg1, final int arg2, long arg3)
@@ -373,16 +373,14 @@ public class SignupActivity extends Activity
 				e.printStackTrace();
 			}
 			
-			
-			
-/*			Window window = secondeDialog.getWindow();
+			Window window = secondeDialog.getWindow();
 			Spinner districts = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_districts);
-			districts.setAdapter(new ArrayAdapter<String>(SignupActivity.this,android.R.layout.simple_spinner_item, loginObj.getDistricts()));*/
+			districts.setAdapter(new ArrayAdapter<String>(SignupActivity.this,android.R.layout.simple_spinner_item, loginObj.getDistricts()));
 		}
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) { }
-    }
+    }*/
 
 	public class onDoneBtnClickListener implements OnClickListener
 	{
