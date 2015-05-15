@@ -16,6 +16,7 @@ import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.lj.songpuzzle.ActivitySongPuzzle;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
 
@@ -265,6 +266,11 @@ public class shakeHandler extends Handler
 				intent.setClass(myContext, ActivityBazingaBall.class);
 				intent.putExtra("userID", id);
 				break;
+			}
+			if (!CommonUtil.isSdkVersionValid())
+			{
+				Toast.makeText(myContext, "此游戏类型暂时仅对Android 4.4及以上用户开放", Toast.LENGTH_SHORT).show();
+				return;
 			}
 			myContext.startActivityForResult(intent, ActivityShake.REQUEST_CODE_BEGINGAME);
 			break;

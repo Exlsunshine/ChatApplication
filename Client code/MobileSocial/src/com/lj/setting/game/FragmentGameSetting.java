@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.eightpuzzle.ThreadDownloadGameImage;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.image.select.ui.SelectImageActivity;
 
@@ -128,6 +129,11 @@ public class FragmentGameSetting extends Fragment
 			}
 			else if (id == R.id.lj_game_setting_bazinga_begin)
 			{
+				if (!CommonUtil.isSdkVersionValid())
+				{
+					Toast.makeText(gContext, "此游戏类型暂时仅对Android 4.4及以上用户开放", Toast.LENGTH_SHORT).show();
+					return;
+				}
 				Intent intent = new Intent();
 				intent.setClass(getActivity(), ActivityBazingaBall.class);
 				intent.putExtra("userID", ConstantValues.user.getID());  
