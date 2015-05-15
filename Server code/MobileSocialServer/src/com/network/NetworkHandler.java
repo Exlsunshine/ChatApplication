@@ -278,7 +278,15 @@ public class NetworkHandler
 		int errorCode2 = userRelationshipTB.delete(condition, conditionVal);
 		
 		if (errorCode1 == 0 && errorCode2 == 0)
+		{
 			System.out.println("deleteUser success.");
+			{
+				//LJ
+				UserStatistics userStatistics = new UserStatistics();
+				userStatistics.decreaseStatistic(userID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+				userStatistics.decreaseStatistic(anotherUserID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+			}
+		}
 		else
 			System.out.println("deleteUser failed.");
 		
@@ -559,7 +567,15 @@ public class NetworkHandler
                 new String [] {String.valueOf(targetUserID), String.valueOf(userID), "Friend", "0"});
 		
 		if (errorCode1 == 0 && errorCode2 == 0)
+		{
 			System.out.println("makeFriend success.");
+			{
+				//LJ
+				UserStatistics userStatistics = new UserStatistics();
+				userStatistics.increaseStatistic(userID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+				userStatistics.increaseStatistic(targetUserID, ConstantValues.InstructionCode.STATISTICS_FRIENDS_NUM_TYPE);
+			}
+		}
 		else
 			System.out.println("makeFriend failed.");
 		

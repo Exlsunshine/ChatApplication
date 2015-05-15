@@ -37,6 +37,18 @@ public class UserStatistics
 		sql.insert(column, value);
 	}
 	
+	public void decreaseStatistic(int userID, int type)
+	{
+		String[] updateCol = {COLUMN_NAME_LIST[type]};
+		String[] updateVal = {COLUMN_NAME_LIST[type] + "-1"};
+		String[] condition = {"user_id"};
+		String[] conditionVal = {String.valueOf(userID)};
+		String str = "UPDATE " + TABLE_NAME + " SET "
+				+ joinConditionStatement(updateCol, updateVal, ",", "=")
+				+ " WHERE " + joinConditionStatement(condition, conditionVal, "and", "=");
+		sql.excecuteRawQuery(str);
+	}
+	
 	public void increaseStatistic(int userID, int type)
 	{
 		String[] updateCol = {COLUMN_NAME_LIST[type]};
