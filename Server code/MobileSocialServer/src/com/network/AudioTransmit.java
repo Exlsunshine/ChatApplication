@@ -3,8 +3,10 @@ package com.network;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import com.commonapi.ConstantValues;
 import com.database.SQLServerEnd;
+import com.lj.statistics.UserStatistics;
 
 public class AudioTransmit 
 {
@@ -49,6 +51,11 @@ public class AudioTransmit
         audioPath = audioPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
         String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + audioPath;
+        {
+        	//LJ
+        	UserStatistics userStatistics = new UserStatistics();
+			userStatistics.increaseStatistic(from_userid, ConstantValues.InstructionCode.STATISTICS_VOICE_NUM_TYPE);
+        }
         return audioUrl;
 	}
 }
