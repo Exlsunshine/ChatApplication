@@ -193,7 +193,7 @@ public class shakeHandler extends Handler
 			Toast.makeText(myContext, "网络连接失败", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_USER_GAME_NOT_SET:
-			Toast.makeText(myContext, "用户游戏未设置", Toast.LENGTH_LONG).show();
+			Toast.makeText(myContext, "请先设置自己的解密游戏设置", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_WAIT_FOR_DATA:
 			myContext.sensorManager.unregisterListener(myContext.shakelistener);
