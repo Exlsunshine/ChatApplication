@@ -82,12 +82,20 @@ public class SignupImplementation
 		@Override
 		public Integer call() throws Exception 
 		{
-			hometown = hometownDataset.currentProvince + " " + hometownDataset.currentCity + " " + hometownDataset.currentDistrict;
-			
+			//hometown = hometownDataset.currentProvince + " " + hometownDataset.currentCity + " " + hometownDataset.currentDistrict;
 			int userID = ClientUser.createNewUser(email, password, nickname, email, sex, birthday, portraitPath, hometown, phoneNumber);
 			
 			return userID;
 		}
+	}
+	
+	/**
+	 * LJ version
+	 * @param hometown ×îÖÕµÄhometown
+	 */
+	public void setCurrentHometownString(String hometown)
+	{
+		this.hometown = hometown;
 	}
 	
 	/***************		Hometown		************************/

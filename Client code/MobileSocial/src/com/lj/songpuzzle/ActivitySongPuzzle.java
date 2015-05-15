@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
+import com.lj.setting.achievement.ThreadGameChallengFail;
 import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
 
@@ -217,6 +218,7 @@ public class ActivitySongPuzzle extends Activity {
 				@Override
 				public void onClick(View v) 
 				{
+					new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
 					finish();
 				}
 			});
@@ -286,7 +288,6 @@ public class ActivitySongPuzzle extends Activity {
 	
 	OnClickListener blankClickListener = new OnClickListener() 
 	{
-		
 		@Override
 		public void onClick(View v) 
 		{
@@ -431,6 +432,7 @@ public class ActivitySongPuzzle extends Activity {
 			@Override
 			public void onClick(View v)
 			{
+				new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
 				finish();
 			}
 		});
@@ -440,7 +442,10 @@ public class ActivitySongPuzzle extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
 			this.finish();
+		}
 		return super.onKeyDown(keyCode, event);
 	}
 

@@ -17,7 +17,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:gravity="center"
             android:text="nickname"
             android:textColor="@color/black"
@@ -31,7 +31,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:orientation="horizontal" >
 
             <TextView
@@ -57,9 +57,10 @@
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:textSize="@dimen/lj_activity_map_text_size"
                 android:background="@drawable/lj_map_textview_circular"
                 android:gravity="center"
-                android:text="go!"
+                android:text="开始解密"
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>

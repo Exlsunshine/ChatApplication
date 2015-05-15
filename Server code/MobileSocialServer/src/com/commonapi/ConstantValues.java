@@ -16,9 +16,9 @@ public class ConstantValues {
 		public static final int MESSAGE_TYPE_AUDIO = 0x00bb;
 		public static final int MESSAGE_TYPE_IMAGE = 0x00cc;
 
-		public static final int GAME_TYPE_EIGHTPUZZLE = 0x00;
-		public static final int GAME_TYPE_QUIZ = 0x00;
-		public static final int GAME_TYPE_WHAC = 0x00;
+		public static final int GAME_TYPE_EIGHTPUZZLE = 0x01;
+		public static final int GAME_TYPE_QUIZ = 0x02;
+		public static final int GAME_TYPE_WHAC = 0x03;
 
 		public static final int GAME_NOT_SET = 0x0023;
 		public static final int GAME_HAS_SET = 0x0024;
