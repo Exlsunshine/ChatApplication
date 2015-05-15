@@ -158,13 +158,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="2dp"
             android:layout_toLeftOf="@id/yg_dialoglist_item_my_portrait"
             android:background="@drawable/myvoice"
             android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:visibility="gone" />
-        <TextView
+        
+        <TextView
             android:id="@+id/yg_dialoglist_item_my_audio_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
