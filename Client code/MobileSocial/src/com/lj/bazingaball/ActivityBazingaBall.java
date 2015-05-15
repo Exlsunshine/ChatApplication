@@ -283,7 +283,7 @@ public class ActivityBazingaBall extends Activity
 						}
 						else
 						{
-							Toast.makeText(ActivityBazingaBall.this, "Lose", Toast.LENGTH_LONG).show();
+							Toast.makeText(ActivityBazingaBall.this, "Ω‚√‹ ß∞‹", Toast.LENGTH_LONG).show();
 							new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
 							gameFinish();
 						}
