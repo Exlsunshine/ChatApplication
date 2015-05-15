@@ -53,8 +53,8 @@ public class GameSetting
         }
         else
         {
-        	String[] column = {"game_type"};
-        	String[] val = {String.valueOf(gameType)};
+        	String[] column = {"user_id", "game_type"};
+        	String[] val = {String.valueOf(userID), String.valueOf(gameType)};
         	sql.insert(column, val);
         }
 	}
