@@ -319,12 +319,11 @@ public class ActivityBazingaBall extends Activity
 	
 	private BazingaButton getBazingaButton(BazingaButton arg0, int position, int vx, int vy)
 	{
-		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) arg0.getLayoutParams();
-		RelativeLayout.LayoutParams newbuttonlp = new RelativeLayout.LayoutParams(lp);
+		RelativeLayout.LayoutParams newbuttonlp = new RelativeLayout.LayoutParams(arg0.getLayoutParams());
 		newbuttonlp.width = arg0.width / 2;
 		newbuttonlp.height = arg0.width / 2;
-		newbuttonlp.leftMargin = lp.leftMargin + newbuttonlp.width * (position & 0x01);
-		newbuttonlp.topMargin = lp.topMargin + newbuttonlp.height * (position >> 4 & 0x01);
+		newbuttonlp.leftMargin = (int) (arg0.getX() + newbuttonlp.width * (position & 0x01));
+		newbuttonlp.topMargin = (int) (arg0.getY() + newbuttonlp.height * (position >> 4 & 0x01));
 		int picture = random.nextInt(4);
 		BazingaButton btn = new BazingaButton(ActivityBazingaBall.this, newbuttonlp, vx, vy, phoneWidth, phoneHeight, arg0.viewtype, PICTURE[picture]);
 		btn.setOnTouchListener(ButtonTouchlistener);
