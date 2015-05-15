@@ -453,7 +453,7 @@ public class DialogActivity extends Activity
 					} 
 					else 
 					{
-						Toast.makeText(DialogActivity.this, "Abort", Toast.LENGTH_SHORT).show();
+						Toast.makeText(DialogActivity.this, "ÒÑÈ¡Ïû", Toast.LENGTH_SHORT).show();
 					}
 				}
 
