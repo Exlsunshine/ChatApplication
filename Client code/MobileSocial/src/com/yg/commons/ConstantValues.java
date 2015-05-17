@@ -51,7 +51,7 @@ public class ConstantValues
 		public static final int HANDLER_SUCCESS_GET_DATA = 0x101;
 
 		//shake activity
-		public static final int THRESHOLD_SPEED = 17;
+		public static final int THRESHOLD_SPEED = 11;
 		public static final int VIBRATE_TIME = 200;
 		public static final int MAP_ZOOM_INITIALIZATION = 16;
 		public static final double MAP_ZOOM_CHANGE_VALUE = 0.00001;
