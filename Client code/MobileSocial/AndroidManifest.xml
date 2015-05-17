@@ -44,7 +44,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="QE0CcmzMbOQNNrHW6GH7mEGv" />
+            android:value="vocLIrS7d3C4mWHdCOUuLxx3" />
 
         <activity
             android:name="com.yg.ui.login.WelcomeActivity"
