@@ -263,14 +263,14 @@ public class shakeHandler extends Handler
 				intent.putExtra("userID", id);
 				break;
 			case 3:
+				if (!CommonUtil.isSdkVersionValid())
+				{
+					Toast.makeText(myContext, "此游戏类型暂时仅对Android 4.4及以上用户开放", Toast.LENGTH_SHORT).show();
+					return;
+				}
 				intent.setClass(myContext, ActivityBazingaBall.class);
 				intent.putExtra("userID", id);
 				break;
-			}
-			if (!CommonUtil.isSdkVersionValid())
-			{
-				Toast.makeText(myContext, "此游戏类型暂时仅对Android 4.4及以上用户开放", Toast.LENGTH_SHORT).show();
-				return;
 			}
 			myContext.startActivityForResult(intent, ActivityShake.REQUEST_CODE_BEGINGAME);
 			break;
