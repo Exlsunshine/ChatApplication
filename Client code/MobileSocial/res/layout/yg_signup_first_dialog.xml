@@ -24,7 +24,7 @@
         android:layout_marginTop="15dp"
         android:background="#F5F5F5"
         android:gravity="left|center"
-        android:hint="Phone number"
+        android:hint="手机号"
         android:inputType="textEmailAddress"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
@@ -47,7 +47,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:checked="true"
-            android:text="Male"
+            android:text="男"
             android:textColor="@android:color/black" />
 
         <ImageView
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="Female"
+            android:text="女"
             android:textColor="@android:color/black" />
 
         <ImageView
@@ -82,7 +82,7 @@
         android:layout_marginBottom="20dp"
         android:background="@android:color/white"
         android:gravity="center"
-        android:text="Next"
+        android:text="下一步"
         android:textColor="#1E90FF"
         android:textSize="20dp"
         android:textStyle="bold" />

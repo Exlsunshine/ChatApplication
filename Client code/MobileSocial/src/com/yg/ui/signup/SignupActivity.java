@@ -2,6 +2,7 @@ package com.yg.ui.signup;
 
 import java.util.Calendar;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -9,6 +10,8 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -18,16 +21,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
-
 import com.example.testmobiledatabase.R;
 import com.lj.datapicker.ArrayWheelAdapter;
 import com.lj.datapicker.OnWheelChangedListener;
@@ -74,6 +75,15 @@ public class SignupActivity extends Activity
 		
 		setupLayout();
 		setupListeners();
+		setupActionBar();
+	}
+	
+	private void setupActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.yg_signup_activity_actionbar);
 	}
 	
 	private void setupLayout()
@@ -184,6 +194,11 @@ public class SignupActivity extends Activity
 			if(validatePass)
 			{
 				sex = sexRb.getText().toString();
+				if (sex.equals("ÄÐ"))
+					sex = "male";
+				else
+					sex = "female";
+				
 				phoneNumber = phoneNumberEt.getText().toString();
 				loginObj.setPortraitPath(portraitPath);
 				loginObj.setPhoneNumber(phoneNumber);
@@ -296,7 +311,7 @@ public class SignupActivity extends Activity
 		Button done = (Button) window.findViewById(R.id.yg_signup_second_dialog_done);
 		done.setOnClickListener(new onDoneBtnClickListener());
 		
-		TextView birthday = (TextView) window.findViewById(R.id.yg_signup_second_dialog_birthday);
+		LinearLayout birthday = (LinearLayout) window.findViewById(R.id.yg_signup_second_dialog_birthday_layout);
 		birthday.setOnClickListener(new onBirthdayClickListener());
 	
 		gPickerProvience = (WheelView) window.findViewById(R.id.lj_picker_hometown_provience);
@@ -440,7 +455,7 @@ public class SignupActivity extends Activity
 			}
 		};
 		
-		new DatePickerDialog(SignupActivity.this, pickListener, Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH).show();
+		new DatePickerDialog(SignupActivity.this, pickListener, 1980, 8, 8).show();
 	}
 	
 
