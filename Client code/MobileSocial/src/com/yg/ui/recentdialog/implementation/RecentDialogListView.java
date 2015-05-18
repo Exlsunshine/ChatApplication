@@ -3,8 +3,6 @@ package com.yg.ui.recentdialog.implementation;
 import com.example.testmobiledatabase.R;
 
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,8 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Scroller;
-import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 
 public class RecentDialogListView extends ListView implements OnScrollListener {
@@ -81,56 +78,56 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 
 	private boolean isSrollh = true;
 
-	private boolean isSrollv = true;
+	//private boolean isSrollv = true;
 
 	private LayoutInflater inflater;
 
 	private LinearLayout headerView;
-	private TextView headerTipsTv;
-	private ImageView arrowup;
+	//private TextView headerTipsTv;
+	//private ImageView arrowup;
 	private ImageView progressBar;
 
 	private int headerContentHeight;
-	private OnRefreshListener refreshListener;
+	//private OnRefreshListener refreshListener;
 
 	private RotateAnimation animation;
 	private RotateAnimation reverseAnimation;
 
-	private int startY;
-	private int tempY;
-	private int tempY1;
-	private boolean dd3 = false;
-	private boolean dc3 = false;
+	//private int startY;
+	//private int tempY;
+	//private int tempY1;
+	//private boolean dd3 = false;
+	//private boolean dc3 = false;
 	//private boolean dc4 = false;
-	private boolean dc5 = false;
+	//private boolean dc5 = false;
 	//private int x = 100;
 
-	private int firstVisibleItem1;
+	//private int firstVisibleItem1;
 
 	//private View itemView1;
 
-	private Context context = null;
+	//private Context context = null;
 
-	private Handler handler = null;
+	//private Handler handler = null;
 	//private Handler handler1 = null;
 
 	private int width = 0;
 
 	private int viewWidth;
 
-	private AnimationDrawable animationDrawable = null;
+	//private AnimationDrawable animationDrawable = null;
 
 	public RecentDialogListView(Context context) {
 		super(context);
 		scroller = new Scroller(context);
 		init(context);
-		this.context = context;
+		//this.context = context;
 	}
 
 	public RecentDialogListView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 		init(context);
-		this.context = context;
+		//this.context = context;
 	}
 
 	public RecentDialogListView(Context context, AttributeSet attrs, int defStyle) {
@@ -138,7 +135,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 		super(context, attrs, defStyle);
 		scroller = new Scroller(context);
 		init(context);
-		this.context = context;
+		//this.context = context;
 
 	}
 
@@ -148,9 +145,8 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 		inflater = LayoutInflater.from(context);
 		this.headerView = (LinearLayout) inflater.inflate(R.layout.yg_lv_header,
 				null);
-		this.headerTipsTv = (TextView) headerView
-				.findViewById(R.id.headerTipsTv);
-		this.arrowup = (ImageView) headerView.findViewById(R.id.arrowup);
+		//this.headerTipsTv = (TextView) headerView.findViewById(R.id.headerTipsTv);
+		//this.arrowup = (ImageView) headerView.findViewById(R.id.arrowup);
 		this.progressBar = (ImageView) headerView
 				.findViewById(R.id.progressBar);
 
@@ -178,7 +174,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 		reverseAnimation.setInterpolator(new LinearInterpolator());
 		reverseAnimation.setDuration(300);
 		reverseAnimation.setFillAfter(true);
-		handler = new Handler();
+		//handler = new Handler();
 		//handler1 = new Handler();
 
 		WindowManager wm = (WindowManager) getContext().getSystemService(
@@ -220,7 +216,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 					// postInvalidate();
 					// }
 					itemView.scrollTo(0, 0);
-					isSrollv = true;
+					//isSrollv = true;
 					dc = false;
 					tc = false;
 				}
@@ -269,8 +265,8 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 			switch (action)
 			{
 			case MotionEvent.ACTION_DOWN:
-				startY = (int) ev.getY();
-				tempY1 = (int) ev.getY();
+				//startY = (int) ev.getY();
+				//tempY1 = (int) ev.getY();
 				break;
 			case MotionEvent.ACTION_MOVE:
 				if (isSrollh)
@@ -286,7 +282,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 									&& (downX - x + itemView.getScrollX()) <= 1 * viewWidth) 
 							{
 								dc = true;
-								isSrollv = false;
+								//isSrollv = false;
 								itemView.scrollTo(deltaX + itemView.getScrollX(), 0);
 								downX = x;
 							}
@@ -295,7 +291,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 						return true;
 					}
 				}
-				if (isSrollv)
+				/*if (isSrollv)
 				{
 					tempY = (int) ev.getY();
 
@@ -344,7 +340,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 						return true;
 					else
 						break;
-				}
+				}*/
 			case MotionEvent.ACTION_UP:
 				if (isSrollh) 
 				{
@@ -376,7 +372,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 								scroller.startScroll(itemView.getScrollX(), 0, -itemView.getScrollX(), 0, 300);
 								postInvalidate();
 								tc = false;
-								isSrollv = true;
+								//isSrollv = true;
 							}
 						}
 						if (Math.abs(cX - x) <= 30) 
@@ -390,14 +386,14 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 							{
 								mRemoveListener.removeItem(listPosition2, 1);
 								scroller.startScroll(itemView.getScrollX(), 0, -itemView.getScrollX(), 0, 300);
-								isSrollv = true;
+								//isSrollv = true;
 								postInvalidate();
 								dd = true;
 							}
 							else if (Math.abs(cY - y) < 5)
 							{
 								dd = false;
-								isSrollv = true;
+								//isSrollv = true;
 							}
 						}
 
@@ -413,7 +409,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 					}
 				}
 
-				if (isSrollv)
+				/*if (isSrollv)
 				{
 					if (dd3)
 					{
@@ -445,7 +441,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 										}
 									}
 									dc3 = false;
-									onLvRefresh();
+									//onLvRefresh();
 
 								};
 							}.start();
@@ -458,7 +454,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 						}
 					}
 					return true;
-				}
+				}*/
 			}
 		}
 
@@ -529,20 +525,20 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) 
 	{
-		firstVisibleItem1 = firstVisibleItem;
+		//firstVisibleItem1 = firstVisibleItem;
 	}
 
-	public void setonRefreshListener(OnRefreshListener refreshListener)
+/*	public void setonRefreshListener(OnRefreshListener refreshListener)
 	{
 		this.refreshListener = refreshListener;
-	}
+	}*/
 
-	public interface OnRefreshListener 
+/*	public interface OnRefreshListener 
 	{
 		public void onRefresh();
-	}
+	}*/
 
-	public void onRefreshComplete() 
+/*	public void onRefreshComplete() 
 	{
 		new Thread()
 		{
@@ -560,15 +556,15 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 				}
 			};
 		}.start();
-	}
+	}*/
 
-	private void onLvRefresh() 
+/*	private void onLvRefresh() 
 	{
 		if (refreshListener != null) 
 			refreshListener.onRefresh();
-	}
+	}*/
 
-	public void Refresh()
+/*	public void Refresh()
 	{
 		Toast.makeText(context, "已刷新", Toast.LENGTH_SHORT).show();
 		headerTipsTv.setText("刷新成功");
@@ -576,7 +572,7 @@ public class RecentDialogListView extends ListView implements OnScrollListener {
 		progressBar.setVisibility(View.GONE);
 		arrowup.setVisibility(View.VISIBLE);
 		this.arrowup.setImageResource(R.drawable.yg_appkefu_pulltorefresh_success);
-	}
+	}*/
 
 	Runnable runnableUi = new Runnable()
 	{

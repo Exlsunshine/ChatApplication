@@ -117,14 +117,14 @@ public class ConstantValues
 	public class Configs
 	{
 		public static final String WEBSERVICE_NAMESPACE = "http://network.com";
-		public static final String OPENFIRE_SERVER_IP = "172.18.8.72";
+		public static final String OPENFIRE_SERVER_IP = "101.200.230.173";
 
-		public static final String WEBSERVICE_SERVER_IP = "172.18.8.72";
+		public static final String WEBSERVICE_SERVER_IP = "101.200.230.173";
 		public static final int WEBSERVICE_SERVER_PORT = 8080;
 		public static final String WEBSERVICE_ENDPOINT = "http://" + WEBSERVICE_SERVER_IP + ":8080/WebServiceProject/services/NetworkHandler";
 		
 		public static final int OPENFIRE_SERVER_PORT = 5222;
-		public static final String OPENFIRE_SERVER_NAME = "user007-pc";
+		public static final String OPENFIRE_SERVER_NAME = "101.200.230.173";
 		
 		public static final int INDEX_LOGINACCOUNT = 0;
 		public static final int INDEX_PASSWORD = 1;

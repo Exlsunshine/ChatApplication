@@ -128,7 +128,7 @@ public class DialogActivity extends Activity
 			((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(((Activity) ct)
 					.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		} catch (Exception e) {
-			Log.e(DEBUG_TAG, "hideInputManager Catch error,skip it!", e);
+			Log.i(DEBUG_TAG, "hideInputManager Catch error,skip it!", e);
 		}
 	}
 	

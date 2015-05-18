@@ -268,7 +268,7 @@ public class LoginGuideActivity extends Activity
 			switch (result)
 			{
 			case 0:
-				Toast.makeText(LoginGuideActivity.this, "New password has been sent to " + emailStr, Toast.LENGTH_SHORT).show();
+				Toast.makeText(LoginGuideActivity.this, "新密码已经发送到 " + emailStr, Toast.LENGTH_SHORT).show();
 				forgotDialog.cancel();
 				break;
 			case 1:
@@ -276,7 +276,7 @@ public class LoginGuideActivity extends Activity
 				email.startAnimation(shake);
 				break;
 			case 2:
-				Toast.makeText(LoginGuideActivity.this, "Email is not used.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(LoginGuideActivity.this, "邮箱尚未注册过，您输入邮箱了?", Toast.LENGTH_SHORT).show();
 			default:
 				break;
 			}

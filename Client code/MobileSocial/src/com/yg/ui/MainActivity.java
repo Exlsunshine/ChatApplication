@@ -146,8 +146,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		
 		List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
         items.add(new SatelliteMenuItem(1, android.R.color.transparent));
-        items.add(new SatelliteMenuItem(2, R.drawable.ic_3));
-        items.add(new SatelliteMenuItem(3, R.drawable.ic_4));
+        items.add(new SatelliteMenuItem(2, R.drawable.yg_main_shake_icon));
+        items.add(new SatelliteMenuItem(3, R.drawable.yg_main_friendcircle_icon));
         items.add(new SatelliteMenuItem(4, R.drawable.yg_main_post_icon));
         items.add(new SatelliteMenuItem(5, R.drawable.yg_main_profile_icon));
         items.add(new SatelliteMenuItem(6, android.R.color.transparent));

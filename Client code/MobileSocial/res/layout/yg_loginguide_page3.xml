@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="We present to you"
+        android:text="解密陌生人"
         android:textColor="@android:color/white"
         android:textSize="13pt" />
 
@@ -25,7 +25,7 @@
         style="@style/loginguide_page3_signup_btn_style"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
-        android:text="Sign Up" />
+        android:text="注册" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,14 +33,14 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="30dp"
-        android:text="Already have an account?"
+        android:text="已经有一个账号了?"
         android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/loginguide_page3_login_btn"
         style="@style/loginguide_page3_login_btn_style"
         android:layout_gravity="center_horizontal"
-        android:text="Log In"
+        android:text="登陆"
         android:textColor="#9FCFFF" />
 
 </LinearLayout>

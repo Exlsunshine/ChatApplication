@@ -128,7 +128,7 @@ public class OpenfireHandler
 		androidMsg.what = getMessageType(msgBody);
 		androidMsg.obj = str;
 		
-		Log.w(DEBUG_TAG, "Str is " + str);
+		Log.w(DEBUG_TAG, "Str is " + str + " Message type is " + androidMsg.what);
 		msgHandler.sendMessage(androidMsg);
 	}
 	

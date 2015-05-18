@@ -31,11 +31,11 @@ import com.yg.ui.recentdialog.implementation.CustomNotificator;
 import com.yg.ui.recentdialog.implementation.MessageNotificationManager;
 import com.yg.ui.recentdialog.implementation.RecentDialogAdapter;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView;
-import com.yg.ui.recentdialog.implementation.RecentDialogListView.OnRefreshListener;
+//import com.yg.ui.recentdialog.implementation.RecentDialogListView.OnRefreshListener;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView.RemoveListener;
 import com.yg.user.FriendUser;
 
-public class RecentDialogActivity extends Activity implements RemoveListener, OnRefreshListener 
+public class RecentDialogActivity extends Activity implements RemoveListener//, OnRefreshListener 
 {
 	private static final String DEBUG_TAG = "RecentDialogActivity______";
 	private List<String> names = new ArrayList<String>();
@@ -154,7 +154,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 
-		finalListView.setonRefreshListener(new OnRefreshListener()
+		/*finalListView.setonRefreshListener(new OnRefreshListener()
 		{
 			public void onRefresh()
 			{
@@ -200,7 +200,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 					}
 				}.execute(null, null, null);
 			}
-		});
+		});*/
 		
 		loadRecentDialogs();
 		
@@ -253,10 +253,10 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		//return true;
 	}
 
-	@Override
+/*	@Override
 	public void onRefresh() 
 	{
-	}
+	}*/
 	
 	public class OnItemClickListenerImpl implements OnItemClickListener
 	{

@@ -23,7 +23,7 @@
         android:background="#F5F5F5"
         android:focusable="true"
         android:gravity="left|center"
-        android:hint="Email"
+        android:hint="邮件地址"
         android:inputType="textEmailAddress"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
@@ -37,7 +37,7 @@
         android:layout_marginTop="15dp"
         android:background="#F5F5F5"
         android:gravity="left|center"
-        android:hint="Password"
+        android:hint="密码"
         android:inputType="textPassword"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
@@ -59,7 +59,7 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="Forgot?"
+            android:text="找回密码"
             android:textColor="#1E90FF" />
 
         <Button
@@ -70,7 +70,7 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="Log In"
+            android:text="登陆"
             android:textColor="#1E90FF"
             android:textStyle="bold" />
     </LinearLayout>

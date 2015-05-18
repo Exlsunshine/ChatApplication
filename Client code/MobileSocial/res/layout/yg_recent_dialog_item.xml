@@ -11,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/yg_recent_dialog_item_outter_layout"
         android:layout_width="fill_parent"
-        android:layout_height="65dp" >
+        android:layout_height="70dp" >
 
         <ImageView
             android:id="@+id/yg_recent_dialog_item_portrait"
