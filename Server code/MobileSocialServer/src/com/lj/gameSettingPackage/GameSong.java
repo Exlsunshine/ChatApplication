@@ -72,7 +72,7 @@ public class GameSong {
 			
 			String path = map.get("song_path");
 			System.out.println(i +" " + path + "ss " + song);
-			path = path.replace("C:/Users/USER007/Desktop/IM/data/", "");
+			path = path.replace("D:/Data/IM/data/", "");
 			String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 					+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + path;
 			item.put("url", audioUrl);

@@ -77,7 +77,7 @@ public class NetworkHandler
 		{
 			System.out.println("setPortrait success.");
 			
-			portraitPath = portraitPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+			portraitPath = portraitPath.replace("D:/Data/IM/data/", "");
 	        String portraitUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 					+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + portraitPath;
 	        return portraitUrl;
@@ -414,7 +414,7 @@ public class NetworkHandler
 			try 
 			{
 				String portraitPath = list.get(0).get("portrait_path");
-				portraitPath = portraitPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+				portraitPath = portraitPath.replace("D:/Data/IM/data/", "");
 				portraitPath = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 						+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + portraitPath;
 				

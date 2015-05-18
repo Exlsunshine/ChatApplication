@@ -7,7 +7,7 @@ import java.util.Date;
 public class PortraitTransmit
 {
 	private int userID;
-	private static final String portraitDir = "C:/Users/USER007/Desktop/IM/data/portrait/";
+	private static final String portraitDir = "D:/Data/IM/data/portrait/";
 	
 	public PortraitTransmit(int userID)
 	{

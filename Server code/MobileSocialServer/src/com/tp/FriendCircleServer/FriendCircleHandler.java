@@ -29,7 +29,7 @@ public class FriendCircleHandler
 	private final String CommentTable = "comment_data";
 	private final String PostTable = "post_data";
 	private final String RelationTable = "user_relationship";
-	private final static String SAVED_DIRECTORY = "C:/Users/USER007/Desktop/IM/data/friendCircleImages/";
+	private final static String SAVED_DIRECTORY = "D:/Data/IM/data/friendCircleImages/";
 	
 	private void initPostDataTB()
 	{
@@ -155,7 +155,7 @@ public class FriendCircleHandler
 				String imagePath = SAVED_DIRECTORY + imageName; 
 				val.add("");
 				insertVal[3] = imagePath;
-				imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+				imagePath = imagePath.replace("D:/Data/IM/data/", "");
 				
 				imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 						+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
@@ -263,7 +263,7 @@ public class FriendCircleHandler
 					System.out.print("\n" + result.get(i).get("content") + "\n");
 					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
 					String imagePath = result.get(i).get("content");
-					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					imagePath = imagePath.replace("D:/Data/IM/data/", "");
 					
 					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
@@ -352,7 +352,7 @@ public class FriendCircleHandler
 					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
 					
 					String imagePath = result.get(i).get("content");
-					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					imagePath = imagePath.replace("D:/Data/IM/data/", "");
 					
 					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
@@ -430,7 +430,7 @@ public class FriendCircleHandler
 					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
 					
 					String imagePath = result.get(i).get("content");
-					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					imagePath = imagePath.replace("D:/Data/IM/data/", "");
 					
 					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
@@ -535,7 +535,7 @@ public class FriendCircleHandler
 					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
 					
 					String imagePath = result.get(i).get("content");
-					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					imagePath = imagePath.replace("D:/Data/IM/data/", "");
 					
 					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
@@ -712,7 +712,7 @@ public class FriendCircleHandler
 					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
 					
 					String imagePath = result.get(i).get("content");
-					imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					imagePath = imagePath.replace("D:/Data/IM/data/", "");
 					
 					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;

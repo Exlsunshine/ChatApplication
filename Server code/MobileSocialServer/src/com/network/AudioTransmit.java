@@ -11,7 +11,7 @@ import com.lj.statistics.UserStatistics;
 public class AudioTransmit 
 {
 	//存储上传图像的路径
-	private final String SAVED_DIRECTORY = "C:/Users/USER007/Desktop/IM/data/audio_transportation/";
+	private final String SAVED_DIRECTORY = "D:/Data/IM/data/audio_transportation/";
 	//数据库名
 	private final String DATABASE_NAME = "JMMSRDB";
 	//表名
@@ -48,7 +48,7 @@ public class AudioTransmit
 		String audioPath = SAVED_DIRECTORY + audioName;
         updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
         
-        audioPath = audioPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+        audioPath = audioPath.replace("D:/Data/IM/data/", "");
         String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + audioPath;
         {
