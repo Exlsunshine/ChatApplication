@@ -123,7 +123,7 @@ public class ConstantValues
 		public static final int WEBSERVICE_SERVER_PORT = 8080;
 		public static final String WEBSERVICE_ENDPOINT = "http://" + WEBSERVICE_SERVER_IP + ":8080/WebServiceProject/services/NetworkHandler";
 		
-		public static final int OPENFIRE_SERVER_PORT = 5222;
+		public static final int OPENFIRE_SERVER_PORT = 5223;
 		public static final String OPENFIRE_SERVER_NAME = "101.200.230.173";
 		
 		public static final int INDEX_LOGINACCOUNT = 0;
