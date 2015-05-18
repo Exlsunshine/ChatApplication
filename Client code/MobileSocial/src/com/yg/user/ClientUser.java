@@ -109,8 +109,11 @@ public class ClientUser extends AbstractUser
 							} catch (JSONException e) {
 							e.printStackTrace();
 						}
-
-						Dialog dialog = makeDialogWith(getFriendByID(fromUserID));
+						
+						FriendUser fri = getFriendByID(fromUserID);
+						if (fri == null)
+							return ;
+						Dialog dialog = makeDialogWith(fri);
 						
 						switch (what) 
 						{
