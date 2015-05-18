@@ -89,7 +89,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerHorizontal="true"
                     android:layout_toRightOf="@+id/yg_activity_friend_detail_region_hint"
-                    android:src="@drawable/user_location" />
+                    android:src="@drawable/yg_signup_first_dialog_location" />
             </RelativeLayout>
 
             <TextView
@@ -142,7 +142,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerHorizontal="true"
                     android:layout_toRightOf="@+id/yg_activity_friend_detail_birthday_hint"
-                    android:src="@drawable/yg_signup_first_dialog_canlendar" />
+                    android:src="@drawable/yg_signup_first_dialog_canlendar_style2" />
             </RelativeLayout>
 
             <TextView
@@ -194,7 +194,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerHorizontal="true"
                     android:layout_toRightOf="@+id/yg_activity_friend_detail_phonenumber_hint"
-                    android:src="@drawable/yg_signup_first_dialog_canlendar" />
+                    android:src="@drawable/yg_signup_first_dialog_phone" />
             </RelativeLayout>
 
             <TextView
