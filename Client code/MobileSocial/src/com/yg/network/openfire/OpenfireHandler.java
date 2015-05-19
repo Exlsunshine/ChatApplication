@@ -75,16 +75,29 @@ public class OpenfireHandler
 		connection.disconnect();
 	}
 
-	public void send(String text, String targetUserID)
+	public void send(final String text, final String targetUserID)
 	{
-		targetUserID = targetUserID + "@" + ConstantValues.Configs.OPENFIRE_SERVER_NAME;
-
-		Log.i("XMPPChatDemoActivity", "Sending text " + text + " to " + targetUserID);
-		Message msg = new Message(targetUserID, Message.Type.chat);
-		msg.setBody(text);
+		final String ID = targetUserID + "@" + ConstantValues.Configs.OPENFIRE_SERVER_NAME;
+		Thread td = new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try {
+					Thread.sleep(3000);
+					Log.i("XMPPChatDemoActivity", "Sending text " + text + " to " + ID);
+					Message msg = new Message(ID, Message.Type.chat);
+					msg.setBody(text);
+					
+					if (establishConnection())
+						connection.sendPacket(msg);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		td.start();
 		
-		if (establishConnection())
-			connection.sendPacket(msg);
 	}
 	
 	private void registerMessageReceiver()

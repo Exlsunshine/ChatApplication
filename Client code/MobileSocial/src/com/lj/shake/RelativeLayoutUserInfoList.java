@@ -24,7 +24,7 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 {
 	private final float MOVE_THREAD = 0.5f;
 	private final float TOUCH_THREAD = 1.5f;
-	private final int USERDATALIST_MOVE_THREAD = 5;
+	private final int USERDATALIST_MOVE_THREAD = 10;
 	
 	private FrameLayoutUserInfo gUserInfoViewCenter = null;
 	private FrameLayoutUserInfo gUserInfoViewLeft = null;
