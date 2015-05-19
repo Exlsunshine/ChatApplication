@@ -75,14 +75,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@id/yg_dialoglist_item_friend_portrait"
-            android:background="@drawable/yg_dialog_chatfrom_bg"
+            android:background="@drawable/friendvoice"
             android:gravity="center_vertical"
-            android:src="@drawable/friendvoice"
-            android:visibility="gone" />
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/yg_dialoglist_item_friend_audio_length"
