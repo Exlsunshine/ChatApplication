@@ -358,7 +358,7 @@ public class NetworkHandler
 				try 
 				{
 					String portraitPath = result.get(i).get("portrait_path");
-					portraitPath = portraitPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+					portraitPath = portraitPath.replace("D:/Data/IM/data/", "");
 					portraitPath = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + portraitPath;
 					
@@ -509,7 +509,7 @@ public class NetworkHandler
 		
 		int prevID = userBasicInfoTB.getLatestID();
 		userBasicInfoTB.insert( new String [] {"login_account", "login_pwd", "nick_name", "email", "sex", "birthday", "portrait_path", "hometown", "phone_number"},
-								new String [] {loginAccount, pwd, nickname, email, sex, birthday, "temp", hometown, phoneNumber});
+								new String [] {loginAccount, pwd, nickname, email, sex.toLowerCase(), birthday, "temp", hometown, phoneNumber});
 		int currentID = userBasicInfoTB.getLatestID();
 		
 		if (Math.abs(prevID - currentID) == 1)
