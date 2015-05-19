@@ -34,7 +34,7 @@ public class OpenfireHandler
 	public OpenfireHandler(final String userName, final String password, Handler msgHandler)
 	{
 		this.userName = userName;
-		this.password = password;
+		this.password = "123456";//password;
 		this.msgHandler = msgHandler;
 	}
 	
@@ -215,7 +215,7 @@ public class OpenfireHandler
 						Log.i("XMPPChatDemoActivity", "Creating user..................." );
 						Map<String, String> attributes = new HashMap<String, String>();
 						attributes.put("username", userName);
-						attributes.put("password", password);
+						attributes.put("password", "123456");
 						attributes.put("email", userName + "@foo.com");
 						attributes.put("name", "full_name" + userName);
 						
