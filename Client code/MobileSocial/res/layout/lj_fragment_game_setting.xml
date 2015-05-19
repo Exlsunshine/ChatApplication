@@ -150,7 +150,7 @@
                     android:layout_marginLeft="@dimen/lj_game_setting_eightpuzzle_left_marign"
                     android:layout_toRightOf="@id/lj_game_setting_song_switch"
                     android:gravity="center"
-                    android:text="音乐游戏描述"
+                    android:text="音乐游戏"
                     android:textSize="@dimen/lj_userinfo_text_size" />
             </RelativeLayout>
 
@@ -179,7 +179,7 @@
                     android:layout_marginLeft="@dimen/lj_game_setting_eightpuzzle_left_marign"
                     android:layout_toRightOf="@id/lj_game_setting_bazinga_switch"
                     android:gravity="center"
-                    android:text="气泡游戏描述"
+                    android:text="气泡游戏"
                     android:textSize="@dimen/lj_userinfo_text_size" />
 
                 <LinearLayout

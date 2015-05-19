@@ -320,6 +320,7 @@ public class ActivitySongPuzzle extends Activity {
 			gBlankView[i].setText("");
 			if (i < length)
 			{
+				gBlankView[i].setTextColor(Color.BLACK);
 				gBlankView[i].setVisibility(View.VISIBLE);
 				gBlankView[i].startAnimation(gCharZoomout);
 				gBlankSet[i] = -1;
@@ -329,6 +330,7 @@ public class ActivitySongPuzzle extends Activity {
 		}
 		for (int i = 0; i < charView.length; i++)
 		{
+			charView[i].setTextColor(Color.BLACK);
 			charView[i].setText(String.valueOf(choiceChar.charAt(i)));
 			charView[i].setEnabled(true);
 			charView[i].setVisibility(View.VISIBLE);

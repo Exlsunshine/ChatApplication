@@ -1,7 +1,5 @@
 package com.yg.ui.signup;
 
-import java.util.Calendar;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,13 +12,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import com.example.testmobiledatabase.R;
 import com.lj.datapicker.ArrayWheelAdapter;
 import com.lj.datapicker.OnWheelChangedListener;
@@ -49,7 +47,7 @@ public class SignupActivity extends Activity
 	private SignupImplementation loginObj;
 	private String email, nickname, password;
 	private String portraitPath, phoneNumber, sex;
-	private String birthday;
+	private String birthday = null;
 	
 	private static final int SELECT_PORTRAIT_REQUEST = 34;
 	
@@ -403,6 +401,18 @@ public class SignupActivity extends Activity
 		public void onClick(View arg0) 
 		{
 			loginObj.setCurrentHometownString(gHomttown);
+			
+			if (birthday == null)
+			{
+				Animation shake = AnimationUtils.loadAnimation(SignupActivity.this, R.anim.yg_loginguide_page3_login_dialog_anim_shake);
+				
+				Window window = secondeDialog.getWindow();
+				TextView bir = (TextView) window.findViewById(R.id.yg_signup_second_dialog_birthday);
+				bir.setText(SignupActivity.this.birthday);
+				bir.startAnimation(shake);
+				return ;
+			}
+			
 			int result = loginObj.register();
 			if (result > 0 && result != 65535)
 			{
@@ -459,10 +469,10 @@ public class SignupActivity extends Activity
 	}
 	
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{
 		getMenuInflater().inflate(R.menu.signup, menu);
 		return true;
-	}
+	}*/
 }
