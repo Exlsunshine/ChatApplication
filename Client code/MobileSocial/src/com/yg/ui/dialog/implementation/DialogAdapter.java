@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.example.testmobiledatabase.R;
 import com.tp.ui.MyselfPostActivity;
-import com.tp.ui.PublicActivity;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.emoji.ParseEmojiMsgUtil;
