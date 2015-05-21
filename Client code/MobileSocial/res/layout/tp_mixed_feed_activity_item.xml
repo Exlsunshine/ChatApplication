@@ -21,7 +21,8 @@
             android:layout_height="44.0dip"
             android:layout_marginLeft="8.0dip"
             android:layout_marginTop="6.0dip"
-            android:src="@drawable/tp_moment_avatar" />
+            android:src="@drawable/tp_moment_avatar" 
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 
