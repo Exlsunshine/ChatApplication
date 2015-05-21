@@ -20,7 +20,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
@@ -39,16 +38,23 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	private static final String DEBUG_TAG = "FriendListActivity______";
 	private int firstVisibleItem;
 	private int visibleItemCount;
+	private boolean needRefresh = false;
+	private boolean initDataFinish = false;
 	
 	private List<String> friendsName = new ArrayList<String>();
 	private List<Bitmap> friendsPortrait = new ArrayList<Bitmap>();
 	private List<Integer> friendsID = new ArrayList<Integer>();
+	private List<Boolean> friendsStarMark = new ArrayList<Boolean>();
+	
 	private FriendlistAdapter myAdapter = null;
 	private FinalListView finalListView = null;
 	private Bitmap bmp;
 	
 	private SlideBar slidebar = null;
 	private TextView indecator = null;
+
+	private static final int FRIENDSHIP_REQUEST_STAR = 0;
+	private static final int FRIENDSHIP_REQUEST_DELETE = 1;
 	
 	private class DownloadPortraitTask extends AsyncTask<Void, Void, Void>
 	{
@@ -64,6 +70,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			friendsName.clear();
 			friendsPortrait.clear();
 			friendsID.clear();
+			friendsStarMark.clear();
 			ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
 			if (friends == null)
 				return null;
@@ -75,6 +82,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				bmp = CircleBitmap.circleBitmap(bmp);
 				friendsPortrait.add(bmp);
 				friendsID.add(friends.get(i).getID());
+				friendsStarMark.add(friends.get(i).isCloseFriend());
 			}
 			
 			return null;
@@ -85,6 +93,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		{
 			setupLayout();
 			myAdapter.notifyDataSetChanged();
+			initDataFinish = true;
 			super.onPostExecute(result);
 		}
 		
@@ -105,6 +114,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 				friendsName.clear();
 				friendsPortrait.clear();
 				friendsID.clear();
+				friendsStarMark.clear();
 				ArrayList<FriendUser> friends = ConstantValues.user.getFriendList();
 				if (friends == null)
 					return;
@@ -120,6 +130,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 						bmp = CircleBitmap.circleBitmap(bmp);
 						friendsPortrait.add(bmp);
 						friendsID.add(friends.get(i).getID());
+						friendsStarMark.add(friends.get(i).isCloseFriend());
 					}
 				}
 			}
@@ -143,7 +154,7 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		finalListView = (FinalListView) super.findViewById(R.id.listview);
 		finalListView.setRemoveListener(this);
 
-		myAdapter = new FriendlistAdapter(this, friendsName, friendsPortrait);
+		myAdapter = new FriendlistAdapter(this, friendsName, friendsPortrait, friendsStarMark);
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 		
@@ -196,7 +207,14 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		@Override  
 		public void onTouchingLetterEnd()  
 		{  
-			myAdapter.enableAnimation(true);
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run() 
+				{
+					myAdapter.enableAnimation(true);
+				}
+			}, 300);
 			indecator.setVisibility(View.GONE);
 		}  
 	}
@@ -207,6 +225,9 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_friend_list);
 
+		initDataFinish = false;
+		needRefresh = false;
+		
 		DownloadPortraitTask dpt = new DownloadPortraitTask();
 		dpt.execute();
 	}
@@ -216,6 +237,16 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	{
 		registerReceiver(broadcastReceiver, intentFilter());
 		Log.i(DEBUG_TAG, "FriendList resume.");
+		
+		if (needRefresh)
+		{
+			//reload all friends data(in case of leaving this activity while
+			//not cancel the query, that would be a UI bug.)
+			refreshDataFromQuery("");
+			requestForCleanActionbar();
+			needRefresh = false;
+		}
+		
 		super.onResume();
 	}
 	
@@ -223,11 +254,12 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 	protected void onPause() 
 	{
 		unregisterReceiver(broadcastReceiver);
-
-		//reload all friends data(in case of leaving this activity while
-		//not cancel the query, that would be a UI bug.)
-		refreshDataFromQuery("");
-		Log.i(DEBUG_TAG, "FriendList pause.");
+		
+		Log.i(DEBUG_TAG, "FriendList onPause.\n" + "initDataFinish is " + initDataFinish);
+		
+		//Only initial data loading finished, 
+		//can we refresh the listview(Or system will crash).
+		needRefresh = initDataFinish;
 		super.onPause();
 	}
 	
@@ -252,15 +284,100 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			Intent intent = new Intent(FriendListActivity.this, FriendDetailActivity.class);
 			intent.putExtra("friendUserID", friendsID.get(position - 2));
 			startActivity(intent);
+			
+			requestForCleanActionbar();
 		}
 	}
 	
+	private void requestForCleanActionbar()
+	{
+		Intent intent = new Intent(MainActivity.CLEAR_ACTIONBAR_REQUEST);
+		sendBroadcast(intent);
+	}
+	
+	private class FriendshipOperationTask extends AsyncTask<Integer, Void, Void>
+	{
+		private int cmd;
+		private int position;
+		private int friendID;
+		
+		@Override
+		protected Void doInBackground(Integer... params)
+		{
+			int position = params[0];
+			int cmd = params[1];
+			this.cmd = cmd;
+			this.position = position;
+			this.friendID = friendsID.get(position - 2);
+			
+			switch (cmd)
+			{
+			case FRIENDSHIP_REQUEST_DELETE:
+				ConstantValues.user.deleteUser(friendID);
+				break;
+			case FRIENDSHIP_REQUEST_STAR:
+				boolean isCloseFriends = !friendsStarMark.get(position - 2);
+				friendsStarMark.set(position - 2, isCloseFriends);
+				ConstantValues.user.setAsCloseFriend(friendID, isCloseFriends);
+				break;
+			default:
+				break;
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			super.onPostExecute(result);
+			
+			if (cmd == FRIENDSHIP_REQUEST_DELETE)
+			{
+				myAdapter.remove(position - 2);
+				refreshDataFromQuery("");
+				requestForCleanActionbar();
+				
+				Intent intent = new Intent(ConstantValues.InstructionCode.ERASE_LOCAL_HISTORY);
+				intent.putExtra("friendUserID", friendID);
+				sendBroadcast(intent);
+			}
+			
+			myAdapter.enableAnimation(false);
+			myAdapter.notifyDataSetChanged();
+			new Handler().postDelayed(new Runnable()
+			{
+				@Override
+				public void run() 
+				{
+					myAdapter.enableAnimation(true);
+				}
+			}, 300);
+		}
+	}
 	public void removeItem(int position, int id)
 	{
+		new FriendshipOperationTask().execute(position, id);
+		/*//Add star to a friend
 		if (id == 0)
-			Toast.makeText(this, "没有呼叫功能", Toast.LENGTH_SHORT).show();
-		else 
+		{
+			Thread td = new Thread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					boolean isCloseFriends = !friendsStarMark.get(position - 2);
+					friendsStarMark.set(position - 2, isCloseFriends);
+					ConstantValues.user.setAsCloseFriend(friendsID.get(position - 2), isCloseFriends);
+					
+				}
+			});
+			td.start();
+		}
+		else //Delete a friend
+		{
 			myAdapter.remove(position - 2);
+		}*/
 	}
 
 	@Override

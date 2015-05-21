@@ -8,32 +8,40 @@ import com.baidu.mapapi.map.MapView;
 import com.example.testmobiledatabase.R;
 import com.lj.customview.LoadingView;
 import com.yg.commons.ConstantValues;
+
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Display;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 public class ActivityShake extends Activity
 {
 	public int dpiWidth;
 	public int dpiHight;
 	
+	public static final int REQUEST_CODE_BEGINGAME = 0x20;
+	public static final int RESULT_CODE_FRIENDADD = 0x21;
+	
 	public SensorManager sensorManager;
 	public LocationClient locationClient = null;
 	public Vibrator vibrator;
 	
 	public RelativeLayout mainLayout;
-	public LoadingView loadingView;
 	public MapView mapView;
 	public BaiduMap baiduMap;
 	
@@ -43,10 +51,13 @@ public class ActivityShake extends Activity
 	public shakeListener shakelistener;
 	public locationListener locationlistener;
 	public markerClickListener markerclicklistener;
-	public mapStatusChangeListener mapstatuslistener;
-	public mapTouchListener maptouchlistener;
 	
-	shakeHandler myHandler;
+	private shakeHandler myHandler;
+	
+	public LinearLayout gShakeBallLayout;
+	public ShakeBall gShakeBall;
+	
+	private boolean flag = false;
 	
 	public RelativeLayoutUserInfoList userDataListView;
 	
@@ -59,12 +70,7 @@ public class ActivityShake extends Activity
 	
 	private void initView()
 	{
-		//laytou
-	//	mainLayout = new RelativeLayout(this);
-
-		loadingView = new LoadingView(this, dpiWidth >> 1, dpiHight >> 1);
-        loadingView.setVisibility(View.INVISIBLE);
-        mainLayout.addView(loadingView);
+        gShakeBallLayout = (LinearLayout)findViewById(R.id.lj_shake_ball_layout);
 
         mapView = new MapView(this);
 		baiduMap = mapView.getMap();
@@ -75,13 +81,6 @@ public class ActivityShake extends Activity
 		
 		gMaleSelect = (ImageView)findViewById(R.id.lj_map_male);
 		gFemaleSelect = (ImageView)findViewById(R.id.lj_map_female);
-		
-/*		userDataListView = new RelativeLayoutUserInfoList(this);
-		RelativeLayout.LayoutParams layout = new LayoutParams(LayoutParams.FILL_PARENT, 100);
-		layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		layout.bottomMargin = 10;
-		userDataListView.setLayoutParams(layout);
-		mainLayout.addView(userDataListView);*/
 	}
 	
 	private void initListener()
@@ -100,11 +99,7 @@ public class ActivityShake extends Activity
         locationClient.registerLocationListener(locationlistener);
         
         markerclicklistener = new markerClickListener(myHandler);
-        mapstatuslistener = new mapStatusChangeListener(myHandler);
-        maptouchlistener = new mapTouchListener(myHandler);
         baiduMap.setOnMarkerClickListener(markerclicklistener);
-        baiduMap.setOnMapTouchListener(maptouchlistener);
-        baiduMap.setOnMapStatusChangeListener(mapstatuslistener);
 	}
 	
     @Override
@@ -117,22 +112,59 @@ public class ActivityShake extends Activity
         initDpi();
         initView();
         initListener();
-	//	setContentView(mainLayout);
+        setupDialogActionBar();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    public void onWindowFocusChanged(boolean hasFocus) 
     {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    	super.onWindowFocusChanged(hasFocus);
+    	if (hasFocus && !flag)
+    	{
+    		gShakeBall = (ShakeBall)findViewById(R.id.lj_shake_ball);
+    		gShakeBall.setHandler(myHandler);
+    		gShakeBall.setMoveRange(mainLayout.getWidth(), mainLayout.getHeight());
+    		flag = true;
+    	}
     }
-
+    
+    private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleTextView.setText("ҡһҡ");
+		back.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				sensorManager.unregisterListener(shakelistener);
+				finish();
+			}
+		});
+	}
+    
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) 
+    public boolean onKeyDown(int keyCode, KeyEvent event) 
     {
-        int id = item.getItemId();
-        if (id == R.id.action_settings)
-            return true;
-        return super.onOptionsItemSelected(item);
+    	if (keyCode == KeyEvent.KEYCODE_BACK)
+    	{
+    		sensorManager.unregisterListener(shakelistener);
+    		finish();
+    	}
+    	return super.onKeyDown(keyCode, event); 
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+    {
+    	super.onActivityResult(requestCode, resultCode, data);
+    	if (requestCode == REQUEST_CODE_BEGINGAME && resultCode == RESULT_CODE_FRIENDADD)
+    		finish();
     }
 }

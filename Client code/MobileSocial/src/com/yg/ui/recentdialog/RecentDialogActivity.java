@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
@@ -32,11 +31,11 @@ import com.yg.ui.recentdialog.implementation.CustomNotificator;
 import com.yg.ui.recentdialog.implementation.MessageNotificationManager;
 import com.yg.ui.recentdialog.implementation.RecentDialogAdapter;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView;
-import com.yg.ui.recentdialog.implementation.RecentDialogListView.OnRefreshListener;
+//import com.yg.ui.recentdialog.implementation.RecentDialogListView.OnRefreshListener;
 import com.yg.ui.recentdialog.implementation.RecentDialogListView.RemoveListener;
 import com.yg.user.FriendUser;
 
-public class RecentDialogActivity extends Activity implements RemoveListener, OnRefreshListener 
+public class RecentDialogActivity extends Activity implements RemoveListener//, OnRefreshListener 
 {
 	private static final String DEBUG_TAG = "RecentDialogActivity______";
 	private List<String> names = new ArrayList<String>();
@@ -155,7 +154,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 
-		finalListView.setonRefreshListener(new OnRefreshListener()
+		/*finalListView.setonRefreshListener(new OnRefreshListener()
 		{
 			public void onRefresh()
 			{
@@ -201,7 +200,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 					}
 				}.execute(null, null, null);
 			}
-		});
+		});*/
 		
 		loadRecentDialogs();
 		
@@ -254,10 +253,10 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		//return true;
 	}
 
-	@Override
+/*	@Override
 	public void onRefresh() 
 	{
-	}
+	}*/
 	
 	public class OnItemClickListenerImpl implements OnItemClickListener
 	{
@@ -276,10 +275,33 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 	@Override
 	public void removeItem(int position, int id) 
 	{
-		if (id == 0)
+		new DeleteDataFromDB().execute(position);
+		/*if (id == 0)
 			Toast.makeText(this, "没有呼叫功能", Toast.LENGTH_SHORT).show();
 		else 
+			myAdapter.remove(position - 2);*/
+	}
+	
+	private class DeleteDataFromDB extends AsyncTask<Integer, Void, Void>
+	{
+		private int position;
+		
+		@Override
+		protected Void doInBackground(Integer... params)
+		{
+			position = params[0];
+			ConstantValues.user.eraseDialogHistory(ids.get(position - 2));
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			super.onPostExecute(result);
+			
 			myAdapter.remove(position - 2);
+			myAdapter.notifyDataSetChanged();
+		}
 	}
 	
 	private IntentFilter intentFilter()
@@ -291,6 +313,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 		intentFilter.addAction(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
 		intentFilter.addAction(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
 		intentFilter.addAction(ConstantValues.InstructionCode.CLEAR_MESSAGE_RED_DOT);
+		intentFilter.addAction(ConstantValues.InstructionCode.ERASE_LOCAL_HISTORY);
 		
 		return intentFilter;
 	}
@@ -389,6 +412,16 @@ public class RecentDialogActivity extends Activity implements RemoveListener, On
 						refreshRecentDialogs();
 						myAdapter.notifyDataSetChanged();
 					}
+				}
+			}
+			else if (intent.getAction().equals(ConstantValues.InstructionCode.ERASE_LOCAL_HISTORY))
+			{
+				int friendUserID = intent.getIntExtra("friendUserID", -1);
+				
+				for (int i = 0; i < ids.size(); i++)
+				{
+					if (ids.get(i) == friendUserID)
+						new DeleteDataFromDB().execute(i + 2);
 				}
 			}
 		}

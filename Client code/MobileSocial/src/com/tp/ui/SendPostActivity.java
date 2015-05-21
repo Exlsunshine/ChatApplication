@@ -3,36 +3,43 @@ package com.tp.ui;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
-import com.tp.messege.PostManager;
-import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.image.select.ui.SelectImageActivity;
+import com.yg.ui.signup.SignupActivity;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SendPostActivity extends Activity
@@ -44,28 +51,7 @@ public class SendPostActivity extends Activity
 	private final int setpostphoto = 1;
 	private final int intent = 2;
 	private boolean isSendPhoto = false;
-	
-	@Override  
-    public boolean onCreateOptionsMenu(Menu menu)
-	{  
-        getMenuInflater().inflate(R.menu.tp_sendpost_menu, menu);  
-        return true;  
-    }
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
-	    int id = item.getItemId();
-	    switch (id) 
-	    {
-	        case R.id.action_send:
-	        	sendPost();
-	            break;
-	        default:
-	            break;
-	    }
-	    return super.onOptionsItemSelected(item);
-	}
+	private static final int SELECT_PORTRAIT_REQUEST = 34;
 	
 	private void sendPost()
 	{
@@ -74,7 +60,7 @@ public class SendPostActivity extends Activity
 		final String location = "北京";
 		if (commentET.getText().toString().trim().equals("") && isSendPhoto == false)
 		{
-			Toast.makeText(getApplicationContext(), "无法发送",Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "不能发送空的消息",Toast.LENGTH_SHORT).show();
 		}
 		else
 		{
@@ -142,11 +128,42 @@ public class SendPostActivity extends Activity
 		}
 	}
 	
+	private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.tp_sendpostactivity_actionbar);
+		
+		TextView title = (TextView)findViewById(R.id.tp_sendpostactivity_actionbar_title);
+		title.setText("分享");
+		LinearLayout back = (LinearLayout)findViewById(R.id.tp_sendpostactivity_actionbar_back);
+		LinearLayout send = (LinearLayout)findViewById(R.id.tp_sendpostactivity_actionbar_send);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+		
+		send.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				sendPost();
+			}
+		});
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tp_sendpostactivity);
+		setupDialogActionBar();
 		initview();
 	}
 	
@@ -161,8 +178,9 @@ public class SendPostActivity extends Activity
 			@Override
 			public void onClick(View view) 
 			{
-				Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				startActivityForResult(i, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
+				Intent intent = new Intent(SendPostActivity.this, SelectImageActivity.class);
+				intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
+				startActivityForResult(intent, SELECT_PORTRAIT_REQUEST);
 			}
 		});
 	}
@@ -190,6 +208,7 @@ public class SendPostActivity extends Activity
 				isSendPhoto = false;
 				Intent intent = new Intent(SendPostActivity.this, PublicActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		}
 	};
@@ -197,43 +216,68 @@ public class SendPostActivity extends Activity
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, final Intent data) 
 	{
-		if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY)
+		if (requestCode == SELECT_PORTRAIT_REQUEST && resultCode == RESULT_OK)
 		{
-			if (resultCode == Activity.RESULT_OK) 
+			final String filePath = data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH);
+			Log.d("SPA__", filePath);
+			new Thread()
 			{
-				new Thread()
+				public void run() 
 				{
-					public void run() 
+					isSendPhoto = true;
+					FileInputStream fis = null;
+					ExifInterface exif = null; 
+					int degree=0;
+					try 
 					{
-						isSendPhoto = true;
-						Uri selectedImage =  data.getData();
-						String[] filePathColumn = { MediaStore.Images.Media.DATA };
-						Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-						cursor.moveToFirst();
-						int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-						String picturePath = cursor.getString(columnIndex);
-						cursor.close();
-						FileInputStream fis;
-						try 
-						{
-							fis = new FileInputStream(picturePath);
-							postphoto = BitmapFactory.decodeStream(fis);
-						} 
-						catch (FileNotFoundException e) 
-						{
-							e.printStackTrace();
-						}
-						Message message = Message.obtain();
-						message.what = setpostphoto;
-						handler.sendMessage(message);
+						fis = new FileInputStream(filePath);							
+						postphoto = decodeSampledBitmapFromPath(filePath, dip2px(SendPostActivity.this,300), dip2px(SendPostActivity.this,300));
+						Log.e("SPA____", dip2px(SendPostActivity.this,300) + " dp");
+					} 
+					catch (FileNotFoundException e1) 
+					{
+						e1.printStackTrace();
 					}
-				}.start();
-			 }
-			else
-			{
-				isSendPhoto = false;
-				Log.d("onActivityResult","photo null");
-			}
+					try 
+					{
+						exif = new ExifInterface(filePath);
+						if (exif != null) 
+						{  
+							// 读取图片中相机方向信息  
+							int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);  
+							// 计算旋转角度  
+							switch (ori) 
+							{  
+							case ExifInterface.ORIENTATION_ROTATE_90:  
+								degree = 90;  
+								break;  
+							case ExifInterface.ORIENTATION_ROTATE_180:  
+								degree = 180;  
+								break;  
+							case ExifInterface.ORIENTATION_ROTATE_270:  
+								degree = 270;  
+								break;  
+							default:  
+								degree = 0;  
+								break;  
+							}							}
+						if (degree != 0) 
+						{  
+					         // 旋转图片  
+					         Matrix m = new Matrix();  
+					         m.postRotate(degree);  
+					         postphoto = Bitmap.createBitmap(postphoto, 0, 0, postphoto.getWidth(), postphoto.getHeight(), m, true);  
+					     }							
+					}
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
+					Message message = Message.obtain();						
+					message.what = setpostphoto;
+					handler.sendMessage(message);
+				}
+			}.start();
 		}
 	}
 	
@@ -243,5 +287,39 @@ public class SendPostActivity extends Activity
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 	    return sdf.format(cal.getTime());
 	}
+	
+	public Bitmap decodeSampledBitmapFromPath(String path, int reqWidth, int reqHeight) 
+	{
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(path, options);
 
+		options.inSampleSize = calculateInSampleSize(options, reqWidth,
+		        reqHeight);
+		Log.e("SPA____", options.inSampleSize + " inSampleSize");
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+		Bitmap bmp = BitmapFactory.decodeFile(path, options);
+		return bmp;
+	}
+	public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) 
+	{
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+
+		if (height > reqHeight || width > reqWidth) {
+		    if (width > height) {
+		        inSampleSize = Math.round((float) height / (float) reqHeight);
+		    } else {
+		        inSampleSize = Math.round((float) width / (float) reqWidth);
+		     }
+		 }
+		 return inSampleSize;
+	}
+	public int dip2px(Context context, float dpValue) 
+	{  
+        final float scale = context.getResources().getDisplayMetrics().density;  
+        return (int) (dpValue * scale + 0.5f);  
+    } 
 }

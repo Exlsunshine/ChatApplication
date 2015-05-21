@@ -2,21 +2,21 @@ package com.lj.setting.userinfo;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.example.testmobiledatabase.R;
-import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.settings.ActivitySettings;
-import com.lj.userbasicsetting.ActivityUserBasicSetting;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.image.select.ui.SelectImageActivity;
+import com.yg.ui.MainActivity;
+import com.yg.ui.signup.SignupActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,20 +24,18 @@ import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalFocusChangeListener;
-import android.webkit.WebView.FindListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class FragmentUserInfoSetting extends Fragment
 {
@@ -53,6 +51,9 @@ public class FragmentUserInfoSetting extends Fragment
 	public static final int ACTIVITY_RESULT_CODE_HOMETOWN = 3;
 	public static final int ACTIVITY_REQUEST_CODE_HOMETOWN = 3;
 	
+	private static final int ACTIVITY_RESULT_CODE_PORTRAIT = 4;
+	private static final int ACTIVITY_REQUEST_CODE_PORTRAIT = 4;
+	
 	private ImageView gPortraitImage = null;
 	private EditText gNicknameEditText = null;
 	private TextView gSexTextView = null;
@@ -64,52 +65,17 @@ public class FragmentUserInfoSetting extends Fragment
 	
 	private HashMap<String, String> gChangeMap = null;  
 	
-	private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT));
-	
 	private final int[] VIEW_ID = {R.id.lj_userinfo_setting_sex_layout, R.id.lj_userinfo_setting_sex_text, R.id.lj_userinfo_setting_sex_image,
 								   R.id.lj_userinfo_setting_age_layout, R.id.lj_userinfo_setting_age_text, R.id.lj_userinfo_setting_age_image,
 								   R.id.lj_userinfo_setting_constellation_layout, R.id.lj_userinfo_setting_constellation_text, R.id.lj_userinfo_setting_constellation_image,
 								   R.id.lj_userinfo_setting_hometown_layout, R.id.lj_userinfo_setting_hometown_text, R.id.lj_userinfo_setting_hometown_image,
 								   R.id.lj_userinfo_setting_password_layout, R.id.lj_userinfo_setting_password_text, R.id.lj_userinfo_setting_password_image,
-								   R.id.lj_userinfo_setting_cancel, R.id.lj_userinfo_setting_confirm, R.id.lj_userinfo_setting_portrait};
+								   R.id.lj_userinfo_setting_portrait, R.id.lj_userinfo_setting_singoff};
 	
-	public FragmentUserInfoSetting(Context context) 
+	public FragmentUserInfoSetting(Context context, HashMap<String, String> map) 
 	{
+		gChangeMap = map;
 		gContext = context;
-	}
-	
-	
-	private void save()
-	{
-		gNicknameEditText.clearFocus();
-		gPhoneEditText.clearFocus();
-		Iterator iter = gChangeMap.entrySet().iterator();
-		while (iter.hasNext()) 
-		{
-			Map.Entry entry = (Map.Entry) iter.next();
-			final String key = entry.getKey().toString();
-			final String val = entry.getValue().toString();
-			
-			new Thread()
-			{
-				public void run() 
-				{
-					if (key.equals("nickname"))
-						ConstantValues.user.setNickName(val);
-					else if (key.equals("sex"))
-						ConstantValues.user.setSex(val);
-					else if (key.equals("date"))
-						ConstantValues.user.setBirthday(val);
-					else if (key.equals("hometown"))
-						ConstantValues.user.setHometown(val);
-					else if (key.equals("phone"))
-						ConstantValues.user.setPhoneNumber(val);
-					else if (key.equals("portrait"))
-						ConstantValues.user.setPortrait(val);
-				};
-			}.start();
-		}
-		gChangeMap.clear();
 	}
 	
 	private OnClickListener gSettingOnClick = new OnClickListener() 
@@ -149,34 +115,14 @@ public class FragmentUserInfoSetting extends Fragment
 				intent.setClass(getActivity(), ActivityPasswordSetting.class);
 				startActivity(intent);
 			}
-			else if (id == R.id.lj_userinfo_setting_cancel)
-				gChangeMap.clear();
-			else if (id == R.id.lj_userinfo_setting_confirm)
-				save();
 			else if (id == R.id.lj_userinfo_setting_portrait)
 			{
-				new AlertDialog.Builder(gContext).setTitle("请选择")
-					.setIcon(R.drawable.ic_launcher)
-					.setItems(new String[] {"本地图库", "照相机"}, new DialogInterface.OnClickListener() 
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int which) 
-						{
-							if (which == 0)
-							{
-								Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-								startActivityForResult(i, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
-							}							
-							else if (which == 1)
-							{
-								Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
-								intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.USERSET_PORTRAIT)));  
-								startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CAMERA);  
-							}
-							dialog.dismiss();  
-						}
-					}).setNegativeButton("取消", null).show(); 
+				Intent intent = new Intent(gContext, SelectImageActivity.class);
+				intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
+				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_PORTRAIT);
 			}
+			else if (id == R.id.lj_userinfo_setting_singoff)
+				showSignOffDialog();
 		}
 	};
 	
@@ -230,7 +176,7 @@ public class FragmentUserInfoSetting extends Fragment
 		gPhoneEditText.setText(ConstantValues.user.getPhoneNumber());
 	}
 	
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) 
 	{
@@ -255,8 +201,6 @@ public class FragmentUserInfoSetting extends Fragment
         
         gPhoneEditText = (EditText)gView.findViewById(R.id.lj_userinfo_setting_phone);
         gPhoneEditText.setOnFocusChangeListener(gEditTextFocusChangeListener);
-        
-        gChangeMap = new HashMap<String, String>();
         
         gPortraitImage =(ImageView)gView.findViewById(R.id.lj_userinfo_setting_portrait);
         initData();
@@ -288,57 +232,59 @@ public class FragmentUserInfoSetting extends Fragment
 			gHometownTextView.setText(hometown);
 			gChangeMap.put("hometown", hometown);
 		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == Activity.RESULT_OK)
+		else if (requestCode == ACTIVITY_REQUEST_CODE_PORTRAIT && resultCode == Activity.RESULT_OK)
 		{
-			Uri selectedImage =  data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-			Cursor cursor = gContext.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-			cursor.moveToFirst();
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			cursor.close();
-			File temp = new File(picturePath);
-			startPhotoZoom(Uri.fromFile(temp)); 
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CAMERA && resultCode == Activity.RESULT_OK)
-		{
-			File temp = new File(Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.USERSET_PORTRAIT);  
-            startPhotoZoom(Uri.fromFile(temp));  
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CROP && resultCode == Activity.RESULT_OK)
-		{
+			String filePath = data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH);
+			
 			Bitmap bitmap = null;
-			try {
-				bitmap = MediaStore.Images.Media.getBitmap(gContext.getContentResolver(), IMAGE_URI);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
+			try 
+			{
+				bitmap = BitmapFactory.decodeFile(filePath);
+				gPortraitImage.setImageBitmap(bitmap);
+				gChangeMap.put("portrait", filePath);
+				bitmap = null;
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
-			gPortraitImage.setImageBitmap(bitmap);
-			gChangeMap.put("portrait", Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.USERSET_PORTRAIT);
-		/*	new Thread()
-			{
-				public void run() 
-				{
-					ConstantValues.user.setPortrait(Environment.getExternalStorageDirectory() + "/Portrait.jpg");
-				};
-			}.start();*/
-			bitmap = null;
 		}
 	}
 	
-	private void startPhotoZoom(Uri uri) 
-	{  
-        Intent intent = new Intent("com.android.camera.action.CROP");  
-        intent.setDataAndType(uri, "image/*");  
-        //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪  
-        intent.putExtra("crop", "true");  
-        // aspectX aspectY 是宽高的比例  
-        intent.putExtra("aspectX", 1);  
-        intent.putExtra("aspectY", 1);  
-        intent.putExtra("return-data", false);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CROP);  
-    }  
+	public void clearTextFocus()
+	{
+		gNicknameEditText.clearFocus();
+		gPhoneEditText.clearFocus();
+	}
+	
+	private void showSignOffDialog()
+	{
+		final AlertDialog dialog = new AlertDialog.Builder(gContext, R.style.LoginDialogAnimation).create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = dialog.getWindow();
+		window.setContentView(R.layout.lj_userinfo_setting_singoff_remind_dialog);
+		Button cancel = (Button) window.findViewById(R.id.lj_userinfo_setting_singoff_dialog_button_cancel);
+		cancel.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				dialog.dismiss();
+			}
+		});
+		Button confirm = (Button) window.findViewById(R.id.lj_userinfo_setting_singoff_dialog_button_confirm);
+		confirm.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				((ActivitySettings)gContext).setResult(MainActivity.RESULT_CODE_SIGNOFF);
+				((ActivitySettings)gContext).finish();
+			}
+		});
+	}
 }

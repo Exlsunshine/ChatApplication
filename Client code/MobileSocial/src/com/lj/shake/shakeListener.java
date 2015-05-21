@@ -37,6 +37,7 @@ public class shakeListener implements SensorEventListener
 		{
 			Message msg = new Message();
 			msg.what = ConstantValues.InstructionCode.SHAKE_HANDLER_SHAKE_SENSOR;
+			msg.obj = values;
 			myHandler.sendMessage(msg);
 			Thread thread = new ThreadCheckGameSet(myHandler, userID);
 			thread.start();

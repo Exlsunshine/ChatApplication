@@ -12,9 +12,11 @@ import com.tp.views.ExtendedListView.OnPositionChangedListener;
 import com.tp.views.MenuRightAnimations;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,9 +28,12 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,8 +49,31 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
     private EmptyPost empty = new EmptyPost();
     private ArrayList<AbstractPost> ap = new ArrayList<AbstractPost>();
     private final int setAdpter = 1;
+    private final int hideclocklayout = 2;
+    private final int showclocklayout = 3;
     private MyselfPostAdpter chatHistoryAdapter;
     private boolean isOncreate = false;
+    
+    
+    private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.tp_myselfpostactivity_actionbar);
+		
+		TextView title = (TextView)findViewById(R.id.tp_myselfpostactivity_actionbar_title);
+		title.setText("我的分享");
+		LinearLayout back = (LinearLayout)findViewById(R.id.tp_myselftpostactivity_actionbar_back);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+	}
     
     @Override
     public void onCreate(Bundle savedInstanceState) 
@@ -53,6 +81,7 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tp_myselfpostactivity);
         MenuRightAnimations.initOffset(MyselfPostActivity.this);
+        setupDialogActionBar();
         
         new Thread()
         {
@@ -61,7 +90,9 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         		try
         		{
         			ap.add(empty);
-          			ap.addAll(ConstantValues.user.pm.getMyselfPosts());
+        			ArrayList<AbstractPost> posts = ConstantValues.user.pm.getMyselfPosts();
+        			if (posts != null)
+        				ap.addAll(posts);
           			Message message = Message.obtain();
     				message.what = setAdpter;
     				handler.sendMessage(message);
@@ -78,6 +109,48 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         dataListView.setOnPositionChangedListener(this);
         clockLayout = (FrameLayout)findViewById(R.id.myselfpostactivity_clock);
         dataListView.setOnItemClickListener(new OnItemClickListenerImpl());
+        dataListView.setOnScrollListener(new OnScrollListener() 
+        {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) 
+			{
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
+                {
+					Thread td = new Thread(new Runnable() 
+			        {
+						@Override
+						public void run() 
+						{
+							try 
+							{
+								Thread.sleep(2000);
+								Message message = Message.obtain();
+			    				message.what = hideclocklayout;
+			    				handler.sendMessage(message);
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
+							}
+						}
+					});
+			        td.start();
+                }
+				else
+				{
+					Message message = Message.obtain();
+    				message.what = showclocklayout;
+    				handler.sendMessage(message);
+				}
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
         isOncreate = true;
     }
 
@@ -94,6 +167,12 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
 				chatHistoryAdapter = new MyselfPostAdpter(MyselfPostActivity.this, ap);
 			    dataListView.setAdapter(chatHistoryAdapter);
 			    dataListView.setOnItemClickListener(new OnItemClickListenerImpl());
+				break;
+			case hideclocklayout:
+				clockLayout.setVisibility(View.INVISIBLE);
+				break;
+			case showclocklayout:
+				clockLayout.setVisibility(View.VISIBLE);
 				break;
 			}
 		}
@@ -136,7 +215,7 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         lastTime[1] = timef[1];
         return rtnAni;
     }
-
+    
     @Override
     public void onPositionChanged(ExtendedListView listView, int firstVisiblePosition,View scrollBarPanel) 
     {
@@ -145,7 +224,14 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
     	ImageView hourView = (ImageView) findViewById(R.id.clock_face_hour);
         hourView.setImageResource(R.drawable.tp_clock_hour_rotatable);
         TextView datestr = ((TextView) findViewById(R.id.clock_digital_date));
-    	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size() || firstVisiblePosition == 0)
+        if (firstVisiblePosition == 0)
+        {
+        	clockLayout.setVisibility(View.INVISIBLE);
+        	return;
+        }
+        else
+        	clockLayout.setVisibility(View.VISIBLE);
+    	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size())
     	{
     		datestr.setText("上午");
     		clocktext.setText("00:00");

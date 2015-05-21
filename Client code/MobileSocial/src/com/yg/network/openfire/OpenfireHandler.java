@@ -34,7 +34,7 @@ public class OpenfireHandler
 	public OpenfireHandler(final String userName, final String password, Handler msgHandler)
 	{
 		this.userName = userName;
-		this.password = password;
+		this.password = "123456";//password;
 		this.msgHandler = msgHandler;
 	}
 	
@@ -75,16 +75,29 @@ public class OpenfireHandler
 		connection.disconnect();
 	}
 
-	public void send(String text, String targetUserID)
+	public void send(final String text, final String targetUserID)
 	{
-		targetUserID = targetUserID + "@" + ConstantValues.Configs.OPENFIRE_SERVER_NAME;
-
-		Log.i("XMPPChatDemoActivity", "Sending text " + text + " to " + targetUserID);
-		Message msg = new Message(targetUserID, Message.Type.chat);
-		msg.setBody(text);
+		final String ID = targetUserID + "@" + ConstantValues.Configs.OPENFIRE_SERVER_NAME;
+		Thread td = new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try {
+					Thread.sleep(3000);
+					Log.i("XMPPChatDemoActivity", "Sending text " + text + " to " + ID);
+					Message msg = new Message(ID, Message.Type.chat);
+					msg.setBody(text);
+					
+					if (establishConnection())
+						connection.sendPacket(msg);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		td.start();
 		
-		if (establishConnection())
-			connection.sendPacket(msg);
 	}
 	
 	private void registerMessageReceiver()
@@ -128,7 +141,7 @@ public class OpenfireHandler
 		androidMsg.what = getMessageType(msgBody);
 		androidMsg.obj = str;
 		
-		Log.w(DEBUG_TAG, "Str is " + str);
+		Log.w(DEBUG_TAG, "Str is " + str + " Message type is " + androidMsg.what);
 		msgHandler.sendMessage(androidMsg);
 	}
 	
@@ -202,7 +215,7 @@ public class OpenfireHandler
 						Log.i("XMPPChatDemoActivity", "Creating user..................." );
 						Map<String, String> attributes = new HashMap<String, String>();
 						attributes.put("username", userName);
-						attributes.put("password", password);
+						attributes.put("password", "123456");
 						attributes.put("email", userName + "@foo.com");
 						attributes.put("name", "full_name" + userName);
 						

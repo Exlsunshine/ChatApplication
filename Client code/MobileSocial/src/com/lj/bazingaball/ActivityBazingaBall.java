@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import com.example.testmobiledatabase.R;
+import com.lj.setting.achievement.ThreadGameChallengFail;
+import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
 
@@ -19,8 +21,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -38,6 +38,7 @@ public class ActivityBazingaBall extends Activity
 	public static final int BUTTON_SIZE = 500;  //initial button's size
 	public static final int BAZINGABALL_REQUEST_CODE = 0x10;
 	public static final int BAZINGABALL_RESULT_CODE = 0x11;
+	private final int GAMEEND_TEXT_SIZE = 20;
 	private final int UPLEFT = 0x00;
 	private final int UPRIGHT = 0x01;
 	private final int BOTTOMLEFT = 0x10;
@@ -64,7 +65,7 @@ public class ActivityBazingaBall extends Activity
 	private int userID;
 	private int gRequestCode = 0;
 	
-	Handler myhandler = new Handler()
+	private Handler myhandler = new Handler()
 	{
 		private void checkGone()
 		{
@@ -98,6 +99,7 @@ public class ActivityBazingaBall extends Activity
 					gamebegin = 2;
 					gThreadUpdateScore.disableUpdateScore();
 					TextView gameOverText = new TextView(ActivityBazingaBall.this);
+					gameOverText.setTextSize(GAMEEND_TEXT_SIZE);
 					RelativeLayout.LayoutParams layout = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 					layout.addRule(RelativeLayout.CENTER_IN_PARENT);
 					gameOverText.setLayoutParams(layout);
@@ -263,9 +265,28 @@ public class ActivityBazingaBall extends Activity
 					if (gRequestCode != BAZINGABALL_REQUEST_CODE)
 					{
 						if (isWin)
-							Toast.makeText(ActivityBazingaBall.this, "Win", Toast.LENGTH_LONG).show();
+						{
+							Toast.makeText(ActivityBazingaBall.this, "挑战成功", Toast.LENGTH_SHORT).show();
+							Thread td = new Thread(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									ConstantValues.user.makeFriendWith(userID, ActivityBazingaBall.this);
+								}
+							});
+							td.start();
+							iniMode();
+							reStart();
+							setResult(ActivityShake.RESULT_CODE_FRIENDADD);
+							finish();
+						}
 						else
-							Toast.makeText(ActivityBazingaBall.this, "Lose", Toast.LENGTH_LONG).show();
+						{
+							Toast.makeText(ActivityBazingaBall.this, "解密失败", Toast.LENGTH_LONG).show();
+							new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
+							gameFinish();
+						}
 					}
 					else
 					{
@@ -275,18 +296,14 @@ public class ActivityBazingaBall extends Activity
 							Intent intent = new Intent();
 							intent.putExtra("score", myScore);
 							setResult(BAZINGABALL_RESULT_CODE, intent);
-							iniMode();
-							reStart();
-							finish();
+							gameFinish();
 						}
 						else
 						{
 							Intent intent = new Intent();
 							intent.putExtra("score", goalScore);
 							setResult(BAZINGABALL_RESULT_CODE, intent);
-							iniMode();
-							reStart();
-							finish();
+							gameFinish();
 						}
 					}
 				}
@@ -302,12 +319,11 @@ public class ActivityBazingaBall extends Activity
 	
 	private BazingaButton getBazingaButton(BazingaButton arg0, int position, int vx, int vy)
 	{
-		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) arg0.getLayoutParams();
-		RelativeLayout.LayoutParams newbuttonlp = new RelativeLayout.LayoutParams(lp);
+		RelativeLayout.LayoutParams newbuttonlp = new RelativeLayout.LayoutParams(arg0.getLayoutParams());
 		newbuttonlp.width = arg0.width / 2;
 		newbuttonlp.height = arg0.width / 2;
-		newbuttonlp.leftMargin = lp.leftMargin + newbuttonlp.width * (position & 0x01);
-		newbuttonlp.topMargin = lp.topMargin + newbuttonlp.height * (position >> 4 & 0x01);
+		newbuttonlp.leftMargin = (int) (arg0.getX() + newbuttonlp.width * (position & 0x01));
+		newbuttonlp.topMargin = (int) (arg0.getY() + newbuttonlp.height * (position >> 4 & 0x01));
 		int picture = random.nextInt(4);
 		BazingaButton btn = new BazingaButton(ActivityBazingaBall.this, newbuttonlp, vx, vy, phoneWidth, phoneHeight, arg0.viewtype, PICTURE[picture]);
 		btn.setOnTouchListener(ButtonTouchlistener);
@@ -431,14 +447,30 @@ public class ActivityBazingaBall extends Activity
 		setStartView();
 	}
 	
+	private void gameFinish()
+	{
+		iniMode();
+		reStart();
+		finish();
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) 
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			iniMode();
-			reStart();
-			this.finish();
+			if (gRequestCode == BAZINGABALL_REQUEST_CODE)
+				gameFinish();
+			else
+			{
+				if (isWin)
+					return super.onKeyDown(keyCode, event);
+				else
+				{
+					new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
+					gameFinish();
+				}
+			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}

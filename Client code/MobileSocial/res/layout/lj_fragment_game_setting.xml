@@ -12,50 +12,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/lj_userinfo_setting_top_marign"
-            android:background="@color/lj_setting_background_color"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:src="@drawable/lj_setting_line" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white" >
-
-                <TextView
-                    android:id="@+id/lj_game_setting_cancel"
-                    android:layout_width="@dimen/lj_userinfo_item_width"
-                    android:layout_height="@dimen/lj_userinfo_item_height"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
-                    android:gravity="center"
-                    android:text="取消"
-                    android:textSize="@dimen/lj_userinfo_text_size" />
-
-                <TextView
-                    android:id="@+id/lj_game_setting_confirm"
-                    android:layout_width="@dimen/lj_userinfo_item_width"
-                    android:layout_height="@dimen/lj_userinfo_item_height"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
-                    android:gravity="center"
-                    android:text="完成"
-                    android:textSize="@dimen/lj_userinfo_text_size" />
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:src="@drawable/lj_setting_line" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lj_game_setting_top_marign"
             android:background="@color/lj_setting_background_color"
             android:orientation="vertical" >
@@ -148,6 +104,7 @@
                     android:layout_marginLeft="@dimen/lj_game_setting_left_marign" />
 
                 <TextView
+                    android:id="@+id/lj_game_setting_eightpuzzle_image_text"
                     android:layout_width="@dimen/lj_userinfo_item_width"
                     android:layout_height="@dimen/lj_userinfo_item_height"
                     android:layout_centerVertical="true"
@@ -193,7 +150,7 @@
                     android:layout_marginLeft="@dimen/lj_game_setting_eightpuzzle_left_marign"
                     android:layout_toRightOf="@id/lj_game_setting_song_switch"
                     android:gravity="center"
-                    android:text="音乐游戏描述"
+                    android:text="音乐游戏"
                     android:textSize="@dimen/lj_userinfo_text_size" />
             </RelativeLayout>
 
@@ -222,7 +179,7 @@
                     android:layout_marginLeft="@dimen/lj_game_setting_eightpuzzle_left_marign"
                     android:layout_toRightOf="@id/lj_game_setting_bazinga_switch"
                     android:gravity="center"
-                    android:text="气泡游戏描述"
+                    android:text="气泡游戏"
                     android:textSize="@dimen/lj_userinfo_text_size" />
 
                 <LinearLayout

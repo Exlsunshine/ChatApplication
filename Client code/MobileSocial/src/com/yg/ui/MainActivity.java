@@ -48,12 +48,14 @@ import com.lj.settings.ActivitySettings;
 import com.lj.shake.ActivityShake;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.SendPostActivity;
+import com.yg.commons.ConstantValues;
 import com.yg.ui.friendlist.FriendListActivity;
 import com.yg.ui.recentdialog.RecentDialogActivity;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity implements OnCheckedChangeListener
 {
+	public static final String CLEAR_ACTIONBAR_REQUEST = "clearActionbar";
 	private class TabTags
 	{
 		public static final String recentDialogTab = "recentDialogTab";
@@ -73,6 +75,9 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	private final int MENU_FRIENDCIRCLE_INDEX = 3;
 	private final int MENU_SENDPOST_INDEX = 4;
 	private final int MENU_PROFILE_INDEX = 5;
+	
+	public static final int REQUEST_CODE_SIGNOFF = 0x30;
+	public static final int RESULT_CODE_SIGNOFF = 0x31;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -94,6 +99,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	{
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("friendlist_query_refresh_complete");
+		filter.addAction(CLEAR_ACTIONBAR_REQUEST);
 		
 		return filter;		
 	}
@@ -107,6 +113,16 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			{
 				TextView title = (TextView)findViewById(R.id.yg_friendlist_actionbar_result_layout_title);
 				title.setText(intent.getStringExtra("query") + "(" + intent.getStringExtra("number") + ")");
+			}
+			else if (intent.getAction().equals(CLEAR_ACTIONBAR_REQUEST))
+			{
+				RelativeLayout defaultLayout = (RelativeLayout) findViewById(R.id.yg_friendlist_actionbar_default_layout);
+				defaultLayout.setVisibility(View.VISIBLE);
+
+				RelativeLayout resultLayout = (RelativeLayout) findViewById(R.id.yg_friendlist_actionbar_result_layout);
+				TextView title = (TextView)findViewById(R.id.yg_friendlist_actionbar_result_layout_title);
+				title.setText("");
+				resultLayout.setVisibility(View.GONE);
 			}
 		}
 	};
@@ -130,8 +146,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		
 		List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
         items.add(new SatelliteMenuItem(1, android.R.color.transparent));
-        items.add(new SatelliteMenuItem(2, R.drawable.ic_3));
-        items.add(new SatelliteMenuItem(3, R.drawable.ic_4));
+        items.add(new SatelliteMenuItem(2, R.drawable.yg_main_shake_icon));
+        items.add(new SatelliteMenuItem(3, R.drawable.yg_main_friendcircle_icon));
         items.add(new SatelliteMenuItem(4, R.drawable.yg_main_post_icon));
         items.add(new SatelliteMenuItem(5, R.drawable.yg_main_profile_icon));
         items.add(new SatelliteMenuItem(6, android.R.color.transparent));
@@ -171,7 +187,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 						{
 							Intent intent = new Intent();
 							intent.setClass(MainActivity.this, ActivitySettings.class);
-							startActivity(intent);
+							startActivityForResult(intent, REQUEST_CODE_SIGNOFF);
 						}
 					}
 				}, 800);
@@ -447,4 +463,15 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		flipAnimationSet.start();
 	}
 	/*********************		以上是FriendList ActionBar相关设置		*********************/
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{
+		if (requestCode == REQUEST_CODE_SIGNOFF && resultCode == RESULT_CODE_SIGNOFF)
+		{
+			ConstantValues.user.signoff(this);
+			finish();
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 }

@@ -13,7 +13,7 @@ import org.kobjects.base64.Base64;
 public class ImagePostTransmit 
 {
 	//存储上传图像的路径
-		private final static String SAVED_DIRECTORY = "C:/Users/USER007/Desktop/IM/data/friendCircleImages/";
+		private final static String SAVED_DIRECTORY = "D:/Data/IM/data/friendCircleImages/";
 
 		/**
 		 * 生成图像名称（唯一）

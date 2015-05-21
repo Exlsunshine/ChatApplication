@@ -24,7 +24,7 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 {
 	private final float MOVE_THREAD = 0.5f;
 	private final float TOUCH_THREAD = 1.5f;
-	private final int USERDATALIST_MOVE_THREAD = 5;
+	private final int USERDATALIST_MOVE_THREAD = 10;
 	
 	private FrameLayoutUserInfo gUserInfoViewCenter = null;
 	private FrameLayoutUserInfo gUserInfoViewLeft = null;
@@ -104,7 +104,6 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 			}
 			else if (action == MotionEvent.ACTION_MOVE)
 			{
-				
 				int dx = (int)event.getX()- touchX;
 				if (Math.abs(dx) >= USERDATALIST_MOVE_THREAD)
 				{
@@ -168,6 +167,7 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 					UserShakeData data = gUserData.getCurrentUserData();
 					msg.arg1 = data.getUserId();
 					msg.arg2 = data.getGameType();
+					msg.obj = data.getNickName();
 					gHandler.sendMessage(msg);
 				}
 			}

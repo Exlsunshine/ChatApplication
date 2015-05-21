@@ -16,6 +16,7 @@ import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.lj.songpuzzle.ActivitySongPuzzle;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 
 
@@ -28,6 +29,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.sax.StartElementListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -147,7 +149,6 @@ public class shakeHandler extends Handler
 	
 	private void locateUsers(ArrayList<UserShakeData> userShakeDataList)
 	{
-		myContext.userDataListView.initView(myContext, myContext.dpiWidth, userShakeDataList, this);
 		UserShakeData temp = null;
 		for (int i = 0; i < userShakeDataList.size(); i++)
 		{
@@ -166,6 +167,7 @@ public class shakeHandler extends Handler
 			UserShakeData userShakeData = userShakeDataList.get(i);
 			locateOtherLocation(userShakeData, i);	
 		}
+		myContext.userDataListView.initView(myContext, myContext.dpiWidth, userShakeDataList, this);
 	}
 	
 	private void initUserShakeData()
@@ -192,33 +194,47 @@ public class shakeHandler extends Handler
 			Toast.makeText(myContext, "网络连接失败", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_USER_GAME_NOT_SET:
-			Toast.makeText(myContext, "用户游戏未设置", Toast.LENGTH_LONG).show();
+			Toast.makeText(myContext, "请先设置自己的解密游戏设置", Toast.LENGTH_LONG).show();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_WAIT_FOR_DATA:
 			myContext.sensorManager.unregisterListener(myContext.shakelistener);
-			myContext.loadingView.setVisibility(View.VISIBLE);
 			myContext.locationClient.start();
 			break;
 		case ConstantValues.InstructionCode.HANDLER_SUCCESS_GET_DATA:
-			myContext.loadingView.setVisibility(View.INVISIBLE);
+			gUserShakeDataList = (ArrayList<UserShakeData>) msg.obj;
+			if (gUserShakeDataList.size() == 1)
+			{
+				Toast.makeText(myContext, "很抱歉您的附近没有其他用户。", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			myContext.gShakeBall.startZoominAnimation();
+			break;
+		case ConstantValues.InstructionCode.SHAKE_HANDLER_MAP_SHOW:
+			myContext.gShakeBall.setVisibility(View.GONE);
+			myContext.gShakeBallLayout.setVisibility(View.GONE);
 			myContext.mapView.setVisibility(View.VISIBLE);
 			myContext.userDataListView.setVisibility(View.VISIBLE);
 			myContext.userDataListView.bringToFront();
-	/*		myContext.gFemaleSelect.setVisibility(View.VISIBLE);
-			myContext.gMaleSelect.setVisibility(View.VISIBLE);*/
 			myContext.gFemaleSelect.bringToFront();
 			myContext.gMaleSelect.bringToFront();
 			myContext.findViewById(R.id.lj_map_linear).bringToFront();
 			myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
 			myContext.gMaleSelect.setOnClickListener(gSexClickListener);
-			gUserShakeDataList = (ArrayList<UserShakeData>) msg.obj;
 			myContext.findViewById(R.id.lj_map_male_female_layout).bringToFront();
 			myContext.findViewById(R.id.lj_map_male_female_layout).setVisibility(View.VISIBLE);
 			locateUsers(gUserShakeDataList);
 			initUserShakeData();
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_SHAKE_SENSOR:
+			myContext.sensorManager.unregisterListener(myContext.shakelistener);
 			myContext.vibrator.vibrate(ConstantValues.InstructionCode.VIBRATE_TIME);
+			float[] values = (float[]) msg.obj;
+			float x = values[0];
+			float y = values[1];
+			float z =  values[2];
+			myContext.gShakeBall.setRotateAnimation(Math.abs((int)(10000 / z * 2)));
+			myContext.gShakeBall.setVelocity((int)(x * 1.5) , (int)(y * 1.5));
+			myContext.gShakeBall.setStartRotate(true);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_MARKER_CLICK:
 			Marker marker = (Marker) msg.obj;
@@ -240,23 +256,38 @@ public class shakeHandler extends Handler
 			case 1:
 				intent.setClass(myContext, ActivityEightPuzzleGame.class);
 				intent.putExtra("userID", id);
+				intent.putExtra("nickname", msg.obj.toString());
 				break;
 			case 2:
 				intent.setClass(myContext, ActivitySongPuzzle.class);
 				intent.putExtra("userID", id);
 				break;
 			case 3:
+				if (!CommonUtil.isSdkVersionValid())
+				{
+					Toast.makeText(myContext, "此游戏类型暂时仅对Android 4.4及以上用户开放", Toast.LENGTH_SHORT).show();
+					return;
+				}
 				intent.setClass(myContext, ActivityBazingaBall.class);
 				intent.putExtra("userID", id);
 				break;
 			}
-			myContext.startActivity(intent);
+			myContext.startActivityForResult(intent, ActivityShake.REQUEST_CODE_BEGINGAME);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_CHANGE_MARK:
 			int indexs = msg.arg1;
-			UserShakeData userShakeDatas = gUserShakeDataList.get(indexs);
+			UserShakeData userShakeDatas = null;//gUserShakeDataList.get(indexs);
+			if (gSexStatus == SEX_MALE)
+				userShakeDatas = gUserShakeDataListMale.get(indexs);
+			else if (gSexStatus == SEX_FEMALE)
+				userShakeDatas = gUserShakeDataListFemale.get(indexs);
+			else
+				userShakeDatas = gUserShakeDataList.get(indexs);
 			LatLng cenpts = new LatLng(userShakeDatas.getLatitude() ,userShakeDatas.getLongitude());
 			locatePotin(cenpts);
+			break;
+		case ConstantValues.InstructionCode.SHAKE_HANDLER_COLLISION:
+			myContext.vibrator.vibrate(ConstantValues.InstructionCode.VIBRATE_TIME);
 			break;
 		}
 	}

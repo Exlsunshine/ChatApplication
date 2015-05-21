@@ -30,6 +30,7 @@ public class ConstantValues
 		public static final String MESSAGE_BROADCAST_SEND_COMPLETED = "message_send_completed";
 		public static final String CURRENT_CHAT_WITH_NOTIFICATION = "current_chat_with_notification";
 		public static final String CLEAR_MESSAGE_RED_DOT = "clear_message_read_dot";
+		public static final String ERASE_LOCAL_HISTORY = "erase_local_history";
 		
 		public static final int GAME_TYPE_EIGHTPUZZLE = 0x01;
 		public static final int GAME_TYPE_SONGPUZZLE = 0x02;
@@ -50,8 +51,8 @@ public class ConstantValues
 		public static final int HANDLER_SUCCESS_GET_DATA = 0x101;
 
 		//shake activity
-		public static final int THRESHOLD_SPEED = 17;
-		public static final int VIBRATE_TIME = 1000;
+		public static final int THRESHOLD_SPEED = 11;
+		public static final int VIBRATE_TIME = 200;
 		public static final int MAP_ZOOM_INITIALIZATION = 16;
 		public static final double MAP_ZOOM_CHANGE_VALUE = 0.00001;
 		public static final float MAP_MOVE_MAX_SPEED = 500;
@@ -65,6 +66,8 @@ public class ConstantValues
 		public static final int SHAKE_HANDLER_MAP_FAST_MOVE = 7;
 		public static final int SHAKE_HANDLER_GAME = 8;
 		public static final int SHAKE_HANDLER_CHANGE_MARK = 9;
+		public static final int SHAKE_HANDLER_COLLISION = 10;
+		public static final int SHAKE_HANDLER_MAP_SHOW = 11;
 		
 		//game setting activity
 		public static final int GAMESET_HANDLER_DOWNLOAD_IMAGE = 1;
@@ -114,13 +117,14 @@ public class ConstantValues
 	public class Configs
 	{
 		public static final String WEBSERVICE_NAMESPACE = "http://network.com";
-		public static final String OPENFIRE_SERVER_IP = "172.18.8.142";
-		public static final String WEBSERVICE_SERVER_IP = "192.168.95.1";
+		public static final String OPENFIRE_SERVER_IP = "101.200.230.173";
+
+		public static final String WEBSERVICE_SERVER_IP = "101.200.230.173";
 		public static final int WEBSERVICE_SERVER_PORT = 8080;
-		public static final String WEBSERVICE_ENDPOINT = "http://" + OPENFIRE_SERVER_IP + ":8080/WebServiceProject/services/NetworkHandler";
+		public static final String WEBSERVICE_ENDPOINT = "http://" + WEBSERVICE_SERVER_IP + ":8080/WebServiceProject/services/NetworkHandler";
 		
 		public static final int OPENFIRE_SERVER_PORT = 5222;
-		public static final String OPENFIRE_SERVER_NAME = "user007-pc";
+		public static final String OPENFIRE_SERVER_NAME = "101.200.230.173";
 		
 		public static final int INDEX_LOGINACCOUNT = 0;
 		public static final int INDEX_PASSWORD = 1;

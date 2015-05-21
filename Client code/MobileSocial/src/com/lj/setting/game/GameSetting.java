@@ -2,7 +2,6 @@ package com.lj.setting.game;
 
 import java.io.File;
 
-import android.util.Log;
 
 import com.yg.user.UploadManager;
 import com.yg.user.WebServiceAPI;

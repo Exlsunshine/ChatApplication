@@ -16,6 +16,25 @@ public class CommonUtil
 	private final static int[] DAY_ARR = new int[] { 20, 19, 21, 20, 21, 22, 23, 23, 23, 24, 23, 22 };  
 	private final static String[] CONSTELLATION_ARR = new String[] { "Ä¦ôÉ×ù", "Ë®Æ¿×ù", "Ë«Óã×ù", "°×Ñò×ù", "½ðÅ£×ù", "Ë«×Ó×ù", "¾ÞÐ·×ù", "Ê¨×Ó×ù", "´¦Å®×ù", "Ìì³Ó×ù", "ÌìÐ«×ù", "ÉäÊÖ×ù", "Ä¦ôÉ×ù" };  
 	
+	private static final int MIN_SDK_VERSION = 18;
+	
+	public static boolean isSdkVersionValid()
+	{
+		int sdkVersion = 0;
+	    try 
+	    { 
+	    	sdkVersion = Integer.valueOf(android.os.Build.VERSION.SDK); 
+	    } 
+	    catch (NumberFormatException e) 
+	    { 
+	    } 
+	    if (sdkVersion <= MIN_SDK_VERSION)
+	    	return false;
+	    else
+	    	return true;
+	}
+	
+    
 	public static String getConstellation(int month, int day) 
 	{  
 	    return day < DAY_ARR[month - 1] ? CONSTELLATION_ARR[month - 1] : CONSTELLATION_ARR[month];  

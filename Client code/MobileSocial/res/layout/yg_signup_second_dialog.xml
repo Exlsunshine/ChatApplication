@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/yg_loginguide_login_dialog_coror_shape"
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/yg_signup_second_dialog_birthday_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -25,11 +26,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:hint="Your birthday" />
+            android:hint="设置生日" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -39,25 +40,32 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hometown" />
+            android:text="家乡" />
 
-        <Spinner
-            android:id="@+id/yg_signup_second_dialog_proviences"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lj_setting_hometown_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:orientation="horizontal" >
 
-        <Spinner
-            android:id="@+id/yg_signup_second_dialog_cities"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            <com.lj.datapicker.WheelView
+                android:id="@+id/lj_picker_hometown_provience"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
-        <Spinner
-            android:id="@+id/yg_signup_second_dialog_districts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            <com.lj.datapicker.WheelView
+                android:id="@+id/lj_picker_hometown_city"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <com.lj.datapicker.WheelView
+                android:id="@+id/lj_picker_hometown_district"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
     </LinearLayout>
 
     <Button
@@ -71,7 +79,7 @@
         android:layout_marginTop="20dp"
         android:background="@android:color/white"
         android:gravity="center"
-        android:text="Done"
+        android:text="完成"
         android:textColor="#1E90FF"
         android:textSize="20dp"
         android:textStyle="bold" />

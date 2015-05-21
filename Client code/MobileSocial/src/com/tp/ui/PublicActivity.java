@@ -13,9 +13,13 @@ import com.tp.messege.EmptyPost;
 import com.tp.messege.PostManager;
 import com.tp.views.MenuRightAnimations;
 import com.yg.commons.ConstantValues;
+import com.yg.ui.dialog.DialogActivity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +37,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,7 +46,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class PublicActivity extends Activity implements OnTouchListener, OnPositionChangedListener 
 {
-    
     // clock
     private FrameLayout clockLayout;
     private PullToRefreshListView mPullRefreshListView;
@@ -53,9 +57,42 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     private final int pulluprefresh = 2;
     private final int pulluprefreshempty = 3;
     private final int refresh = 4;
+    private final int hideclocklayout = 5;
+    private final int showclocklayout = 6;
     private int position1 = 0;
-    private final int textBtn = 2131034131;
     private boolean isOncreate = false;
+    
+    
+    private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.tp_publicactivity_actionbar);
+		
+		TextView title = (TextView)findViewById(R.id.tp_publicactivity_actionbar_title);
+		title.setText("≈Û”—»¶");
+		LinearLayout back = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_back);
+		LinearLayout send = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_send);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+		
+		send.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Intent intent = new Intent(PublicActivity.this, SendPostActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
     
     @Override
     public void onCreate(Bundle savedInstanceState) 
@@ -63,6 +100,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tp_feed_activity2);
         MenuRightAnimations.initOffset(PublicActivity.this);
+        setupDialogActionBar();
         new Thread()
         {
         	public void run() 
@@ -70,7 +108,9 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         		try
         		{
         			ap.add(empty);
-          			ap.addAll(ConstantValues.user.pm.get10Posts());
+        			ArrayList<AbstractPost> posts = ConstantValues.user.pm.get10Posts();
+        			if (posts != null)
+        				ap.addAll(ConstantValues.user.pm.get10Posts());
           			Message message = Message.obtain();
     				message.what = setAdpter;
     				handler.sendMessage(message);
@@ -88,6 +128,48 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         mPullRefreshListView.setOnPositionChangedListener(this);
         setClickListener();
         clockLayout = (FrameLayout)findViewById(R.id.publicactivity_clock);
+        
+        mPullRefreshListView.setOnScrollListener(new OnScrollListener() 
+        {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) 
+			{
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
+                {
+					Log.e("onScrollStateChanged", mListView.getFirstVisiblePosition() + "");
+					Thread td = new Thread(new Runnable() 
+			        {
+						@Override
+						public void run() 
+						{
+							try 
+							{
+								Thread.sleep(2000);
+								Message message = Message.obtain();
+			    				message.what = hideclocklayout;
+			    				handler.sendMessage(message);
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
+							}
+						}
+					});
+			        td.start();
+                }
+				else
+				{
+					Message message = Message.obtain();
+    				message.what = showclocklayout;
+    				handler.sendMessage(message);
+				}
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) 
+			{
+			}
+		});
         isOncreate = true;
     }
     
@@ -115,6 +197,12 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 				break;
 			case refresh:
 				chatHistoryAdapter.notifyDataSetChanged();
+				break;
+			case hideclocklayout:
+				clockLayout.setVisibility(View.INVISIBLE);
+				break;
+			case showclocklayout:
+				clockLayout.setVisibility(View.VISIBLE);
 				break;
 			}
 		}
@@ -164,6 +252,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		public void onItemClick(AdapterView<?> parent, View view, int position,long id) 
 		{
 			Log.d("OnItemClickListenerImpl", " 111111111");
+			position1 = mListView.getFirstVisiblePosition();
 			if (position == 1)
 			{
 				Intent intent = new Intent(PublicActivity.this,MyselfPostActivity.class);
@@ -186,10 +275,10 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) 
     {
+    	Log.e("PA____", "onScrollStateChanged");
     	if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) 
     	{
     		Log.e("onScrollStateChanged", mListView.getFirstVisiblePosition() + "");
-    		position1 = mListView.getFirstVisiblePosition();
     	}
     }
     
@@ -201,10 +290,16 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     	ImageView hourView = (ImageView) findViewById(R.id.clock_face_hour);
         hourView.setImageResource(R.drawable.tp_clock_hour_rotatable);
         TextView datestr = ((TextView) findViewById(R.id.clock_digital_date));
+        if (firstVisiblePosition == 1)
+        {
+        	clockLayout.setVisibility(View.INVISIBLE);
+        	return;
+        }
+        else
+        	clockLayout.setVisibility(View.VISIBLE);
     	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size())
     	{
-    		/*datestr.setText("…œŒÁ");
-    		clocktext.setText("00:00");*/
+    		Log.e("PA_______", "ififiif");
     	    RotateAnimation[] tmp = computeAni(0,0);
     	    minView.startAnimation(tmp[0]);
     	    hourView.startAnimation(tmp[1]);
@@ -238,6 +333,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         RotateAnimation[] tmp = computeAni(min,hour);
         minView.startAnimation(tmp[0]);
         hourView.startAnimation(tmp[1]);
+        
     }
     
     @Override
@@ -248,6 +344,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         System.out.println("left=="+layoutParams.leftMargin+" top=="+layoutParams.topMargin+" bottom=="+layoutParams.bottomMargin+" right=="+layoutParams.rightMargin);
         layoutParams.setMargins(0, top, 0, 0);
         clockLayout.setLayoutParams(layoutParams);
+        //clockLayout.setVisibility(View.VISIBLE);
     }
     
     OnRefreshListener mOnrefreshListener = new OnRefreshListener() 

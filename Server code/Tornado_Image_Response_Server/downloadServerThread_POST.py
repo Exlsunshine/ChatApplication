@@ -9,7 +9,7 @@ from tornado.options import define, options
 define("port", default = 8887, help = "run on the given port", type = int)
 
 
-BASE_DIRECTOR = "C:/Users/USER007/Desktop/IM/data/"
+BASE_DIRECTOR = "D:/Data/IM/data/"
 
 class DownloadResponseHandler(tornado.web.RequestHandler):
     def get(self):

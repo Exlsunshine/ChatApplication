@@ -10,6 +10,7 @@ import org.json.JSONException;
 import com.commonapi.ConstantValues;
 import com.commonapi.PackString;
 import com.database.SQLServerEnd;
+import com.lj.statistics.UserStatistics;
 
 public class ShakeLocation 
 {
@@ -18,6 +19,8 @@ public class ShakeLocation
 		//±íÃû
 	private final String DATABASE_NAME = "JMMSRDB";
 	private final String TABLE_NAME = "shake_location";
+	private final double MAP_SHAKE_SIZE = 10;
+	private final String MAP_SHAKE_TIME = "'10:00:00.000'";
 
 	private SQLServerEnd sql = new SQLServerEnd(DATABASE_NAME, TABLE_NAME);
 	
@@ -39,16 +42,30 @@ public class ShakeLocation
 	private String getNearbyUserFromDB(int userId) throws Exception
 	{
 		String[] query = {"user_id", "longitude", "latitude", "game_type", "nick_name", "sex"};
-	/*	String[] condition = {"1"};
-		String[] conditionVal = {"1"};*/
-		String sqle = "select shake_location.user_id, shake_location.longitude, shake_location.latitude,user_settings.game_type, user_basic_info.nick_name, user_basic_info.sex from shake_location,user_settings,user_basic_info where shake_location.user_id = user_settings.user_id and shake_location.user_id = user_basic_info.id";
+//		String sqle = "select shake_location.user_id, shake_location.longitude, shake_location.latitude,user_settings.game_type, user_basic_info.nick_name, user_basic_info.sex from shake_location,user_settings,user_basic_info where shake_location.user_id = user_settings.user_id and shake_location.user_id = user_basic_info.id";
+		
+		String sqle = "";
+		String selectStr = "a.user_id, a.longitude, a.latitude,user_settings.game_type, user_basic_info.nick_name, user_basic_info.sex";
+		String fromStr = "(select * from shake_location where" + 
+						" abs(shake_location.latitude - (select shake_location.latitude from shake_location where shake_location.user_id = " + userId + ")) < " + MAP_SHAKE_SIZE + 
+						" and abs(shake_location.longitude - (select shake_location.longitude from shake_location where shake_location.user_id = " + userId + ")) < " + MAP_SHAKE_SIZE + ")" + " as a,"
+						+ " user_settings,user_basic_info";
+		String whereStr = "a.user_id = user_settings.user_id and a.user_id = user_basic_info.id";
+		String whereNotInStr = "a.user_id not in (select user_relationship.second_userid from user_relationship where user_relationship.first_userid =" + userId + ")";
+		String whereTime = "a.shaketime >  getdate() - " + MAP_SHAKE_TIME;
+		sqle = "select " + selectStr + " from " + fromStr + " where " + whereStr + " and " + whereNotInStr + " and " + whereTime;
+		System.out.println(sqle);
 		ArrayList<HashMap<String, String>> map = sql.excecuteRawQuery(sqle, query);
+		if (map.size() == 0)
+			return "null";
 		String str = PackString.arrylist2JsonString("nearbyusers", map, 0);
 		return str; 
 	}
 	
 	public String getNearbyUser(int userId) throws Exception
 	{
+		UserStatistics statisitcs = new UserStatistics();
+		statisitcs.increaseStatistic(userId, ConstantValues.InstructionCode.STATISTICS_SHAKE_NUM_TYPE);
 		String result = getNearbyUserFromDB(userId);
 		return result;
 	}

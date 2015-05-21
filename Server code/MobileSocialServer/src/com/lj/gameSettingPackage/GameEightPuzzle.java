@@ -18,7 +18,7 @@ public class GameEightPuzzle
 	private final String DATABASE_NAME = "JMMSRDB";
 	private final String TABLE_NAME = "game_picturepuzzle_setting";
 	private SQLServerEnd sql = new SQLServerEnd(DATABASE_NAME, TABLE_NAME);
-	private final String DIR_PATH = "C:/Users/USER007/Desktop/IM/data/game_settings_images";
+	private final String DIR_PATH = "D:/Data/IM/data/game_settings_images/";
 	
 	private String generateImageName(int userID)
 	{
@@ -38,7 +38,7 @@ public class GameEightPuzzle
 		String imagePath = DIR_PATH + "/" + imageName;
         return imagePath;
 	}
-	private void updateDataBaseWhenUpload(int userID, String imagePath)
+	public void updateDataBaseWhenUpload(int userID, String imagePath)
 	{
 		String[] condition = {"user_id"};
         String[] conditionVal = {String.valueOf(userID)};
@@ -54,7 +54,7 @@ public class GameEightPuzzle
 		System.out.println("User [" + userID + "] upload 8Puzzle Image");
 		String imagePath = saveImage(userID);
         updateDataBaseWhenUpload(userID, imagePath);
-        imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+        imagePath = imagePath.replace("D:/Data/IM/data/", "");
         String imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
         System.out.println(imageUrl);
@@ -77,7 +77,7 @@ public class GameEightPuzzle
 		String imagePath = getImagePath(userID);
 		if (imagePath == null)
 			return null;
-		imagePath = imagePath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+		imagePath = imagePath.replace("D:/Data/IM/data/", "");
 		String imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
 		System.out.println(imageUrl);

@@ -3,13 +3,15 @@ package com.network;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import com.commonapi.ConstantValues;
 import com.database.SQLServerEnd;
+import com.lj.statistics.UserStatistics;
 
 public class AudioTransmit 
 {
 	//存储上传图像的路径
-	private final String SAVED_DIRECTORY = "C:/Users/USER007/Desktop/IM/data/audio_transportation/";
+	private final String SAVED_DIRECTORY = "D:/Data/IM/data/audio_transportation/";
 	//数据库名
 	private final String DATABASE_NAME = "JMMSRDB";
 	//表名
@@ -46,9 +48,14 @@ public class AudioTransmit
 		String audioPath = SAVED_DIRECTORY + audioName;
         updateDataBaseWhenUpload(from_userid, to_userid, audioPath);
         
-        audioPath = audioPath.replace("C:/Users/USER007/Desktop/IM/data/", "");
+        audioPath = audioPath.replace("D:/Data/IM/data/", "");
         String audioUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + audioPath;
+        {
+        	//LJ
+        	UserStatistics userStatistics = new UserStatistics();
+			userStatistics.increaseStatistic(from_userid, ConstantValues.InstructionCode.STATISTICS_VOICE_NUM_TYPE);
+        }
         return audioUrl;
 	}
 }

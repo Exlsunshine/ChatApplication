@@ -3,13 +3,13 @@ package com.lj.setting.game;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.eightpuzzle.ThreadDownloadGameImage;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.image.select.ui.SelectImageActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,7 +39,12 @@ import android.widget.Toast;
 
 public class FragmentGameSetting extends Fragment
 {
-	private final Uri IMAGE_URI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),ConstantValues.InstructionCode.GAMESET_IMAGE_NAME));
+	private static final int ACTIVITY_RESULT_CODE_EIGHTPUZZLE = 1;
+	private static final int ACTIVITY_REQUEST_CODE_EIGHTPUZZLE = 1;
+	
+	private boolean hasEightpuzzle = false;
+	private boolean hasBazingball = false;
+	
 	private Context gContext;
 	private View gView;
 	private Switch gEightPuzzleSwitch = null;
@@ -46,7 +52,6 @@ public class FragmentGameSetting extends Fragment
 	private Switch gBazingaSwitch = null;
 	private ImageView gEightPuzzleImage = null;
 	private TextView gBazingaScoreText = null;
-	private TextView gConfirmText = null;
 	private TextView gBazingaBeginText = null;
 	
 	private HashMap<String, String> gChangeMap = null;
@@ -81,13 +86,18 @@ public class FragmentGameSetting extends Fragment
 			}
 			else if (msg.what == ConstantValues.InstructionCode.GAMESET_HANDLER_DOWNLOAD_IMAGE)
 			{
+				hasEightpuzzle = true;
 				Bitmap bitmap = (Bitmap) msg.obj;
 				gEightPuzzleImage.setImageBitmap(bitmap);
 			}
 			else if (msg.what == ConstantValues.InstructionCode.GAMESET_HANDLER_INIT_MOLE)
 			{
 				String score = msg.obj.toString();
-				gBazingaScoreText.setText(score);
+				if (!score.equals("0"))
+				{
+					gBazingaScoreText.setText(score);
+					hasBazingball = true;
+				}
 			}
 		};
 	};
@@ -99,96 +109,37 @@ public class FragmentGameSetting extends Fragment
 		new ThreadGetBazingaScore(ConstantValues.user.getID(), gHandler).start();
 	}
 	
-	public FragmentGameSetting(Context context) 
+	public FragmentGameSetting(Context context, HashMap<String, String> map) 
 	{
 		gContext = context;
+		gChangeMap = map;
 	}
 	
-	private void save()
-	{
-		Iterator iter = gChangeMap.entrySet().iterator();
-		while (iter.hasNext()) 
-		{
-			Map.Entry entry = (Map.Entry) iter.next();
-			final String key = entry.getKey().toString();
-			final String val = entry.getValue().toString();
-			
-			new Thread()
-			{
-				public void run() 
-				{
-					if (key.equals("game"))
-					{
-						int gametype = Integer.valueOf(val);
-						GameSetting gameSetting = new GameSetting();
-						gameSetting.setGameType(ConstantValues.user.getID(), gametype);
-					}
-					else if (key.equals("eightpuzzle"))
-					{
-						GameSetting gameSetting = new GameSetting();
-						gameSetting.setEightPuzzleImage(ConstantValues.user.getID(), val);
-					}
-					else if (key.equals("bazinga"))
-					{
-						GameSetting gameSetting = new GameSetting();
-						gameSetting.setBazingaScore(ConstantValues.user.getID(), Integer.valueOf(val));
-					}
-				};
-			}.start();
-		}
-	}
-	
-	private OnTouchListener gViewOnTouchListener = new OnTouchListener() 
+	private OnClickListener gViewOnClickListener = new OnClickListener() 
 	{
 		@Override
-		public boolean onTouch(View v, MotionEvent event) 
+		public void onClick(View v) 
 		{
 			int id = v.getId();
-			if (event.getAction() == MotionEvent.ACTION_DOWN)
+			if (id == R.id.lj_game_setting_eightpuzzle_image || id == R.id.lj_game_setting_eightpuzzle_image_text)
 			{
-				if (id == R.id.lj_game_setting_eightpuzzle_image)
-				{
-					new AlertDialog.Builder(gContext).setTitle("请选择")
-					.setIcon(R.drawable.ic_launcher)
-					.setItems(new String[] {"本地图库", "照相机"}, new DialogInterface.OnClickListener() 
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int which) 
-						{
-							if (which == 0)
-							{
-								Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-								startActivityForResult(i, ConstantValues.InstructionCode.REQUESTCODE_GALLERY);
-							}							
-							else if (which == 1)
-							{
-								Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);  
-								intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"EightPuzzleGame.jpg")));  
-								startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CAMERA);  
-							}
-							dialog.dismiss();  
-						}
-					}).setNegativeButton("取消", null).show();
-				}
-				else if (id == R.id.lj_game_setting_confirm)
-				{
-					save();
-					gChangeMap.clear();
-				}
-				else if (id == R.id.lj_game_setting_cancel)
-				{
-					gChangeMap.clear();
-				}
-				else if (id == R.id.lj_game_setting_bazinga_begin)
-				{
-					Intent intent = new Intent();
-					intent.setClass(getActivity(), ActivityBazingaBall.class);
-					intent.putExtra("userID", ConstantValues.user.getID());  
-					intent.putExtra("requestCode", ActivityBazingaBall.BAZINGABALL_REQUEST_CODE);  
-					startActivityForResult(intent, ActivityBazingaBall.BAZINGABALL_REQUEST_CODE);
-				}
+				Intent intent = new Intent(gContext, SelectImageActivity.class);
+				intent.putExtra(SelectImageActivity.FILTER_ENABLE, false);
+				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_EIGHTPUZZLE);
 			}
-			return true;
+			else if (id == R.id.lj_game_setting_bazinga_begin)
+			{
+				if (!CommonUtil.isSdkVersionValid())
+				{
+					Toast.makeText(gContext, "此游戏类型暂时仅对Android 4.4及以上用户开放", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), ActivityBazingaBall.class);
+				intent.putExtra("userID", ConstantValues.user.getID());  
+				intent.putExtra("requestCode", ActivityBazingaBall.BAZINGABALL_REQUEST_CODE);  
+				startActivityForResult(intent, ActivityBazingaBall.BAZINGABALL_REQUEST_CODE);
+			}
 		}
 	};
 	
@@ -203,9 +154,18 @@ public class FragmentGameSetting extends Fragment
 			{
 				if (id == R.id.lj_game_setting_eightpuzzle_switch)
 				{
-					gSongSwitch.setChecked(false);
-					gBazingaSwitch.setChecked(false);
-					gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_EIGHTPUZZLE));
+					if (hasEightpuzzle)
+					{
+						gSongSwitch.setChecked(false);
+						gBazingaSwitch.setChecked(false);
+						gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_EIGHTPUZZLE));
+					}
+					else
+					{
+						Toast.makeText(gContext, "您尚未选择图片", Toast.LENGTH_SHORT).show();
+						((Switch)v).setChecked(false);
+					}
+						
 				}
 				else if (id == R.id.lj_game_setting_song_switch)
 				{
@@ -215,9 +175,17 @@ public class FragmentGameSetting extends Fragment
 				}
 				else if (id == R.id.lj_game_setting_bazinga_switch)
 				{
-					gEightPuzzleSwitch.setChecked(false);
-					gSongSwitch.setChecked(false);
-					gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_BAZINGABALL));
+					if (hasBazingball)
+					{
+						gEightPuzzleSwitch.setChecked(false);
+						gSongSwitch.setChecked(false);
+						gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_BAZINGABALL));
+					}
+					else
+					{
+						Toast.makeText(gContext, "您需要完成一次游戏，初始化分数。", Toast.LENGTH_SHORT).show();
+						((Switch)v).setChecked(false);
+					}
 				}
 			}
 			else
@@ -250,76 +218,46 @@ public class FragmentGameSetting extends Fragment
 		gBazingaSwitch.setOnClickListener(gSwitchClickListener);
 		
 		gEightPuzzleImage = (ImageView)gView.findViewById(R.id.lj_game_setting_eightpuzzle_image);
-		gEightPuzzleImage.setOnTouchListener(gViewOnTouchListener);
+		gEightPuzzleImage.setOnClickListener(gViewOnClickListener);
+		
+		TextView eightpuzzleText = (TextView)gView.findViewById(R.id.lj_game_setting_eightpuzzle_image_text);
+		eightpuzzleText.setOnClickListener(gViewOnClickListener);
 		
 		gBazingaScoreText = (TextView)gView.findViewById(R.id.lj_game_setting_bazinga_score);
 		
-		gConfirmText = (TextView)gView.findViewById(R.id.lj_game_setting_confirm);
-		gConfirmText.setOnTouchListener(gViewOnTouchListener);
-		
 		gBazingaBeginText = (TextView)gView.findViewById(R.id.lj_game_setting_bazinga_begin);
-		gBazingaBeginText.setOnTouchListener(gViewOnTouchListener);
+		gBazingaBeginText.setOnClickListener(gViewOnClickListener);
 		
-		gChangeMap = new HashMap<String, String>();
 		initGameData();
 	}
-	
-	private void startPhotoZoom(Uri uri) 
-	{  
-        Intent intent = new Intent("com.android.camera.action.CROP");  
-        intent.setDataAndType(uri, "image/*");  
-        //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪  
-        intent.putExtra("crop", "true");  
-        // aspectX aspectY 是宽高的比例  
-        intent.putExtra("aspectX", 1);  
-        intent.putExtra("aspectY", 1);  
-        intent.putExtra("return-data", false);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URI);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(intent, ConstantValues.InstructionCode.REQUESTCODE_CROP);  
-    }  
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_GALLERY && resultCode == Activity.RESULT_OK)
-		{
-			Uri selectedImage =  data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-			Cursor cursor = gContext.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-			cursor.moveToFirst();
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			cursor.close();
-			File temp = new File(picturePath);
-			startPhotoZoom(Uri.fromFile(temp)); 
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CAMERA && resultCode == Activity.RESULT_OK)
-		{
-			File temp = new File(Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.GAMESET_IMAGE_NAME);  
-            startPhotoZoom(Uri.fromFile(temp));  
-			
-		}
-		else if (requestCode == ConstantValues.InstructionCode.REQUESTCODE_CROP && resultCode == Activity.RESULT_OK)
-		{
-			Bitmap bitmap = null;
-			try 
-			{
-				bitmap = MediaStore.Images.Media.getBitmap(gContext.getContentResolver(), IMAGE_URI);
-			} catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
-			gEightPuzzleImage.setImageBitmap(bitmap);
-			bitmap = null;
-			gChangeMap.put("eightpuzzle", Environment.getExternalStorageDirectory() + "/" + ConstantValues.InstructionCode.GAMESET_IMAGE_NAME);
-		}
-		else if (requestCode == ActivityBazingaBall.BAZINGABALL_REQUEST_CODE && resultCode == ActivityBazingaBall.BAZINGABALL_RESULT_CODE)
+		if (requestCode == ActivityBazingaBall.BAZINGABALL_REQUEST_CODE && resultCode == ActivityBazingaBall.BAZINGABALL_RESULT_CODE)
 		{
 			int score = data.getIntExtra("score", 0);
 			gBazingaScoreText.setText(String.valueOf(score));
 			gChangeMap.put("bazinga", String.valueOf(score));
+			hasBazingball = true;
+		}
+		else if (requestCode == ACTIVITY_REQUEST_CODE_EIGHTPUZZLE && resultCode == Activity.RESULT_OK)
+		{
+			String filePath = data.getStringExtra(SelectImageActivity.RESULT_IMAGE_PATH);
+			hasEightpuzzle = true;
+			Bitmap bitmap = null;
+			try 
+			{
+				bitmap = BitmapFactory.decodeFile(filePath);
+				gEightPuzzleImage.setImageBitmap(bitmap);
+				bitmap = null;
+				gChangeMap.put("eightpuzzle", filePath);
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 }

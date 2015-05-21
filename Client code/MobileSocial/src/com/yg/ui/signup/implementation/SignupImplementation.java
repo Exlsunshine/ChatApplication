@@ -6,7 +6,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import com.yg.commons.CommonUtil;
 import com.yg.network.openfire.OpenfireHandler;
 import com.yg.user.ClientUser;
 
@@ -22,7 +21,7 @@ public class SignupImplementation
 	
 	private String birthday = null;
 	private String hometown = null;
-	private HometownDataset hometownDataset;
+	//private HometownDataset hometownDataset;
 	
 	public SignupImplementation(String email, String nickname, String password)
 	{
@@ -51,10 +50,10 @@ public class SignupImplementation
 		this.birthday = birthday;
 	}
 	
-	public void initHometownData()
+/*	public void initHometownData()
 	{
 		hometownDataset = new HometownDataset();
-	}
+	}*/
 	
 	public int register()
 	{
@@ -82,16 +81,24 @@ public class SignupImplementation
 		@Override
 		public Integer call() throws Exception 
 		{
-			hometown = hometownDataset.currentProvince + " " + hometownDataset.currentCity + " " + hometownDataset.currentDistrict;
-			
+			//hometown = hometownDataset.currentProvince + " " + hometownDataset.currentCity + " " + hometownDataset.currentDistrict;
 			int userID = ClientUser.createNewUser(email, password, nickname, email, sex, birthday, portraitPath, hometown, phoneNumber);
 			
 			return userID;
 		}
 	}
 	
+	/**
+	 * LJ version
+	 * @param hometown ×îÖÕµÄhometown
+	 */
+	public void setCurrentHometownString(String hometown)
+	{
+		this.hometown = hometown;
+	}
+	
 	/***************		Hometown		************************/
-	private class HometownDataset
+	/*private class HometownDataset
 	{
 		public HometownDataset()
 		{
@@ -144,5 +151,5 @@ public class SignupImplementation
 	public String [] getDistricts()
 	{
 		return hometownDataset.districts;
-	}
+	}*/
 }

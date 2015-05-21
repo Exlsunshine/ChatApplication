@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Reset your password"
+        android:text="重置密码"
         android:textSize="8pt"
         android:textStyle="bold" />
 
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Please enter your email address." />
+        android:text="请输入您的邮箱地址" />
 
     <EditText
         android:id="@+id/yg_loginguide_page3_forgot__dialog_email"
@@ -32,7 +32,7 @@
         android:layout_marginTop="15dp"
         android:background="#F5F5F5"
         android:gravity="left|center"
-        android:hint="Email"
+        android:hint="邮箱地址"
         android:inputType="textEmailAddress"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="Cancel"
+            android:text="取消"
             android:textColor="#1E90FF" />
 
         <Button
@@ -63,7 +63,7 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="Reset"
+            android:text="重置"
             android:textColor="#1E90FF"
             android:textStyle="bold" />
     </LinearLayout>

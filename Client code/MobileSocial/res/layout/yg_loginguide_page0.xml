@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#0055AA"
+    android:background="@drawable/yg_loginguide_page0_background"
     android:orientation="vertical" >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Page-0"
+        android:layout_marginTop="40dp"
+        android:text="语音聊天"
         android:textColor="@android:color/white"
-        android:textSize="22pt" />
+        android:textSize="20sp" />
 
 </LinearLayout>

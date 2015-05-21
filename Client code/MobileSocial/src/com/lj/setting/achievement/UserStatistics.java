@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-import android.util.Log;
 
 import com.yg.user.PackString;
 import com.yg.user.WebServiceAPI;
@@ -76,4 +75,10 @@ public class UserStatistics
 		return gUserStatistics;
 	}
 	
+	public void updateGameChallengFail(int userID)
+	{
+		String[] name = {"challengUserID", "challengedUserID"};
+		Object[] values = {gUserID, userID};
+		web.callFuntion("increaseGameChallengFail", name, values);
+	}
 }

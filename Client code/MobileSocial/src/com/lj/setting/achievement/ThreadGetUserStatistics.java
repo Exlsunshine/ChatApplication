@@ -1,8 +1,5 @@
 package com.lj.setting.achievement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.yg.commons.ConstantValues;
 
 import android.os.Handler;
@@ -24,7 +21,7 @@ public class ThreadGetUserStatistics extends Thread
 	{
 		super.run();
 		UserStatistics userStatistics = new UserStatistics(gUserID);
-		ArrayList<HashMap<String, Object>> result = userStatistics.getUserStatistics();
+		userStatistics.getUserStatistics();
 		Message msg = new Message();
 		msg.what = ConstantValues.InstructionCode.USERSTATISTICS_HANDLER_GETDATA;
 		msg.obj = userStatistics;

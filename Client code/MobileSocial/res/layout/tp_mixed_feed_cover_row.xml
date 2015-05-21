@@ -78,7 +78,6 @@
             android:shadowRadius="0.1"
             android:textColor="@color/white"
             android:textSize="16.0dip"
-             android:text="当前的地点xxxxxxxxxxxx"
             android:textStyle="bold" />
 
         <!-- friend apply request -->

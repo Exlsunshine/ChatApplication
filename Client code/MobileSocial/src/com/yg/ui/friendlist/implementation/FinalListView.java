@@ -81,7 +81,7 @@ public class FinalListView extends ListView implements OnScrollListener {
 
 	private boolean isSrollh = true;
 
-	private boolean isSrollv = true;
+	//private boolean isSrollv = true;
 
 	private LayoutInflater inflater;
 
@@ -91,21 +91,21 @@ public class FinalListView extends ListView implements OnScrollListener {
 	private ImageView progressBar;
 
 	private int headerContentHeight;
-	private OnRefreshListener refreshListener;
+	//private OnRefreshListener refreshListener;
 
 	private RotateAnimation animation;
 	private RotateAnimation reverseAnimation;
 
-	private int startY;
-	private int tempY;
-	private int tempY1;
+	//private int startY;
+	//private int tempY;
+	//private int tempY1;
 	//private boolean dd3 = false;
 	//private boolean dc3 = false;
 	//private boolean dc4 = false;
 	//private boolean dc5 = false;
 	//private int x = 100;
 
-	private int firstVisibleItem1;
+	//private int firstVisibleItem1;
 
 	//private View itemView1;
 
@@ -220,7 +220,7 @@ public class FinalListView extends ListView implements OnScrollListener {
 					// postInvalidate();
 					// }
 					itemView.scrollTo(0, 0);
-					isSrollv = true;
+					//isSrollv = true;
 					dc = false;
 					tc = false;
 				}
@@ -269,8 +269,8 @@ public class FinalListView extends ListView implements OnScrollListener {
 			switch (action)
 			{
 			case MotionEvent.ACTION_DOWN:
-				startY = (int) ev.getY();
-				tempY1 = (int) ev.getY();
+				//startY = (int) ev.getY();
+				//tempY1 = (int) ev.getY();
 				break;
 			case MotionEvent.ACTION_MOVE:
 				if (isSrollh)
@@ -286,7 +286,7 @@ public class FinalListView extends ListView implements OnScrollListener {
 									&& (downX - x + itemView.getScrollX()) <= 2 * viewWidth) 
 							{
 								dc = true;
-								isSrollv = false;
+								//isSrollv = false;
 								itemView.scrollTo(deltaX + itemView.getScrollX(), 0);
 								downX = x;
 							}
@@ -376,7 +376,7 @@ public class FinalListView extends ListView implements OnScrollListener {
 								scroller.startScroll(itemView.getScrollX(), 0, -itemView.getScrollX(), 0, 300);
 								postInvalidate();
 								tc = false;
-								isSrollv = true;
+								//isSrollv = true;
 							}
 						}
 						if (Math.abs(cX - x) <= 30) 
@@ -390,14 +390,14 @@ public class FinalListView extends ListView implements OnScrollListener {
 							{
 								mRemoveListener.removeItem(listPosition2, 1);
 								scroller.startScroll(itemView.getScrollX(), 0, -itemView.getScrollX(), 0, 300);
-								isSrollv = true;
+								//isSrollv = true;
 								postInvalidate();
 								dd = true;
 							}
 							else if (Math.abs(cY - y) < 5)
 							{
 								dd = false;
-								isSrollv = true;
+								//isSrollv = true;
 							}
 						}
 
@@ -529,13 +529,13 @@ public class FinalListView extends ListView implements OnScrollListener {
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) 
 	{
-		firstVisibleItem1 = firstVisibleItem;
+		//firstVisibleItem1 = firstVisibleItem;
 	}
 
-	public void setonRefreshListener(OnRefreshListener refreshListener)
+	/*public void setonRefreshListener(OnRefreshListener refreshListener)
 	{
 		this.refreshListener = refreshListener;
-	}
+	}*/
 
 	public interface OnRefreshListener 
 	{
@@ -562,11 +562,11 @@ public class FinalListView extends ListView implements OnScrollListener {
 		}.start();
 	}
 
-	private void onLvRefresh() 
+	/*private void onLvRefresh() 
 	{
 		if (refreshListener != null) 
 			refreshListener.onRefresh();
-	}
+	}*/
 
 	public void Refresh()
 	{

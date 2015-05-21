@@ -17,6 +17,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.tp.messege.PostManager;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.dialog.Dialog;
 import com.yg.message.AbstractMessage;
@@ -24,6 +25,8 @@ import com.yg.message.AudioMessage;
 import com.yg.message.ImageMessage;
 import com.yg.message.TextMessage;
 import com.yg.network.openfire.OpenfireHandler;
+import com.yg.ui.friendlist.FriendDetailActivity;
+import com.yg.ui.login.implementation.LoginInfo;
 
 public class ClientUser extends AbstractUser
 {
@@ -73,56 +76,98 @@ public class ClientUser extends AbstractUser
 		@Override
 		public boolean handleMessage(Message msg)
 		{
-			Log.w(DEBUG_TAG, "Get a message.");
+			Log.w(DEBUG_TAG, "Get a message." + msg.what);
+			final int what = msg.what;
+			Log.w(DEBUG_TAG, "Get a message.2" + what);
 			
-			JSONObject json;
-			int fromUserID = 0;
-			String body = null;
-			String date = null;
-			Dialog dialog = null;
+			//JSONObject json;
+			//int fromUserID = 0;
+			//String body = null;
+			//String date = null;
+			//Dialog dialog = null;
 			
 			try
 			{
-				json = new JSONObject((String) msg.obj);
-				fromUserID = Integer.parseInt(((String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_FROM_USERID)).replace("@" + ConstantValues.Configs.OPENFIRE_SERVER_NAME, ""));
-				body = (String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_BODY);
-				date = (String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_DATE);
-				dialog = makeDialogWith(getFriendByID(fromUserID));
+				final JSONObject json = new JSONObject((String) msg.obj);
+				final int fromUserID = Integer.parseInt(((String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_FROM_USERID)).replace("@" + ConstantValues.Configs.OPENFIRE_SERVER_NAME, ""));
+				/**
+				 * Hot fix begin
+				 */
+				final int  fTemp = fromUserID;
+				Thread td = new Thread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						hotfix(fTemp);
+						
+						String body = null;
+						String date = null;
+						try {
+							body = (String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_BODY);
+							date = (String)json.get(ConstantValues.InstructionCode.MESSAGE_RECEIVEED_DATE);
+							} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						
+						FriendUser fri = getFriendByID(fromUserID);
+						if (fri == null)
+							return ;
+						Dialog dialog = makeDialogWith(fri);
+						
+						switch (what) 
+						{
+						case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
+							AudioTransportation audioTransport = new AudioTransportation();
+							String audioUrl = body.replace(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG, "");
+							byte [] content = audioTransport.downloadAudio(audioUrl);
+							AudioMessage audioMsg = new AudioMessage(fromUserID, getID(), content, date, false);
+							dialog.appendMessage(audioMsg);
+							sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_AUDIO, fromUserID, getID());
+							break;
+							
+						case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
+							ImageTransportation imgTransport = new ImageTransportation();
+							String imgUrl = body.replace(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG, "");
+							Bitmap bmp = imgTransport.downloadImage(imgUrl);
+							ImageMessage imgMsg = new ImageMessage(fromUserID, getID(), bmp, date, false);
+							dialog.appendMessage(imgMsg);
+							sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE, fromUserID, getID());
+							break;
+							
+						case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
+							TextMessage txtMsg = new TextMessage(fromUserID, getID(), body, date, false);
+							dialog.appendMessage(txtMsg);
+							sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT, fromUserID, getID());
+							break;
+						default:
+							Log.e(DEBUG_TAG, "Message handler error: Unkonwn type message " + String.valueOf(what) + ".");
+							break;
+						}
+					}
+				});
+				td.start();
+				/**
+				 * Hot fix end
+				 */
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			
-			switch (msg.what) 
-			{
-			case ConstantValues.InstructionCode.MESSAGE_TYPE_AUDIO:
-				AudioTransportation audioTransport = new AudioTransportation();
-				String audioUrl = body.replace(ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG, "");
-				byte [] content = audioTransport.downloadAudio(audioUrl);
-				AudioMessage audioMsg = new AudioMessage(fromUserID, getID(), content, date, false);
-				dialog.appendMessage(audioMsg);
-				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_AUDIO, fromUserID, getID());
-				break;
-				
-			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
-				ImageTransportation imgTransport = new ImageTransportation();
-				String imgUrl = body.replace(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG, "");
-				Bitmap bmp = imgTransport.downloadImage(imgUrl);
-				ImageMessage imgMsg = new ImageMessage(fromUserID, getID(), bmp, date, false);
-				dialog.appendMessage(imgMsg);
-				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_IMAGE, fromUserID, getID());
-				break;
-				
-			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
-				TextMessage txtMsg = new TextMessage(fromUserID, getID(), body, date, false);
-				dialog.appendMessage(txtMsg);
-				sendBroadcast(ConstantValues.InstructionCode.MESSAGE_BROADCAST_RECV_TEXT, fromUserID, getID());
-				break;
-			default:
-				Log.e(DEBUG_TAG, "Message handler error: Unkonwn type message " + String.valueOf(msg.what) + ".");
-				break;
-			}
+			
 			return false;
 		}
+	}
+	
+	private void hotfix(int userID)
+	{
+		for (int i = 0; i < getFriendList().size(); i++)
+		{
+			if (i == getFriendList().get(i).getID())
+				return;
+		}
+		
+		getFriendListFromServer();
 	}
 	
 	private void sendBroadcast(String broadcastType, int fromUserID, int toUserID)
@@ -347,8 +392,11 @@ public class ClientUser extends AbstractUser
 	/**
 	 * 注销
 	 */
-	public void signoff()
+	public void signoff(Context context)
 	{
+		LoginInfo loginInfo = new LoginInfo(context);
+		loginInfo.logoff();
+		
 		ofhandler.signoff();
 	}
 
@@ -498,8 +546,15 @@ public class ClientUser extends AbstractUser
 	 * @param other 待设置的目标用户
 	 * @param enable 使能选项  true 表示设置为星标好友;false 表示取消设置星标好友
 	 */
-	public void setAsCloseFriend(FriendUser other, boolean enable)
+	public void setAsCloseFriend(int friendID, boolean enable)
 	{
+		FriendUser other = getFriendByID(friendID);
+		if (other == null)
+		{
+			Log.e(DEBUG_TAG, "Does not find friend with given ID: " + friendID);
+			return ;
+		}
+			
 		String [] params = new String[3];
 		Object [] vlaues = new Object[3];
 		params[0] = "userID";
@@ -512,7 +567,7 @@ public class ClientUser extends AbstractUser
 		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("setAsCloseFriend", params, vlaues);
 		
-		Log.e("______", ret.toString());
+		Log.i(DEBUG_TAG, ret.toString());
 	}
 	
 	/**
@@ -538,8 +593,15 @@ public class ClientUser extends AbstractUser
 	 * 将other这个用户解除好友关系
 	 * @param other 待设置的目标用户
 	 */
-	public void deleteUser(FriendUser other)
+	public void deleteUser(int friendID)
 	{
+		FriendUser other = getFriendByID(friendID);
+		if (other == null)
+		{
+			Log.e(DEBUG_TAG, "Does not find friend with given ID: " + friendID);
+			return ;
+		}
+		
 		String [] params = new String[2];
 		Object [] vlaues = new Object[2];
 		params[0] = "userID";
@@ -549,12 +611,29 @@ public class ClientUser extends AbstractUser
 		
 		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
 		Object ret = wsAPI.callFuntion("deleteUser", params, vlaues);
+		Log.i("______", ret.toString());
 		
-		Log.e("______", ret.toString());
+		removeFriendFromList(friendID);
+	}
+	
+	private void removeFriendFromList(int friendID)
+	{
+		if (friendList != null)
+		{
+			for (int i = 0 ; i < friendList.size(); i++)
+				if (friendList.get(i).getID() == friendID)
+				{
+					friendList.remove(i);
+					Log.i(DEBUG_TAG, "Remove friend successful.");
+					break;
+				}
+		}
 	}
 	
 	private void getFriendListFromServer()
 	{
+		friendList = new ArrayList<FriendUser>();
+		
 		/**********		str应从服务器处获取		**********/
 		String [] params = new String[1];
 		Object [] vlaues = new Object[1];
@@ -571,7 +650,7 @@ public class ClientUser extends AbstractUser
 		
 		PackString ps = new PackString(str);
 		ArrayList<HashMap<String, Object>> result = ps.jsonString2Arrylist(JSON_INFO_KEY_USER_FRIENDS_LIST);
-		friendList = new ArrayList<FriendUser>();
+		
 		for (int i = 0; i < result.size(); i++)
 		{
 			HashMap<String, Object> map = result.get(i);
@@ -606,6 +685,9 @@ public class ClientUser extends AbstractUser
 			return friendList;
 		
 		getFriendListFromServer();
+		
+		if (friendList == null)
+			Log.e(DEBUG_TAG, "2Friend list is null.");
 		
 		return friendList;
 	}
@@ -642,6 +724,9 @@ public class ClientUser extends AbstractUser
 			return dialogList;
 		
 		dialogList = new ArrayList<Dialog>();
+		
+		if (friendList == null)
+			Log.e(DEBUG_TAG, "3Friend list is null.");
 		
 		for (int i = 0; i < friendList.size(); i++)
 		{
@@ -682,6 +767,30 @@ public class ClientUser extends AbstractUser
 		dialogList.add(dialog);
 			
 		return dialog;
+	}
+	
+	/**
+	 * @see #makeDialogWith(FriendUser)
+	 */
+	public Dialog makeDialogWith(int friendID)
+	{
+		return makeDialogWith(getFriendByID(friendID));
+	}
+	
+	/**
+	 * 清除与指定用户的本地聊天记录
+	 * @param friendID 指定的用户ID
+	 */
+	public void eraseDialogHistory(int friendID)
+	{
+		Dialog dialog = makeDialogWith(friendID);
+		
+		if (dialog != null)
+			dialog.deleteDialogHistory();
+		
+		for (int i = 0; i < dialogList.size(); i++)
+			if (dialogList.get(i).getAnotherUserID() == friendID)
+				dialogList.remove(i);
 	}
 	
 	/**
@@ -765,5 +874,43 @@ public class ClientUser extends AbstractUser
 		}
 		
 		return -2;
+	}
+	
+	/**
+	 * 将两个人设置为双向好友
+	 * @param targetUserID targetUserID 目标用户ID
+	 * @param context activity context
+	 * @return 0表示加好友成功<br>-1表示失败
+	 */
+	public int makeFriendWith(int targetUserID, Context context)
+	{
+		String [] params = new String[2];
+		Object [] vlaues = new Object[2];
+		params[0] = "userID";
+		params[1] = "targetUserID";
+		vlaues[0] = this.id;
+		vlaues[1] = targetUserID;
+		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
+		Object ret = wsAPI.callFuntion("makeFriendWith", params, vlaues);
+		
+		int resultCode = Integer.parseInt(ret.toString());
+		
+		if (resultCode == 0)
+			getFriendListFromServer();
+		else
+			return -1;
+		
+		FriendUser friend = getFriendByID(targetUserID);
+		sendMsgTo(friend, new TextMessage(this.id, targetUserID, "Hi " + friend.getNickName() + ", 我是" + getNickName() + ", 你好啊 :)", CommonUtil.now(), true));
+		
+		Intent broadcastIntent = new Intent(ConstantValues.InstructionCode.MESSAGE_BROADCAST_SEND_COMPLETED);
+		context.sendBroadcast(broadcastIntent);
+		
+		Intent intent = new Intent(context, FriendDetailActivity.class);
+		intent.putExtra("friendUserID", targetUserID);
+		context.startActivity(intent);
+		
+		return 0;
 	}
 }
