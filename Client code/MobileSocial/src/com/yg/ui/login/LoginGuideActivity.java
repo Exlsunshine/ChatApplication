@@ -557,7 +557,7 @@ public class LoginGuideActivity extends Activity
 		testNetworkDialog.show();
 		testNetworkDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		testNetworkDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		
+		testNetworkDialog.setCancelable(false);
 		Window window = testNetworkDialog.getWindow();
 		window.setContentView(R.layout.lj_testnetworkconnect_dialog);
 		RelativeLayout loadingLayout = (RelativeLayout)window.findViewById(R.id.lj_loginguide_page3_dialog_login_loading_layout);
