@@ -39,6 +39,6 @@
     <string name="lj_achieve_des_8">使用时间</string>
     
     <string name="lj_network_error_text">请确保手机已连接到网络</string>
-    <string name="lj_network_error_server">若已连网\n则由于校园网络和我们的公网服务器在连接过程中会出现连接问题\n请按照文档说明搭建局域网服务器\n或更改网络使用3G/4G或宽带</string>
-    <string name="lj_network_error_contacts">若在搭建配置服务器和客户端过程中遇到任何问题\n请致电\n杨光 13671045367\n李健 15810352125\n唐鹏 15001297208\n</string>
+    <string name="lj_network_error_server">若您确定可以连接到互联网，则可能是因为您当前所处的网络环境较差，解决方案如下：\n方案1：请尝试切换到其他wifi下或使用3G/4G访问。\n方案2：请参看光盘1中的本地服务器搭建指导手册搭建本地服务器。</string>
+    <string name="lj_network_error_contacts">若在搭建配置服务器和客户端过程中遇到任何问题请致电\n杨光 13671045367\n李健 15810352125\n唐鹏 15001297208\n</string>
 </resources>
