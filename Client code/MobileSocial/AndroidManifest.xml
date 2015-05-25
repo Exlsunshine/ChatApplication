@@ -131,6 +131,7 @@
         <activity android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame" />
         <activity android:name="com.lj.songpuzzle.ActivitySongPuzzle" />
         <activity android:name="com.lj.bazingaball.ActivityBazingaBall" android:noHistory="true" />
+        <activity android:name="com.lj.networktest.ActivityNetworkError" />
     </application>
 
 </manifest>

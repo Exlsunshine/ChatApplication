@@ -37,4 +37,8 @@
     <string name="lj_achieve_des_6">解密失败次数</string>
     <string name="lj_achieve_des_7">发语音次数</string>
     <string name="lj_achieve_des_8">使用时间</string>
+    
+    <string name="lj_network_error_text">请确保手机已连接到网络</string>
+    <string name="lj_network_error_server">若已连网\n则由于校园网络和我们的公网服务器在连接过程中会出现连接问题\n请按照文档说明搭建局域网服务器\n或更改网络使用3G/4G或宽带</string>
+    <string name="lj_network_error_contacts">若在搭建配置服务器和客户端过程中遇到任何问题\n请致电\n杨光 13671045367\n李健 15810352125\n唐鹏 15001297208\n</string>
 </resources>
