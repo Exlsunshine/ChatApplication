@@ -128,6 +128,7 @@ public class shakeHandler extends Handler
 	
 	private void locateOtherLocation(UserShakeData userShakeData, int index)
 	{ 
+		Log.e("ssssssss", index + " " + " " + userShakeData.getLatitude() + " " + userShakeData.getLongitude());
 		LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
 		String sex = userShakeData.getSex(); 
 		TextView view = new TextView(myContext);
@@ -243,8 +244,15 @@ public class shakeHandler extends Handler
 				return;
 			int index = data.getInt("index");
 			myContext.userDataListView.setDataOfIndex(index);
-			UserShakeData userShakeData = gUserShakeDataList.get(index);
+			UserShakeData userShakeData = null;//gUserShakeDataList.get(indexs);
+			if (gSexStatus == SEX_MALE)
+				userShakeData = gUserShakeDataListMale.get(index);
+			else if (gSexStatus == SEX_FEMALE)
+				userShakeData = gUserShakeDataListFemale.get(index);
+			else
+				userShakeData = gUserShakeDataList.get(index);
 			LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
+			Log.e("tttttt", index + " " + " " + userShakeData.getLatitude() + " " + userShakeData.getLongitude());
 			locatePotin(cenpt);
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_GAME:
