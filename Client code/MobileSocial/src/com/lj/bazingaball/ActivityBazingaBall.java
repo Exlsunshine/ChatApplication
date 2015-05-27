@@ -19,6 +19,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -35,7 +36,7 @@ import android.widget.Toast;
 public class ActivityBazingaBall extends Activity
 {
 	private final int MAX_VELOCITY = 6;   //max velocity of random velocity
-	public static final int BUTTON_SIZE = 500;  //initial button's size
+	public static int BUTTON_SIZE = 500;  //initial button's size
 	public static final int BAZINGABALL_REQUEST_CODE = 0x10;
 	public static final int BAZINGABALL_RESULT_CODE = 0x11;
 	private final int GAMEEND_TEXT_SIZE = 20;
@@ -424,7 +425,9 @@ public class ActivityBazingaBall extends Activity
 		{
 			flag = false;
 			phoneWidth = mainlayout.getMeasuredWidth();
+			Log.e("sss", phoneWidth + "");
 			phoneHeight = mainlayout.getMeasuredHeight();
+			BUTTON_SIZE = (int) (phoneWidth * 0.463);
 			initMoleScore();
 		}
 	}

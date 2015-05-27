@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -28,6 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
+import com.lj.networktest.ActivityNetworkError;
+import com.lj.networktest.ThreadNetworkTest;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.ui.MainActivity;
 import com.yg.ui.login.implementation.CrossingAnimation;
@@ -35,11 +40,12 @@ import com.yg.ui.login.implementation.ForgetImplementation;
 import com.yg.ui.login.implementation.LoginImplementation;
 import com.yg.ui.login.implementation.LoginInfo;
 import com.yg.ui.signup.SignupActivity;
+import com.yg.user.WebServiceAPI;
 
 public class LoginGuideActivity extends Activity
 {
 	//private static final String DEBUG_TAG = "LoginGuideActivity______";
-	private AlertDialog loginDialog, forgotDialog, signupDialog;
+	private AlertDialog loginDialog, forgotDialog, signupDialog, testNetworkDialog;
 	
 	private ViewPager viewPager;
 	private ImageView dot0;
@@ -415,7 +421,8 @@ public class LoginGuideActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				showLoginDialog();
+			//	showLoginDialog();
+				showTestNetworkDialog(LOGIN_BUTTON);
 			}
 		});
 		
@@ -425,7 +432,8 @@ public class LoginGuideActivity extends Activity
 			@Override
 			public void onClick(View arg0)
 			{
-				showSignupDialog();
+		//		showSignupDialog();
+				showTestNetworkDialog(SIGNUP_BUTTON);
 			}
 		});
 	}
@@ -507,5 +515,60 @@ public class LoginGuideActivity extends Activity
 	{
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
+	}
+	
+	//---------------------------------- LJ -----------------------------------------------
+	
+	private static final int LOGIN_BUTTON = 0;
+	private static final int SIGNUP_BUTTON = 1;
+	
+	private Handler gHandler = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg) 
+		{
+			super.handleMessage(msg);
+			if (msg.what == ThreadNetworkTest.NETWORK_ERROR)
+			{
+				Toast.makeText(getApplicationContext(), "当前网络环境不佳", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				intent.setClass(LoginGuideActivity.this, ActivityNetworkError.class);
+				startActivity(intent);
+				testNetworkDialog.dismiss();
+			}
+			else if (msg.what == ThreadNetworkTest.NETWORK_CORRECT)
+			{
+				Toast.makeText(getApplicationContext(), "当前网络环境良好", Toast.LENGTH_SHORT).show();
+				testNetworkDialog.dismiss();
+				if (msg.arg1 == LOGIN_BUTTON)
+					showLoginDialog();
+				else if (msg.arg1 == SIGNUP_BUTTON)
+					showSignupDialog();
+			}
+		}
+	};
+	
+	
+	private void showTestNetworkDialog(int buttonType)
+	{
+		testNetworkDialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		
+		testNetworkDialog.setCanceledOnTouchOutside(true);
+		testNetworkDialog.show();
+		testNetworkDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		testNetworkDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		testNetworkDialog.setCancelable(false);
+		Window window = testNetworkDialog.getWindow();
+		window.setContentView(R.layout.lj_testnetworkconnect_dialog);
+		RelativeLayout loadingLayout = (RelativeLayout)window.findViewById(R.id.lj_loginguide_page3_dialog_login_loading_layout);
+		loadingLayout.setVisibility(View.VISIBLE);
+		ImageView leftImg = (ImageView)window.findViewById(R.id.lj_loginguide_page3_dialog_login_loading_layout_left_icon);
+		ImageView rightImg = (ImageView)window.findViewById(R.id.lj_loginguide_page3_dialog_login_loading_layout_right_icon);
+		
+		CrossingAnimation ca = new CrossingAnimation(leftImg, rightImg);
+		ca.startAnimation();
+		Toast.makeText(getApplicationContext(), "正在测试网络环境，请稍后", Toast.LENGTH_SHORT).show();
+		
+		new ThreadNetworkTest(gHandler, buttonType).start();
 	}
 }
