@@ -583,4 +583,12 @@ public class NetworkHandler
 		
 		return errorCode1 | errorCode2;
 	}
+	
+	//--------------------------------------- LJ ---------------------------------------------------
+	public String testConnect(String array, int n)
+	{
+		String str = new StringBuilder(array).reverse().toString();
+		System.out.println("Test Network condition : " + n);
+		return str;
+	}
 }

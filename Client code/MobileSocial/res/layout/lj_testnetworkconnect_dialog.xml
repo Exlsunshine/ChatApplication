@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:layout_gravity="center"
+    android:background="@drawable/yg_loginguide_login_dialog_coror_shape"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp" >
+
+    <!-- "@android:color/white" -->
+    <TextView
+        android:text="正在测试网络环境，请稍后..."
+        android:id="@+id/yg_loginguide_page3_dialog_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textColor="#1E90FF"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp" />
+    <RelativeLayout
+        android:id="@+id/lj_loginguide_page3_dialog_login_loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minWidth="300dp"
+        android:minHeight="200dp"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/lj_loginguide_page3_dialog_login_loading_layout_left_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yg_loading_bkg1" />
+
+        <ImageView
+            android:id="@+id/lj_loginguide_page3_dialog_login_loading_layout_right_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/yg_loading_bkg2" />
+    </RelativeLayout>
+
+</LinearLayout>

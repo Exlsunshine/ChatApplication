@@ -435,6 +435,7 @@ public class ActivitySongPuzzle extends Activity {
 			public void onClick(View v)
 			{
 				new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
+				gSongPuzzleGame.stop();
 				finish();
 			}
 		});
@@ -446,6 +447,7 @@ public class ActivitySongPuzzle extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
+			gSongPuzzleGame.stop();
 			this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
