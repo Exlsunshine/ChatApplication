@@ -14,6 +14,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -49,10 +51,14 @@ import com.yg.message.Recorder;
 import com.yg.message.TextMessage;
 import com.yg.ui.dialog.implementation.DialogAdapter;
 import com.yg.user.FriendUser;
+import com.yg.user.WebServiceAPI;
 
 public class DialogActivity extends Activity
 {
 	private static final String DEBUG_TAG = "DialogActivity______";
+	private static final int LOCATION_TAG = 0x01;
+	private static final int RANDOM_CHATTING_THEME_TAG = 0x02;
+	
 	private ArrayList<AbstractMessage> messages;
 	private Bitmap selectedImg = null;
 	
@@ -74,6 +80,7 @@ public class DialogActivity extends Activity
 	private boolean isRecord = true;
 	private SelectFaceHelper faceHelper;
 	private View addFaceToolView;
+	private Handler handler;
 	
 	private void setupDialogActionBar()
 	{
@@ -314,6 +321,12 @@ public class DialogActivity extends Activity
 					
 					ImageButton imgTaker = (ImageButton)findViewById(R.id.yg_dialog_activity_appkefu_plus_take_picture_btn);
 					imgTaker.setOnClickListener(new onImageTakeClickListener());
+				
+					ImageButton imgLocation = (ImageButton)findViewById(R.id.yg_dialog_activity_appkefu_plus_location_btn);
+					imgLocation.setOnClickListener(new onLocationClickListener());
+				
+					ImageButton chatTheme = (ImageButton)findViewById(R.id.yg_dialog_activity_appkefu_plus_theme);
+					chatTheme.setOnClickListener(new onThemeClickListener());
 				} 
 				else 
 				{
@@ -462,6 +475,41 @@ public class DialogActivity extends Activity
 		});
 		
 		//registerReceiver(broadcastReceiver, intentFilter());
+		
+		handler = new Handler()
+		{
+			@Override
+			public void handleMessage(Message msg) 
+			{
+				switch (msg.what)
+				{
+				case LOCATION_TAG:
+					String location = (String) msg.obj;
+					setInputEnable(true, "我在[" + location + "]");
+					break;
+				case RANDOM_CHATTING_THEME_TAG:
+					String theme = (String) msg.obj;
+					setInputEnable(true, "聊聊[" + theme + "]怎么样?");
+					break;
+				default:
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
+	}
+	
+	private void setInputEnable(boolean enable, String hint)
+	{
+		editText.setText(hint);
+		editText.setClickable(enable);
+		editText.setEnabled(enable);
+		send.setClickable(enable);
+		send.setEnabled(enable);
+		emoji.setClickable(enable);
+		emoji.setEnabled(enable);
+		voiceButton.setClickable(enable);
+		voiceButton.setEnabled(enable);
 	}
 	
 	private FriendUser getFriendByID(int id)
@@ -540,6 +588,67 @@ public class DialogActivity extends Activity
 		Intent currentChatIntent = new Intent(ConstantValues.InstructionCode.CURRENT_CHAT_WITH_NOTIFICATION);
 		currentChatIntent.putExtra("fromUserID", -1);
 		sendBroadcast(currentChatIntent );
+	}
+	
+	private class onThemeClickListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			setInputEnable(false, "正在生成随机话题...");
+			Thread td = new Thread(new Runnable()
+			{
+				@Override
+				public void run() 
+				{
+//					WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
+//					Object ret = wsAPI.callFuntion("requestTheme");
+//					String theme = ret.toString();
+					
+					try
+					{
+						Thread.sleep(3000);
+						Message msg = new Message();
+						msg.what = RANDOM_CHATTING_THEME_TAG;
+						msg.obj = "你喜欢看什么类型的电影";
+						handler.sendMessage(msg);
+					} catch (InterruptedException e) 
+					{
+						e.printStackTrace();
+					}
+				}
+			});
+			td.start();
+		}
+	}
+	
+	private class onLocationClickListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View v) 
+		{
+			setInputEnable(false, "正在读取您的位置...");
+			Thread td = new Thread(new Runnable()
+			{
+				@Override
+				public void run() 
+				{
+					//String location = getMyLocation();
+					try
+					{
+						Thread.sleep(3000);
+						Message msg = new Message();
+						msg.what = LOCATION_TAG;
+						msg.obj = "北京工业大学平乐园100号";
+						handler.sendMessage(msg);
+					} catch (InterruptedException e) 
+					{
+						e.printStackTrace();
+					}
+				}
+			});
+			td.start();
+		}
 	}
 	
 	/**********************										***********************/
