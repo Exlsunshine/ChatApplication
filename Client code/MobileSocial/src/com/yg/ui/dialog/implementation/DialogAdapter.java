@@ -19,6 +19,7 @@ import com.tp.ui.MyselfPostActivity;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.emoji.ParseEmojiMsgUtil;
+import com.yg.image.preview.ImagePreviewManager;
 import com.yg.message.AbstractMessage;
 import com.yg.message.AudioMessage;
 import com.yg.message.ImageMessage;
@@ -29,11 +30,13 @@ public class DialogAdapter extends BaseAdapter
 {
 	private Context context;
 	private ArrayList<AbstractMessage> messages;
+	private ImagePreviewManager imagePreviewManager;
 	
 	public DialogAdapter(Context context, ArrayList<AbstractMessage> messages)
 	{
 		this.context = context;
 		this.messages = messages;
+		this.imagePreviewManager = new ImagePreviewManager(context);
 	}
 	
 	@Override
@@ -146,6 +149,8 @@ public class DialogAdapter extends BaseAdapter
 			holder.rlMyLayout.setVisibility(View.GONE);
 			holder.rlFriendLayout.setVisibility(View.VISIBLE);
 			holder.ivFriendPortrait.setImageBitmap(getFriendByID(messages.get(position).getFromUserID()).getPortraitBmp());
+			
+			imagePreviewManager.push(holder.ivFriendPortrait.getId(), holder.ivFriendPortrait);
 			
 			switch (messages.get(position).getMessageType())
 			{
