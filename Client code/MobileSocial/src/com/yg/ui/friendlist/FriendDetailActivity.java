@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.ConstantValues;
+import com.yg.image.preview.ImagePreviewManager;
 import com.yg.ui.dialog.DialogActivity;
 import com.yg.ui.friendlist.implementation.Constellation;
 import com.yg.user.FriendUser;
@@ -32,6 +33,7 @@ public class FriendDetailActivity extends Activity
 	private Button message;
 	
 	private int friendUserID;
+	private ImagePreviewManager imgPreviewManager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -85,6 +87,9 @@ public class FriendDetailActivity extends Activity
 		
 		birthday.setText(String.format("%s(%s)", friend.getBirthday(),Constellation.getConstellation(friend.getBirthday())));
 		phoneNumber.setText(friend.getPhoneNumber());
+		
+		imgPreviewManager = new ImagePreviewManager(FriendDetailActivity.this);
+		imgPreviewManager.push(portrait.getId(), portrait);
 	}
 	
 	private void setupLayouts()
