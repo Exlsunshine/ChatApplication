@@ -243,7 +243,13 @@ public class shakeHandler extends Handler
 				return;
 			int index = data.getInt("index");
 			myContext.userDataListView.setDataOfIndex(index);
-			UserShakeData userShakeData = gUserShakeDataList.get(index);
+			UserShakeData userShakeData = null;//gUserShakeDataList.get(indexs);
+			if (gSexStatus == SEX_MALE)
+				userShakeData = gUserShakeDataListMale.get(index);
+			else if (gSexStatus == SEX_FEMALE)
+				userShakeData = gUserShakeDataListFemale.get(index);
+			else
+				userShakeData = gUserShakeDataList.get(index);
 			LatLng cenpt = new LatLng(userShakeData.getLatitude() ,userShakeData.getLongitude());
 			locatePotin(cenpt);
 			break;

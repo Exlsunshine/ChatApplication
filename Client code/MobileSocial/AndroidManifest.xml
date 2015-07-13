@@ -44,7 +44,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="vocLIrS7d3C4mWHdCOUuLxx3" />
+            android:value="QE0CcmzMbOQNNrHW6GH7mEGv" />
 
         <activity
             android:name="com.yg.ui.login.WelcomeActivity"
@@ -131,6 +131,7 @@
         <activity android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame" />
         <activity android:name="com.lj.songpuzzle.ActivitySongPuzzle" />
         <activity android:name="com.lj.bazingaball.ActivityBazingaBall" android:noHistory="true" />
+        <activity android:name="com.lj.networktest.ActivityNetworkError" />
     </application>
 
 </manifest>

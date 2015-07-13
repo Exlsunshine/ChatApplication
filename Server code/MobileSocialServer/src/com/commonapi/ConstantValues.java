@@ -52,9 +52,11 @@ public class ConstantValues {
 		public static final String MESSAGE_IMAGE_HEAD = "0x213";
 		
 		public static final String TORNADO_SERVER_IP = "101.200.230.173";
+	//	public static final String TORNADO_SERVER_IP = "172.18.7.189";
 		public static final String TORNADO_SERVER_PORT = "8887";
 		
 		public static final String DATABASE_SERVER_IP = "101.200.230.173";
+	//	public static final String DATABASE_SERVER_IP = "127.0.0.1";
 		public static final String DATABASE_SERVER_PORT = "1433";
 	}
 }

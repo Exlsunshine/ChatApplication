@@ -230,7 +230,7 @@ public class PublicActivityAdapter extends BaseAdapter
                         String suggestiontimecase3_2 = DateUtil.getSuggestion(currentTime, earlyTimecase3_2.substring(0, 19));
                     	commentDate2.setText(suggestiontimecase3_2);
                     	
-                    	String earlyTimecase3_3 = post.getComments().get(size).getCommentDate();
+                    	String earlyTimecase3_3 = post.getComments().get(size - 1).getCommentDate();
                         earlyTimecase3_3 = earlyTimecase3_3.replace(" ", "-");
                         earlyTimecase3_3 = earlyTimecase3_3.replace(":", "-");
                         String suggestiontimecase3_3 = DateUtil.getSuggestion(currentTime, earlyTimecase3_3.substring(0, 19));

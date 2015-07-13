@@ -158,11 +158,9 @@ public class SignupActivity extends Activity
 			}
 		}
 	}
-
 	/**********************										***********************/
 	/**********************			以上是选图相关函数				***********************/
 	/**********************										***********************/
-	
 	
 	private class onNextBtnClickListener implements OnClickListener
 	{
@@ -203,23 +201,7 @@ public class SignupActivity extends Activity
 				loginObj.setSex(sex);
 				firstDialog.cancel();
 				
-				
 				showSecondeDialog();
-				/*Thread td = new Thread(new Runnable()
-				{
-					@Override
-					public void run() 
-					{
-						loginObj.initHometownData();
-					}
-				});
-				td.start();
-				try {
-					td.join();
-					showSecondeDialog();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}*/
 			}
 		}
 	}
@@ -254,7 +236,7 @@ public class SignupActivity extends Activity
 			{
 				gDistrict = (String[]) msg.obj;
 				gPickerDistrict.setAdapter(new ArrayWheelAdapter<String>(gDistrict));
-				String district = gDistrict[0];
+				//String district = gDistrict[0];
 				gPickerDistrict.setCurrentItem(0);
 				int cityIndex = gPickerCity.getCurrentItem();
 				int provienceIndex = gPickerProvience.getCurrentItem();
@@ -322,78 +304,6 @@ public class SignupActivity extends Activity
 		gPickerDistrict.addChangingListener(gHometownChangeListener);
 		new ThreadGetProvinceArray(gHandler).start();
 	}
-	
-	/*private class districtSelectedListener implements OnItemSelectedListener
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-		{
-			loginObj.setCurrentDistrict(arg2);
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) { }
-    }*/
-	
-	/*private class provienceSelectedListener implements OnItemSelectedListener
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, final int arg2, long arg3)
-		{
-			
-			Thread td = new Thread(new Runnable()
-			{
-				@Override
-				public void run() 
-				{
-					loginObj.setCurrentProvince(arg2);
-				}
-			});
-			td.start();
-			try {
-				td.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			
-			Window window = secondeDialog.getWindow();
-	//		Spinner cities = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_cities);
-	//		cities.setAdapter(new ArrayAdapter<String>(SignupActivity.this,android.R.layout.simple_spinner_item, loginObj.getCities()));
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) { }
-    }*/
-	
-	/*private class citySelectedListener implements OnItemSelectedListener
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, final int arg2, long arg3)
-		{
-			Thread td = new Thread(new Runnable()
-			{
-				@Override
-				public void run() 
-				{
-					loginObj.setCurrentCity(arg2);
-				}
-			});
-			td.start();
-			try {
-				td.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			Window window = secondeDialog.getWindow();
-			Spinner districts = (Spinner) window.findViewById(R.id.yg_signup_second_dialog_districts);
-			districts.setAdapter(new ArrayAdapter<String>(SignupActivity.this,android.R.layout.simple_spinner_item, loginObj.getDistricts()));
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0) { }
-    }*/
 
 	public class onDoneBtnClickListener implements OnClickListener
 	{
@@ -467,12 +377,4 @@ public class SignupActivity extends Activity
 		
 		new DatePickerDialog(SignupActivity.this, pickListener, 1980, 8, 8).show();
 	}
-	
-
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
-		getMenuInflater().inflate(R.menu.signup, menu);
-		return true;
-	}*/
 }
