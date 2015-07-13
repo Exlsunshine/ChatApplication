@@ -98,7 +98,7 @@ public class DownloadManager
 					BitmapFactory.Options options = new BitmapFactory.Options();
 					options.inPurgeable = true;
 					options.inInputShareable = true;
-					options.inSampleSize = 2;
+					//options.inSampleSize = 2;
 					
 					Log.i(DEBUG_TAG, "Downloading image at " + url);
 					InputStream is = new java.net.URL(url).openStream();
