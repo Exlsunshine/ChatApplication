@@ -280,7 +280,7 @@ public class LoginGuideActivity extends Activity
 				email.startAnimation(shake);
 				break;
 			case 2:
-				Toast.makeText(LoginGuideActivity.this, "ÓÊÏäÉĞÎ´×¢²á¹ı£¬ÄúÊäÈëÓÊÏäÁË?", Toast.LENGTH_SHORT).show();
+				Toast.makeText(LoginGuideActivity.this, "ÓÊÏäÉĞÎ´×¢²á¹ı£¬Êä´íÓÊÏäÁË?", Toast.LENGTH_SHORT).show();
 			default:
 				break;
 			}
