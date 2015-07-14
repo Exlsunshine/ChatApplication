@@ -1,9 +1,19 @@
 package com.lj.translator;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
 
 import com.yg.commons.HttpGetter;
 
@@ -39,8 +49,19 @@ public class BaiduTranslator
 		String url = URL_STRING + HEAD_STRING;
 		url = url.replace(KEY_FLAG, API_KEY).replace(FROM_FLAG, fromLanguage)
 				.replace(TO_FLAG, toLanguage)
-				.replace(SENTANCE, text);
-		String jsonStr = HttpGetter.getResponse(url);
+				.replace(SENTANCE, text.replace(" ", "%20"));
+		HttpGet get = new HttpGet(url);
+		HttpClient client = new DefaultHttpClient();  
+		get.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		String jsonStr = null;
+		try 
+		{
+			HttpResponse response = client.execute(get);//Ö´ÐÐPost·½·¨   
+			jsonStr = EntityUtils.toString(response.getEntity());  
+		} catch (Exception e)
+		{  
+			jsonStr = null;
+	    }  
 		if (jsonStr == null)
 			return null;
 		result = getTransResultFromJsonStr(jsonStr);
