@@ -2,6 +2,7 @@ package com.network;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.json.JSONException;
 
@@ -447,12 +448,13 @@ public class NetworkHandler
 			return -1;
 		else
 		{
-			int status = userBasicInfoTB.update(new String [] {"login_pwd"}, new String [] {"14XV3jio"}, new String [] {"id"}, new String [] {result.get(0).get("id").toString()});
+			String newPwd = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+			int status = userBasicInfoTB.update(new String [] {"login_pwd"}, new String [] {newPwd}, new String [] {"id"}, new String [] {result.get(0).get("id").toString()});
 			status = (status == 0)? 0 : -1;
 			
 			if (status == 0)
 			{
-				int code = SendMailDemo.sendEmail("New password: 14XV3jio", email);
+				int code = SendMailDemo.sendEmail("ÄúµÄÐÂÃÜÂëÊÇ£º" + newPwd, email);
 				return code;
 			}
 			else
