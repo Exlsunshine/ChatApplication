@@ -9,16 +9,16 @@ public class SendMailDemo
 		
 		// 设置邮件服务器信息
 		MailSenderInfo mailInfo = new MailSenderInfo();
-		mailInfo.setMailServerHost("smtp.126.com");
+		mailInfo.setMailServerHost("smtp.sina.com");
 		mailInfo.setMailServerPort("25");
 		mailInfo.setValidate(true);
 		  
 		// 邮箱用户名
-		mailInfo.setUserName("jmmsrbjut");
+		mailInfo.setUserName("tqhv8703");
 		// 邮箱密码
-		mailInfo.setPassword("jmmsr123456");
+		mailInfo.setPassword("tfggni64");
 		// 发件人邮箱
-		mailInfo.setFromAddress("jmmsrbjut@126.com");
+		mailInfo.setFromAddress("tqhv8703@sina.com");
 		// 收件人邮箱
 		mailInfo.setToAddress(email);
 		// 邮件标题
