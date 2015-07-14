@@ -132,8 +132,10 @@
         <activity android:name="com.lj.songpuzzle.ActivitySongPuzzle" />
         <activity android:name="com.lj.bazingaball.ActivityBazingaBall" android:noHistory="true" />
         <activity android:name="com.lj.networktest.ActivityNetworkError" />
+        <activity android:name="com.lj.translator.TranslatorActivity" />
         
         <activity android:name="com.yg.image.preview.ImagePreviewActivity" />
+        
     </application>
 
 </manifest>
