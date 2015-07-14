@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
+import com.lj.baidulocation.PositionDetector;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.emoji.EmojiParser;
@@ -501,7 +502,7 @@ public class DialogActivity extends Activity
 							DialogActivity.this.getPackageName());
 					ampHint.setImageResource(resId);
 					break;
-				case LOCATION_TAG:
+				case PositionDetector.ADDR_RESULT_SUCCESS:
 					String location = (String) msg.obj;
 					setInputEnable(true, "我在[" + location + "]");
 					break;
@@ -665,7 +666,9 @@ public class DialogActivity extends Activity
 		public void onClick(View v) 
 		{
 			setInputEnable(false, "正在读取您的位置...");
-			Thread td = new Thread(new Runnable()
+			PositionDetector positionDetector = new PositionDetector(uiHandler, getApplicationContext());
+			positionDetector.detect();
+			/*Thread td = new Thread(new Runnable()
 			{
 				@Override
 				public void run() 
@@ -684,7 +687,7 @@ public class DialogActivity extends Activity
 					}
 				}
 			});
-			td.start();
+			td.start();*/
 		}
 	}
 	
