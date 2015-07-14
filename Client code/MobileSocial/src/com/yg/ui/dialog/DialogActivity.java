@@ -2,6 +2,8 @@ package com.yg.ui.dialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -29,6 +31,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -61,6 +64,11 @@ public class DialogActivity extends Activity
 	
 	private ArrayList<AbstractMessage> messages;
 	private Bitmap selectedImg = null;
+	private TimerTask voiceIconUpdateTask;
+	private Timer voiceIconUpdateTimer;
+	private static final int voiceInconUpdateFreq = 100;
+	private Handler uiHandler;
+	private static final int UPDATE_AMP = 0x03;
 	
 	private int friendID = -1;
 	private DialogAdapter msgAdapter = null;
@@ -80,7 +88,7 @@ public class DialogActivity extends Activity
 	private boolean isRecord = true;
 	private SelectFaceHelper faceHelper;
 	private View addFaceToolView;
-	private Handler handler;
+	private ImageView ampHint;
 	
 	private void setupDialogActionBar()
 	{
@@ -191,6 +199,7 @@ public class DialogActivity extends Activity
 		voiceButton = (Button) super.findViewById(R.id.yg_dialog_activity_voice_button);
 		emoji = (Button) super.findViewById(R.id.yg_dialog_activity_emotion);
 		addFaceToolView = (View) findViewById(R.id.yg_emoji_add_tool);
+		ampHint = (ImageView) findViewById(R.id.yg_dialog_appkefu_voice_rcd_hint_amp);
 		record_hintview = (LinearLayout) super.findViewById(R.id.yg_dialog_activity_record_hintview);
 		record_hint_layout = (LinearLayout) super.findViewById(R.id.yg_dialog_record_hint_record_image_layout);
 		record_hint_cancel_layout = (LinearLayout) super.findViewById(R.id.yg_dialog_record_hint_cancel_image_layout);
@@ -401,6 +410,7 @@ public class DialogActivity extends Activity
 					
 					Recorder.getInstance().startRecordAndFile();
 					Log.i(DEBUG_TAG, "Start record");
+					startUpdateVoiceIcon();
 				}
 				else if (event.getAction() == MotionEvent.ACTION_MOVE) 
 				{
@@ -468,6 +478,7 @@ public class DialogActivity extends Activity
 					{
 						Toast.makeText(DialogActivity.this, "已取消", Toast.LENGTH_SHORT).show();
 					}
+					stopUpdateVoiceIcon();
 				}
 
 				return false;
@@ -476,13 +487,20 @@ public class DialogActivity extends Activity
 		
 		//registerReceiver(broadcastReceiver, intentFilter());
 		
-		handler = new Handler()
+		uiHandler = new Handler()
 		{
 			@Override
-			public void handleMessage(Message msg) 
+			public void handleMessage(Message msg)
 			{
 				switch (msg.what)
 				{
+				case UPDATE_AMP:
+					int level = Recorder.getInstance().getVolumLevel(7);
+					Log.i(DEBUG_TAG, String.valueOf(level));
+					int resId = DialogActivity.this.getResources().getIdentifier("yg_dialog_appkefu_voice_rcd_hint_amp" + level, "drawable", 
+							DialogActivity.this.getPackageName());
+					ampHint.setImageResource(resId);
+					break;
 				case LOCATION_TAG:
 					String location = (String) msg.obj;
 					setInputEnable(true, "我在[" + location + "]");
@@ -490,7 +508,6 @@ public class DialogActivity extends Activity
 				case RANDOM_CHATTING_THEME_TAG:
 					String theme = (String) msg.obj;
 					setInputEnable(true, "聊聊[" + theme + "]怎么样?");
-					break;
 				default:
 					break;
 				}
@@ -510,6 +527,26 @@ public class DialogActivity extends Activity
 		emoji.setEnabled(enable);
 		voiceButton.setClickable(enable);
 		voiceButton.setEnabled(enable);
+	}
+	
+	private void startUpdateVoiceIcon()
+	{
+		voiceIconUpdateTask = new TimerTask() 
+		{
+			@Override
+			public void run()
+			{
+				uiHandler.sendEmptyMessage(UPDATE_AMP);
+			}
+		};
+		voiceIconUpdateTimer = new Timer();
+		voiceIconUpdateTimer.schedule(voiceIconUpdateTask, 0, voiceInconUpdateFreq);
+	}
+	
+	private void stopUpdateVoiceIcon()
+	{
+		voiceIconUpdateTimer.cancel();
+		voiceIconUpdateTask.cancel();
 	}
 	
 	private FriendUser getFriendByID(int id)
@@ -611,7 +648,7 @@ public class DialogActivity extends Activity
 						Message msg = new Message();
 						msg.what = RANDOM_CHATTING_THEME_TAG;
 						msg.obj = "你喜欢看什么类型的电影";
-						handler.sendMessage(msg);
+						uiHandler.sendMessage(msg);
 					} catch (InterruptedException e) 
 					{
 						e.printStackTrace();
@@ -640,7 +677,7 @@ public class DialogActivity extends Activity
 						Message msg = new Message();
 						msg.what = LOCATION_TAG;
 						msg.obj = "北京工业大学平乐园100号";
-						handler.sendMessage(msg);
+						uiHandler.sendMessage(msg);
 					} catch (InterruptedException e) 
 					{
 						e.printStackTrace();

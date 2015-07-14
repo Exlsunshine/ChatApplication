@@ -115,7 +115,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_toLeftOf="@id/yg_dialog_activity_add_utton"
                         android:background="@drawable/yg_dialog_appkefu_inputbar_recordvoicebtn"
-                        android:text="按住  说话"
+                        android:text="按住说话"
                         android:textSize="14sp"
                         android:visibility="gone" />
 

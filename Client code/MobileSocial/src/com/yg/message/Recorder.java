@@ -31,7 +31,20 @@ public class Recorder
             mInstance = new Recorder();
         return mInstance;
     }
-     
+    
+    public int getVolumLevel(int maxLevel)
+	{
+    	if (isRecord && mMediaRecorder != null)
+    	{
+			try
+			{
+				return maxLevel * mMediaRecorder.getMaxAmplitude() / 32768 + 1;
+			}
+			catch (Exception e) { }
+    	}
+		return 1;
+	}
+    
     public int startRecordAndFile()
     {
         //判断是否有外部存储设备sdcard

@@ -22,7 +22,8 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/yg_dialog_appkefu_voice_rcd_hint_amp7" />
+            android:id="@+id/yg_dialog_appkefu_voice_rcd_hint_amp"
+            android:src="@drawable/yg_dialog_appkefu_voice_rcd_hint_amp1" />
     </LinearLayout>
 
     <LinearLayout
