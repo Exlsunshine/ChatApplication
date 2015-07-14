@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
 import com.lj.baidulocation.PositionDetector;
+import com.lj.theme.ThemeGenerator;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.emoji.EmojiParser;
@@ -55,12 +56,10 @@ import com.yg.message.Recorder;
 import com.yg.message.TextMessage;
 import com.yg.ui.dialog.implementation.DialogAdapter;
 import com.yg.user.FriendUser;
-import com.yg.user.WebServiceAPI;
 
 public class DialogActivity extends Activity
 {
 	private static final String DEBUG_TAG = "DialogActivity______";
-	private static final int LOCATION_TAG = 0x01;
 	private static final int RANDOM_CHATTING_THEME_TAG = 0x02;
 	
 	private ArrayList<AbstractMessage> messages;
@@ -639,21 +638,13 @@ public class DialogActivity extends Activity
 				@Override
 				public void run() 
 				{
-//					WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
-//					Object ret = wsAPI.callFuntion("requestTheme");
-//					String theme = ret.toString();
+					ThemeGenerator generator = new ThemeGenerator();
+					String theme = generator.getTheme();
 					
-					try
-					{
-						Thread.sleep(3000);
-						Message msg = new Message();
-						msg.what = RANDOM_CHATTING_THEME_TAG;
-						msg.obj = "你喜欢看什么类型的电影";
-						uiHandler.sendMessage(msg);
-					} catch (InterruptedException e) 
-					{
-						e.printStackTrace();
-					}
+					Message msg = new Message();
+					msg.what = RANDOM_CHATTING_THEME_TAG;
+					msg.obj = theme;
+					uiHandler.sendMessage(msg);
 				}
 			});
 			td.start();
@@ -668,26 +659,6 @@ public class DialogActivity extends Activity
 			setInputEnable(false, "正在读取您的位置...");
 			PositionDetector positionDetector = new PositionDetector(uiHandler, getApplicationContext());
 			positionDetector.detect();
-			/*Thread td = new Thread(new Runnable()
-			{
-				@Override
-				public void run() 
-				{
-					//String location = getMyLocation();
-					try
-					{
-						Thread.sleep(3000);
-						Message msg = new Message();
-						msg.what = LOCATION_TAG;
-						msg.obj = "北京工业大学平乐园100号";
-						uiHandler.sendMessage(msg);
-					} catch (InterruptedException e) 
-					{
-						e.printStackTrace();
-					}
-				}
-			});
-			td.start();*/
 		}
 	}
 	
