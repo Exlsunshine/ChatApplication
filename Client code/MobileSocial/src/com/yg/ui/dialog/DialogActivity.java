@@ -2,6 +2,8 @@ package com.yg.ui.dialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -14,6 +16,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -27,6 +31,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -55,6 +60,11 @@ public class DialogActivity extends Activity
 	private static final String DEBUG_TAG = "DialogActivity______";
 	private ArrayList<AbstractMessage> messages;
 	private Bitmap selectedImg = null;
+	private TimerTask voiceIconUpdateTask;
+	private Timer voiceIconUpdateTimer;
+	private static final int voiceInconUpdateFreq = 100;
+	private Handler uiHandler;
+	private static final int UPDATE_AMP = 0x01;
 	
 	private int friendID = -1;
 	private DialogAdapter msgAdapter = null;
@@ -74,6 +84,7 @@ public class DialogActivity extends Activity
 	private boolean isRecord = true;
 	private SelectFaceHelper faceHelper;
 	private View addFaceToolView;
+	private ImageView ampHint;
 	
 	private void setupDialogActionBar()
 	{
@@ -184,6 +195,7 @@ public class DialogActivity extends Activity
 		voiceButton = (Button) super.findViewById(R.id.yg_dialog_activity_voice_button);
 		emoji = (Button) super.findViewById(R.id.yg_dialog_activity_emotion);
 		addFaceToolView = (View) findViewById(R.id.yg_emoji_add_tool);
+		ampHint = (ImageView) findViewById(R.id.yg_dialog_appkefu_voice_rcd_hint_amp);
 		record_hintview = (LinearLayout) super.findViewById(R.id.yg_dialog_activity_record_hintview);
 		record_hint_layout = (LinearLayout) super.findViewById(R.id.yg_dialog_record_hint_record_image_layout);
 		record_hint_cancel_layout = (LinearLayout) super.findViewById(R.id.yg_dialog_record_hint_cancel_image_layout);
@@ -388,6 +400,7 @@ public class DialogActivity extends Activity
 					
 					Recorder.getInstance().startRecordAndFile();
 					Log.i(DEBUG_TAG, "Start record");
+					startUpdateVoiceIcon();
 				}
 				else if (event.getAction() == MotionEvent.ACTION_MOVE) 
 				{
@@ -455,6 +468,7 @@ public class DialogActivity extends Activity
 					{
 						Toast.makeText(DialogActivity.this, "ÒÑÈ¡Ïû", Toast.LENGTH_SHORT).show();
 					}
+					stopUpdateVoiceIcon();
 				}
 
 				return false;
@@ -462,6 +476,47 @@ public class DialogActivity extends Activity
 		});
 		
 		//registerReceiver(broadcastReceiver, intentFilter());
+		
+		uiHandler = new Handler()
+		{
+			@Override
+			public void handleMessage(Message msg)
+			{
+				switch (msg.what)
+				{
+				case UPDATE_AMP:
+					int level = Recorder.getInstance().getVolumLevel(7);
+					Log.i(DEBUG_TAG, String.valueOf(level));
+					int resId = DialogActivity.this.getResources().getIdentifier("yg_dialog_appkefu_voice_rcd_hint_amp" + level, "drawable", 
+							DialogActivity.this.getPackageName());
+					ampHint.setImageResource(resId);
+					break;
+				default:
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
+	}
+	
+	private void startUpdateVoiceIcon()
+	{
+		voiceIconUpdateTask = new TimerTask() 
+		{
+			@Override
+			public void run()
+			{
+				uiHandler.sendEmptyMessage(UPDATE_AMP);
+			}
+		};
+		voiceIconUpdateTimer = new Timer();
+		voiceIconUpdateTimer.schedule(voiceIconUpdateTask, 0, voiceInconUpdateFreq);
+	}
+	
+	private void stopUpdateVoiceIcon()
+	{
+		voiceIconUpdateTimer.cancel();
+		voiceIconUpdateTask.cancel();
 	}
 	
 	private FriendUser getFriendByID(int id)
