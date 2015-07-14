@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -142,12 +141,14 @@ public class DialogAdapter extends BaseAdapter
 				SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(context, ((TextMessage)messages.get(position)).getText());
 				
 				holder.tvMyText.setText(spannableString);
-				final String text = holder.tvMyText.getText().toString();
+				final String text = eliminateEmoji(holder.tvMyText.getText().toString());
 				holder.tvMyText.setOnClickListener(new OnClickListener()
 				{
 					@Override
 					public void onClick(View arg0)
 					{
+						if (text.length() == 0)
+							return;
 						Intent intent = new Intent();
 						intent.putExtra(TranslatorActivity.TEXT, text);
 						intent.putExtra(TranslatorActivity.TOLANGUAGE, Translator.AUTO);
@@ -205,12 +206,14 @@ public class DialogAdapter extends BaseAdapter
 				SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(context, ((TextMessage)messages.get(position)).getText());
 				
 				holder.tvFriendText.setText(spannableString);
-				final String text = holder.tvFriendText.getText().toString();
+				final String text = eliminateEmoji(holder.tvFriendText.getText().toString());
 				holder.tvFriendText.setOnClickListener(new OnClickListener()
 				{
 					@Override
 					public void onClick(View arg0)
 					{
+						if (text.length() == 0)
+							return;
 						Intent intent = new Intent();
 						intent.putExtra(TranslatorActivity.TEXT, text);
 						intent.putExtra(TranslatorActivity.TOLANGUAGE, Translator.AUTO);
@@ -225,6 +228,12 @@ public class DialogAdapter extends BaseAdapter
 		}
 		
 		return convertView;
+	}
+	
+	private String eliminateEmoji(String text)
+	{
+		String reg = "\\[e\\]\\S{5}\\[/e\\]";
+		return text.replaceAll(reg, "");
 	}
 	
 	private FriendUser getFriendByID(int id)

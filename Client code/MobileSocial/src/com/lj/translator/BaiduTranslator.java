@@ -1,9 +1,6 @@
 package com.lj.translator;
 
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -12,14 +9,6 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
-
-import com.yg.commons.HttpGetter;
-
-
-
-
 
 public class BaiduTranslator 
 {
