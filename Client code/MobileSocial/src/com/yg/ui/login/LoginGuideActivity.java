@@ -32,7 +32,6 @@ import android.widget.Toast;
 import com.example.testmobiledatabase.R;
 import com.lj.networktest.ActivityNetworkError;
 import com.lj.networktest.ThreadNetworkTest;
-import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.ui.MainActivity;
 import com.yg.ui.login.implementation.CrossingAnimation;
@@ -40,7 +39,6 @@ import com.yg.ui.login.implementation.ForgetImplementation;
 import com.yg.ui.login.implementation.LoginImplementation;
 import com.yg.ui.login.implementation.LoginInfo;
 import com.yg.ui.signup.SignupActivity;
-import com.yg.user.WebServiceAPI;
 
 public class LoginGuideActivity extends Activity
 {
@@ -282,7 +280,7 @@ public class LoginGuideActivity extends Activity
 				email.startAnimation(shake);
 				break;
 			case 2:
-				Toast.makeText(LoginGuideActivity.this, "” œ‰…–Œ¥◊¢≤·π˝£¨ƒ˙ ‰»Î” œ‰¡À?", Toast.LENGTH_SHORT).show();
+				Toast.makeText(LoginGuideActivity.this, "” œ‰…–Œ¥◊¢≤·π˝£¨ ‰¥Ì” œ‰¡À?", Toast.LENGTH_SHORT).show();
 			default:
 				break;
 			}

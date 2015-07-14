@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.testmobiledatabase.R;
 import com.lj.datapicker.ArrayWheelAdapter;
@@ -311,7 +312,6 @@ public class SignupActivity extends Activity
 		public void onClick(View arg0) 
 		{
 			loginObj.setCurrentHometownString(gHomttown);
-			
 			if (birthday == null)
 			{
 				Animation shake = AnimationUtils.loadAnimation(SignupActivity.this, R.anim.yg_loginguide_page3_login_dialog_anim_shake);
@@ -323,6 +323,9 @@ public class SignupActivity extends Activity
 				return ;
 			}
 			
+			arg0.setClickable(false);
+			((Button) arg0).setText("处理中，请稍后...");
+			
 			int result = loginObj.register();
 			if (result > 0 && result != 65535)
 			{
@@ -331,6 +334,8 @@ public class SignupActivity extends Activity
 					@Override
 					public void run() 
 					{
+						Toast.makeText(SignupActivity.this, "注册成功，请登录！", Toast.LENGTH_LONG).show();
+					
 						Intent it = new Intent(SignupActivity.this, LoginGuideActivity.class);
 						Bundle bundle = new Bundle();
 						bundle.putInt("index", 3);
