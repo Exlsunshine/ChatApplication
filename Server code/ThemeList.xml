@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+	<category name="电影">
+		<value>悬疑</value>
+		<value>动作</value>
+	</category>
+	<category name="音乐">
+		<value>抒情</value>
+		<value>重金属</value>
+	</category>
+</theme>
