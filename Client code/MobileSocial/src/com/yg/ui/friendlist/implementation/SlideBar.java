@@ -101,10 +101,13 @@ public class SlideBar extends View
 			}
 			break;
 		case MotionEvent.ACTION_UP:
-			showBkg = false;
-			choose = -1;
-			listener.onTouchingLetterEnd();
-			invalidate();
+			if (listener != null)
+			{
+				showBkg = false;
+				choose = -1;
+				listener.onTouchingLetterEnd();
+				invalidate();
+			}
 			break;
 		}
 		return true;
