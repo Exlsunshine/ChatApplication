@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.testmobiledatabase.R;
+import com.lj.translator.Translator;
+import com.lj.translator.TranslatorActivity;
 import com.tp.ui.MyselfPostActivity;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
@@ -139,6 +142,19 @@ public class DialogAdapter extends BaseAdapter
 				SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(context, ((TextMessage)messages.get(position)).getText());
 				
 				holder.tvMyText.setText(spannableString);
+				final String text = holder.tvMyText.getText().toString();
+				holder.tvMyText.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View arg0)
+					{
+						Intent intent = new Intent();
+						intent.putExtra(TranslatorActivity.TEXT, text);
+						intent.putExtra(TranslatorActivity.TOLANGUAGE, Translator.AUTO);
+						intent.setClass(context, TranslatorActivity.class);
+						context.startActivity(intent);
+					}
+				});
 				break;
 			default:
 				break;
@@ -189,6 +205,19 @@ public class DialogAdapter extends BaseAdapter
 				SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(context, ((TextMessage)messages.get(position)).getText());
 				
 				holder.tvFriendText.setText(spannableString);
+				final String text = holder.tvFriendText.getText().toString();
+				holder.tvFriendText.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View arg0)
+					{
+						Intent intent = new Intent();
+						intent.putExtra(TranslatorActivity.TEXT, text);
+						intent.putExtra(TranslatorActivity.TOLANGUAGE, Translator.AUTO);
+						intent.setClass(context, TranslatorActivity.class);
+						context.startActivity(intent);
+					}
+				});
 				break;
 			default:
 				break;
