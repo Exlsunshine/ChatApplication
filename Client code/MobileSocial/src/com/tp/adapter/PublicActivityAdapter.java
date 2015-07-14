@@ -308,7 +308,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     RelativeLayout feedComments2 = (RelativeLayout) view.findViewById(R.id.publicactivityadpter_feed_comments_2);
                     RelativeLayout feedComments3 = (RelativeLayout) view.findViewById(R.id.publicactivityadpter_feed_comments_3);
                     LinearLayout ll = (LinearLayout) view.findViewById(R.id.publicactivityadpter_feed_comments_thread);
-                    ImageView portrait = (ImageView) view.findViewById(R.id.publicactivityadpter_comment_portrait);
+                    //ImageView portrait = (ImageView) view.findViewById(R.id.publicactivityadpter_comment_portrait);
                     
                     final TextView likedNumberTV = (TextView) view.findViewById(R.id.publicactivityadpter_comment_button_text);
                 	likedNumber = post.getLikedNumber();

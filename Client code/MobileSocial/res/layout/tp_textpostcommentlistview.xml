@@ -22,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="6.0dip"/>
 
-        <ImageView
+        <!-- <ImageView
             android:id="@+id/textpostcommentlistview_comment_portrait1"
             android:layout_width="0.0dip"
             android:layout_height="0.0dip"
@@ -30,7 +30,7 @@
             android:layout_alignLeft="@id/textpostcommentlistview_tp_userportrait"
             android:layout_alignRight="@id/textpostcommentlistview_tp_userportrait"
             android:layout_alignTop="@id/textpostcommentlistview_tp_userportrait"
-            android:background="@drawable/tp_comment_avatar" />
+            android:background="@drawable/tp_comment_avatar" /> -->
 
         <TextView
             android:id="@+id/textpostcommentlistview_commentContent"
