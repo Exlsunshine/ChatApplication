@@ -9,20 +9,24 @@ import com.example.testmobiledatabase.R;
 import com.tp.adapter.PublicActivityAdapter.GetImageTask;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
+import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
 import com.yg.commons.ConstantValues;
 import com.yg.message.ConvertUtil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -128,20 +132,25 @@ public class MyselfPostAdpter extends BaseAdapter
 						@Override
 						public void onClick(View arg0) 
 						{
-							if (isLiked != true)
+							likedNumber = post.getLikedNumber();
+							Thread td = new Thread(new Runnable() 
 							{
-								likedNumber = post.getLikedNumber();
-								likedNumberTV.setText(Integer.toString(++likedNumber));
-								Thread td = new Thread(new Runnable() 
+								@Override
+								public void run() 
 								{
-									@Override
-									public void run() 
-									{
-										post.increaseLikedNumber();
-									}
+									int result = post.modifyLikedNumber(ConstantValues.user.getID());
+									likedNumber += result;
+								}
 							});
 							td.start();
-							isLiked = true;
+							try 
+							{
+								td.join();
+								likedNumberTV.setText(Integer.toString(likedNumber));
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
 							}
 						}
 					});
@@ -270,26 +279,32 @@ public class MyselfPostAdpter extends BaseAdapter
 						@Override
 						public void onClick(View arg0) 
 						{
-							if (isLiked != true)
+							likedNumber = post.getLikedNumber();
+							Thread td = new Thread(new Runnable() 
 							{
-								likedNumberTV.setText(Integer.toString(++likedNumber));
-								Thread td = new Thread(new Runnable() 
+								@Override
+								public void run() 
 								{
-									@Override
-									public void run() 
-									{
-										post.increaseLikedNumber();
-									}
+									int result = post.modifyLikedNumber(ConstantValues.user.getID());
+									likedNumber += result;
+								}
 							});
 							td.start();
-							isLiked = true;
+							try 
+							{
+								td.join();
+								likedNumberTV.setText(Integer.toString(likedNumber));
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
 							}
 						}
 					});
                     
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
-                   
+
                     ImagePost ip = (ImagePost) post;
                     GetImageTask task = new GetImageTask(photoView, ip);
                     task.execute(0);

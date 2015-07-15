@@ -188,21 +188,15 @@ public abstract class AbstractPost
 		return comments.size();
 	}
 	/**
-	 * 用户点赞后调用此函数，被赞数+1
+	 * 用户点赞或取消点赞后调用此函数，被赞数+1或-1
+         * @param userID 用户ID 
+	 * @return 更新后的点赞数
 	 */
-	public void increaseLikedNumber() 
+	public int modifyLikedNumber(int userID) 
 	{
-		this.likedNumber++;
-		increaseLikedNumberAtServer(postID);
-	}
-	
-	/**
-	 * 用户撤销点赞后调用此函数，被赞数-1
-	 */
-	public void decreaseLikedNumber()
-	{
-		this.likedNumber--;
-		decreaseLikedNumberAtServer(postID);
+		int result = modifyLikedNumberAtServer(postID, userID);
+		this.likedNumber += result;
+		return result;
 	}
 	
 	/**
@@ -241,27 +235,19 @@ public abstract class AbstractPost
 	/**
 	 * 根据给定的postID在服务器端增加1次被赞数
 	 * @param postID 给定的postID(次参数应为this.postID)
+         * @param userID 点赞用户的ID
+	 * @return -1表示取消点赞成功<br>
+	 * 1表示点赞成功
 	 */
-	protected void increaseLikedNumberAtServer(int postID)
+	protected int modifyLikedNumberAtServer(int postID, int userID)
 	{
 		WebServiceAPI wsApi;
-		Object []value = {this.postID}; 
-		String []para = {"postID"};
+		Object []value = {this.postID, userID}; 
+		String []para = {"postID", "userID"};
 		wsApi = new WebServiceAPI(packageName, className);
-		Object s = wsApi.callFuntion("increaseLikeByPostID", para ,value);
-	}
-	
-	/**
-	 * 根据给定的postID在服务器端减少1次被赞数
-	 * @param postID 给定的postID(此参数应为this.postID)
-	 */
-	protected void decreaseLikedNumberAtServer(int postID)
-	{
-		WebServiceAPI wsApi;
-		Object []value = {postID}; 
-		String []para = {"postID"};
-		wsApi = new WebServiceAPI(packageName, className);
-		Object s = wsApi.callFuntion("decreaseLikeByPostID", para ,value);
+		Object s = wsApi.callFuntion("modifyLikedNumber", para ,value);
+		int result = Integer.parseInt(s.toString());
+		return result;
 	}
 	
 	/**
