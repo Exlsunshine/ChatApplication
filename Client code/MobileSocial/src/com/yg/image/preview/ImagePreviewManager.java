@@ -122,8 +122,8 @@ public class ImagePreviewManager
 				    outStream.close();
 
 				    //Refreshing SD card
-				    context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
-				   
+				    context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
+				    
 				    Log.d(DEBUG_TAG, "Successfully saved image to " + image.getAbsolutePath());
 				    Message msg = new Message();
 				    msg.what = IMAGE_SAVING_COMPLETED;
@@ -134,8 +134,7 @@ public class ImagePreviewManager
 				catch (Exception e) 
 				{
 				    e.printStackTrace();
-				    Toast.makeText(context, "Image could not be saved : Please ensure you have SD card installed " +
-				                                                                            "properly", Toast.LENGTH_LONG).show();
+				    Toast.makeText(context, "Image could not be saved : Please ensure you have SD card installed " + "properly", Toast.LENGTH_LONG).show();
 				    Log.e(DEBUG_TAG, "Failed to save image.");
 				}
 			}
