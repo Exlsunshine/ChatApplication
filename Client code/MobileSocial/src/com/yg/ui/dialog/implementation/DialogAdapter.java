@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.testmobiledatabase.R;
+import com.lj.translator.Translator;
+import com.lj.translator.TranslatorActivity;
 import com.tp.ui.MyselfPostActivity;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
@@ -139,6 +141,21 @@ public class DialogAdapter extends BaseAdapter
 				SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(context, ((TextMessage)messages.get(position)).getText());
 				
 				holder.tvMyText.setText(spannableString);
+				final String text = eliminateEmoji(holder.tvMyText.getText().toString());
+				holder.tvMyText.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View arg0)
+					{
+						if (text.length() == 0)
+							return;
+						Intent intent = new Intent();
+						intent.putExtra(TranslatorActivity.TEXT, text);
+						intent.putExtra(TranslatorActivity.TOLANGUAGE, Translator.AUTO);
+						intent.setClass(context, TranslatorActivity.class);
+						context.startActivity(intent);
+					}
+				});
 				break;
 			default:
 				break;
@@ -189,6 +206,21 @@ public class DialogAdapter extends BaseAdapter
 				SpannableString spannableString = ParseEmojiMsgUtil.getExpressionString(context, ((TextMessage)messages.get(position)).getText());
 				
 				holder.tvFriendText.setText(spannableString);
+				final String text = eliminateEmoji(holder.tvFriendText.getText().toString());
+				holder.tvFriendText.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View arg0)
+					{
+						if (text.length() == 0)
+							return;
+						Intent intent = new Intent();
+						intent.putExtra(TranslatorActivity.TEXT, text);
+						intent.putExtra(TranslatorActivity.TOLANGUAGE, Translator.AUTO);
+						intent.setClass(context, TranslatorActivity.class);
+						context.startActivity(intent);
+					}
+				});
 				break;
 			default:
 				break;
@@ -196,6 +228,12 @@ public class DialogAdapter extends BaseAdapter
 		}
 		
 		return convertView;
+	}
+	
+	private String eliminateEmoji(String text)
+	{
+		String reg = "\\[e\\]\\S{5}\\[/e\\]";
+		return text.replaceAll(reg, "");
 	}
 	
 	private FriendUser getFriendByID(int id)
