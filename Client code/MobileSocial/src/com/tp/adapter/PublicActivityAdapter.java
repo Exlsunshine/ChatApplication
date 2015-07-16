@@ -11,6 +11,7 @@ import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.image.preview.ImagePreviewManager;
 import com.yg.ui.dialog.implementation.DateUtil;
 
 import android.content.Context;
@@ -36,11 +37,13 @@ import android.widget.Toast;
 
 public class PublicActivityAdapter extends BaseAdapter 
 {
+	private static final String DEBUG_TAG = "PublicActivityAdapter______";
     private Context context;
     private List<AbstractPost> posts;
     private int likedNumber = 0;
     private long mLastTime = 0;
 	private long mCurTime = 0;
+	
     public PublicActivityAdapter(Context context, List<AbstractPost> posts) 
     {
         super();
@@ -353,7 +356,34 @@ public class PublicActivityAdapter extends BaseAdapter
 					});
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
-                                   
+                     
+/*                    photoView.setOnLongClickListener(new OnLongClickListener() 
+                    {
+						@Override
+						public boolean onLongClick(View v) 
+						{
+							Log.e("onLongClick", "onLongClick");
+							return true;
+						}
+					});
+                    
+                    photoView.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) 
+						{
+							Log.e("onClick", "onClick");
+							
+							Intent intent = new Intent(context, TextPostCommentListActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putInt("postid", post.getPostID());
+							intent.putExtras(bundle); 
+							context.startActivity(intent);
+						}
+					});*/
+
+                    
+                    
                     Log.e("getview__", post.getPostID() + "");
                     ImagePost ip = (ImagePost) post;
                     
