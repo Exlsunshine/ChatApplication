@@ -8,7 +8,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -88,7 +87,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 		@Override
 	    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 	        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-	        System.out.println("onMeasure.......................");
 	        if (mScrollBarPanel != null && getAdapter() != null) {
 	            mWidthMeasureSpec = widthMeasureSpec;
 	            mHeightMeasureSpec = heightMeasureSpec;
@@ -99,7 +97,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 		@Override
 		protected int computeVerticalScrollExtent() {
 			extent = super.computeVerticalScrollExtent();
-			Log.d("computeVerticalScrollExtent", extent + ""); 
 			return extent;
 		}
 		
@@ -113,7 +110,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 				return 0;
 			}
 			offset =  (int) (sRange * super.computeVerticalScrollOffset() * 1.0f / range);
-			Log.d("computeVerticalScrolloffset", offset + ""); 
 			return offset;
 		}
 		
@@ -284,19 +280,16 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 	                /*
 	                 * from android source code (ScrollBarDrawable.java)
 	                 */
-	            	Log.d("onScrollmScrollBarPanelPosition", mScrollBarPanelPosition + "");
 	                final int thickness = getVerticalScrollbarWidth();
 	                int height = Math.round((float) getMeasuredHeight() * extent  / range);
 	                int h = getMeasuredHeight();
 	                int thumbOffset = Math.round((float) (getMeasuredHeight() - height) * offset / (range - extent));
-	                Log.d("onScroll1", thumbOffset + " ");
 	                final int minLength = thickness * 2;
 	                if (height < minLength) 
 	                {
 	                    height = minLength;
 	                }
 	                thumbOffset += height / 2;
-	                Log.d("onScroll2", thumbOffset + " ");
 	                /*
 	                 * find out which itemviews the center of thumb is on
 	                 */
@@ -332,16 +325,14 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 	                 * update panel position
 	                 */
 	                mScrollBarPanelPosition = thumbOffset - mScrollBarPanel.getMeasuredHeight() / 2;
-	                Log.d("onScrollmScrollBarPanelPosition___________", thumbOffset + " " + mScrollBarPanel.getMeasuredHeight());
 	                final int x = getMeasuredWidth() - mScrollBarPanel.getMeasuredWidth()
 	                        - getVerticalScrollbarWidth();
-	                System.out.println("left==" + x + " top==" + mScrollBarPanelPosition + " bottom=="
+	               /* System.out.println("left==" + x + " top==" + mScrollBarPanelPosition + " bottom=="
 	                        + (x + mScrollBarPanel.getMeasuredWidth()) + " right=="
-	                        + (mScrollBarPanelPosition + mScrollBarPanel.getMeasuredHeight()));
+	                        + (mScrollBarPanelPosition + mScrollBarPanel.getMeasuredHeight()));*/
 	                mScrollBarPanel.layout(x, mScrollBarPanelPosition,
 	                        x + mScrollBarPanel.getMeasuredWidth(), mScrollBarPanelPosition
 	                                + mScrollBarPanel.getMeasuredHeight());
-	                Log.d("onScrollmScrollBarPanelPosition", mScrollBarPanelPosition + "");
 	                mPositionChangedListener.onScollPositionChanged(this, mScrollBarPanelPosition);
 	            }
 	        }
@@ -469,7 +460,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        System.out.println("onLayout.......................");
         if (mScrollBarPanel != null) {
             final int x = getMeasuredWidth() - mScrollBarPanel.getMeasuredWidth()
                     - getVerticalScrollbarWidth();
@@ -482,7 +472,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        System.out.println("dispatchDraw.......................");
         if (mScrollBarPanel != null && mScrollBarPanel.getVisibility() == View.VISIBLE) {
 
             drawChild(canvas, mScrollBarPanel, getDrawingTime());
@@ -492,7 +481,6 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        System.out.println("onDetachedFromWindow.......................");
         mHandler.removeCallbacks(mScrollBarPanelFadeRunnable);
     }
 
