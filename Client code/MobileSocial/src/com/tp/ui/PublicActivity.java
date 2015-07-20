@@ -10,10 +10,8 @@ import com.tp.adapter.PullToRefreshListView;
 import com.tp.adapter.PullToRefreshListView.OnPositionChangedListener;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.EmptyPost;
-import com.tp.messege.PostManager;
 import com.tp.views.MenuRightAnimations;
 import com.yg.commons.ConstantValues;
-import com.yg.ui.dialog.DialogActivity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -39,7 +37,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -136,7 +133,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 			{
 				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
                 {
-					Log.e("onScrollStateChanged", mListView.getFirstVisiblePosition() + "");
 					Thread td = new Thread(new Runnable() 
 			        {
 						@Override
@@ -184,7 +180,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 				chatHistoryAdapter = new PublicActivityAdapter(PublicActivity.this, ap);
 				mListView.setAdapter(chatHistoryAdapter);
 				mListView.setSelection(position1);
-				Log.d("handleMessage", position1 + "");
 				mListView.setOnItemClickListener(new OnItemClickListenerImpl());
 				mPullRefreshListView.onRefreshComplete();
 				break;
@@ -230,7 +225,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     {
         RotateAnimation[] rtnAni = new RotateAnimation[2];
         float[] timef = computMinAndHour(min, hour);
-        System.out.println("min===" + timef[0] + " hour===" + timef[1]);
         RotateAnimation ra = new RotateAnimation(lastTime[0], timef[0], Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         ra.setFillAfter(true); 
         ra.setFillBefore(true);
@@ -251,18 +245,15 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,long id) 
 		{
-			Log.d("OnItemClickListenerImpl", " 111111111");
 			position1 = mListView.getFirstVisiblePosition();
 			if (position == 1)
 			{
 				Intent intent = new Intent(PublicActivity.this,MyselfPostActivity.class);
         		startActivity(intent);
-        		Log.d("userportraitIV", "111111");
 			}
 			if (position > 1)
 			{
 				int postId = (int) chatHistoryAdapter.getItemId(position - 1);
-				Log.d("OnItemClickListenerImpl", postId + " ");
 				Intent intent = new Intent(PublicActivity.this, TextPostCommentListActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putInt("postid", postId);
@@ -275,11 +266,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) 
     {
-    	Log.e("PA____", "onScrollStateChanged");
-    	if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) 
-    	{
-    		Log.e("onScrollStateChanged", mListView.getFirstVisiblePosition() + "");
-    	}
     }
     
     @Override
@@ -299,22 +285,18 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         	clockLayout.setVisibility(View.VISIBLE);
     	if (firstVisiblePosition > ap.size() || firstVisiblePosition == ap.size())
     	{
-    		Log.e("PA_______", "ififiif");
     	    RotateAnimation[] tmp = computeAni(0,0);
     	    minView.startAnimation(tmp[0]);
     	    hourView.startAnimation(tmp[1]);
     		return;
     	}
-        System.out.println("layout=======padding top========"+scrollBarPanel.getPaddingTop());
         
         datestr.setText("ÉÏÎç");
         AbstractPost abpost = ap.get(firstVisiblePosition);
-        Log.e("clock______", abpost.getPostDate());
         String []date = abpost.getPostDate().split(" ");
         String []daytime = date[1].split(":");
         int hour = Integer.parseInt(daytime[0]);
         int min = Integer.parseInt(daytime[1]);
-        Log.e("clock______", firstVisiblePosition + " " + hour + ":" + min);
         String tmpstr = "";
         if (hour > 12) 
         {
@@ -339,9 +321,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     @Override
     public void onScollPositionChanged(View scrollBarPanel,int top) 
     {
-        System.out.println("onScollPositionChanged======================");
         MarginLayoutParams layoutParams = (MarginLayoutParams) clockLayout.getLayoutParams();
-        System.out.println("left=="+layoutParams.leftMargin+" top=="+layoutParams.topMargin+" bottom=="+layoutParams.bottomMargin+" right=="+layoutParams.rightMargin);
         layoutParams.setMargins(0, top, 0, 0);
         clockLayout.setLayoutParams(layoutParams);
         //clockLayout.setVisibility(View.VISIBLE);

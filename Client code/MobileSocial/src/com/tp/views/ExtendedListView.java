@@ -9,7 +9,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -135,7 +134,6 @@ public class ExtendedListView extends ListView implements OnScrollListener {
                  * from android source code (ScrollBarDrawable.java)
                  */
             	
-            	Log.d("onScrollmScrollBarPanelPosition", mScrollBarPanelPosition + "");
                 final int thickness = getVerticalScrollbarWidth();
                 int height = Math.round((float) getMeasuredHeight() * computeVerticalScrollExtent() / computeVerticalScrollRange());
                 int thumbOffset = Math.round((float) (getMeasuredHeight() - height) * computeVerticalScrollOffset() / (computeVerticalScrollRange() - computeVerticalScrollExtent()));
@@ -185,9 +183,9 @@ public class ExtendedListView extends ListView implements OnScrollListener {
                 mScrollBarPanelPosition = thumbOffset - mScrollBarPanel.getMeasuredHeight() / 2;
                 final int x = getMeasuredWidth() - mScrollBarPanel.getMeasuredWidth()
                         - getVerticalScrollbarWidth();
-                System.out.println("left==" + x + " top==" + mScrollBarPanelPosition + " bottom=="
+              /*  System.out.println("left==" + x + " top==" + mScrollBarPanelPosition + " bottom=="
                         + (x + mScrollBarPanel.getMeasuredWidth()) + " right=="
-                        + (mScrollBarPanelPosition + mScrollBarPanel.getMeasuredHeight()));
+                        + (mScrollBarPanelPosition + mScrollBarPanel.getMeasuredHeight()));*/
                 mScrollBarPanel.layout(x, mScrollBarPanelPosition,
                         x + mScrollBarPanel.getMeasuredWidth(), mScrollBarPanelPosition
                                 + mScrollBarPanel.getMeasuredHeight());
@@ -247,7 +245,6 @@ public class ExtendedListView extends ListView implements OnScrollListener {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        System.out.println("onMeasure.......................");
         if (mScrollBarPanel != null && getAdapter() != null) {
             mWidthMeasureSpec = widthMeasureSpec;
             mHeightMeasureSpec = heightMeasureSpec;
@@ -259,7 +256,6 @@ public class ExtendedListView extends ListView implements OnScrollListener {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        System.out.println("onLayout.......................");
         if (mScrollBarPanel != null) {
             final int x = getMeasuredWidth() - mScrollBarPanel.getMeasuredWidth()
                     - getVerticalScrollbarWidth();
@@ -272,7 +268,6 @@ public class ExtendedListView extends ListView implements OnScrollListener {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        System.out.println("dispatchDraw.......................");
         if (mScrollBarPanel != null && mScrollBarPanel.getVisibility() == View.VISIBLE) {
 
             drawChild(canvas, mScrollBarPanel, getDrawingTime());
@@ -282,7 +277,6 @@ public class ExtendedListView extends ListView implements OnScrollListener {
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        System.out.println("onDetachedFromWindow.......................");
         mHandler.removeCallbacks(mScrollBarPanelFadeRunnable);
     }
 }
