@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
+import com.tp.ui.ImageZoomInActivity;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
@@ -41,8 +42,6 @@ public class PublicActivityAdapter extends BaseAdapter
     private Context context;
     private List<AbstractPost> posts;
     private int likedNumber = 0;
-    private long mLastTime = 0;
-	private long mCurTime = 0;
 	
     public PublicActivityAdapter(Context context, List<AbstractPost> posts) 
     {
@@ -356,39 +355,53 @@ public class PublicActivityAdapter extends BaseAdapter
 					});
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
+                    
+                    ImagePost ip = (ImagePost) post;
+                    
+                    GetImageTask task = new GetImageTask(photoView, ip);
+                    task.execute(0);
                      
-/*                    photoView.setOnLongClickListener(new OnLongClickListener() 
+                    photoView.setOnLongClickListener(new OnLongClickListener() 
                     {
 						@Override
 						public boolean onLongClick(View v) 
 						{
 							Log.e("onLongClick", "onLongClick");
+							ImagePost ipLongClick = (ImagePost) post;
+							if (ipLongClick.getImagePath() == null)
+							{
+								String URL = ipLongClick.getImageURL();
+								Intent intent = new Intent(context, ImageZoomInActivity.class);
+								Bundle bundle = new Bundle();
+								bundle.putString("Path", URL);
+								intent.putExtras(bundle); 
+								context.startActivity(intent);
+							}
+							else
+							{
+								String Path = ipLongClick.getImagePath();
+								Intent intent = new Intent(context, ImageZoomInActivity.class);
+								Bundle bundle = new Bundle();
+								bundle.putString("Path", Path);
+								intent.putExtras(bundle); 
+								context.startActivity(intent);
+							}
 							return true;
 						}
 					});
                     
-                    photoView.setOnClickListener(new OnClickListener() {
-						
+                    photoView.setOnClickListener(new OnClickListener()
+                    {
 						@Override
 						public void onClick(View v) 
 						{
-							Log.e("onClick", "onClick");
-							
 							Intent intent = new Intent(context, TextPostCommentListActivity.class);
 							Bundle bundle = new Bundle();
 							bundle.putInt("postid", post.getPostID());
 							intent.putExtras(bundle); 
 							context.startActivity(intent);
 						}
-					});*/
-
-                    
-                    
-                    Log.e("getview__", post.getPostID() + "");
-                    ImagePost ip = (ImagePost) post;
-                    
-                    GetImageTask task = new GetImageTask(photoView, ip);
-                    task.execute(0);
+					});
                     
                     int size = post.getComments().size();
                     switch (size)
