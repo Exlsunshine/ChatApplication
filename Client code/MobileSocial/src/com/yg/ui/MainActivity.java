@@ -41,6 +41,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.testmobiledatabase.R;
+import com.lj.driftbottle.ui.DriftBottleActivity;
 import com.lj.satellitemenu.SatelliteMenu;
 import com.lj.satellitemenu.SatelliteMenu.SateliteClickedListener;
 import com.lj.satellitemenu.SatelliteMenuItem;
@@ -66,7 +67,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	private Intent recentDialogIntent;  
 	private Intent friendListIntent; 
 	
-	private SatelliteMenu centerControlMenu;
+	private SatelliteMenu centerControlMenuBasic;
+	private SatelliteMenu centerControlMenuAdvanced;
 	private RadioButton recentDialogRb;
 	private RadioButton friendListRb;
 	private ImageView mask;
@@ -75,6 +77,9 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	private final int MENU_FRIENDCIRCLE_INDEX = 3;
 	private final int MENU_SENDPOST_INDEX = 4;
 	private final int MENU_PROFILE_INDEX = 5;
+	
+	private final int MENU_VIDEO_CHAT_INDEX = 6;
+	private final int MENU_DRIFT_BOTTLE_INDEX = 7;
 	
 	public static final int REQUEST_CODE_SIGNOFF = 0x30;
 	public static final int RESULT_CODE_SIGNOFF = 0x31;
@@ -127,72 +132,91 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		}
 	};
 	
+	private class CenterControllMenuClickListener implements SateliteClickedListener
+	{
+		@Override
+		public void eventOccured(final int id) 
+		{
+			mask.setVisibility(View.GONE);
+			new Handler().postDelayed(new Runnable() 
+			{
+				@Override
+				public void run() 
+				{
+					if (id == MENU_SHAKE_INDEX)
+					{
+						Intent intent = new Intent();
+						intent.setClass(MainActivity.this, ActivityShake.class);
+						startActivity(intent);
+					}
+					else if (id == MENU_FRIENDCIRCLE_INDEX)
+					{
+						Intent intent = new Intent();
+						intent.setClass(MainActivity.this, PublicActivity.class);
+						startActivity(intent);
+					}
+					else if (id == MENU_SENDPOST_INDEX)
+					{
+						Intent intent = new Intent();
+						intent.setClass(MainActivity.this, SendPostActivity.class);
+						startActivity(intent);
+					}
+					else if (id == MENU_PROFILE_INDEX)
+					{
+						Intent intent = new Intent();
+						intent.setClass(MainActivity.this, ActivitySettings.class);
+						startActivityForResult(intent, REQUEST_CODE_SIGNOFF);
+					}
+					else if (id == MENU_VIDEO_CHAT_INDEX)
+					{
+						
+					}
+					else if (id == MENU_DRIFT_BOTTLE_INDEX)
+					{
+						Intent intent = new Intent();
+						intent.setClass(getApplicationContext(), DriftBottleActivity.class);
+						startActivity(intent);
+					}
+				}
+			}, 800);
+		}
+		
+	}
+	
 	private void setupLayout()
 	{
 		recentDialogRb = (RadioButton) findViewById(R.id.main_activity_recent_dialog);
 		friendListRb = (RadioButton) findViewById(R.id.main_activity_friend_list);
 		mask = (ImageView)findViewById(R.id.main_activity_mask);
 		
-		centerControlMenu = (SatelliteMenu)findViewById(R.id.lj_menu);
-		centerControlMenu.setMainImage(R.drawable.sat_main_style2);
-		/*
-		centerControlMenu.setSatelliteDistance(340);
-		centerControlMenu.setMainImage(R.drawable.sat_main_style2);
-		centerControlMenu.setTotalSpacingDegree(180);
-		centerControlMenu.setCloseItemsOnClick(true);
-		centerControlMenu.setExpandDuration(500);
-		*/
-		centerControlMenu.setMaskView(mask);
+		centerControlMenuBasic = (SatelliteMenu)findViewById(R.id.lj_menu_basic);
+		centerControlMenuBasic.setMainImage(R.drawable.sat_main_style2);
+		centerControlMenuBasic.setMaskView(mask);
+		List<SatelliteMenuItem> itemsBasic = new ArrayList<SatelliteMenuItem>();
+        itemsBasic.add(new SatelliteMenuItem(1, android.R.color.transparent));
+        itemsBasic.add(new SatelliteMenuItem(MENU_SHAKE_INDEX, R.drawable.yg_main_shake_icon));
+        itemsBasic.add(new SatelliteMenuItem(MENU_FRIENDCIRCLE_INDEX, R.drawable.yg_main_friendcircle_icon));
+        itemsBasic.add(new SatelliteMenuItem(MENU_SENDPOST_INDEX, R.drawable.yg_main_post_icon));
+        itemsBasic.add(new SatelliteMenuItem(MENU_PROFILE_INDEX, R.drawable.yg_main_profile_icon));
+        itemsBasic.add(new SatelliteMenuItem(6, android.R.color.transparent));
+        centerControlMenuBasic.addItems(itemsBasic);   
+        centerControlMenuBasic.setOnItemClickedListener(new CenterControllMenuClickListener());
+        
 		
-		List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
-        items.add(new SatelliteMenuItem(1, android.R.color.transparent));
-        items.add(new SatelliteMenuItem(2, R.drawable.yg_main_shake_icon));
-        items.add(new SatelliteMenuItem(3, R.drawable.yg_main_friendcircle_icon));
-        items.add(new SatelliteMenuItem(4, R.drawable.yg_main_post_icon));
-        items.add(new SatelliteMenuItem(5, R.drawable.yg_main_profile_icon));
-        items.add(new SatelliteMenuItem(6, android.R.color.transparent));
+		centerControlMenuAdvanced = (SatelliteMenu)findViewById(R.id.lj_menu_advanced);
+		centerControlMenuAdvanced.setMainImage(R.drawable.sat_main_style2);
+		centerControlMenuAdvanced.setMaskView(mask);
+		
+		List<SatelliteMenuItem> itemsAdvanced = new ArrayList<SatelliteMenuItem>();
+		itemsAdvanced.add(new SatelliteMenuItem(1, android.R.color.transparent));
+		itemsAdvanced.add(new SatelliteMenuItem(MENU_SHAKE_INDEX, R.drawable.yg_main_shake_icon));
+		itemsAdvanced.add(new SatelliteMenuItem(MENU_DRIFT_BOTTLE_INDEX, R.drawable.yg_main_drift_bottle_icon));
+		itemsAdvanced.add(new SatelliteMenuItem(MENU_VIDEO_CHAT_INDEX, R.drawable.yg_main_video_chat_icon));
+		itemsAdvanced.add(new SatelliteMenuItem(MENU_PROFILE_INDEX, R.drawable.yg_main_profile_icon));
+		itemsAdvanced.add(new SatelliteMenuItem(6, android.R.color.transparent));
+		centerControlMenuAdvanced.addItems(itemsAdvanced);
+		centerControlMenuAdvanced.setOnItemClickedListener(new CenterControllMenuClickListener());
         
-        centerControlMenu.addItems(items);        
-        
-        centerControlMenu.setOnItemClickedListener(new SateliteClickedListener() 
-        {
-			public void eventOccured(final int id) 
-			{
-				Log.e("sat", "Clicked on " + id);
-				mask.setVisibility(View.GONE);
-				new Handler().postDelayed(new Runnable() 
-				{
-					@Override
-					public void run() 
-					{
-						if (id == MENU_SHAKE_INDEX)
-						{
-							Intent intent = new Intent();
-							intent.setClass(MainActivity.this, ActivityShake.class);
-							startActivity(intent);
-						}
-						else if (id == MENU_FRIENDCIRCLE_INDEX)
-						{
-							Intent intent = new Intent();
-							intent.setClass(MainActivity.this, PublicActivity.class);
-							startActivity(intent);
-						}
-						else if (id == MENU_SENDPOST_INDEX)
-						{
-							Intent intent = new Intent();
-							intent.setClass(MainActivity.this, SendPostActivity.class);
-							startActivity(intent);
-						}
-						else if (id == MENU_PROFILE_INDEX)
-						{
-							Intent intent = new Intent();
-							intent.setClass(MainActivity.this, ActivitySettings.class);
-							startActivityForResult(intent, REQUEST_CODE_SIGNOFF);
-						}
-					}
-				}, 800);
-			}
-		});
 	}
 	
 	private void setupListener()
@@ -206,7 +230,12 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			{
 				int action = event.getAction();
 				if (action == MotionEvent.ACTION_DOWN)
-					centerControlMenu.onClick();
+				{
+					if (centerControlMenuBasic.getVisibility() != View.GONE)
+						centerControlMenuBasic.onClick();
+					else if (centerControlMenuAdvanced.getVisibility() != View.GONE)
+						centerControlMenuAdvanced.onClick();
+				}
 				return true;
 			}
 		});
@@ -222,14 +251,30 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			case R.id.main_activity_recent_dialog:  
 				setupRecentDialogActionBar();
 				this.tabHost.setCurrentTabByTag(TabTags.recentDialogTab);  
+				setMainMenuVisibility(true);
 				break;  
 			case R.id.main_activity_friend_list:  
 				setupActionBar();
 				setButtonVisibilities();
 				this.tabHost.setCurrentTabByTag(TabTags.friendListTab);  
+				setMainMenuVisibility(false);
 				break; 
 			}  
 		}  
+	}
+	
+	private void setMainMenuVisibility(boolean isInRecentDialogPage)
+	{
+		if (isInRecentDialogPage)
+		{
+			centerControlMenuBasic.setVisibility(View.VISIBLE);
+			centerControlMenuAdvanced.setVisibility(View.GONE);
+		}
+		else
+		{
+			centerControlMenuBasic.setVisibility(View.GONE);
+			centerControlMenuAdvanced.setVisibility(View.VISIBLE);
+		}
 	}
 	 
 	private void setupTabData()
