@@ -24,10 +24,12 @@ public class FriendCircleHandler
 {
 	private SQLServerEnd postDataTB = null;
 	private SQLServerEnd commentDataTB = null;
+	private SQLServerEnd postLikeTB = null;
 	private SQLServerEnd UerRelationTB = null;
 	private final String DATABASE_NAME = "JMMSRDB";
 	private final String CommentTable = "comment_data";
 	private final String PostTable = "post_data";
+	private final String PostLikeTable = "post_like";
 	private final String RelationTable = "user_relationship";
 	private final static String SAVED_DIRECTORY = "D:/Data/IM/data/friendCircleImages/";
 	
@@ -49,6 +51,11 @@ public class FriendCircleHandler
 			UerRelationTB = new SQLServerEnd(DATABASE_NAME, RelationTable);
 	}
 	
+	private void initPostLikeTB()
+	{
+		if (postLikeTB == null)
+			postLikeTB = new SQLServerEnd(DATABASE_NAME, PostLikeTable);
+	}
 	/************************								***************************/
 	/************************			以下是要发布的接口		***************************/
 	/************************								***************************/
@@ -564,88 +571,6 @@ public class FriendCircleHandler
 	}
 	
 	/**
-	 * 给指定的Post赞的数量+1
-	 * @param postID 指定的Post对应的postID
-	 * @return 操作结果的状态<br>
-	 * 0表示成功<br>
-	 * 1表示失败
-	 */
-	public int increaseLikeByPostID(int postID)
-	{
-		initPostDataTB();
-		String sql = "select id from post_data where id = " + String.valueOf(postID) + " update post_data set liked_number = liked_number + 1 where id = " + String.valueOf(postID);
-		String []query = {"id"};
-		System.out.print("_______________________" + "\n");
-		ArrayList<HashMap<String, String>> result = postDataTB.excecuteRawQuery(sql, query);
-		postDataTB.disconnect();
-		
-		if (result != null)
-		{
-			if (result.size() == 0)
-			{
-				System.out.print("updata failed" + "\n");
-				return 1;
-			}
-			else if (result.get(0).get("id").equals(Integer.toString(postID)))
-			{
-				System.out.print("updata success" + "\n");
-				return 0;
-			}
-			else
-			{
-				System.out.print("updata failed" + "\n");
-				return 1;
-			}
-		}
-		else
-		{
-			System.out.print("updata failed" + "\n");
-			return 1;
-		}
-	}
-	
-	/**
-	 * 给指定的Post赞的数量-1
-	 * @param postID 指定的Post对应的postID
-	 * @return 操作结果的状态<br>
-	 * 0表示成功<br>
-	 * 1表示失败
-	 */
-	public int decreaseLikeByPostID(int postID)
-	{
-		initPostDataTB();
-		String sql = "select id from post_data where id = " + String.valueOf(postID) + " update post_data set liked_number = liked_number - 1 where id = " + String.valueOf(postID);
-		String []query = {"id"};
-		System.out.print("_______________________" + "\n");
-		ArrayList<HashMap<String, String>> result = postDataTB.excecuteRawQuery(sql, query);
-		postDataTB.disconnect();
-		
-		if (result != null)
-		{
-			if (result.size() == 0)
-			{
-				System.out.print("updata failed" + "\n");
-				return 1;
-			}
-			else if (result.get(0).get("id").equals(Integer.toString(postID)))
-			{
-				System.out.print("updata success" + "\n");
-				return 0;
-			}
-			else
-			{
-				System.out.print("updata failed" + "\n");
-				return 1;
-			}
-		}
-		else
-		{
-			System.out.print("updata failed" + "\n");
-			return 1;
-		}
-	}
-	
-	/**
 	 * 删除Post中指定的一条Comment
 	 * @param postID 要删除的Comment所在的Post的postID
 	 * @param commentID 要删除的Comment的commentID
@@ -737,9 +662,125 @@ public class FriendCircleHandler
 		System.out.print("\n" + str);
 		return str;
 	}
+	/**
+	 * 判断该条POST用户是否点赞，点赞则删除点赞记录，没点赞则插入点赞记录
+	 * @param userID
+	 * @param postID
+	 * @return 操作结果的状态
+	 * -1表示已经点赞，点赞数-1
+	 * +1表示没有点赞，点赞数+1
+	 */
+	public int modifyLikedNumber(int postID, int userID)
+	{
+		initPostLikeTB();
+		
+		String []condition = {"post_id", "user_id"};
+		String []conditionVal = {Integer.toString(postID), Integer.toString(userID)};
+		
+		boolean isLiked = postLikeTB.isConditionExist(condition, conditionVal);
+		if (isLiked)
+		{
+			postLikeTB.delete(condition, conditionVal);
+			decreaseLikeByPostID(postID);
+			postLikeTB.disconnect();
+			return -1;
+		}
+		else
+		{
+			postLikeTB.insert(condition, conditionVal);
+			increaseLikeByPostID(postID);
+			postLikeTB.disconnect();
+			return 1;
+		}
+	}
+	
 	/************************									**************************/
 	/************************			以上是要发布的接口			**************************/
 	/************************									**************************/
+	/**
+	 * 给指定的Post赞的数量+1
+	 * @param postID 指定的Post对应的postID
+	 * @return 操作结果的状态<br>
+	 * 0表示成功<br>
+	 * 1表示失败
+	 */
+	private int increaseLikeByPostID(int postID)
+	{
+		initPostDataTB();
+		String sql = "select id from post_data where id = " + String.valueOf(postID) + " update post_data set liked_number = liked_number + 1 where id = " + String.valueOf(postID);
+		String []query = {"id"};
+		System.out.print("_______________________" + "\n");
+		ArrayList<HashMap<String, String>> result = postDataTB.excecuteRawQuery(sql, query);
+		postDataTB.disconnect();
+		
+		if (result != null)
+		{
+			if (result.size() == 0)
+			{
+				System.out.print("updata failed" + "\n");
+				return 1;
+			}
+			else if (result.get(0).get("id").equals(Integer.toString(postID)))
+			{
+				System.out.print("updata success" + "\n");
+				return 0;
+			}
+			else
+			{
+				System.out.print("updata failed" + "\n");
+				return 1;
+			}
+		}
+		else
+		{
+			System.out.print("updata failed" + "\n");
+			return 1;
+		}
+	}
+	
+	/**
+	 * 给指定的Post赞的数量-1
+	 * @param postID 指定的Post对应的postID
+	 * @return 操作结果的状态<br>
+	 * 0表示成功<br>
+	 * 1表示失败
+	 */
+	private int decreaseLikeByPostID(int postID)
+	{
+		initPostDataTB();
+		String sql = "select id from post_data where id = " + String.valueOf(postID) + " update post_data set liked_number = liked_number - 1 where id = " + String.valueOf(postID);
+		String []query = {"id"};
+		System.out.print("_______________________" + "\n");
+		ArrayList<HashMap<String, String>> result = postDataTB.excecuteRawQuery(sql, query);
+		postDataTB.disconnect();
+		
+		if (result != null)
+		{
+			if (result.size() == 0)
+			{
+				System.out.print("updata failed" + "\n");
+				return 1;
+			}
+			else if (result.get(0).get("id").equals(Integer.toString(postID)))
+			{
+				System.out.print("updata success" + "\n");
+				return 0;
+			}
+			else
+			{
+				System.out.print("updata failed" + "\n");
+				return 1;
+			}
+		}
+		else
+		{
+			System.out.print("updata failed" + "\n");
+			return 1;
+		}
+	}
+	
+	
+	
 	private String now()
 	{
 		Calendar cal = Calendar.getInstance();

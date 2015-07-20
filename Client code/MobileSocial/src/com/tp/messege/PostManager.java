@@ -325,6 +325,14 @@ public class PostManager
 			if (friendPosts.get(i).getPostID() == postID)
 				post = friendPosts.get(i);
 		}
+		if (post == null)
+		{
+			for (int i = 0; i < myselfPosts.size(); i++)
+			{
+				if (myselfPosts.get(i).getPostID() == postID)
+					post = myselfPosts.get(i);
+			}
+		}
 		return post;
 	}
 	
