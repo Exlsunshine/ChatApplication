@@ -6,35 +6,44 @@ import java.util.List;
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
+import com.tp.ui.PublicActivity;
+import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.image.preview.ImagePreviewManager;
 import com.yg.ui.dialog.implementation.DateUtil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class PublicActivityAdapter extends BaseAdapter 
 {
+	private static final String DEBUG_TAG = "PublicActivityAdapter______";
     private Context context;
     private List<AbstractPost> posts;
     private int likedNumber = 0;
-    private boolean isLiked = false;
-    
+    private long mLastTime = 0;
+	private long mCurTime = 0;
+	
     public PublicActivityAdapter(Context context, List<AbstractPost> posts) 
     {
         super();
@@ -129,20 +138,25 @@ public class PublicActivityAdapter extends BaseAdapter
 						@Override
 						public void onClick(View arg0) 
 						{
-							if (isLiked != true)
+							likedNumber = post.getLikedNumber();
+							Thread td = new Thread(new Runnable() 
 							{
-								likedNumber = post.getLikedNumber();
-								likedNumberTV.setText(Integer.toString(++likedNumber));
-								Thread td = new Thread(new Runnable() 
+								@Override
+								public void run() 
 								{
-									@Override
-									public void run() 
-									{
-										post.increaseLikedNumber();
-									}
+									int result = post.modifyLikedNumber(ConstantValues.user.getID());
+									likedNumber += result;
+								}
 							});
 							td.start();
-							isLiked = true;
+							try 
+							{
+								td.join();
+								likedNumberTV.setText(Integer.toString(likedNumber));
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
 							}
 						}
 					});
@@ -318,26 +332,57 @@ public class PublicActivityAdapter extends BaseAdapter
 						@Override
 						public void onClick(View arg0) 
 						{
-							if (isLiked != true)
+							likedNumber = post.getLikedNumber();
+							Thread td = new Thread(new Runnable() 
 							{
-								likedNumberTV.setText(Integer.toString(++likedNumber));
-								Thread td = new Thread(new Runnable() 
+								@Override
+								public void run() 
 								{
-									@Override
-									public void run() 
-									{
-										post.increaseLikedNumber();
-									}
+									int result = post.modifyLikedNumber(ConstantValues.user.getID());
+									likedNumber += result;
+								}
 							});
 							td.start();
-							isLiked = true;
+							try 
+							{
+								td.join();
+								likedNumberTV.setText(Integer.toString(likedNumber));
+							} 
+							catch (InterruptedException e) 
+							{
+								e.printStackTrace();
 							}
 						}
 					});
-                    
-                    
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
+                     
+/*                    photoView.setOnLongClickListener(new OnLongClickListener() 
+                    {
+						@Override
+						public boolean onLongClick(View v) 
+						{
+							Log.e("onLongClick", "onLongClick");
+							return true;
+						}
+					});
+                    
+                    photoView.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) 
+						{
+							Log.e("onClick", "onClick");
+							
+							Intent intent = new Intent(context, TextPostCommentListActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putInt("postid", post.getPostID());
+							intent.putExtras(bundle); 
+							context.startActivity(intent);
+						}
+					});*/
+
+                    
                     
                     Log.e("getview__", post.getPostID() + "");
                     ImagePost ip = (ImagePost) post;

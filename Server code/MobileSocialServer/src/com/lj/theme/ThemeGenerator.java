@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class ThemeGenerator 
 {
-	private static final String themeFileName = "F:/MobileSocialServer/ThemeList.xml";
+	private static final String themeFileName = "D:\\Data\\Codes\\ChatApplication\\Server code\\ThemeList.xml";
 	public static String generateTheme()
 	{
 		ThemeListReader themeReader = new ThemeListReader(themeFileName);
