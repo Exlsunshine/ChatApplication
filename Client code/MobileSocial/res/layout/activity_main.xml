@@ -78,7 +78,7 @@
             android:visibility="gone" />
 
         <com.lj.satellitemenu.SatelliteMenu
-            android:id="@+id/lj_menu"
+            android:id="@+id/lj_menu_basic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
@@ -88,6 +88,19 @@
             my:mainImage="@drawable/sat_main_style2"
             my:closeOnClick="true"
             my:totalSpacingDegree="180" />
+        
+        <com.lj.satellitemenu.SatelliteMenu
+            android:id="@+id/lj_menu_advanced"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="8dp" 
+            my:expandDuration="500"
+            my:satelliteDistance="130dp"
+            my:mainImage="@drawable/sat_main_style2"
+            my:closeOnClick="true"
+            my:totalSpacingDegree="180"
+            android:visibility="gone" />
     </FrameLayout>
 
 </TabHost>

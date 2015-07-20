@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/lj_chuck_layout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/lj_chuck_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:layout_marginTop="50dip"
+            android:background="@drawable/bottle_stationery"
+            android:gravity="top"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/lj_chuck_bottle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bottle_type_text"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/lj_chuck_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="55dip"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/webviewtab_bg" >
+
+            <Button
+                android:id="@+id/lj_chuck_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="2.5dip"
+                android:background="@drawable/chat_bottom_keyboard"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/lj_chuck_throw"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dip"
+                android:layout_toRightOf="@+id/chuck_cancle"
+                android:background="@drawable/chat_speak"
+                android:text="扔出去"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
