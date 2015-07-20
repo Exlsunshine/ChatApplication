@@ -21,10 +21,10 @@ public class ImagePost extends AbstractPost
 	 * 当前ImagePost的图像内容
 	 * 类型暂定
 	 */
-	private Bitmap image;
-	private String imgPath;
-	private String imgUrl;
-	private final static String SAVED_DIRECTORY = "/sdcard/JMMSR/FRIEND_CIRCLE/";
+	private Bitmap image = null;
+	private String imgPath = null;
+	private String imgUrl = null;
+	private final static String SAVED_DIRECTORY = "/JMMSR/FRIEND_CIRCLE/";
 	/**
 	 * 新建ImagePost时调用<br>
 	 * <b>用法参看AbstractPost<br>
@@ -38,16 +38,16 @@ public class ImagePost extends AbstractPost
 	public ImagePost(int postUserID, String postDate, Bitmap image, String location, String sex) 
 	{
 		super(postUserID, postDate,image, location, sex);
-		imgPath = SAVED_DIRECTORY + generateImageName(postUserID);
+		String imgPathTmp = android.os.Environment.getExternalStorageDirectory() + "/" + SAVED_DIRECTORY + "/" +  generateImageName(postUserID, postID);
 		this.image = image;
 		
 		try 
 		{
-			File file = new File(imgPath);
+			File file = new File(imgPathTmp);
 			file.getParentFile().mkdirs();
-			
-			FileOutputStream out = new FileOutputStream(imgPath);
-			image.compress(Bitmap.CompressFormat.PNG, 90, out);
+			FileOutputStream out = new FileOutputStream(imgPathTmp);
+			image.compress(Bitmap.CompressFormat.PNG, 100, out);
+			imgPath = imgPathTmp;
 		} 
 		catch (IOException ex) 
 		{
@@ -78,6 +78,21 @@ public class ImagePost extends AbstractPost
 		{
 			DownloadManager dm = new DownloadManager(imgUrl);
 			image = dm.getBmpFile();
+			
+			String imgPathTmp = android.os.Environment.getExternalStorageDirectory() + "/" + SAVED_DIRECTORY + "/" + generateImageName(postUserID, postID);
+			
+			try 
+			{
+				File file = new File(imgPathTmp);
+				file.getParentFile().mkdirs();
+				FileOutputStream out = new FileOutputStream(imgPathTmp);
+				image.compress(Bitmap.CompressFormat.PNG, 100, out);
+				imgPath = imgPathTmp;
+			} 
+			catch (IOException ex) 
+			{
+				System.out.println(ex);
+			}
 		}
 		return image;
 	}
@@ -121,15 +136,6 @@ public class ImagePost extends AbstractPost
 			item.put("post_user_id", Integer.toString(postUserID));
 			item.put("liked_number", Integer.toString(getLikedNumber()));
 			item.put("post_date", getPostDate());
-			/*try 
-			{
-				String buffer = new String(getContent());
-				item.put("content", buffer);
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-			}*/
 			item.put("post_type", Integer.toString(getPostType()));
 			item.put("location", location);
 			item.put("sex", sex);
@@ -177,6 +183,16 @@ public class ImagePost extends AbstractPost
 		}
 		return ret;
 	}
+	
+	public String getImagePath()
+	{
+		return imgPath;
+	}
+	
+	public String getImageURL()
+	{
+		return this.imgUrl;
+	}
 
 	/**
 	 * 设置{@link #publish()}返回的commentID
@@ -186,10 +202,10 @@ public class ImagePost extends AbstractPost
 		postID = PostIDRtn;
 	}
 	
-	private String generateImageName(int postUserID)
+	private String generateImageName(int postUserID, int postID)
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
 		Date date = new Date();
-		return "picture_transportation_postUserID_" + String.valueOf(postUserID) + "_" + dateFormat.format(date)  + ".jpg";
+		return "picture_transportation_postUserID_" + String.valueOf(postUserID) + "_" +  String.valueOf(postID) + "_"  + dateFormat.format(date) + ".jpg";	
 	}
 }

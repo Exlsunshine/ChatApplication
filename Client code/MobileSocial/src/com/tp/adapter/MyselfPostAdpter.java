@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.testmobiledatabase.R;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
+import com.tp.ui.ImageZoomInActivity;
 import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
 import com.yg.commons.ConstantValues;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -301,8 +303,8 @@ public class MyselfPostAdpter extends BaseAdapter
                     feed_post_type.setImageResource(R.drawable.tp_moment_icn_place);
                     final ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
                     
-                  /*  photoView.setOnClickListener(new OnClickListener() {
-						
+                    photoView.setOnClickListener(new OnClickListener()
+                    {
 						@Override
 						public void onClick(View v) 
 						{
@@ -314,8 +316,36 @@ public class MyselfPostAdpter extends BaseAdapter
 							intent.putExtras(bundle); 
 							context.startActivity(intent);
 						}
-					});*/
-
+					});
+                    
+                    photoView.setOnLongClickListener(new OnLongClickListener() 
+                    {
+						@Override
+						public boolean onLongClick(View v) 
+						{
+							Log.e("onLongClick", "onLongClick");
+							ImagePost ipLongClick = (ImagePost) post;
+							if (ipLongClick.getImagePath() == null)
+							{
+								String URL = ipLongClick.getImageURL();
+								Intent intent = new Intent(context, ImageZoomInActivity.class);
+								Bundle bundle = new Bundle();
+								bundle.putString("Path", URL);
+								intent.putExtras(bundle); 
+								context.startActivity(intent);
+							}
+							else
+							{
+								String Path = ipLongClick.getImagePath();
+								Intent intent = new Intent(context, ImageZoomInActivity.class);
+								Bundle bundle = new Bundle();
+								bundle.putString("Path", Path);
+								intent.putExtras(bundle); 
+								context.startActivity(intent);
+							}
+							return true;
+						}
+					});
                     
                     
                     ImagePost ip = (ImagePost) post;

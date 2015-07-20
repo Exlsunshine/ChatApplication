@@ -122,6 +122,7 @@
         </activity>
         <activity android:name="com.tp.ui.MyselfPostActivity" >
         </activity>
+        <activity android:name="com.tp.ui.ImageZoomInActivity" />
         <activity android:name="com.lj.shake.ActivityShake" />
         <activity android:name="com.lj.settings.ActivitySettings"/>
         <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" />
