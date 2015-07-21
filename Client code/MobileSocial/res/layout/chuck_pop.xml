@@ -4,6 +4,53 @@
     android:layout_height="wrap_content" >
 
     <RelativeLayout
+        android:id="@+id/bottle_throw_layout_title"
+        android:background="#1e90ff"
+        android:layout_width="fill_parent"
+        android:layout_height="55dip">
+
+        <LinearLayout
+            android:id="@+id/bottle_throw_back"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/yg_abc_ic_ab_back_holo_light"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="返回"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="漂流瓶"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_below="@id/bottle_throw_layout_title"
         android:id="@+id/lj_chuck_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
@@ -16,8 +63,7 @@
             android:layout_marginRight="20dip"
             android:layout_marginTop="50dip"
             android:background="@drawable/bottle_stationery"
-            android:gravity="top"
-            android:visibility="gone" />
+            android:gravity="top"/>
 
         <ImageView
             android:id="@+id/lj_chuck_bottle1"

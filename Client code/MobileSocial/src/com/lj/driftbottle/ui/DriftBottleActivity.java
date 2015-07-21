@@ -19,7 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -39,7 +39,6 @@ public class DriftBottleActivity extends Activity
 	private PopupWindow popupWindow;
 	private EditText chuck_edit;
 	private TranslateAnimation ani0, ani1, ani2;
-	private int m = 2;
 	private AnimationDrawable ad, ad1, ad2;
 
 	@Override
@@ -229,20 +228,20 @@ public class DriftBottleActivity extends Activity
 		ImageView bottle_night_floodlight_1 = (ImageView) findViewById(R.id.bottle_night_floodlight_1);
 		ImageView bottle_night_floodlight_2 = (ImageView) findViewById(R.id.bottle_night_floodlight_2);
 
-		if (bottle_night_floodlight != null) {
-			ad = (AnimationDrawable) getResources().getDrawable(
-					R.anim.bottle_night_floodlight);
-			bottle_night_floodlight.setBackgroundDrawable(ad);
+		if (bottle_night_floodlight != null) 
+		{
+			ad = (AnimationDrawable) getResources().getDrawable(R.anim.bottle_night_floodlight);
+			bottle_night_floodlight.setBackground(ad);
 		}
-
-		else if (bottle_night_floodlight_1 != null) {
-			ad1 = (AnimationDrawable) getResources().getDrawable(
-					R.anim.bottle_night_floodlight1);
-			bottle_night_floodlight_1.setBackgroundDrawable(ad1);
-		} else if (bottle_night_floodlight_2 != null) {
-			ad2 = (AnimationDrawable) getResources().getDrawable(
-					R.anim.bottle_night_floodlight2);
-			bottle_night_floodlight_2.setBackgroundDrawable(ad2);
+		else if (bottle_night_floodlight_1 != null) 
+		{
+			ad1 = (AnimationDrawable) getResources().getDrawable(R.anim.bottle_night_floodlight1);
+			bottle_night_floodlight_1.setBackground(ad1);
+		} 
+		else if (bottle_night_floodlight_2 != null) 
+		{
+			ad2 = (AnimationDrawable) getResources().getDrawable(R.anim.bottle_night_floodlight2);
+			bottle_night_floodlight_2.setBackground(ad2);
 		}
 	}
 
@@ -257,30 +256,28 @@ public class DriftBottleActivity extends Activity
 	public void initChuckPop() 
 	{
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		View popView = inflater.inflate(R.layout.chuck_pop, null);
-		popupWindow = new PopupWindow(popView, WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.FILL_PARENT);
+		ViewGroup group = null;
+		View popView = inflater.inflate(R.layout.chuck_pop, group, false);
+		popupWindow = new PopupWindow(popView, WindowManager.LayoutParams.MATCH_PARENT, findViewById(R.id.bottle_main_layout).getHeight());
 		ColorDrawable colorDrawable = new ColorDrawable(0xb0000000);
 		popupWindow.setBackgroundDrawable(colorDrawable);
 		popupWindow.setTouchable(true);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 
-		popView.setOnTouchListener(new OnTouchListener() 
+		popView.findViewById(R.id.bottle_throw_back).setOnClickListener(new OnClickListener() 
 		{
 			@Override
-			public boolean onTouch(View v, MotionEvent event) 
+			public void onClick(View v) 
 			{
 				popupWindow.dismiss();
 				popupWindow = null;
-				return true;
 			}
 		});
-
 		chuck_edit = (EditText) popView.findViewById(R.id.lj_chuck_edit);
 		popView.findViewById(R.id.lj_chuck_cancle).setOnClickListener(listener);
 		popView.findViewById(R.id.lj_chuck_throw).setOnClickListener(listener);
 
-		chuck_edit.setVisibility(View.VISIBLE);
 		popupKeyboard(chuck_edit);
 	}
 
@@ -293,12 +290,10 @@ public class DriftBottleActivity extends Activity
 		switch (event.getAction()) {
 		// //´¥ÃþÆÁÄ»Ê±¿Ì
 		case MotionEvent.ACTION_DOWN:
-			m++;
-			if (m % 2 == 0)
-				layout.setVisibility(View.GONE);
-			else
+			if (layout.getVisibility() == View.GONE)
 				layout.setVisibility(View.VISIBLE);
-
+			else if (layout.getVisibility() == View.VISIBLE)
+				layout.setVisibility(View.GONE);
 			break;
 		}
 		return super.onTouchEvent(event);
