@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dip"
-                android:layout_toRightOf="@+id/chuck_cancle"
+                android:layout_toRightOf="@id/lj_chuck_cancle"
                 android:background="@drawable/chat_speak"
                 android:text="扔出去"
                 android:textColor="#fff"

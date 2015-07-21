@@ -217,7 +217,7 @@ public class DriftBottleActivity extends Activity
 				Intent intent = new Intent(DriftBottleActivity.this, Driftbottle_setting.class);
 				startActivity(intent);
 			}
-			else if (id == R.id.chuck_cancle)
+			else if (id == R.id.lj_chuck_cancle)
 				popupWindow.dismiss();
 			else if (id == R.id.lj_chuck_throw)
 			{
