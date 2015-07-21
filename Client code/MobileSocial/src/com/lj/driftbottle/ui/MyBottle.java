@@ -8,13 +8,18 @@ import java.util.Map;
 
 import com.example.testmobiledatabase.R;
 import com.lj.driftbottle.logic.CommBottle;
+import com.lj.setting.achievement.ThreadGameChallengFail;
+import com.yg.commons.ConstantValues;
 import com.yg.user.DownloadManager;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,8 +31,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SimpleAdapter.ViewBinder;
 
@@ -67,34 +74,44 @@ public class MyBottle extends Activity {
 		};
 	};
 
+	private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleTextView.setText("ÎÒµÄÆ¯Á÷Æ¿");
+		back.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+	//	requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.my_bottle);
 		
-		back=(Button) findViewById(R.id.my_bottle_back);
-		back.setOnClickListener(listener);
+	//	back=(Button) findViewById(R.id.my_bottle_back);
+	//	back.setOnClickListener(listener);
 		
 		listView = (ListView)findViewById(R.id.my_bottle_list);
 		listView.setOnItemLongClickListener(new ListViewItemLongClick());
 		listView.setOnItemClickListener(new ListViewItemClick());
 		new Thread(new GetDataRun()).start();
+		setupDialogActionBar();
 	}
 	
-	private OnClickListener listener=new OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.my_bottle_back:
-				finish();
-				break;
-			}
-		}
-	};
+	
 	
 	private class GetDataRun implements Runnable
 	{
