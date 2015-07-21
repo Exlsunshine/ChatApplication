@@ -18,7 +18,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 public class PickupBottle extends Activity {
 	private AnimationDrawable ad;
@@ -34,23 +33,21 @@ public class PickupBottle extends Activity {
 		public void handleMessage(android.os.Message msg)
 		{
 			if (msg.what == NO_BOTTLE_HANDLER)
-			{
 				voice_msg.setBackgroundResource(R.drawable.lj_bottle_star);
-				//Toast.makeText(getApplicationContext(), "当前没有漂流瓶", Toast.LENGTH_SHORT).show();
-			}
 			else if (msg.what == PICK_BOTTLE_HANDLER)
 			{
 				final int bottleID = msg.arg1;
 				voice_msg.setBackgroundResource(R.drawable.bottle_picked_text_msg);
-				voice_msg.setOnClickListener(new OnClickListener() {
-					
+				voice_msg.setOnClickListener(new OnClickListener() 
+				{
 					@Override
-					public void onClick(View arg0) {
+					public void onClick(View arg0) 
+					{
 						Intent intent = new Intent();
 						intent.putExtra("bottleID", bottleID);
 						intent.setClass(getApplicationContext(), BottleInfoActivity.class);
 						startActivity(intent);
-						
+						finish();
 					}
 				});
 			}

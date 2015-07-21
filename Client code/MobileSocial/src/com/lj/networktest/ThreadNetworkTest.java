@@ -3,7 +3,6 @@ package com.lj.networktest;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.yg.commons.CommonUtil;
 import com.yg.user.WebServiceAPI;

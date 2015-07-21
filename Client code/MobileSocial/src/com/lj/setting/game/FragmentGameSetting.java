@@ -1,7 +1,6 @@
 package com.lj.setting.game;
 
 
-import java.io.File;
 import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
@@ -11,26 +10,17 @@ import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.image.select.ui.SelectImageActivity;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -39,7 +29,7 @@ import android.widget.Toast;
 
 public class FragmentGameSetting extends Fragment
 {
-	private static final int ACTIVITY_RESULT_CODE_EIGHTPUZZLE = 1;
+//	private static final int ACTIVITY_RESULT_CODE_EIGHTPUZZLE = 1;
 	private static final int ACTIVITY_REQUEST_CODE_EIGHTPUZZLE = 1;
 	
 	private boolean hasEightpuzzle = false;

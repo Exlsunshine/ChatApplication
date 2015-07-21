@@ -265,7 +265,7 @@ public class DriftBottleActivity extends Activity
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 
-		popView.findViewById(R.id.bottle_throw_back).setOnClickListener(new OnClickListener() 
+		popView.setOnClickListener(new OnClickListener() 
 		{
 			@Override
 			public void onClick(View v) 

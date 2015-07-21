@@ -6,7 +6,6 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
 import com.example.testmobiledatabase.R;
-import com.lj.customview.LoadingView;
 import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
@@ -20,7 +19,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
