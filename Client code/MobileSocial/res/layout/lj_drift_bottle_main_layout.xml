@@ -7,39 +7,49 @@
 
     <RelativeLayout
         android:id="@+id/bottle_layout_title"
+        android:background="#1e90ff"
         android:layout_width="fill_parent"
         android:layout_height="55dip"
-        android:background="@drawable/webviewtab_bg"
         android:visibility="gone" >
 
-        <Button
+        <LinearLayout
             android:id="@+id/bottle_back"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/title_btn_back"
-            android:text="返回"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/yg_abc_ic_ab_back_holo_light"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="返回"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp" />
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="漂流瓶"
-            android:textColor="#fff"
-            android:textSize="20sp" />
-
-        <ImageView
-            android:id="@+id/bottle_setting"
-            android:layout_width="67dip"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/title_btn_right"
-            android:src="@drawable/mm_title_btn_set_normal" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="漂流瓶"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <ImageView

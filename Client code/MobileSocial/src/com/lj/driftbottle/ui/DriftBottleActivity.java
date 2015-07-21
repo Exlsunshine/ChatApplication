@@ -5,15 +5,19 @@ import java.util.Calendar;
 import com.example.testmobiledatabase.R;
 import com.lj.driftbottle.logic.BottleManager;
 import com.lj.driftbottle.logic.FirstBottle;
+import com.lj.setting.achievement.ThreadGameChallengFail;
 import com.yg.commons.ConstantValues;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View.OnClickListener;
 import android.view.LayoutInflater;
@@ -40,8 +44,6 @@ public class DriftBottleActivity extends Activity
 	private EditText chuck_edit;
 	private TranslateAnimation ani0, ani1, ani2;
 	private int m = 2;
-
-
 	private AnimationDrawable ad, ad1, ad2;
 
 	@Override
@@ -88,7 +90,6 @@ public class DriftBottleActivity extends Activity
 		findViewById(R.id.bottle_bottom_pick_bottle).setOnClickListener(listener);
 		findViewById(R.id.bottle_bottom_my_bottle).setOnClickListener(listener);
 		
-		findViewById(R.id.bottle_setting).setOnClickListener(listener);
 		findViewById(R.id.bottle_back).setOnClickListener(listener);
 	}
 	
@@ -176,11 +177,6 @@ public class DriftBottleActivity extends Activity
 			}
 			else if (id == R.id.bottle_back)
 				finish();
-			else if (id == R.id.bottle_setting)
-			{
-				Intent intent = new Intent(DriftBottleActivity.this, Driftbottle_setting.class);
-				startActivity(intent);
-			}
 			else if (id == R.id.lj_chuck_cancle)
 				popupWindow.dismiss();
 			else if (id == R.id.lj_chuck_throw)
