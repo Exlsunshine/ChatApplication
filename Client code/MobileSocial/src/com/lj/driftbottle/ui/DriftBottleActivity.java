@@ -141,7 +141,6 @@ public class DriftBottleActivity extends Activity
 		{
 			if (msg.what == THROW_BOTTLE_HANDLER)
 			{
-				Toast.makeText(getApplicationContext(), "您扔了一个漂流瓶", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(DriftBottleActivity.this, chuck_animation.class);
 				startActivity(intent);
 				popupWindow.dismiss();
