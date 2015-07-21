@@ -2,11 +2,16 @@ package com.lj.driftbottle.ui;
 
 import com.example.testmobiledatabase.R;
 import com.lj.driftbottle.logic.CommBottle;
+import com.lj.setting.achievement.ThreadGameChallengFail;
+import com.yg.commons.ConstantValues;
 import com.yg.user.DownloadManager;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +45,26 @@ public class BottleInfoActivity extends Activity
 			}
 		};
 	};
+	
+	private void setupDialogActionBar()
+	{
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.rgb(0x1E, 0x90, 0xFF)));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
+		getActionBar().setCustomView(R.layout.lj_common_actionbar);
+	
+		LinearLayout back = (LinearLayout)findViewById(R.id.lj_common_actionbar_back);
+		TextView titleTextView = (TextView)findViewById(R.id.lj_common_actionbar_title);
+		titleTextView.setText("Æ¯Á÷Æ¿");
+		back.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -70,7 +96,7 @@ public class BottleInfoActivity extends Activity
 				
 			}
 		});
-		
+		setupDialogActionBar();
 		new Thread(new GetPortraitRun(bottle.getPortraitURL())).start();
 	}
 	
