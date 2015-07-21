@@ -35,11 +35,13 @@ public class PickupBottle extends Activity {
 		{
 			if (msg.what == NO_BOTTLE_HANDLER)
 			{
-				Toast.makeText(getApplicationContext(), "当前没有漂流瓶", Toast.LENGTH_SHORT).show();
+				voice_msg.setBackgroundResource(R.drawable.lj_bottle_star);
+				//Toast.makeText(getApplicationContext(), "当前没有漂流瓶", Toast.LENGTH_SHORT).show();
 			}
 			else if (msg.what == PICK_BOTTLE_HANDLER)
 			{
 				final int bottleID = msg.arg1;
+				voice_msg.setBackgroundResource(R.drawable.bottle_picked_text_msg);
 				voice_msg.setOnClickListener(new OnClickListener() {
 					
 					@Override
