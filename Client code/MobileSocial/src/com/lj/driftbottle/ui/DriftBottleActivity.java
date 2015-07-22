@@ -246,6 +246,8 @@ public class DriftBottleActivity extends Activity
 
 		
 		final BottleEditText bottleEdit = (BottleEditText) popView.findViewById(R.id.lj_driftbottle_edit);
+		
+		bottleEdit.getSendBtn().setText("ÈÓ³öÈ¥");
 		bottleEdit.getSendBtn().setOnClickListener(new OnClickListener() 
 		{
 			@Override

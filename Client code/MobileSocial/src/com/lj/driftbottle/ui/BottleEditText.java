@@ -63,6 +63,7 @@ public class BottleEditText extends RelativeLayout
 		editText = (EditText)findViewById(R.id.lj_driftbottle_edittext_edit);
 		textView = (TextView)findViewById(R.id.lj_driftbottle_edittext_text);
 		textView.setText(MIN_LENGTH + "-" + MAX_LENGTH + "×Ö");
+		textView.setTextColor(Color.RED);
 		editText.addTextChangedListener(new EditWatcher());
 		btnSend = (Button)findViewById(R.id.lj_driftbottle_edittext_send);
 	}
@@ -80,8 +81,8 @@ public class BottleEditText extends RelativeLayout
 			int textLength = editText.getText().toString().length();
 			if (textLength >= MIN_LENGTH && textLength <= MAX_LENGTH)
 				textView.setTextColor(Color.GREEN);
-			else if (textLength == 0)
-				textView.setTextColor(Color.GRAY);
+		/*	else if (textLength == 0)
+				textView.setTextColor(Color.GRAY);*/
 			else
 				textView.setTextColor(Color.RED);
 		}
