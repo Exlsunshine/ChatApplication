@@ -127,21 +127,24 @@ public class DriftBottle
 	}*/
 	
 	/**
-	 * use userID find url of portrait
+	 * use userID find user information<br>
+	 * include : portrait url, nickname, sex, hometown
 	 * @param userID
-	 * @return
+	 * @return hashmap of portrait url, nickname, sex, hometown
 	 */
-	private String getPortraitURLByUserID(String userID)
+	private HashMap<String, String> getUserInfoByUserID(String userID)
 	{
 		SQLServerEnd bottleSQL = new SQLServerEnd(DATABASE_NAME, TABLE_NAME_USER_BASIC);
-		String[] query = {"portrait_path"};
+		String[] query = {"portrait_path", "nick_name", "sex", "hometown"};
 		String[] condition = {"id"};
 		String[] conditionVal = {userID};
-		String portraitPath = bottleSQL.select(query, condition, conditionVal).get(0).get("portrait_path");
+		HashMap<String, String> result = bottleSQL.select(query, condition, conditionVal).get(0);
+		String portraitPath = result.get("portrait_path");
 		portraitPath = portraitPath.replace("D:/Data/IM/data/", "");
 		String portraitURL = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
 				+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + portraitPath;
-		return portraitURL;
+		result.put("portrait_path", portraitURL);
+		return result;
 	}
 	
 	/**
@@ -298,7 +301,11 @@ public class DriftBottle
 				String otherUserID = result.get(index).get("user_id");
 				try {
 					jsonObject.put(BOTTLE_RELATION_STATUS, result.get(index).get("relation_status"));
-					jsonObject.put(PORTRAITURL, getPortraitURLByUserID(otherUserID));
+					HashMap<String, String> userInfo = getUserInfoByUserID(otherUserID);
+					jsonObject.put(PORTRAITURL, userInfo.get("portrait_path"));
+					jsonObject.put("nickname", userInfo.get("nick_name"));
+					jsonObject.put("sex", userInfo.get("sex"));
+					jsonObject.put("hometown", userInfo.get("hometown").split(" ")[0]);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -308,6 +315,9 @@ public class DriftBottle
 				try {
 					jsonObject.put(BOTTLE_RELATION_STATUS, result.get(0).get("relation_status"));
 					jsonObject.put(PORTRAITURL, PORTRAIT_URL_DEFAULT);
+					jsonObject.put("nickname", "");
+					jsonObject.put("sex", "");
+					jsonObject.put("hometown", "");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
