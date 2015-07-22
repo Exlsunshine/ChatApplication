@@ -171,28 +171,8 @@ public class DriftBottleActivity extends Activity
 			}
 			else if (id == R.id.bottle_back)
 				finish();
-			else if (id == R.id.lj_chuck_cancle)
+			else if (id == R.id.lj_throw_bottle_back)
 				popupWindow.dismiss();
-			else if (id == R.id.lj_chuck_throw)
-			{
-				String text = chuck_edit.getText().toString();
-				if (text.length() == 0)
-				{
-					Toast.makeText(getApplicationContext(), "你未写入消息", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				final FirstBottle firstBottle = bottleManager.createNewBottle();
-				firstBottle.appentText(text);
-				new Thread(new Runnable() 
-				{
-					@Override
-					public void run() 
-					{
-						bottleManager.throwBottle(firstBottle);
-						handler.sendEmptyMessage(THROW_BOTTLE_HANDLER);
-					}
-				}).start();
-			}
 		}
 	};
 
@@ -264,20 +244,34 @@ public class DriftBottleActivity extends Activity
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setFocusable(true);
 
-		popView.setOnClickListener(new OnClickListener() 
+		
+		final BottleEditText bottleEdit = (BottleEditText) popView.findViewById(R.id.lj_driftbottle_edit);
+		bottleEdit.getSendBtn().setOnClickListener(new OnClickListener() 
 		{
 			@Override
-			public void onClick(View v) 
+			public void onClick(View arg0) 
 			{
-				popupWindow.dismiss();
-				popupWindow = null;
+				String text = bottleEdit.getText();
+				if (bottleEdit.isTextLengthValid(text.length()))
+				{
+					final FirstBottle firstBottle = bottleManager.createNewBottle();
+					firstBottle.appentText(text);
+					new Thread(new Runnable() 
+					{
+						@Override
+						public void run() 
+						{
+							bottleManager.throwBottle(firstBottle);
+							handler.sendEmptyMessage(THROW_BOTTLE_HANDLER);
+						}
+					}).start();
+				}
+				else
+					bottleEdit.shake();
 			}
 		});
-		chuck_edit = (EditText) popView.findViewById(R.id.lj_chuck_edit);
-		popView.findViewById(R.id.lj_chuck_cancle).setOnClickListener(listener);
-		popView.findViewById(R.id.lj_chuck_throw).setOnClickListener(listener);
-
-		popupKeyboard(chuck_edit);
+	
+		popView.findViewById(R.id.lj_throw_bottle_back).setOnClickListener(listener);
 	}
 
 	// 屏幕触摸事件
