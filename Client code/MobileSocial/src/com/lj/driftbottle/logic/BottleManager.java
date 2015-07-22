@@ -7,9 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
 
-import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
 
 public class BottleManager 
@@ -154,7 +152,6 @@ public class BottleManager
 			for (int i = 0; i < jsonArray.length(); i++)
 			{
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				Log.e("sss", jsonObject.toString());
 				CommBottle bottle = createCommonBottleByJsonObject(jsonObject);
 				bottleTable.put(bottle.getBottleID(), bottle);
 			}

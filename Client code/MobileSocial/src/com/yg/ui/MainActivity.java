@@ -139,7 +139,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		public void eventOccured(final int id) 
 		{
 			Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-			vibrator.vibrate(ConstantValues.InstructionCode.VIBRATE_TIME);
+			vibrator.vibrate(30);
 			mask.setVisibility(View.GONE);
 			new Handler().postDelayed(new Runnable() 
 			{
