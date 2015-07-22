@@ -5,6 +5,8 @@ import java.util.Calendar;
 import com.example.testmobiledatabase.R;
 import com.lj.driftbottle.logic.BottleManager;
 import com.lj.driftbottle.logic.FirstBottle;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.yg.commons.ConstantValues;
 
 import android.app.Activity;
@@ -49,7 +51,9 @@ public class DriftBottleActivity extends Activity
 		setContentView(R.layout.lj_drift_bottle_main_layout);
 		if (bottleManager == null)
 			bottleManager = new BottleManager(ConstantValues.user.getID());
-		
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).build();
+		imageLoader.init(config);
 		setBackground();
 		setAnimation();
 		setClickListener();

@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 public class BottleEditText extends RelativeLayout
 {
-	public static final int THROW_STYLE = 1;
 	private final int MIN_LENGTH = 5;
 	private final int MAX_LENGTH = 150;
 	private EditText editText = null;

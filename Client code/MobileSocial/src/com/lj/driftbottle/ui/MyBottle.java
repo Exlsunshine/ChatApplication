@@ -149,8 +149,15 @@ public class MyBottle extends Activity {
 			Intent intent = new Intent();
 			intent.putExtra("bottleID", bottleID);
 			intent.setClass(getApplicationContext(), BottleInfoActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, 0);
 		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if (requestCode == 0 && resultCode == RESULT_OK)
+			adapter.notifyDataSetChanged();
 	}
 
 }

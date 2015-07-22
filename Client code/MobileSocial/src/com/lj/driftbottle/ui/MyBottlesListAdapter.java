@@ -32,8 +32,6 @@ public class MyBottlesListAdapter extends BaseAdapter
 	{
 		this.context = context;
 		this.list = list;
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
-		imageLoader.init(config);
 	}
 	
 	@Override
@@ -76,7 +74,7 @@ public class MyBottlesListAdapter extends BaseAdapter
 		else if (bottle.getBottleRelationStatus() == CommBottle.BOTTLE_RELATION_STATUS_DELETE)
 			hometown = "±»É¾³ý";
 		else
-			hometown = bottle.getHometown().split(" ")[0];
+			hometown = bottle.getHometown();
 			
 		addressView.setText(hometown);
 		TextView historyTextView = (TextView) itemView.findViewById(R.id.lj_bottle_item_text);

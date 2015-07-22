@@ -35,8 +35,7 @@
                 android:id="@+id/lj_bottle_item_sex"
                 android:scaleType="fitCenter"
                 android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/yg_appkefu_ic_sex_male"/>
+                android:layout_height="20dp"/>
             <TextView
                 android:id="@+id/lj_bottle_item_address"
                 android:layout_width="wrap_content"

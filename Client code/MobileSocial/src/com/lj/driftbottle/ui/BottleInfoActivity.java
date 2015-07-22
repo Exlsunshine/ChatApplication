@@ -2,6 +2,7 @@ package com.lj.driftbottle.ui;
 
 import com.example.testmobiledatabase.R;
 import com.lj.driftbottle.logic.CommBottle;
+import com.lj.driftbottle.logic.FirstBottle;
 import com.lj.setting.achievement.ThreadGameChallengFail;
 import com.yg.commons.ConstantValues;
 import com.yg.user.DownloadManager;
@@ -17,6 +18,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,22 +28,18 @@ import android.widget.Toast;
 public class BottleInfoActivity extends Activity
 {
 	private CommBottle bottle = null;
-	private final int PORTRAIT_DOWNLOAD_HANDLER = 0x01;
 	private final int REPLY_HANDLER = 0x02;
 	
 	private Handler handler = new Handler()
 	{
 		public void handleMessage(android.os.Message msg) 
 		{
-			if (msg.what == PORTRAIT_DOWNLOAD_HANDLER)
-			{
-				Bitmap bitmap = (Bitmap) msg.obj;
-				((ImageView)findViewById(R.id.lj_bottle_info_img)).setImageBitmap(bitmap);
-			}
-			else if (msg.what == REPLY_HANDLER)
+			if (msg.what == REPLY_HANDLER)
 			{
 				Intent intent = new Intent(BottleInfoActivity.this, chuck_animation.class);
 				startActivity(intent);
+				setResult(RESULT_OK);
+				finish();
 			}
 		};
 	};
@@ -74,9 +72,37 @@ public class BottleInfoActivity extends Activity
 		Intent intent = getIntent();
 		int bottleID = intent.getIntExtra("bottleID", 0);
 		bottle = DriftBottleActivity.bottleManager.getBottleByID(bottleID);
-		((TextView)findViewById(R.id.lj_bottle_info_history)).setText(bottle.getHistoryText());
 		
-		findViewById(R.id.lj_bottle_info_reply).setOnClickListener(new OnClickListener() 
+		BottleHistoryText bottleHistory = (BottleHistoryText)findViewById(R.id.lj_bottle_info_history);
+		bottleHistory.setInfo(bottle);
+		
+	//	final BottleEditText bottleEdit = (BottleEditText)findViewById(R.id.lj_bottle_info_append);
+		
+	/*	Button btn = bottleEdit.getSendBtn();
+		btn.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				String text = bottleEdit.getText();
+				if (bottleEdit.isTextLengthValid(text.length()))
+				{
+					bottle.appentText(text);
+					new Thread(new Runnable() 
+					{
+						@Override
+						public void run() 
+						{
+							DriftBottleActivity.bottleManager.reply(bottle);
+							handler.sendEmptyMessage(REPLY_HANDLER);
+						}
+					}).start();
+				}
+				else
+					bottleEdit.shake();
+			}
+		});*/
+		/*findViewById(R.id.lj_bottle_info_reply).setOnClickListener(new OnClickListener() 
 		{
 			@Override
 			public void onClick(View arg0) 
@@ -95,31 +121,7 @@ public class BottleInfoActivity extends Activity
 				}).start();
 				
 			}
-		});
+		});*/
 		setupDialogActionBar();
-		new Thread(new GetPortraitRun(bottle.getPortraitURL())).start();
-	}
-	
-	private class GetPortraitRun implements Runnable
-	{
-		private String url;
-		public GetPortraitRun(String url) 
-		{
-			this.url = url;
-		}
-		@Override
-		public void run()
-		{
-			Bitmap bitmap = MyBottle.portraitTable.get(url);
-			if (bitmap == null)
-			{
-				bitmap = new DownloadManager(url).getBmpFile();
-				MyBottle.portraitTable.put(url, bitmap);
-			}
-			Message msg = new Message();
-			msg.what = PORTRAIT_DOWNLOAD_HANDLER;
-			msg.obj = bitmap;
-			handler.sendMessage(msg);
-		}
 	}
 }
