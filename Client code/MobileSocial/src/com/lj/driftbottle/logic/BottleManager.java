@@ -7,6 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
+import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
 
 public class BottleManager 
@@ -49,8 +52,32 @@ public class BottleManager
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		CommBottle newBottle = new CommBottle(bottle, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+		String nickname = "";
+		String sex = "";
+		String hometown = "";
+		CommBottle newBottle = new CommBottle(nickname, sex, hometown, bottle, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
 		bottleTable.put(newBottle.getBottleID(), newBottle);
+	}
+	
+	private CommBottle createCommonBottleByJsonObject(JSONObject jsonObject)
+	{
+		try {
+			int bottleStatus = jsonObject.getInt(CommBottle.BOTTLE_STATUS);
+			String historyText = jsonObject.getString(CommBottle.HISTORY_TEXT);
+			String portraitURL = jsonObject.getString(CommBottle.PORTRIAT_URL);
+			int bottleID = jsonObject.getInt(CommBottle.BOTTLE_ID);
+			int bottleRelationStatus = jsonObject.getInt(CommBottle.BOTTLE_RELATION_STATUS);
+			int versionCode = jsonObject.getInt(CommBottle.VERSION_CODE);
+			String nickname = jsonObject.getString(CommBottle.NICK_NAME);
+			String sex = jsonObject.getString(CommBottle.SEX);
+			String hometown = jsonObject.getString(CommBottle.HOMETOWN);
+			CommBottle bottle = new CommBottle(nickname, sex, hometown, historyText, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+			return bottle;
+		} catch (JSONException e) 
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public CommBottle pickup()
@@ -59,18 +86,12 @@ public class BottleManager
 		String[] values = {String.valueOf(userID)};
 		String jsonResult = webserviceAPI.callFuntion("getNewBottle", name, values).toString();
 		JSONObject jsonObject = null;
-//		System.out.println(jsonResult);
+		System.out.println(jsonResult);
 		try {
 			jsonObject = new JSONObject(jsonResult);
 			if (jsonObject.getBoolean("isEmpty"))
 				return null;
-			String historyText = jsonObject.getString(CommBottle.HISTORY_TEXT);
-			String portraitURL = jsonObject.getString(CommBottle.PORTRIAT_URL);
-			int bottleStatus = jsonObject.getInt(CommBottle.BOTTLE_STATUS);
-			int bottleID = jsonObject.getInt(CommBottle.BOTTLE_ID);
-			int bottleRelationStatus = jsonObject.getInt(CommBottle.BOTTLE_RELATION_STATUS);
-			int versionCode = jsonObject.getInt(CommBottle.VERSION_CODE);
-			CommBottle bottle = new CommBottle(historyText, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+			CommBottle bottle = createCommonBottleByJsonObject(jsonObject);
 			bottleTable.put(bottle.getBottleID(), bottle);
 			return bottle;
 		} catch (JSONException e) {
@@ -133,13 +154,8 @@ public class BottleManager
 			for (int i = 0; i < jsonArray.length(); i++)
 			{
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				String historyText = jsonObject.getString(CommBottle.HISTORY_TEXT);
-				String portraitURL = jsonObject.getString(CommBottle.PORTRIAT_URL);
-				int bottleStatus = jsonObject.getInt(CommBottle.BOTTLE_STATUS);
-				int bottleID = jsonObject.getInt(CommBottle.BOTTLE_ID);
-				int bottleRelationStatus = jsonObject.getInt(CommBottle.BOTTLE_RELATION_STATUS);
-				int versionCode = jsonObject.getInt(CommBottle.VERSION_CODE);
-				CommBottle bottle = new CommBottle(historyText, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+				Log.e("sss", jsonObject.toString());
+				CommBottle bottle = createCommonBottleByJsonObject(jsonObject);
 				bottleTable.put(bottle.getBottleID(), bottle);
 			}
 		} catch (JSONException e) {

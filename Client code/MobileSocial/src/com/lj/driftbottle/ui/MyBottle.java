@@ -128,7 +128,7 @@ public class MyBottle extends Activity {
 				String text = bottle.getLastText();
 				if (text.length() >= LAST_TEXT_LENGTH)
 					text = text.substring(0, LAST_TEXT_LENGTH) + "......";
-				map.put("text", text);
+				map.put("text", bottle.getBottleID() + " " + bottle.getNickname() + " " + bottle.getSex() + " " + bottle.getHometown());
 				
 				String url = bottle.getPortraitURL();
 				Bitmap bitmap = portraitTable.get(url);

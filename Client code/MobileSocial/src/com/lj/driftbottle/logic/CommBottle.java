@@ -15,6 +15,9 @@ public class CommBottle extends AbstractBottle
 	public static final String PORTRIAT_URL = "portraitURL";
 	public static final String VERSION_CODE = "versionCode";
 	public static final String BOTTLE_ID = "bottleID";
+	public static final String NICK_NAME = "nickname";
+	public static final String SEX = "sex";
+	public static final String HOMETOWN = "hometown";
 	
 	public static final int BOTTLE_STATUS_UNPICKED = 1;
 	public static final int BOTTLE_STATUS_PICKED = 2;
@@ -22,6 +25,9 @@ public class CommBottle extends AbstractBottle
 	public static final int BOTTLE_RELATION_STATUS_NORMAL = 1;
 	public static final int BOTTLE_RELATION_STATUS_DELETE = 2;
 	
+	private String nickname = null;
+	private String sex = null;
+	private String hometown = null;
 	private String portraitURL = "";
 	private int bottleStatus = 0;
 	private int bottleRelationStatus = 0;
@@ -41,9 +47,12 @@ public class CommBottle extends AbstractBottle
 	 * @param bottleID if of bottle
 	 * @param versionCode version code of bottle
 	 */
-	public CommBottle(String historyText, String portraitURL, int bottleStatus, int bottleRelationStatus, int bottleID, int versionCode) 
+	public CommBottle(String nickname, String sex, String hometown, String historyText, String portraitURL, int bottleStatus, int bottleRelationStatus, int bottleID, int versionCode) 
 	{
 		super(historyText);
+		this.nickname = nickname;
+		this.sex = sex;
+		this.hometown = hometown;
 		this.portraitURL = portraitURL;
 		this.bottleStatus = bottleStatus;
 		this.bottleID = bottleID;
@@ -51,9 +60,9 @@ public class CommBottle extends AbstractBottle
 		this.bottleRelationStatus = bottleRelationStatus;
 	}
 	
-	public CommBottle(AbstractBottle bottle, String portraitURL, int bottleStatus, int bottleRelationStatus, int bottleID, int versionCode)
+	public CommBottle(String nickname, String sex, String hometown, AbstractBottle bottle, String portraitURL, int bottleStatus, int bottleRelationStatus, int bottleID, int versionCode)
 	{
-		this(bottle.getHistoryText(), portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+		this(nickname, sex, hometown, bottle.getHistoryText(), portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
 	}
 	@Override
 	public String toJsonString() 
@@ -109,10 +118,21 @@ public class CommBottle extends AbstractBottle
 		return versionCode;
 	}
 	
+	public String getNickname()
+	{
+		return nickname;
+	}
+	
+	public String getSex()
+	{
+		return sex;
+	}
+	
+	public String getHometown()
+	{
+		return hometown;
+	}
 	public static void main(String[] args) 
 	{
-		CommBottle bottle = new CommBottle("", "", 2, 1, 31, 1);
-		bottle.appentText("sss\n");
-		System.out.println(bottle.toJsonString());
 	}
 }
