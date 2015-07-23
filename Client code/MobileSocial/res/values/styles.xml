@@ -101,6 +101,16 @@
     </style>
 
     <!-- ********************************* -->
+    
+    <style name="lj_bottle_throw_btn_style">
+        <item name="android:background">@drawable/yg_loginguide_login_btn_selector</item>
+        <!-- <item name="android:padding">6.0dip</item> -->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
     <!-- Loginguide Activity LogIn dialog animation -->
     <!-- ********************************* -->
     <style name="LoginDialogAnimation" parent="@android:style/Theme.Dialog">

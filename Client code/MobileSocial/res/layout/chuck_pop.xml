@@ -53,12 +53,16 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/bottle_stationery" >
 
         <View
             android:id="@+id/lj_bottle_bottom_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="100dp"
             android:layout_alignParentBottom="true" />
 
         <com.lj.driftbottle.ui.LineEditText
@@ -66,9 +70,9 @@
             style="?android:attr/textViewStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
             android:background="@null"
             android:lineSpacingExtra="8dp"
             android:textSize="20sp" />
@@ -79,8 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/lj_driftbottle_edit"
-            android:layout_marginRight="30dp"
-            android:text="还差5个字"/>
+            android:layout_marginRight="40dp"
+            android:text="还差5个字" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -89,11 +93,13 @@
             android:layout_marginBottom="60dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp" >
-            <Button 
+
+            <Button
                 android:id="@+id/lj_bottle_throw_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="扔出去"/>
+                style="@style/lj_bottle_throw_btn_style"
+                android:text="扔出去" />
         </LinearLayout>
     </RelativeLayout>
 
