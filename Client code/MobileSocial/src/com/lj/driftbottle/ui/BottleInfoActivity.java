@@ -18,6 +18,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,7 +31,8 @@ public class BottleInfoActivity extends Activity
 {
 	private CommBottle bottle = null;
 	private final int REPLY_HANDLER = 0x02;
-	
+	private EditText editText = null;
+	private TextView textView = null;
 	private Handler handler = new Handler()
 	{
 		public void handleMessage(android.os.Message msg) 
@@ -76,16 +79,23 @@ public class BottleInfoActivity extends Activity
 		BottleHistoryText bottleHistory = (BottleHistoryText)findViewById(R.id.lj_bottle_info_history);
 		bottleHistory.setInfo(bottle);
 		
-	//	final BottleEditText bottleEdit = (BottleEditText)findViewById(R.id.lj_bottle_info_append);
-		
-	/*	Button btn = bottleEdit.getSendBtn();
-		btn.setOnClickListener(new OnClickListener() 
+		editText = (EditText) findViewById(R.id.lj_bottle_info_append);
+		textView = (TextView) findViewById(R.id.lj_bottle_info_reply_num);
+		editText.addTextChangedListener(new EditWatcher(editText, textView));
+		findViewById(R.id.lj_bottle_info_reply_btn).setOnClickListener(clickListener);
+		setupDialogActionBar();
+	}
+	
+	private OnClickListener clickListener = new OnClickListener() 
+	{
+		@Override
+		public void onClick(View arg0)
 		{
-			@Override
-			public void onClick(View arg0) 
+			int id = arg0.getId();
+			if (id == R.id.lj_bottle_info_reply_btn)
 			{
-				String text = bottleEdit.getText();
-				if (bottleEdit.isTextLengthValid(text.length()))
+				String text = editText.getText().toString();
+				if (EditWatcher.isTextLengthValid(text))
 				{
 					bottle.appentText(text);
 					new Thread(new Runnable() 
@@ -99,29 +109,15 @@ public class BottleInfoActivity extends Activity
 					}).start();
 				}
 				else
-					bottleEdit.shake();
+				{
+					Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.yg_loginguide_page3_login_dialog_anim_shake);
+					textView.startAnimation(shake);
+				}
 			}
-		});*/
-		/*findViewById(R.id.lj_bottle_info_reply).setOnClickListener(new OnClickListener() 
-		{
-			@Override
-			public void onClick(View arg0) 
+			else if (id == R.id.lj_bottle_info_throwback_btn)
 			{
-				EditText editText = (EditText) findViewById(R.id.lj_bottle_info_append);
-				String appendText = editText.getText().toString();
-				if (appendText.length() == 0)
-					Toast.makeText(getApplicationContext(), "ƒ„Œ¥–¥»Îœ˚œ¢", Toast.LENGTH_SHORT).show();
-				bottle.appentText(appendText);
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						DriftBottleActivity.bottleManager.reply(bottle);
-						handler.sendEmptyMessage(REPLY_HANDLER);
-					}
-				}).start();
 				
 			}
-		});*/
-		setupDialogActionBar();
-	}
+		}
+	};
 }

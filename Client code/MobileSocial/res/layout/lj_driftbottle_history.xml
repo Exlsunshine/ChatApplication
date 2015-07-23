@@ -12,8 +12,6 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal" >
 
             <ImageView
@@ -64,16 +62,12 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:background="#ddd" />
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="130dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:fadingEdge="vertical"
             android:scrollbars="vertical" >
@@ -82,6 +76,7 @@
                 android:id="@+id/lj_bottle_history_text"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="8dp"
                 android:textSize="20sp" />
         </ScrollView>
     </LinearLayout>

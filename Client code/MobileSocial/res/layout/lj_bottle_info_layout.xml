@@ -6,20 +6,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bottle_stationery"
         android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/lj_bottle_info_history_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bottle_stationery"
             android:orientation="vertical" >
 
             <com.lj.driftbottle.ui.BottleHistoryText
                 android:id="@+id/lj_bottle_info_history"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="30dp" />
 
             <ImageView
                 android:layout_width="fill_parent"
@@ -28,55 +34,80 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="#ddd" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp" >
 
             <TextView
+                android:id="@+id/lj_bottle_info_layout_remind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"
+                android:gravity="left"
                 android:text="回应他"
-                android:textSize="20sp" />
+                android:textColor="#826461"
+                android:textSize="16dp" />
 
-            <com.lj.driftbottle.ui.LineEditText
-                android:id="@+id/lj_bottle_info_append"
-                style="?android:attr/textViewStyle"
+            <TextView
+                android:id="@+id/lj_bottle_info_reply_num"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@null"
-                android:textSize="20sp" />
-        </LinearLayout>
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:text="还差5个字" />
+        </RelativeLayout>
+
+        <com.lj.driftbottle.ui.LineEditText
+            android:id="@+id/lj_bottle_info_append"
+            style="?android:attr/textViewStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:lineSpacingExtra="8dp"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="25dp"
             android:orientation="horizontal" >
 
             <Button
-                android:layout_width="wrap_content"
+                android:id="@+id/lj_bottle_info_throwback_btn"
+                style="@style/lj_bottle_throw_btn_style"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="扔回海里" />
 
-            <TextView
-                android:id="@+id/lj_bottle_info_num"
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="5-150字"
-                android:textSize="20sp" />
+                android:layout_weight="1" />
 
             <Button
-                android:id="@+id/lj_bottle_info_send"
-                android:layout_width="wrap_content"
+                android:id="@+id/lj_bottle_info_reply_btn"
+                style="@style/lj_bottle_throw_btn_style"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="发送" />
         </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="20dp" />
     </LinearLayout>
 
 </ScrollView>
