@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -51,12 +52,19 @@ public class MyBottle extends Activity
 		{
 			if (msg.what == GET_MY_BOTTLE_HANDLER)
 			{
-				adapter = new MyBottlesListAdapter(MyBottle.this, myBottleList);
-				listView.setAdapter(adapter);
+				if (myBottleList.size() == 0)
+					findViewById(R.id.lj_my_bottle_remind).setVisibility(View.VISIBLE);
+				else
+				{
+					adapter = new MyBottlesListAdapter(MyBottle.this, myBottleList);
+					listView.setAdapter(adapter);
+				}
 			}
 			else if (msg.what == REMOVE_BOTTLE_HANDLER)
 			{
 				myBottleList.remove(msg.arg1);
+				if (myBottleList.size() == 0)
+					findViewById(R.id.lj_my_bottle_remind).setVisibility(View.VISIBLE);
 				adapter.notifyDataSetChanged();
 				Toast.makeText(getApplicationContext(), "É¾³ýÆ¯Á÷Æ¿", Toast.LENGTH_SHORT).show();
 			}
@@ -88,6 +96,7 @@ public class MyBottle extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_bottle);
+		findViewById(R.id.lj_my_bottle_remind).setVisibility(View.GONE);
 		bottleManager = BottleManager.getInstance();
 		listView = (ListView)findViewById(R.id.my_bottle_list);
 		listView.setOnItemLongClickListener(new ListViewItemLongClick());

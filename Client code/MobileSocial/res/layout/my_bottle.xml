@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/friends_layout_bg" >
+    android:layout_height="fill_parent">
 
     <ListView
         android:id="@+id/my_bottle_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
+    
+    <TextView 
+        android:id="@+id/lj_my_bottle_remind"
+        android:gravity="center"
+        android:layout_marginTop="120dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#888888"
+        android:textSize="15dp"
+        android:text="你还有收到任何一个瓶子。何不扔一个？"/>
 
 </RelativeLayout>

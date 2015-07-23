@@ -84,7 +84,12 @@ public class MyBottlesListAdapter extends BaseAdapter
 		historyTextView.setText(text);
 		
 		ImageView sexImg = (ImageView) itemView.findViewById(R.id.lj_bottle_item_sex);
-		sexImg.setImageResource(bottle.getSex().equals("male") ? R.drawable.yg_appkefu_ic_sex_male : R.drawable.yg_appkefu_ic_sex_female);
+		if (bottle.getSex().equals("male"))
+			sexImg.setImageResource(R.drawable.yg_appkefu_ic_sex_male);
+		else if (bottle.getSex().equals("female"))
+			sexImg.setImageResource(R.drawable.yg_appkefu_ic_sex_female);
+		else
+			sexImg.setImageResource(R.drawable.lj_bottle_drift);
 		return itemView;
 	}
 
