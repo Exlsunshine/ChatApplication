@@ -249,16 +249,16 @@ public class DriftBottleActivity extends Activity
 		popupWindow.setFocusable(true);
 
 		
-		final BottleEditText bottleEdit = (BottleEditText) popView.findViewById(R.id.lj_driftbottle_edit);
-		
-		bottleEdit.getSendBtn().setText("ÈÓ³öÈ¥");
-		bottleEdit.getSendBtn().setOnClickListener(new OnClickListener() 
+		final LineEditText bottleEdit = (LineEditText) popView.findViewById(R.id.lj_driftbottle_edit);
+		final BottleBtnLayout bottleBtnLayout = (BottleBtnLayout) popView.findViewById(R.id.lj_bottle_throw_btn);
+		bottleBtnLayout.setStyle(BottleBtnLayout.LAYOUT_STYLE_THROW, bottleEdit);
+		bottleBtnLayout.getBtn().setOnClickListener(new OnClickListener() 
 		{
 			@Override
 			public void onClick(View arg0) 
 			{
-				String text = bottleEdit.getText();
-				if (bottleEdit.isTextLengthValid(text.length()))
+				String text = bottleEdit.getText().toString();
+				if (bottleBtnLayout.isTextLengthValid(text.length()))
 				{
 					final FirstBottle firstBottle = bottleManager.createNewBottle();
 					firstBottle.appentText(text);
@@ -273,7 +273,7 @@ public class DriftBottleActivity extends Activity
 					}).start();
 				}
 				else
-					bottleEdit.shake();
+					bottleBtnLayout.shake();
 			}
 		});
 	

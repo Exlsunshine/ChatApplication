@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/lj_throw_bottle_title"
@@ -50,36 +51,36 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/lj_chuck_layout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lj_throw_bottle_title" >
+        android:background="@drawable/bottle_stationery" >
 
-        <com.lj.driftbottle.ui.BottleEditText
+        <com.lj.driftbottle.ui.LineEditText
             android:id="@+id/lj_driftbottle_edit"
+            style="?android:attr/textViewStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" />
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@null"
+            android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/lj_chuck_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:layout_marginTop="50dip"
-            android:background="@drawable/bottle_stationery"
-            android:gravity="top"
-            android:visibility="gone" />
+        <View
+            android:id="@+id/lj_bottle_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true" />
 
-        <ImageView
-            android:id="@+id/lj_chuck_bottle1"
-            android:layout_width="wrap_content"
+        <com.lj.driftbottle.ui.BottleBtnLayout
+            android:id="@+id/lj_bottle_throw_btn"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/bottle_type_text"
-            android:visibility="gone" />
+            android:layout_above="@id/lj_bottle_bottom_view"
+            android:layout_marginBottom="100dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" >
+        </com.lj.driftbottle.ui.BottleBtnLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

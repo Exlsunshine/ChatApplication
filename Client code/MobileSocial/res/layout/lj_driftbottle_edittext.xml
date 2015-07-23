@@ -1,52 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottle_stationery"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/bottle_stationery" >
-
-        <com.lj.driftbottle.ui.LineEditText
-            android:id="@+id/lj_driftbottle_edittext_edit"
-            style="?android:attr/textViewStyle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
-            android:background="@null"
-            android:textSize="20sp" />
-    </RelativeLayout>
-    
-    <LinearLayout 
+    <com.lj.driftbottle.ui.LineEditText
+        android:id="@+id/lj_driftbottle_edittext_edit"
+        style="?android:attr/textViewStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="扔回海里"
-            android:layout_weight="1"
-            android:visibility="invisible"/>
-        
-        <TextView 
-            android:id="@+id/lj_driftbottle_edittext_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="5-150字"
-            android:textSize="20sp"/>
-        <Button 
-            android:id="@+id/lj_driftbottle_edittext_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发送"
-            android:layout_weight="1"/>
-    </LinearLayout>
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@null"
+        android:textSize="20sp" />
 
 </LinearLayout>
