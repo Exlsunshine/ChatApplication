@@ -53,7 +53,19 @@ public class MyBottle extends Activity
 			if (msg.what == GET_MY_BOTTLE_HANDLER)
 			{
 				if (myBottleList.size() == 0)
-					findViewById(R.id.lj_my_bottle_remind).setVisibility(View.VISIBLE);
+				{
+					View view = findViewById(R.id.lj_my_bottle_remind);
+					view.setVisibility(View.VISIBLE);
+					view.setOnClickListener(new OnClickListener() 
+					{
+						@Override
+						public void onClick(View arg0) 
+						{
+							setResult(RESULT_OK);
+							finish();
+						}
+					});
+				}
 				else
 				{
 					adapter = new MyBottlesListAdapter(MyBottle.this, myBottleList);

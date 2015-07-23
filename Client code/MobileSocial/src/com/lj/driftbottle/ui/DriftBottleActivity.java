@@ -172,7 +172,7 @@ public class DriftBottleActivity extends Activity
 			else if (id == R.id.bottle_bottom_my_bottle || id == R.id.bottle_night_my_bottle)
 			{
 				Intent intent = new Intent(DriftBottleActivity.this, MyBottle.class);
-				startActivity(intent);
+				startActivityForResult(intent, 0);
 			}
 			else if (id == R.id.bottle_back)
 				finish();
@@ -301,5 +301,17 @@ public class DriftBottleActivity extends Activity
 		return super.onTouchEvent(event);
 
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 0 && resultCode == RESULT_OK)
+		{
+			initChuckPop();
+			popupWindow.showAtLocation(findViewById(R.id.bottle_bottom_throw_bottle), Gravity.BOTTOM, 0, 0);
+		}
+	}
+	
 
 }
