@@ -26,6 +26,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
@@ -33,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DriftBottleActivity extends Activity
@@ -249,16 +251,16 @@ public class DriftBottleActivity extends Activity
 		popupWindow.setFocusable(true);
 
 		
-		final LineEditText bottleEdit = (LineEditText) popView.findViewById(R.id.lj_driftbottle_edit);
-		final BottleBtnLayout bottleBtnLayout = (BottleBtnLayout) popView.findViewById(R.id.lj_bottle_throw_btn);
-		bottleBtnLayout.setStyle(BottleBtnLayout.LAYOUT_STYLE_THROW, bottleEdit);
-		bottleBtnLayout.getBtn().setOnClickListener(new OnClickListener() 
+		final EditText bottleEdit = (EditText) popView.findViewById(R.id.lj_driftbottle_edit);
+		final TextView textView = (TextView) popView.findViewById(R.id.lj_bottle_throw_num);
+		bottleEdit.addTextChangedListener(new EditWatcher(bottleEdit, textView));
+		popView.findViewById(R.id.lj_bottle_throw_btn).setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View arg0) 
 			{
 				String text = bottleEdit.getText().toString();
-				if (bottleBtnLayout.isTextLengthValid(text.length()))
+				if (EditWatcher.isTextLengthValid(text))
 				{
 					final FirstBottle firstBottle = bottleManager.createNewBottle();
 					firstBottle.appentText(text);
@@ -273,10 +275,12 @@ public class DriftBottleActivity extends Activity
 					}).start();
 				}
 				else
-					bottleBtnLayout.shake();
+				{
+					Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.yg_loginguide_page3_login_dialog_anim_shake);
+					textView.startAnimation(shake);
+				}
 			}
 		});
-	
 		popView.findViewById(R.id.lj_throw_bottle_back).setOnClickListener(listener);
 	}
 

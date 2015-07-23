@@ -28,10 +28,10 @@ public class LineEditText extends EditText
 	{
 		super.onDraw(canvas);
 		int lineCount = getLineCount();
-		int lineHeight = getLineHeight() - (int)getLineSpacingExtra();
+		int lineHeight = getLineHeight();
 		for (int i = 0; i < lineCount; i++) 
 		{
-			int lineY = (i + 1) * lineHeight;
+			int lineY = (i + 1) * lineHeight - (int)getLineSpacingExtra();
 			canvas.drawLine(0, lineY, this.getWidth(), lineY, paint);
 		}
 	}

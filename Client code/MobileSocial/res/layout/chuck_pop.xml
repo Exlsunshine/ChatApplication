@@ -64,25 +64,38 @@
         <com.lj.driftbottle.ui.LineEditText
             android:id="@+id/lj_driftbottle_edit"
             style="?android:attr/textViewStyle"
-			android:lineSpacingExtra="8dp"            
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
             android:background="@null"
+            android:lineSpacingExtra="8dp"
             android:textSize="20sp" />
-   
 
-        <com.lj.driftbottle.ui.BottleBtnLayout
-            android:id="@+id/lj_bottle_throw_btn"
+        <TextView
+            android:id="@+id/lj_bottle_throw_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/lj_driftbottle_edit"
+            android:layout_marginRight="30dp"
+            android:text="还差5个字"
+            android:textColor="#CC0000" />
+
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/lj_bottle_bottom_view"
             android:layout_marginBottom="60dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp" >
-        </com.lj.driftbottle.ui.BottleBtnLayout>
+            <Button 
+                android:id="@+id/lj_bottle_throw_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="扔出去"/>
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>
