@@ -1,8 +1,15 @@
 package com.lj.driftbottle.ui;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.graphics.Color;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,26 +30,47 @@ public class EditWatcher implements TextWatcher
 	{
 		this.editText = editText;
 		this.textView = textView;
-		textView.setText("还差" + MIN_TEXT_LENGTH + "个字");
+		String text = "还差 " + MIN_TEXT_LENGTH + " 个字";
+		SpannableStringBuilder style = getDigitColorBuilder(text, Color.RED);
+		textView.setText(style);
 	}
+	
+	private SpannableStringBuilder getDigitColorBuilder(String text, int color)
+	{
+		SpannableStringBuilder style = new SpannableStringBuilder(text);
+		String reg = "\\d+";
+		Pattern pattern = Pattern.compile(reg);
+		Matcher matcher = pattern.matcher(text);
+		matcher.find();
+		int start = text.indexOf(matcher.group());
+		int end = start + matcher.group().length();
+		style.setSpan(new ForegroundColorSpan(color),start,end,Spannable.SPAN_EXCLUSIVE_INCLUSIVE); 
+		style.setSpan(new AbsoluteSizeSpan(58), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		return style;
+	}
+	
 	@Override
 	public void afterTextChanged(Editable arg0) 
 	{
 		int textLength = editText.getText().toString().length();
+		
 		if (textLength >= MIN_TEXT_LENGTH && textLength <= MAX_TEXT_LENGTH)
 		{
-			textView.setTextColor(Color.GREEN);
-			textView.setText("还可以输入" + (MAX_TEXT_LENGTH - textLength) + "个字");
+			String text = "还可以输入 " + (MAX_TEXT_LENGTH - textLength) + " 个字";
+			SpannableStringBuilder style = getDigitColorBuilder(text, Color.GREEN);
+			textView.setText(style);
 		}
 		else if (textLength < MIN_TEXT_LENGTH)
 		{
-			textView.setTextColor(Color.RED);
-			textView.setText("还差" + (MIN_TEXT_LENGTH - textLength) + "个字");
+			String text = "还差 " + (MIN_TEXT_LENGTH - textLength) + " 个字";
+			SpannableStringBuilder style = getDigitColorBuilder(text, Color.RED);
+			textView.setText(style);
 		}
 		else if (textLength > MAX_TEXT_LENGTH)
 		{
-			textView.setTextColor(Color.RED);
-			textView.setText("已超出" + (textLength - MAX_TEXT_LENGTH) + "个字");
+			String text = "已超出 " + (textLength - MAX_TEXT_LENGTH) + " 个字";
+			SpannableStringBuilder style = getDigitColorBuilder(text, Color.RED);
+			textView.setText(style);
 		}
 	}
 

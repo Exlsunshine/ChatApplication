@@ -41,7 +41,6 @@ public class DriftBottleActivity extends Activity
 {
 	public static BottleManager bottleManager = null;
 	private PopupWindow popupWindow;
-	private EditText chuck_edit;
 	private TranslateAnimation ani0, ani1, ani2;
 	private AnimationDrawable ad, ad1, ad2;
 

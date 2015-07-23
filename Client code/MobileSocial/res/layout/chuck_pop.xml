@@ -32,7 +32,7 @@
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="返回"
+                android:text="取消"
                 android:textColor="#FFFFFF"
                 android:textSize="17sp" />
         </LinearLayout>
@@ -80,8 +80,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/lj_driftbottle_edit"
             android:layout_marginRight="30dp"
-            android:text="还差5个字"
-            android:textColor="#CC0000" />
+            android:text="还差5个字"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
