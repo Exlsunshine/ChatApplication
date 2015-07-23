@@ -3,6 +3,7 @@ package com.lj.driftbottle.ui;
 import java.util.Calendar;
 
 import com.example.testmobiledatabase.R;
+import com.lj.driftbottle.logic.BottleManager;
 import com.lj.driftbottle.logic.CommBottle;
 
 import android.app.Activity;
@@ -19,7 +20,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class PickupBottle extends Activity {
+public class PickupBottle extends Activity 
+{
+	private BottleManager bottleManager = null;
 	private AnimationDrawable ad;
 	private ImageView pick_spray1, pick_spray2, voice_msg, close;
 	private RelativeLayout pick_up_layout;
@@ -60,6 +63,7 @@ public class PickupBottle extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.pick_up_bottle);
+		bottleManager = BottleManager.getInstance();
 		// ≥ı ºªØ
 		pick_spray1 = (ImageView) findViewById(R.id.lj_pick_spray1);
 		pick_spray2 = (ImageView) findViewById(R.id.lj_pick_spray2);
@@ -122,7 +126,7 @@ public class PickupBottle extends Activity {
 			@Override
 			public void run() 
 			{
-				CommBottle bottle = DriftBottleActivity.bottleManager.pickup();
+				CommBottle bottle = bottleManager.pickup();
 				if (bottle == null)
 				{
 					handler.sendEmptyMessage(NO_BOTTLE_HANDLER);

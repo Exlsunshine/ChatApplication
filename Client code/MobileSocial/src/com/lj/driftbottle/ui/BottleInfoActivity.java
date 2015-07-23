@@ -1,31 +1,23 @@
 package com.lj.driftbottle.ui;
 
 import com.example.testmobiledatabase.R;
+import com.lj.driftbottle.logic.BottleManager;
 import com.lj.driftbottle.logic.CommBottle;
-import com.lj.driftbottle.logic.FirstBottle;
-import com.lj.setting.achievement.ThreadGameChallengFail;
-import com.yg.commons.ConstantValues;
-import com.yg.user.DownloadManager;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class BottleInfoActivity extends Activity
 {
@@ -33,6 +25,7 @@ public class BottleInfoActivity extends Activity
 	private final int REPLY_HANDLER = 0x02;
 	private EditText editText = null;
 	private TextView textView = null;
+	private BottleManager bottleManager = null;
 	private Handler handler = new Handler()
 	{
 		public void handleMessage(android.os.Message msg) 
@@ -74,7 +67,8 @@ public class BottleInfoActivity extends Activity
 		setContentView(R.layout.lj_bottle_info_layout);
 		Intent intent = getIntent();
 		int bottleID = intent.getIntExtra("bottleID", 0);
-		bottle = DriftBottleActivity.bottleManager.getBottleByID(bottleID);
+		bottleManager = BottleManager.getInstance();
+		bottle = bottleManager.getBottleByID(bottleID);
 		
 		BottleHistoryText bottleHistory = (BottleHistoryText)findViewById(R.id.lj_bottle_info_history);
 		bottleHistory.setInfo(bottle);
@@ -83,6 +77,7 @@ public class BottleInfoActivity extends Activity
 		textView = (TextView) findViewById(R.id.lj_bottle_info_reply_num);
 		editText.addTextChangedListener(new EditWatcher(editText, textView));
 		findViewById(R.id.lj_bottle_info_reply_btn).setOnClickListener(clickListener);
+		findViewById(R.id.lj_bottle_info_throwback_btn).setOnClickListener(clickListener);
 		setupDialogActionBar();
 	}
 	
@@ -103,7 +98,7 @@ public class BottleInfoActivity extends Activity
 						@Override
 						public void run() 
 						{
-							DriftBottleActivity.bottleManager.reply(bottle);
+							bottleManager.reply(bottle);
 							handler.sendEmptyMessage(REPLY_HANDLER);
 						}
 					}).start();

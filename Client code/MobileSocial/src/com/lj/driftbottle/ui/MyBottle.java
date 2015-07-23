@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.testmobiledatabase.R;
+import com.lj.driftbottle.logic.BottleManager;
 import com.lj.driftbottle.logic.CommBottle;
 import com.yg.user.DownloadManager;
 
@@ -34,14 +35,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SimpleAdapter.ViewBinder;
 
-public class MyBottle extends Activity {
-	
+public class MyBottle extends Activity 
+{
 	private ListView listView;
 	private final int GET_MY_BOTTLE_HANDLER = 0x01;
 	private final int REMOVE_BOTTLE_HANDLER = 0x02;
 	public static HashMap<String, Bitmap> portraitTable = new HashMap<String, Bitmap>();
 	private ArrayList<CommBottle> myBottleList = null;
 	private MyBottlesListAdapter adapter = null;
+	private BottleManager bottleManager = null;
 	
 	private Handler handler = new Handler()
 	{
@@ -86,7 +88,7 @@ public class MyBottle extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_bottle);
-		
+		bottleManager = BottleManager.getInstance();
 		listView = (ListView)findViewById(R.id.my_bottle_list);
 		listView.setOnItemLongClickListener(new ListViewItemLongClick());
 		listView.setOnItemClickListener(new ListViewItemClick());
@@ -99,7 +101,7 @@ public class MyBottle extends Activity {
 		@Override
 		public void run() 
 		{
-			myBottleList = DriftBottleActivity.bottleManager.myBottles();
+			myBottleList = bottleManager.myBottles();
 			Message msg = new Message();
 			msg.what = GET_MY_BOTTLE_HANDLER;
 			msg.obj = myBottleList;
@@ -126,7 +128,7 @@ public class MyBottle extends Activity {
 						@Override
 						public void run() 
 						{
-							DriftBottleActivity.bottleManager.removeBottle(bottleID);
+							bottleManager.removeBottle(bottleID);
 							Message msg = new Message();
 							msg.what = REMOVE_BOTTLE_HANDLER;
 							msg.arg1 = position;

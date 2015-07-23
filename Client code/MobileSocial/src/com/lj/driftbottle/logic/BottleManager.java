@@ -8,24 +8,45 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import android.util.Log;
+
 import com.yg.user.WebServiceAPI;
 
 public class BottleManager 
 {
-	private int userID = 0;
+	private int userID = -1;
+	private final String ERROR_FLAG = "BottleManager";
 	private final String PACKAGENAME = "network.lj.com";
 	private final String CLASSNAME = "LJNetworkHandler";
 	private Hashtable<Integer, CommBottle> bottleTable = new Hashtable<Integer, CommBottle>();
 	
-	WebServiceAPI webserviceAPI = new WebServiceAPI(PACKAGENAME, CLASSNAME);
+	private WebServiceAPI webserviceAPI = new WebServiceAPI(PACKAGENAME, CLASSNAME);
+
+	private static BottleManager manager = null;
+	private BottleManager()
+	{
+		
+	}
 	
-	public BottleManager(int userID) 
+	public static BottleManager getInstance()
+	{
+		if (manager == null)
+			manager = new BottleManager();
+		return manager;
+	}
+	
+	public void init(int userID)
 	{
 		this.userID = userID;
 	}
 	
 	public void throwBottle(FirstBottle bottle)
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return;
+		}
 		String[] name = {"bottleJsonString"};
 		String[] values = {bottle.toJsonString()};
 		String jsonResult = webserviceAPI.callFuntion("generateBottle", name, values).toString();
@@ -80,6 +101,11 @@ public class BottleManager
 	
 	public CommBottle pickup()
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return null;
+		}
 		String[] name = {"userID"};
 		String[] values = {String.valueOf(userID)};
 		String jsonResult = webserviceAPI.callFuntion("getNewBottle", name, values).toString();
@@ -100,6 +126,11 @@ public class BottleManager
 	
 	public void reply(AbstractBottle bottle)
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return;
+		}
 		String[] name = {"jsonString"};
 		String[] values = {bottle.toJsonString()};
 		String jsonResult = webserviceAPI.callFuntion("updateBottle", name, values).toString();
@@ -144,6 +175,11 @@ public class BottleManager
 	
 	public ArrayList<CommBottle> myBottles()
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return null;
+		}
 		String[] name = {"jsonString", "userID"};
 		String[] values = {toJsonString(), String.valueOf(userID)};
 		String jsonResult = webserviceAPI.callFuntion("getBottlesByUserID", name, values).toString();
@@ -168,6 +204,11 @@ public class BottleManager
 	
 	public void removeBottle(CommBottle bottle)
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return;
+		}
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put(CommBottle.BOTTLE_ID, String.valueOf(bottle.getBottleID()));

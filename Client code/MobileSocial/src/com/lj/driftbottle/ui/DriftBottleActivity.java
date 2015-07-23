@@ -39,7 +39,7 @@ import android.widget.Toast;
 
 public class DriftBottleActivity extends Activity
 {
-	public static BottleManager bottleManager = null;
+	private BottleManager bottleManager = null;
 	private PopupWindow popupWindow;
 	private TranslateAnimation ani0, ani1, ani2;
 	private AnimationDrawable ad, ad1, ad2;
@@ -50,8 +50,8 @@ public class DriftBottleActivity extends Activity
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.lj_drift_bottle_main_layout);
-		if (bottleManager == null)
-			bottleManager = new BottleManager(ConstantValues.user.getID());
+		bottleManager = BottleManager.getInstance();
+		bottleManager.init(ConstantValues.user.getID());
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).build();
 		imageLoader.init(config);
