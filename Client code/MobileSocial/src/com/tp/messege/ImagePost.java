@@ -21,7 +21,6 @@ public class ImagePost extends AbstractPost
 	 * 当前ImagePost的图像内容
 	 * 类型暂定
 	 */
-	private Bitmap image = null;
 	private String imgPath = null;
 	private String imgUrl = null;
 	private final static String SAVED_DIRECTORY = "/JMMSR/FRIEND_CIRCLE/";
@@ -39,7 +38,6 @@ public class ImagePost extends AbstractPost
 	{
 		super(postUserID, postDate,image, location, sex);
 		String imgPathTmp = android.os.Environment.getExternalStorageDirectory() + "/" + SAVED_DIRECTORY + "/" +  generateImageName(postUserID, postID);
-		this.image = image;
 		
 		try 
 		{
@@ -66,36 +64,12 @@ public class ImagePost extends AbstractPost
 	 * @param imgPath
 	 * @param location
 	 */
-	public ImagePost(int postID, int postUserID, int likedNumber, String postDate, String imgPath, String location,String sex)
+	public ImagePost(int postID, int postUserID, int likedNumber, String postDate, String imgPath, String location,String sex, int versionCode)
 	{
-		super(postID, postUserID, likedNumber, postDate, imgPath, location, sex);
+		super(postID, postUserID, likedNumber, postDate, imgPath, location, sex, versionCode);
 		imgUrl = imgPath;
 	}
 
-	public Bitmap getImage()
-	{
-		if (image == null)
-		{
-			DownloadManager dm = new DownloadManager(imgUrl);
-			image = dm.getBmpFile();
-			
-			String imgPathTmp = android.os.Environment.getExternalStorageDirectory() + "/" + SAVED_DIRECTORY + "/" + generateImageName(postUserID, postID);
-			
-			try 
-			{
-				File file = new File(imgPathTmp);
-				file.getParentFile().mkdirs();
-				FileOutputStream out = new FileOutputStream(imgPathTmp);
-				image.compress(Bitmap.CompressFormat.PNG, 100, out);
-				imgPath = imgPathTmp;
-			} 
-			catch (IOException ex) 
-			{
-				System.out.println(ex);
-			}
-		}
-		return image;
-	}
 
 /*	*//**
 	 * 将当前ImagePost中的Image保存到指定路径
@@ -186,13 +160,40 @@ public class ImagePost extends AbstractPost
 	
 	public String getImagePath()
 	{
+		if (imgPath == null)
+ 		{
+ 			DownloadManager dm = new DownloadManager(imgUrl);
+			Bitmap image = dm.getBmpFile();
+			String imgPathTmp = android.os.Environment.getExternalStorageDirectory() + "/" + SAVED_DIRECTORY + "/" + generateImageName(postUserID, postID);
+			try 
+			{
+				File file = new File(imgPathTmp);
+				file.getParentFile().mkdirs();
+				FileOutputStream out = new FileOutputStream(imgPathTmp);
+				image.compress(Bitmap.CompressFormat.PNG, 90, out);
+				imgPath = imgPathTmp;
+			} 
+			catch (IOException ex) 
+			{
+				System.out.println(ex);
+			}
+ 		}
 		return imgPath;
+	}
+	
+	public boolean isImgPathEmpty()
+	{
+		if (imgPath == null)
+			return true;
+		else
+			return false;
 	}
 	
 	public String getImageURL()
 	{
 		return this.imgUrl;
 	}
+	
 
 	/**
 	 * 设置{@link #publish()}返回的commentID

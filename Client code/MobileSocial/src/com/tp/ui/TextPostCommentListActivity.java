@@ -11,6 +11,7 @@ import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +41,7 @@ public class TextPostCommentListActivity extends Activity
 	private final int refresh = 2;
 	private Comment empty = new Comment();
 	private int commentUserID = ConstantValues.user.getID();
+	private InputMethodManager imm;
 	
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -50,6 +53,10 @@ public class TextPostCommentListActivity extends Activity
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 		setupDialogActionBar();
 		initpost();
+		commentEdtxt.setFocusable(true);   
+		commentEdtxt.setFocusableInTouchMode(true);   
+		commentEdtxt.requestFocus();  
+		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		
 		sendBtn.setOnClickListener(new OnClickListener() 
 		{
@@ -80,6 +87,7 @@ public class TextPostCommentListActivity extends Activity
 									Message message = Message.obtain();
 									message.what = setAdpter;
 									handler.sendMessage(message);
+									commentEdtxt.clearFocus();
 								}
 								catch (Exception e)
 				                {
@@ -136,10 +144,12 @@ public class TextPostCommentListActivity extends Activity
 			switch (msg.what) 
 			{
 			case setAdpter:
+				imm.hideSoftInputFromWindow(commentEdtxt.getWindowToken(), 0);
 				commentEdtxt.setText("");
 				Log.e("setAdpter", commentList.size() + "");
 				listAdapter = new PostCommentListAdapter(TextPostCommentListActivity.this, post, commentList);
 				commentListView.setAdapter(listAdapter);
+				commentListView.setSelection(commentList.size() - 1);
 				break;
 			case refresh:
 				commentEdtxt.setText("");

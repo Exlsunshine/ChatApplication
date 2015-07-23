@@ -34,9 +34,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 
@@ -47,13 +45,13 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
     // clock
     private FrameLayout clockLayout;
     private EmptyPost empty = new EmptyPost();
-    private ArrayList<AbstractPost> ap = new ArrayList<AbstractPost>();
+    private static ArrayList<AbstractPost> ap = new ArrayList<AbstractPost>();
     private final int setAdpter = 1;
     private final int hideclocklayout = 2;
     private final int showclocklayout = 3;
     private MyselfPostAdpter chatHistoryAdapter;
     private boolean isOncreate = false;
-    
+    private int index = 0, top = 0;
     
     private void setupDialogActionBar()
 	{
@@ -89,6 +87,7 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
         	{
         		try
         		{
+        			ap.clear();
         			ap.add(empty);
         			ArrayList<AbstractPost> posts = ConstantValues.user.pm.getMyselfPosts();
         			if (posts != null)
@@ -116,6 +115,9 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
 			{
 				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
                 {
+					index = dataListView.getFirstVisiblePosition();  
+					View v = dataListView.getChildAt(0);  
+					top = (v == null) ? 0 : v.getTop();  
 					Thread td = new Thread(new Runnable() 
 			        {
 						@Override
@@ -147,7 +149,6 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -166,7 +167,7 @@ public class MyselfPostActivity extends Activity implements OnTouchListener, OnP
 			case setAdpter:
 				chatHistoryAdapter = new MyselfPostAdpter(MyselfPostActivity.this, ap);
 			    dataListView.setAdapter(chatHistoryAdapter);
-			    dataListView.setOnItemClickListener(new OnItemClickListenerImpl());
+			    dataListView.setSelectionFromTop(index, top);
 				break;
 			case hideclocklayout:
 				clockLayout.setVisibility(View.INVISIBLE);
