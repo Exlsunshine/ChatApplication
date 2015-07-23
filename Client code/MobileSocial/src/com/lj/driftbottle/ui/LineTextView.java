@@ -33,7 +33,7 @@ public class LineTextView extends TextView
 	{
 		super.onDraw(canvas);
 		int lineCount = getLineCount();
-		int lineHeight = getLineHeight();
+		int lineHeight = getLineHeight() + (int)getLineSpacingExtra();
 		for (int i = 0; i < lineCount; i++) 
 		{
 			int lineY = (i + 1) * lineHeight;

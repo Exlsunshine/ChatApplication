@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.EditText;
 
 public class LineEditText extends EditText
@@ -18,7 +19,7 @@ public class LineEditText extends EditText
 		super(context, attrs);
 		paint = new Paint();
 		paint.setStyle(Paint.Style.STROKE);
-		paint.setColor(Color.RED);
+		paint.setColor(Color.GRAY);
 		paint.setAntiAlias(true);
 	}
 
@@ -27,7 +28,7 @@ public class LineEditText extends EditText
 	{
 		super.onDraw(canvas);
 		int lineCount = getLineCount();
-		int lineHeight = getLineHeight();
+		int lineHeight = getLineHeight() - (int)getLineSpacingExtra();
 		for (int i = 0; i < lineCount; i++) 
 		{
 			int lineY = (i + 1) * lineHeight;

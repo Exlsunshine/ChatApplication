@@ -55,9 +55,16 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bottle_stationery" >
 
+        <View
+            android:id="@+id/lj_bottle_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true" />
+
         <com.lj.driftbottle.ui.LineEditText
             android:id="@+id/lj_driftbottle_edit"
             style="?android:attr/textViewStyle"
+			android:lineSpacingExtra="8dp"            
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -65,19 +72,14 @@
             android:layout_marginTop="30dp"
             android:background="@null"
             android:textSize="20sp" />
-
-        <View
-            android:id="@+id/lj_bottle_bottom_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentBottom="true" />
+   
 
         <com.lj.driftbottle.ui.BottleBtnLayout
             android:id="@+id/lj_bottle_throw_btn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/lj_bottle_bottom_view"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="60dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp" >
         </com.lj.driftbottle.ui.BottleBtnLayout>
