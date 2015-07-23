@@ -10,13 +10,14 @@ import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class EditWatcher implements TextWatcher
 {
 	private static final int MIN_TEXT_LENGTH = 5;
-	private static final int MAX_TEXT_LENGTH = 150;
+	private static final int MAX_TEXT_LENGTH = 10;
 	private EditText editText;
 	private TextView textView;
 	
@@ -49,11 +50,15 @@ public class EditWatcher implements TextWatcher
 		return style;
 	}
 	
+	private int length = -1;
 	@Override
 	public void afterTextChanged(Editable arg0) 
 	{
-		int textLength = editText.getText().toString().length();
 		
+		int textLength = editText.getText().toString().length();
+		if (length == textLength)
+			return;
+		length = textLength;
 		if (textLength >= MIN_TEXT_LENGTH && textLength <= MAX_TEXT_LENGTH)
 		{
 			String text = "还可以输入 " + (MAX_TEXT_LENGTH - textLength) + " 个字";
@@ -71,6 +76,11 @@ public class EditWatcher implements TextWatcher
 			String text = "已超出 " + (textLength - MAX_TEXT_LENGTH) + " 个字";
 			SpannableStringBuilder style = getDigitColorBuilder(text, Color.RED);
 			textView.setText(style);
+			
+			SpannableStringBuilder editStyle = new SpannableStringBuilder(editText.getText().toString());
+			editStyle.setSpan(new ForegroundColorSpan(Color.GRAY),MAX_TEXT_LENGTH,textLength,Spannable.SPAN_EXCLUSIVE_INCLUSIVE); 
+			editText.setText(editStyle);
+			editText.setSelection(textLength);
 		}
 	}
 

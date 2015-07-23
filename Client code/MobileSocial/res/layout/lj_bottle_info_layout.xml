@@ -11,6 +11,8 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/bottle_stationery"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical" >
 
         <LinearLayout
