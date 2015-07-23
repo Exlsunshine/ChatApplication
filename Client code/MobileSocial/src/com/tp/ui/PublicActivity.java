@@ -4,6 +4,8 @@ package com.tp.ui;
 import java.util.ArrayList;
 
 import com.example.testmobiledatabase.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.tp.adapter.PublicActivityAdapter;
 import com.tp.adapter.PullToRefreshBase.OnRefreshListener;
 import com.tp.adapter.PullToRefreshListView;
@@ -49,7 +51,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     private ListView mListView;
     private EmptyPost empty = new EmptyPost();
     private PublicActivityAdapter chatHistoryAdapter;
-    private ArrayList<AbstractPost> ap = new ArrayList<AbstractPost>();
+    private static ArrayList<AbstractPost> ap = new ArrayList<AbstractPost>();
     private final int setAdpter = 1;
     private final int pulluprefresh = 2;
     private final int pulluprefreshempty = 3;
@@ -58,7 +60,8 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     private final int showclocklayout = 6;
     private int position1 = 0;
     private boolean isOncreate = false;
-    
+    private int index = 0, top = 0;
+    protected ImageLoader imageLoader = ImageLoader.getInstance();
     
     private void setupDialogActionBar()
 	{
@@ -104,10 +107,28 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         	{
         		try
         		{
-        			ap.add(empty);
-        			ArrayList<AbstractPost> posts = ConstantValues.user.pm.get10Posts();
-        			if (posts != null)
-        				ap.addAll(ConstantValues.user.pm.get10Posts());
+        			if (ap.size() == 0)
+        			{
+            			ArrayList<AbstractPost> posts = ConstantValues.user.pm.get10Posts();
+            			if (posts != null)
+            			{
+            				ap.add(empty);
+            				ap.addAll(posts);
+            			}
+            			else
+            				ap.add(empty);
+        			}
+        			else
+        			{
+        				ArrayList<AbstractPost> posts = ConstantValues.user.pm.getLatestPosts();
+            			if (posts != null)
+            			{
+            				ap.clear();
+            				ap.add(empty);
+            				ap.addAll(posts);
+            			}
+        			}
+        			
           			Message message = Message.obtain();
     				message.what = setAdpter;
     				handler.sendMessage(message);
@@ -125,7 +146,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         mPullRefreshListView.setOnPositionChangedListener(this);
         setClickListener();
         clockLayout = (FrameLayout)findViewById(R.id.publicactivity_clock);
-        
+        mPullRefreshListView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true, true)); 
         mPullRefreshListView.setOnScrollListener(new OnScrollListener() 
         {
 			@Override
@@ -133,6 +154,9 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 			{
 				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE)
                 {
+					index = mListView.getFirstVisiblePosition();  
+					View v = mListView.getChildAt(0);  
+					top = (v == null) ? 0 : v.getTop();  
 					Thread td = new Thread(new Runnable() 
 			        {
 						@Override
@@ -179,7 +203,8 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 			case setAdpter:
 				chatHistoryAdapter = new PublicActivityAdapter(PublicActivity.this, ap);
 				mListView.setAdapter(chatHistoryAdapter);
-				mListView.setSelection(position1);
+				mListView.setSelectionFromTop(index, top);
+				Log.e("PA_____", "setSelection position1 = " + position1);
 				mListView.setOnItemClickListener(new OnItemClickListenerImpl());
 				mPullRefreshListView.onRefreshComplete();
 				break;
@@ -206,7 +231,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	 @Override
 	    public boolean onTouch(View v, MotionEvent event) 
 	    {
-		 	Log.d("on touch", " 111111111");
 	        return false;
 	    }
 
@@ -245,7 +269,8 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,long id) 
 		{
-			position1 = mListView.getFirstVisiblePosition();
+			position1 = position;
+			Log.e("PA_____", "position1 = " + position1);
 			if (position == 1)
 			{
 				Intent intent = new Intent(PublicActivity.this,MyselfPostActivity.class);
@@ -321,6 +346,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     @Override
     public void onScollPositionChanged(View scrollBarPanel,int top) 
     {
+    	position1 = mListView.getFirstVisiblePosition();
         MarginLayoutParams layoutParams = (MarginLayoutParams) clockLayout.getLayoutParams();
         layoutParams.setMargins(0, top, 0, 0);
         clockLayout.setLayoutParams(layoutParams);
@@ -368,14 +394,17 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		        		try
 		        		{
 		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getLatestPosts();
+		        			
 		        			if (tmp == null)
 		        			{
+		        				Log.d("PA______",  "tmp getLatestPosts size null");
 		        				Message message = Message.obtain();
 			    				message.what = pulluprefreshempty;
 			    				handler.sendMessage(message);
 		        			}
 		        			else
 		        			{
+		        				Log.d("PA______", tmp.size() + "tmp getLatestPosts size");
 		        				ap.clear();
 			        			ap.add(empty);
 			          			ap.addAll(tmp);
@@ -452,7 +481,20 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	{
 		if (isOncreate == false)
 		{
-			Thread td = new Thread(new Runnable()
+			mListView.post(new Runnable() 
+			{
+				@Override
+				public void run() 
+				{
+					Message message = Message.obtain();
+        			ap.clear();
+        			ap.add(empty);
+        			ap.addAll(ConstantValues.user.pm.getfriendpost());
+        			message.what = setAdpter;
+        			handler.sendMessage(message);
+				}
+			});
+			/*Thread td = new Thread(new Runnable()
 	        {
 				@Override
 	        	public void run() 
@@ -473,7 +515,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	                }
 	        	}
 	        });
-			td.start();
+			td.start();*/
 			super.onResume();
 		}
 		else

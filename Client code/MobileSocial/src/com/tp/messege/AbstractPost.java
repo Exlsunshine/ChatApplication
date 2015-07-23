@@ -62,6 +62,14 @@ public abstract class AbstractPost
 	 * female 女
 	 */
 	protected String sex;
+	
+		
+	/**
+	 * 当前POST的版本号
+	 */		
+	protected int versionCode = 0;
+		
+	
 	/**
 	 * 调用的webservice的package名和class名
 	 */
@@ -103,7 +111,7 @@ public abstract class AbstractPost
 	 * @param content Post的内容
 	 * @param location 发布Post时所在的地点
 	 */
-	public AbstractPost(int postID, int postUserID, int likedNumber, String postDate, Object content, String location, String sex)
+	public AbstractPost(int postID, int postUserID, int likedNumber, String postDate, Object content, String location, String sex, int versionCode)
 	{
 		this.postID = postID;
 		this.postUserID = postUserID;
@@ -112,21 +120,23 @@ public abstract class AbstractPost
 		this.content = content;
 		this.location = location;
 		this.sex = sex;
-		new Thread()
+		this.versionCode = versionCode;
+		getCommentsFromServer();
+		/*new Thread()
 	        {
 	        	public void run() 
 	        	{
 	        		try
 	        		{
 	        			getCommentsFromServer();
-	        			Log.d("AbstractPost", "服务器构造函数");
+	        			
 	        		}
 	        		catch (Exception e)
 	                {
 	        			e.printStackTrace();
 	                }
 	        	};
-	        }.start();
+	        }.start();*/
 	}
 	
 	public AbstractPost()
@@ -223,6 +233,36 @@ public abstract class AbstractPost
 			  }
 		 }
 	}
+	
+	public int getVersionCode()
+	{
+		return this.versionCode;		
+	}
+		
+	public void updateComment()
+	{
+		comments.clear();	
+		getCommentsFromServer();
+	}
+	
+	/**
+	 * 设置本地POST的点赞数量
+	 * @param likedNum 点赞数量
+	 */
+	public void setLocalLikedNumber(int likedNum) 
+	{
+		this.likedNumber = likedNum;
+	}
+
+	/**
+	 * 设置POST的versionCode
+	 * @param vCode VersionCode的值
+	 */
+	public void setVersionCode(int vCode) 
+	{
+		this.versionCode = vCode;
+	}
+	
 
 	/**********************								***********************/
 	/**********************			以上是本地操作			***********************/

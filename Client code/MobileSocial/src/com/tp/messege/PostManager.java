@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import org.json.JSONException;
+
 import com.yg.message.ConvertUtil;
 import com.yg.user.PackString;
 import com.yg.user.WebServiceAPI;
@@ -21,6 +23,7 @@ public class PostManager
 	private final String packageName = "FriendCircleServer.tp.com";
 	private final String className = "FriendCircleHandler";
 	private TextPost tp;
+	private boolean isExist = false;
 	
 	public PostManager(int userID)
 	{
@@ -34,11 +37,6 @@ public class PostManager
 	{
 		ArrayList<AbstractPost> postArrayList = new ArrayList<AbstractPost>();
 		friendPosts.clear();
-		if (friendPosts.size() != 0)
-		{
-			currentLatestPostID = friendPosts.get(0).getPostID();
-			currentOldestPostID = friendPosts.get(friendPosts.size() - 1).getPostID();
-		}
 		WebServiceAPI wsApi;
 		Log.d("getLatestPostsdebug_______", currentLatestPostID + "");
 		Object []value = {userID}; 
@@ -61,16 +59,18 @@ public class PostManager
 				int postType = Integer.parseInt(postResult.get(i).get("post_type").toString());
 				String location = postResult.get(i).get("location").toString();
 				String sex = postResult.get(i).get("sex").toString();
-				String content = (postResult.get(i).get("content").toString());
+				String content = postResult.get(i).get("content").toString();
+				int versionCode = Integer.parseInt(postResult.get(i).get("version_code").toString());
+				Log.e("get10Posts versionCode", postIDFromServer + " " + versionCode);
 				if (postType == 1) //文字
 				{
-					TextPost tp = new TextPost(postIDFromServer,postUserID, likedNumber, postDate, content, location, sex);
+					TextPost tp = new TextPost(postIDFromServer,postUserID, likedNumber, postDate, content, location, sex, versionCode);
 					friendPosts.add(tp);
 					postArrayList.add(tp);
 				}
 				else if (postType == 2) //图片
 				{
-					ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex);
+					ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex, versionCode);
 					Log.e("get10Posts imgurl", content);
 					friendPosts.add(ip);
 					postArrayList.add(ip);
@@ -89,109 +89,149 @@ public class PostManager
 	 * 
 	 * @return 最新Post的ArrayList集合
 	 */
-	public ArrayList<AbstractPost> getLatestPosts()
+	public ArrayList<AbstractPost> getLatestPosts() throws JSONException
 	{
 		if (friendPosts.size() != 0)
 		{
 			currentLatestPostID = friendPosts.get(0).getPostID();
 			currentOldestPostID = friendPosts.get(friendPosts.size() - 1).getPostID();
 		}
+		else
+			return get10Posts();
 		WebServiceAPI wsApi;
-		Object []value = {userID, currentLatestPostID, currentOldestPostID, friendPosts.size() + 10}; 
-		String []para = {"userID", "postIDlatest","postIDoldest","num"};
+		
+		ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+		Log.e("getLatestPostsdebug_______", friendPosts.size() + "__________");
+		for (int i = 0; i < friendPosts.size(); i++)
+		{
+			HashMap<String, Object> item = new HashMap<String, Object>();
+			item.put("id", friendPosts.get(i).getPostID());
+			item.put("version_code", friendPosts.get(i).getVersionCode());
+			Log.e("getLatestPostsdebug_______", friendPosts.get(i).getPostID() + "__________");
+			items.add(item);
+		}
+		String ps = PackString.arrylist2JsonString("postIDandVersionCode", items);
+		Log.e("getLatestPostsdebug_______", "JSON STRING_______" + ps);
+		Object []value = {userID, currentLatestPostID, currentOldestPostID, friendPosts.size() + 10, ps}; 
+		String []para = {"userID", "postIDlatest","postIDoldest","num", "postIDandVersionCodeJson"};
 		wsApi = new WebServiceAPI(packageName, className);
 		Object s = wsApi.callFuntion("getLatestPosts", para ,value);
 		if (s == null)
-			return null;
+			return friendPosts;
 		PackString jsonString = new PackString(s.toString());
-		ArrayList<HashMap<String, Object>> postResult = jsonString.jsonString2Arrylist("latestpostsFromServer");
+		final ArrayList<HashMap<String, Object>> postResult = jsonString.jsonString2Arrylist("latestpostsFromServer");
 		Log.d("getLatestPostsdebug_______", postResult.size() + "__________");
-		for (int i = 0; i < postResult.size(); i++)
+		Thread td = new Thread(new Runnable() 
 		{
-			try 
+			@Override
+			public void run() 
 			{
-				final int postIDFromServer = Integer.parseInt(postResult.get(i).get("id").toString());
-				final int postUserID = Integer.parseInt(postResult.get(i).get("post_user_id").toString());
-				final int likedNumber = Integer.parseInt(postResult.get(i).get("liked_number").toString()); 
-				final String postDate = postResult.get(i).get("post_date").toString();
-				final int postType = Integer.parseInt(postResult.get(i).get("post_type").toString());
-				final String location = postResult.get(i).get("location").toString();
-				final String sex = postResult.get(i).get("sex").toString();
-				final String content = (postResult.get(i).get("content").toString());
-				boolean isSame = false;
-				if (postType == 1) //文字
+				for (int i = 0; i < postResult.size(); i++)
 				{
-					Thread td = new Thread(new Runnable()
-			        {
-						@Override
-			        	public void run() 
-			        	{
-			        		try
-			        		{
-			        			tp = new TextPost(postIDFromServer,postUserID, likedNumber, postDate, content, location, sex);
-			        			Log.e("getLatestPosts","创建post" + "" + tp.getPostID());
-			        		}
-			        		catch (Exception e)
-			                {
-			        			e.printStackTrace();
-			                }
-			        	}
-			        });
-					td.start();
-					try 
+					final int postIDFromServer = Integer.parseInt(postResult.get(i).get("id").toString());
+					Log.e("getLatestPosts", "postIDFromServer:" + postIDFromServer);
+					final int postUserID = Integer.parseInt(postResult.get(i).get("post_user_id").toString());
+					final int likedNumber = Integer.parseInt(postResult.get(i).get("liked_number").toString()); 
+					final String postDate = postResult.get(i).get("post_date").toString();
+					final int postType = Integer.parseInt(postResult.get(i).get("post_type").toString());
+					final String location = postResult.get(i).get("location").toString();
+					final String sex = postResult.get(i).get("sex").toString();
+					final String content = (postResult.get(i).get("content").toString());	
+					final int versionCode = Integer.parseInt(postResult.get(i).get("version_code").toString());
+					Log.e("getLatestPosts versionCode", postIDFromServer + " " + versionCode);
+					if (postType == 1) //文字
 					{
-						td.join();
 						int j = 0;
-						Log.e("getLatestPosts","替换post");
 						for (j = 0; j < friendPosts.size(); j++)
 						{
-							if (friendPosts.get(j).getPostID() == tp.getPostID())  //已经存在的POST
+							Log.e("getLatestPosts", "POSTid:" + friendPosts.get(j).getPostID());
+							if (friendPosts.get(j).getPostID() == postIDFromServer)  //已经存在的POST
 							{
-								isSame = true;
-								Log.e("getLatestPosts", "替换" + friendPosts.get(j).getcommentsize() + " " + tp.getcommentsize());
-								friendPosts.set(j, tp);         //替换
-								break;
+								Log.e("getLatestPosts", "POST Already exist________");
+								isExist = true;
+								//versionCode不同,本地版本落后于服务器
+								if (friendPosts.get(j).getVersionCode() != versionCode)
+								{
+									//更新versionCode
+									friendPosts.get(j).setVersionCode(versionCode);
+									//likedNumber不同，更新likedNumber,更新comment
+									if (friendPosts.get(j).getLikedNumber() != likedNumber)
+									{
+										Log.e("getLatestPosts", "updateComment and LIKEDNUMBER");
+										friendPosts.get(j).setLocalLikedNumber(likedNumber);
+										friendPosts.get(j).updateComment();
+									}
+									//likedNumber相同，说明COMMENT不同，更新COMMENT
+									else
+									{
+										Log.e("getLatestPosts", "updateComment");
+										friendPosts.get(j).updateComment();
+									}
+									break;
+								}
 							}
 						}
-						if (j == friendPosts.size() && isSame == false)
+						//服务器返回的postID与本地存储的都不同，说明本地没有该POST，添加该POST
+						if (j == friendPosts.size() && isExist == false)
 						{
+							tp = new TextPost(postIDFromServer,postUserID, likedNumber, postDate, content, location, sex, versionCode);
+							Log.e("getLatestPosts","创建post" + "" + tp.getPostID());
 							friendPosts.add(tp);
+						}
+					}
+					else if (postType == 2) //图片
+					{
+						int j = 0;
+						for (j = 0; j < friendPosts.size(); j++)
+						{
+							Log.e("getLatestPosts", "POSTid:" + friendPosts.get(j).getPostID());
+							if (friendPosts.get(j).getPostID() == postIDFromServer)  //已经存在的POST
+							{
+								Log.e("getLatestPosts", "POST Already exist________");
+								isExist = true;
+								//versionCode不同,本地版本落后于服务器
+								if (friendPosts.get(j).getVersionCode() != versionCode)
+								{
+									//更新versionCode
+									friendPosts.get(j).setVersionCode(versionCode);
+									//likedNumber不同，更新likedNumber,更新comment
+									if (friendPosts.get(j).getLikedNumber() != likedNumber)
+									{
+										Log.e("getLatestPosts", "updateComment and LIKEDNUMBER");
+										friendPosts.get(j).setLocalLikedNumber(likedNumber);
+										friendPosts.get(j).updateComment();
+									}
+									//likedNumber相同，说明COMMENT不同，更新COMMENT
+									else
+									{
+										Log.e("getLatestPosts", "updateComment");
+										friendPosts.get(j).updateComment();
+									}
+									break;
+								}
+							}
+						}
+						//服务器返回的postID与本地存储的都不同，说明本地没有该POST，添加该POST
+						if (j == friendPosts.size() && isExist == false)
+						{
+							ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex, versionCode);						friendPosts.add(ip);
 							Log.e("getLatestPosts", "添加" + j);
 						}
-					} 
-					catch (InterruptedException e) 
-					{
-						e.printStackTrace();
 					}
-					
+					isExist = false;
 				}
-				else if (postType == 2) //图片
-				{
-					ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex);
-					int j = 0;
-					for (j = 0; j < friendPosts.size(); j++)
-					{
-						if (friendPosts.get(j).getPostID() == ip.getPostID())  //已经存在的POST
-						{
-							isSame = true;
-							Log.e("getLatestPosts", "替换" + friendPosts.get(j).getcommentsize() + " " + ip.getcommentsize());
-							friendPosts.set(j, ip);         //替换
-							break;
-						}
-					}
-					if (j == friendPosts.size() && isSame == false)
-					{
-						friendPosts.add(ip);
-						Log.e("getLatestPosts", "添加" + j);
-					}
-				}
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
 			}
+		});
+		td.start();
+		try 
+		{
+			td.join();
+			Collections.sort(friendPosts, new SortByPostDate());
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
 		}
-		Collections.sort(friendPosts, new SortByPostDate());
 		return friendPosts;
 	}
 	/**
@@ -228,16 +268,18 @@ public class PostManager
 				int postType = Integer.parseInt(postResult.get(i).get("post_type").toString());
 				String location = postResult.get(i).get("location").toString();
 				String sex = postResult.get(i).get("sex").toString();
-				String content = (postResult.get(i).get("content").toString());
+				String content = postResult.get(i).get("content").toString();
+				int versionCode = Integer.parseInt(postResult.get(i).get("version_code").toString());
+				Log.e("getHistoryPosts versionCode", postIDFromServer + " " + versionCode);
 				if (postType == 1) //文字
 				{
-					TextPost tp = new TextPost(postIDFromServer,postUserID, likedNumber, postDate, content, location, sex);
+					TextPost tp = new TextPost(postIDFromServer,postUserID, likedNumber, postDate, content, location, sex, versionCode);
 					friendPosts.add(tp);
 					postArrayList.add(tp);
 				}
 				else if (postType == 2) //图片
 				{
-					ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex);
+					ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex, versionCode);
 					friendPosts.add(ip);
 					postArrayList.add(ip);
 				}
@@ -257,14 +299,11 @@ public class PostManager
 	 */
 	public ArrayList<AbstractPost> getMyselfPosts()
 	{
-		/*if (myselfPosts.size() != 0)
-			return myselfPosts;*/
-		ArrayList<AbstractPost> postArrayList = new ArrayList<AbstractPost>();
 		WebServiceAPI wsApi;
 		Object []value = {userID}; 
 		String []para = {"userID"};
 		wsApi = new WebServiceAPI(packageName, className);
-		Object s = wsApi.callFuntion("getMyselfPosts", para ,value);
+		final Object s = wsApi.callFuntion("getMyselfPosts", para ,value);
 		if (s == null)
 		{
 			Log.d("getMyselfPosts__", "MyselfPosts is null");
@@ -272,38 +311,75 @@ public class PostManager
 		}
 		else
 			Log.d("getMyselfPosts__", s.toString());
-		PackString jsonString = new PackString(s.toString());
-		ArrayList<HashMap<String, Object>> postResult = jsonString.jsonString2Arrylist("userhimselfpost");
+		
 		myselfPosts.clear();
-		for (int i = 0; i < postResult.size(); i++)
+		PackString jsonString = new PackString(s.toString());
+		final ArrayList<HashMap<String, Object>> postResult = jsonString.jsonString2Arrylist("userhimselfpost");
+		Log.e("getMyselfPosts postResult.size()", postResult.size() + "");
+		Thread td = new Thread(new Runnable() 
 		{
-			try 
+			@Override
+			public void run() 
 			{
-				int postIDFromServer = Integer.parseInt(postResult.get(i).get("id").toString());
-				int postUserID = Integer.parseInt(postResult.get(i).get("post_user_id").toString());
-				int likedNumber = Integer.parseInt(postResult.get(i).get("liked_number").toString()); 
-				String postDate = postResult.get(i).get("post_date").toString();
-				int postType = Integer.parseInt(postResult.get(i).get("post_type").toString());
-				String location = postResult.get(i).get("location").toString();
-				String sex = postResult.get(i).get("sex").toString();
-				String content = (postResult.get(i).get("content").toString());
-				if (postType == 1)
+				for (int i = 0; i < postResult.size(); i++)
 				{
-					TextPost tp = new TextPost(postIDFromServer,postUserID, likedNumber, postDate, content, location, sex);
-					myselfPosts.add(tp);
+					boolean isExsist = false; 
+					int postIDFromServer = Integer.parseInt(postResult.get(i).get("id").toString());
+					int postUserID = Integer.parseInt(postResult.get(i).get("post_user_id").toString());
+					int likedNumber = Integer.parseInt(postResult.get(i).get("liked_number").toString()); 
+					String postDate = postResult.get(i).get("post_date").toString();
+					int postType = Integer.parseInt(postResult.get(i).get("post_type").toString());
+					String location = postResult.get(i).get("location").toString();
+					String sex = postResult.get(i).get("sex").toString();
+					String content = postResult.get(i).get("content").toString();
+					int versionCode = Integer.parseInt(postResult.get(i).get("version_code").toString());
+					
+					for (int j = 0; j < friendPosts.size(); j++)
+					{
+						if (postIDFromServer == friendPosts.get(j).getPostID())
+						{
+							Log.e("getMyselfPosts isExsist", j + "isExsist " + postIDFromServer);
+							isExsist = true;
+							if (postType == 1)
+								myselfPosts.add(friendPosts.get(j));
+							else if (postType == 2)
+								myselfPosts.add(friendPosts.get(j));
+							break;
+						}
+					}
+					if (isExsist == true)
+						continue;
+					try 
+					{
+						Log.e("getMyselfPosts versionCode", postIDFromServer + " " + versionCode);
+						if (postType == 1)
+						{
+							TextPost tp = new TextPost(postIDFromServer,postUserID, likedNumber, postDate, content, location, sex, versionCode);
+							myselfPosts.add(tp);
+						}
+						else if (postType == 2)
+						{
+							ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex, versionCode);
+							myselfPosts.add(ip);
+						}
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+					}
 				}
-				else if (postType == 2)
-				{
-					ImagePost ip = new ImagePost(postIDFromServer,postUserID, likedNumber ,postDate, content, location, sex);
-					myselfPosts.add(ip);
-				}
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
 			}
+		});
+		td.start();
+		try 
+		{
+			td.join();
+			Collections.sort(myselfPosts, new SortByPostDate());
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
 		}
-		Collections.sort(myselfPosts, new SortByPostDate());
 		return myselfPosts;
 	}
 	
@@ -351,9 +427,22 @@ public class PostManager
 	{
 		if (commentID == -1)
 		{
+			boolean isPostExsitInFriendPost = false;
 			//用户新发布一条Comment
 			Comment comm = new Comment(postID, postUserID, userID, comment, commentDate, sex);
-			if (commentUserID == postUserID)   //用户自己评论自己
+			if (friendPosts.size() != 0)
+			{
+				for (int i = 0; i < friendPosts.size(); i++)
+				{
+					if (friendPosts.get(i).getPostID() == comm.getPostID())
+					{
+						isPostExsitInFriendPost = true;
+						Log.e("before appendComment", comm.getSex());
+						friendPosts.get(i).appendComment(comm);
+					}
+				}
+			}
+			if (postUserID == commentUserID && isPostExsitInFriendPost == false)
 			{
 				if (myselfPosts.size() != 0)
 				{
@@ -361,25 +450,12 @@ public class PostManager
 					{
 						if (myselfPosts.get(i).getPostID() == comm.getPostID())
 						{
+							Log.e("before appendComment", comm.getSex());
 							myselfPosts.get(i).appendComment(comm);
-							Log.e("addNewComment", comm.getPostID() + "");
 						}
 					}
 				}
 			}
-			if (friendPosts.size() != 0)
-			{
-				for (int i = 0; i < friendPosts.size(); i++)
-				{
-					if (friendPosts.get(i).getPostID() == comm.getPostID())
-					{
-						friendPosts.get(i).appendComment(comm);
-						Log.e("addNewComment", comm.getPostID() + "");
-					}
-				}
-			}
-			else
-				Log.d("debug____", "friendPosts is null");
 		}
 		else
 		{
@@ -396,8 +472,6 @@ public class PostManager
 					}
 				}
 			}
-			else
-				Log.d("debug____", "friendPosts is null");
 		}
 	}
 	

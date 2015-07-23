@@ -4,13 +4,14 @@ package com.tp.adapter;
 import java.util.List;
 
 import com.example.testmobiledatabase.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
 import com.tp.ui.ImageZoomInActivity;
 import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
 import com.yg.commons.ConstantValues;
-import com.yg.image.preview.ImagePreviewManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,7 +38,7 @@ public class MyselfPostAdpter extends BaseAdapter
     private Context context;
     private List<AbstractPost> posts;
     private int likedNumber = 0;
-    private boolean isLiked = false;
+    private ImageLoader imageLoader = ImageLoader.getInstance();
     
     public MyselfPostAdpter(Context context, List<AbstractPost> posts) 
     {
@@ -236,11 +237,11 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
-                    	if (post.getComments().get(1).getSex().equals("male"))
+                    	if (post.getComments().get(post.getcommentsize() - 2).getSex().equals("male"))
                     		commentprotrait2.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
-                    	if (post.getComments().get(2).getSex().equals("male"))
+                    	if (post.getComments().get(post.getcommentsize() - 1).getSex().equals("male"))
                     		commentprotrait3.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
@@ -325,9 +326,10 @@ public class MyselfPostAdpter extends BaseAdapter
 						{
 							Log.e("onLongClick", "onLongClick");
 							ImagePost ipLongClick = (ImagePost) post;
-							if (ipLongClick.getImagePath() == null)
+							if (ipLongClick.isImgPathEmpty())
 							{
-								String URL = ipLongClick.getImageURL();
+								String URL = ((ImagePost) post).getImageURL();
+								Log.e("myselftpostadpter", "geturl");
 								Intent intent = new Intent(context, ImageZoomInActivity.class);
 								Bundle bundle = new Bundle();
 								bundle.putString("Path", URL);
@@ -336,7 +338,8 @@ public class MyselfPostAdpter extends BaseAdapter
 							}
 							else
 							{
-								String Path = ipLongClick.getImagePath();
+								String Path = "file://" + ((ImagePost) post).getImagePath();
+								Log.e("myselftpostadpter", "getImagePath");
 								Intent intent = new Intent(context, ImageZoomInActivity.class);
 								Bundle bundle = new Bundle();
 								bundle.putString("Path", Path);
@@ -349,8 +352,34 @@ public class MyselfPostAdpter extends BaseAdapter
                     
                     
                     ImagePost ip = (ImagePost) post;
-                    GetImageTask task = new GetImageTask(photoView, ip);
-                    task.execute(0);
+                    if (ip.isImgPathEmpty() == true)
+                    {
+                    	//œ‘ æÕº∆¨µƒ≈‰÷√  
+                    	DisplayImageOptions options = new DisplayImageOptions.Builder()  
+                    	.showImageOnLoading(R.drawable.tp_loading_picture)  
+                    	.showImageOnFail(R.drawable.tp_loading_failed)  
+                    	.cacheInMemory(true)  
+                    	.cacheOnDisk(true)  
+                    	.bitmapConfig(Bitmap.Config.RGB_565)  
+                    	.build();
+                    	imageLoader.displayImage(ip.getImageURL(), photoView, options); 
+                    }
+                    else
+                    {
+                    	DisplayImageOptions options = new DisplayImageOptions.Builder()  
+                    	.showImageOnLoading(R.drawable.tp_loading_picture)  
+                    	.showImageOnFail(R.drawable.tp_loading_failed)  
+                    	.cacheInMemory(true)  
+                    	.cacheOnDisk(true)  
+                    	.bitmapConfig(Bitmap.Config.RGB_565)  
+                    	.build();  
+                    	imageLoader.displayImage("file://" + ip.getImagePath(), photoView, options); 
+                    }
+                    
+                    
+                    
+                   /* GetImageTask task = new GetImageTask(photoView, ip);
+                    task.execute(0);*/
                     
                     int size = post.getComments().size();
                     switch (size)
@@ -418,11 +447,11 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
-                    	if (post.getComments().get(1).getSex().equals("male"))
+                    	if (post.getComments().get(post.getcommentsize() - 2).getSex().equals("male"))
                     		commentprotrait2.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
-                    	if (post.getComments().get(2).getSex().equals("male"))
+                    	if (post.getComments().get(post.getcommentsize() - 1).getSex().equals("male"))
                     		commentprotrait3.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
@@ -446,7 +475,7 @@ public class MyselfPostAdpter extends BaseAdapter
         int flag = -1;
     }
     
-    public class GetImageTask extends AsyncTask<Integer, Integer, String> 
+    /*public class GetImageTask extends AsyncTask<Integer, Integer, String> 
     {  
     	private ImageView iv;
     	private ImagePost post;
@@ -484,5 +513,5 @@ public class MyselfPostAdpter extends BaseAdapter
     {
     	float scale = context.getResources().getDisplayMetrics().density;
     	return (int) (dp * scale + 0.5f);
-    }
+    }*/
 }

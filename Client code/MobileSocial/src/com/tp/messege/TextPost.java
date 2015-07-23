@@ -43,9 +43,9 @@ public class TextPost extends AbstractPost
 	 * @param text
 	 * @param location
 	 */
-	public TextPost(int postID, int postUserID, int likedNumber, String postDate, String text, String location, String sex)
+	public TextPost(int postID, int postUserID, int likedNumber, String postDate, String text, String location, String sex, int versionCode)
 	{
-		super(postID, postUserID, likedNumber, postDate, text, location, sex);
+		super(postID, postUserID, likedNumber, postDate, text, location, sex, versionCode);
 		this.text = text;
 	}
 
