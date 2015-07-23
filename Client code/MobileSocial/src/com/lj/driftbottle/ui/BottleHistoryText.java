@@ -51,12 +51,20 @@ public class BottleHistoryText extends RelativeLayout
 	private void setSex(String sex)
 	{
 		ImageView img = (ImageView)findViewById(R.id.lj_bottle_history_sex);
-		img.setBackgroundResource(sex.equals("male") ? R.drawable.yg_appkefu_ic_sex_male : R.drawable.yg_appkefu_ic_sex_female);
+		if (sex.equals("male"))
+			img.setImageResource(R.drawable.yg_appkefu_ic_sex_male);
+		else if (sex.equals("female"))
+			img.setImageResource(R.drawable.yg_appkefu_ic_sex_female);
+		else
+			img.setImageResource(R.drawable.lj_bottle_drift);
 	}
 	
 	private void setHometown(String hometown)
 	{
-		((TextView)findViewById(R.id.lj_bottle_history_address)).setText(hometown);
+		if (!hometown.equals(""))
+			((TextView)findViewById(R.id.lj_bottle_history_address)).setText(hometown);
+		else
+			((TextView)findViewById(R.id.lj_bottle_history_address)).setText("ÕýÔÚÆ¯Á÷......");
 	}
 	
 	private void setNickname(String nickname)

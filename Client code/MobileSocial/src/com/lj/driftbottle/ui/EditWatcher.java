@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class EditWatcher implements TextWatcher
 {
 	private static final int MIN_TEXT_LENGTH = 5;
-	private static final int MAX_TEXT_LENGTH = 10;
+	private static final int MAX_TEXT_LENGTH = 50;
 	private EditText editText;
 	private TextView textView;
 	
