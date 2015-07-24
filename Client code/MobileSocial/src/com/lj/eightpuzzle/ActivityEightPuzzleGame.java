@@ -325,7 +325,6 @@ public class ActivityEightPuzzleGame extends Activity
 		Window window = gRestartDialog.getWindow();
 		window.setContentView(R.layout.lj_eightpuzzle_restart_dialog);
 		
-		
 		Button cancel = (Button) window.findViewById(R.id.lj_eightpuzzle_restart_dialog_button_cancel);
 		Button confirm = (Button) window.findViewById(R.id.lj_eightpuzzle_restart_dialog_button_confirm);
 		cancel.setOnClickListener(new OnClickListener() 

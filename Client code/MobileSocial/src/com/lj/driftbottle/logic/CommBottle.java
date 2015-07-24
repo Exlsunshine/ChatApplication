@@ -85,7 +85,7 @@ public class CommBottle extends AbstractBottle
 	public String getLastText()
 	{
 		String[] strList = getHistoryText().split("\\n");
-		return strList[strList.length - 1];
+		return strList[strList.length - 1].replaceAll("u\\d+:", "");
 	}
 	
 	public int getBottleID()

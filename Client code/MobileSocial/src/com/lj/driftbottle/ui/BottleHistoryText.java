@@ -1,5 +1,10 @@
 package com.lj.driftbottle.ui;
 
+import java.util.HashMap;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.example.testmobiledatabase.R;
 import com.lj.driftbottle.logic.CommBottle;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -7,7 +12,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -43,11 +53,38 @@ public class BottleHistoryText extends RelativeLayout
 			((TextView)findViewById(R.id.lj_bottle_history_address)).setText("ÒÑ±»É¾³ý");
 	}
 	
+	private int randomColor()
+	{
+		Random random = new Random();
+		return Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+	}
+	
 	private void setHistoryText(String text)
 	{
+		HashMap<String, Integer> colorMap = new HashMap<String, Integer>();
 		text = text.subSequence(0, text.length() - 1).toString();
+		String[] strs = text.split("\n");
+		SpannableStringBuilder styleAll = new SpannableStringBuilder();
+		for (int i = 0; i < strs.length; i++)
+		{
+			Pattern pattern = Pattern.compile("u\\d+:");
+			Matcher matcher = pattern.matcher(strs[i]);
+			matcher.find();
+			String userID = matcher.group();
+			strs[i] = strs[i].replace(userID, "");
+			SpannableStringBuilder style = new SpannableStringBuilder(strs[i] + "\n");
+			Integer color = colorMap.get(userID);
+			if (color == null)
+			{
+				color = randomColor();
+				colorMap.put(userID, color);
+			}
+			style.setSpan(new ForegroundColorSpan(color),0,strs[i].length(),Spannable.SPAN_EXCLUSIVE_INCLUSIVE); 
+			styleAll.append(style);
+			
+		}
 		TextView tv = (TextView)findViewById(R.id.lj_bottle_history_text);
-		tv.setText(text);
+		tv.setText(styleAll);
 	}
 	
 	private void setSex(String sex)

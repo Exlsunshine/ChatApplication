@@ -3,6 +3,7 @@ package com.lj.driftbottle.ui;
 import com.example.testmobiledatabase.R;
 import com.lj.driftbottle.logic.BottleManager;
 import com.lj.driftbottle.logic.CommBottle;
+import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -97,7 +98,7 @@ public class BottleInfoActivity extends Activity
 				String text = editText.getText().toString();
 				if (EditWatcher.isTextLengthValid(text))
 				{
-					bottle.appentText(text);
+					bottle.appentText(text, ConstantValues.user.getID());
 					new Thread(new Runnable() 
 					{
 						@Override

@@ -86,7 +86,7 @@ public class chuck_animation extends Activity {
 			super.onWindowFocusChanged(hasFocus);
 			ad=(AnimationDrawable) getResources().getDrawable(R.anim.bottle_spray);
 			if(chuck_spray!=null){
-				chuck_spray.setBackgroundDrawable(ad);
+				chuck_spray.setBackground(ad);
 			}
 			
 		}

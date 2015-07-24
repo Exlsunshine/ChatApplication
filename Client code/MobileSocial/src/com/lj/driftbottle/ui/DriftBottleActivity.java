@@ -10,7 +10,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.yg.commons.ConstantValues;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -29,13 +28,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DriftBottleActivity extends Activity
 {
@@ -229,13 +226,6 @@ public class DriftBottleActivity extends Activity
 		}
 	}
 
-	private void popupKeyboard(View view)
-	{
-		InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputMethodManager.showSoftInput(view,InputMethodManager.RESULT_SHOWN);
-		inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-	}
-	
 	// ÈÓÆ¿×ÓµÄ´°¿Ú
 	public void initChuckPop() 
 	{
@@ -262,7 +252,7 @@ public class DriftBottleActivity extends Activity
 				if (EditWatcher.isTextLengthValid(text))
 				{
 					final FirstBottle firstBottle = bottleManager.createNewBottle();
-					firstBottle.appentText(text);
+					firstBottle.appentText(text, ConstantValues.user.getID());
 					new Thread(new Runnable() 
 					{
 						@Override

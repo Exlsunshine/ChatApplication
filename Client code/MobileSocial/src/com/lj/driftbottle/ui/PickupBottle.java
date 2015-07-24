@@ -156,8 +156,8 @@ public class PickupBottle extends Activity
 		ad = (AnimationDrawable) getResources().getDrawable(
 				R.anim.pick_up_spray);
 		if (pick_spray1 != null && pick_spray2 != null) {
-			pick_spray1.setBackgroundDrawable(ad);
-			pick_spray2.setBackgroundDrawable(ad);
+			pick_spray1.setBackground(ad);
+			pick_spray2.setBackground(ad);
 		}
 
 	}
