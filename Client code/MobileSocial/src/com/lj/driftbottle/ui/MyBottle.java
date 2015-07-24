@@ -24,10 +24,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -133,21 +136,37 @@ public class MyBottle extends Activity
 	
 	private class ListViewItemLongClick implements OnItemLongClickListener
 	{
-		@Override
-		public boolean onItemLongClick(AdapterView<?> arg0, View view, final int position, long id) 
+		private AlertDialog delteDialog = null;
+		
+		private void showDeleteBottleDialog(final int bottleID, final int position)
 		{
-			final int bottleID = myBottleList.get(position).getBottleID();
-			new AlertDialog.Builder(MyBottle.this) 
-              .setTitle("É¾³ýÆ¯Á÷Æ¿") 
-              .setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() 
-              {
+			delteDialog = new AlertDialog.Builder(MyBottle.this, R.style.LoginDialogAnimation).create();
+			delteDialog.setCanceledOnTouchOutside(true);
+			delteDialog.show();
+			delteDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+			delteDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			delteDialog.setCancelable(true);
+			Window window = delteDialog.getWindow();
+			window.setContentView(R.layout.lj_mybottle_delete_dialog);
+			Button cancel = (Button) window.findViewById(R.id.lj_my_bottle_delete_dialog_button_cancel);
+			Button confirm = (Button) window.findViewById(R.id.lj_my_bottle_delete__dialog_button_confirm);
+			cancel.setOnClickListener(new OnClickListener() 
+			{
 				@Override
-				public void onClick(DialogInterface arg0, int arg1) 
+				public void onClick(View v) 
 				{
-					new Thread(new Runnable() 
+					delteDialog.dismiss();
+				}
+			});
+			confirm.setOnClickListener(new OnClickListener() 
+			{
+				@Override
+				public void onClick(View v) 
+				{
+					new Thread(new Runnable()
 					{
 						@Override
-						public void run() 
+						public void run()
 						{
 							bottleManager.removeBottle(bottleID);
 							Message msg = new Message();
@@ -156,8 +175,16 @@ public class MyBottle extends Activity
 							handler.sendMessage(msg);
 						}
 					}).start();
+					delteDialog.dismiss();
 				}
-			}).show();
+			});
+		}
+		
+		@Override
+		public boolean onItemLongClick(AdapterView<?> arg0, View view, final int position, long id) 
+		{
+			final int bottleID = myBottleList.get(position).getBottleID();
+			showDeleteBottleDialog(bottleID, position);
 			return true;
 		}
 		
