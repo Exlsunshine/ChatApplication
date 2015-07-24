@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/yg_video_chat_incoming_bkg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/yg_video_chat_incoming_inner_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp" >
+
+        <LinearLayout
+            android:id="@+id/yg_video_chat_incoming_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/yg_activity_video_chat_back_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返回"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="神秘来电"
+            android:textColor="@android:color/white"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/yg_video_chat_incoming_portrait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yg_video_chat_incoming_inner_actionbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/yg_video_chat_random_portrait2" />
+
+    <TextView
+        android:id="@+id/yg_video_chat_incoming_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yg_video_chat_incoming_portrait"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="怪蜀黎"
+        android:textColor="@android:color/white" >
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/yg_video_chat_incoming_btns"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="20dp"
+        android:text="尽情畅聊，假面狂欢"
+        android:textColor="@android:color/white" >
+    </TextView>
+
+    <RelativeLayout
+        android:id="@+id/yg_video_chat_incoming_btns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/yg_video_chat_incoming_middle_line"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/yg_video_chat_incoming_accept"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:src="@drawable/yg_video_chat_incoming_accept_normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="接受"
+                android:textColor="@android:color/white" >
+            </TextView>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/yg_video_chat_incoming_middle_line"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/yg_video_chat_incoming_middle_line"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/yg_video_chat_incoming_deny"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:src="@drawable/yg_video_chat_incoming_deny_normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="拒绝"
+                android:textColor="@android:color/white" >
+            </TextView>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

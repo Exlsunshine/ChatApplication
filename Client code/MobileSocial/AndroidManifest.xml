@@ -4,6 +4,17 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="18" />
@@ -91,7 +102,7 @@
         </activity>
         <activity
             android:name="com.yg.ui.signup.SignupActivity"
-            android:label="@string/title_activity_signup">
+            android:label="@string/title_activity_signup" >
         </activity>
         <activity
             android:name="com.yg.ui.dialog.DialogActivity"
@@ -124,25 +135,30 @@
         </activity>
         <activity android:name="com.tp.ui.ImageZoomInActivity" />
         <activity android:name="com.lj.shake.ActivityShake" />
-        <activity android:name="com.lj.settings.ActivitySettings"/>
+        <activity android:name="com.lj.settings.ActivitySettings" />
         <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityAgeSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityHometownSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityPasswordSetting" />
         <activity android:name="com.lj.eightpuzzle.ActivityEightPuzzleGame" />
         <activity android:name="com.lj.songpuzzle.ActivitySongPuzzle" />
-        <activity android:name="com.lj.bazingaball.ActivityBazingaBall" android:noHistory="true" />
+        <activity
+            android:name="com.lj.bazingaball.ActivityBazingaBall"
+            android:noHistory="true" />
         <activity android:name="com.lj.networktest.ActivityNetworkError" />
         <activity android:name="com.lj.translator.TranslatorActivity" />
-        <activity android:name="com.lj.driftbottle.ui.Driftbottle_setting"/>
-        <activity android:name="com.lj.driftbottle.ui.MyBottle"/>
-        <activity android:name="com.lj.driftbottle.ui.PickupBottle"/>
-        <activity android:name="com.lj.driftbottle.ui.chuck_animation"/>
-        <activity android:name="com.lj.driftbottle.ui.BottleInfoActivity"/>
-        <activity android:name="com.lj.driftbottle.ui.DriftBottleActivity"/>
-        
+        <activity android:name="com.lj.driftbottle.ui.Driftbottle_setting" />
+        <activity android:name="com.lj.driftbottle.ui.MyBottle" />
+        <activity android:name="com.lj.driftbottle.ui.PickupBottle" />
+        <activity android:name="com.lj.driftbottle.ui.chuck_animation" />
+        <activity android:name="com.lj.driftbottle.ui.BottleInfoActivity" />
+        <activity android:name="com.lj.driftbottle.ui.DriftBottleActivity" />
         <activity android:name="com.yg.image.preview.ImagePreviewActivity" />
-        
+        <activity
+            android:name="com.yg.videochat.VideoChatActivity"
+            android:label="@string/title_activity_video_chat"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
     </application>
 
 </manifest>

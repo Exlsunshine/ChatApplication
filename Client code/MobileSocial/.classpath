@@ -3,12 +3,14 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="libs/asmack-2010.05.07.jar"/>
 	<classpathentry kind="lib" path="libs/BaiduLBS_Android.jar"/>
 	<classpathentry kind="lib" path="libs/ksoap2-android-assembly-2.6.4-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="libs/android-viewbadger.jar"/>
 	<classpathentry kind="lib" path="libs/pinyin4j-2.5.0.jar"/>
 	<classpathentry kind="lib" path="libs/android-support-v13.jar"/>
+	<classpathentry kind="lib" path="libs/quickblox-android-sdk-chat-2.2.6.jar"/>
+	<classpathentry kind="lib" path="libs/quickblox-android-sdk-core-2.2.6.jar"/>
+	<classpathentry kind="lib" path="libs/quickblox-android-sdk-videochat-webrtc-2.2.6.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>

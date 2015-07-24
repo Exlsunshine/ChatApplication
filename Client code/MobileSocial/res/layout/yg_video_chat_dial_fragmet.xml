@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/yg_video_chat_incoming_bkg" >
+
+    <RelativeLayout
+        android:id="@+id/yg_activity_video_chat_inner_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp" >
+
+        <LinearLayout
+            android:id="@+id/yg_activity_video_chat_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/yg_activity_video_chat_back_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返回"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="匿名聊天"
+            android:textColor="@android:color/white"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/yg_activity_video_chat_inner_portrait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yg_activity_video_chat_inner_actionbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/yg_video_chat_random_portrait2" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/yg_activity_video_chat_hangup"
+        android:layout_below="@+id/yg_activity_video_chat_inner_portrait" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:text="正在匹配中"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/yg_activity_video_chat_hangup"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/yg_activity_video_chat_inner_hint"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/yg_video_chat_incoming_deny_normal" />
+
+    <TextView
+        android:id="@+id/yg_activity_video_chat_inner_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:text="取消匹配"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

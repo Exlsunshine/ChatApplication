@@ -52,6 +52,7 @@ import com.tp.ui.SendPostActivity;
 import com.yg.commons.ConstantValues;
 import com.yg.ui.friendlist.FriendListActivity;
 import com.yg.ui.recentdialog.RecentDialogActivity;
+import com.yg.videochat.VideoChatActivity;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity implements OnCheckedChangeListener
@@ -169,7 +170,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 					}
 					else if (id == MENU_VIDEO_CHAT_INDEX)
 					{
-						
+						Intent intent = new Intent(MainActivity.this, VideoChatActivity.class);
+						startActivity(intent);
 					}
 					else if (id == MENU_DRIFT_BOTTLE_INDEX)
 					{
