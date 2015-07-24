@@ -79,6 +79,11 @@ public class BottleInfoActivity extends Activity
 		findViewById(R.id.lj_bottle_info_reply_btn).setOnClickListener(clickListener);
 		findViewById(R.id.lj_bottle_info_throwback_btn).setOnClickListener(clickListener);
 		setupDialogActionBar();
+		if (bottle.getBottleRelationStatus() == CommBottle.BOTTLE_RELATION_STATUS_DELETE)
+		{
+			findViewById(R.id.lj_bottle_info_edit_layout).setVisibility(View.GONE);
+			findViewById(R.id.lj_bottle_info_remind_delete).setVisibility(View.VISIBLE);
+		}
 	}
 	
 	private OnClickListener clickListener = new OnClickListener() 

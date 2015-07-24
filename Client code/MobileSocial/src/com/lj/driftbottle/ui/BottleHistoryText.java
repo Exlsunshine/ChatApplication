@@ -39,6 +39,8 @@ public class BottleHistoryText extends RelativeLayout
 		setHometown(bottle.getHometown());
 		setSex(bottle.getSex());
 		setHistoryText(bottle.getHistoryText());
+		if (bottle.getBottleRelationStatus() == CommBottle.BOTTLE_RELATION_STATUS_DELETE)
+			((TextView)findViewById(R.id.lj_bottle_history_address)).setText("ÒÑ±»É¾³ý");
 	}
 	
 	private void setHistoryText(String text)
