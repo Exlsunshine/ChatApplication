@@ -19,7 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,8 +32,8 @@ public class IncomingCallFragment extends Fragment implements Serializable
     private int qbConferenceType;
     private QBRTCTypes.QBConferenceType conferenceType;
     private View view;
-    private ImageButton rejectBtn;
-    private ImageButton takeBtn;
+    private ImageView rejectBtn;
+    private ImageView takeBtn;
     private TextView callerName;
     private MediaPlayer ringtone;
     private Vibrator vibrator;
@@ -68,8 +68,8 @@ public class IncomingCallFragment extends Fragment implements Serializable
 	{
         callerName = (TextView) view.findViewById(R.id.yg_video_chat_incoming_name);
 
-        rejectBtn = (ImageButton) view.findViewById(R.id.yg_video_chat_incoming_deny);
-        takeBtn = (ImageButton) view.findViewById(R.id.yg_video_chat_incoming_accept);
+        rejectBtn = (ImageView) view.findViewById(R.id.yg_video_chat_incoming_deny);
+        takeBtn = (ImageView) view.findViewById(R.id.yg_video_chat_incoming_accept);
         back = (LinearLayout) view.findViewById(R.id.yg_video_chat_incoming_back);
     }
 	
