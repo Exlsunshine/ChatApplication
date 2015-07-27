@@ -68,6 +68,7 @@
         <com.lj.driftbottle.ui.LineEditText
             android:id="@+id/lj_driftbottle_edit"
             style="?android:attr/textViewStyle"
+            android:hint="写下你的秘密......"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
