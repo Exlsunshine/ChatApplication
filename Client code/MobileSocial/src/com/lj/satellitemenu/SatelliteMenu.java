@@ -133,8 +133,16 @@ public class SatelliteMenu extends FrameLayout {
 
 		internalItemClickListener = new InternalSatelliteOnClickListener(this);
 	}
-
+	
+	public void setUserGuideEnable(boolean enabled) 
+	{
+		needUserGuide = enabled;
+	}
+	
+	private boolean needUserGuide = false;
 	public void onClick() {
+		if (needUserGuide)
+			return;
 		if (plusAnimationActive.compareAndSet(false, true)) {
 			if (!rotated) {
 				imgMain.startAnimation(mainRotateLeft);
