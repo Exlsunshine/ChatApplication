@@ -45,8 +45,15 @@ public class DriftBottle
 	private final String BOTTLE_CONTENT_PATH = "D:/Data/IM/data/bottle_content/";
 	private final int VERSION_CODE_INIT = 1;
 	
-	private final String PORTRAIT_URL_DEFAULT = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":" + ConstantValues.Configs.TORNADO_SERVER_PORT + "/driftbottle/drift.jpg";
+	private final String PORTRAIT_URL_DEFAULT_MALE = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":" + ConstantValues.Configs.TORNADO_SERVER_PORT + "/driftbottle/drift_male.jpg";
+	private final String PORTRAIT_URL_DEFAULT_FEMALE = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":" + ConstantValues.Configs.TORNADO_SERVER_PORT + "/driftbottle/drift_female.jpg";
 	
+	private String getRandomPortrait()
+	{
+		Random random = new Random();
+		int ran = random.nextInt(2);
+		return ran == 0 ? PORTRAIT_URL_DEFAULT_MALE : PORTRAIT_URL_DEFAULT_FEMALE;
+	}
 	
 	//----------------------- Generate- ---------------------
 	/**
@@ -135,7 +142,7 @@ public class DriftBottle
 	private HashMap<String, String> getUserInfoByUserID(String userID)
 	{
 		SQLServerEnd bottleSQL = new SQLServerEnd(DATABASE_NAME, TABLE_NAME_USER_BASIC);
-		String[] query = {"portrait_path", "nick_name", "sex", "hometown"};
+		String[] query = {"id", "portrait_path", "nick_name", "sex", "hometown"};
 		String[] condition = {"id"};
 		String[] conditionVal = {userID};
 		HashMap<String, String> result = bottleSQL.select(query, condition, conditionVal).get(0);
@@ -177,7 +184,7 @@ public class DriftBottle
 		try {
 			jsonObject.put(BOTTLE_ID, bottleID);
 			jsonObject.put(VERSION_CODE, String.valueOf(VERSION_CODE_INIT));
-			jsonObject.put(PORTRAITURL, PORTRAIT_URL_DEFAULT);
+			jsonObject.put(PORTRAITURL, getRandomPortrait());
 			jsonObject.put(BOTTLE_STATUS, BOTTLE_STATUS_UNPICKED);
 			jsonObject.put(BOTTLE_RELATION_STATUS, BOTTLE_RELATION_STATUS_NORMAL);
 		} catch (JSONException e) {
@@ -302,6 +309,7 @@ public class DriftBottle
 				try {
 					jsonObject.put(BOTTLE_RELATION_STATUS, result.get(index).get("relation_status"));
 					HashMap<String, String> userInfo = getUserInfoByUserID(otherUserID);
+					jsonObject.put(OWNER_ID, userInfo.get("id"));
 					jsonObject.put(PORTRAITURL, userInfo.get("portrait_path"));
 					jsonObject.put("nickname", userInfo.get("nick_name"));
 					jsonObject.put("sex", userInfo.get("sex"));
@@ -313,8 +321,9 @@ public class DriftBottle
 			else
 			{
 				try {
+					jsonObject.put(OWNER_ID,  result.get(0).get("user_id"));
 					jsonObject.put(BOTTLE_RELATION_STATUS, result.get(0).get("relation_status"));
-					jsonObject.put(PORTRAITURL, PORTRAIT_URL_DEFAULT);
+					jsonObject.put(PORTRAITURL, getRandomPortrait());
 					jsonObject.put("nickname", "");
 					jsonObject.put("sex", "");
 					jsonObject.put("hometown", "");
@@ -569,10 +578,46 @@ public class DriftBottle
 	}
 	//----------------------- remove bottle --------------------------
 	
-	public static void main(String[] args) 
+	//----------------------- throw back bottle --------------------------
+	
+	private void deleteRelationStatus(String bottleID, String userID)
+	{
+		SQLServerEnd bottleRelationSQL = new SQLServerEnd(DATABASE_NAME, TABLE_NAME_BOTTLE_RELATION);
+		String[] condition = {"bottle_id", "user_id"};
+		String[] value = {bottleID, userID};
+		bottleRelationSQL.delete(condition, value);
+	}
+	
+	private void updateBottleStatusToUnpick(String bottleID)
+	{
+		SQLServerEnd bottleSQL = new SQLServerEnd(DATABASE_NAME, TABLE_NAME_BOTTLE);
+		String[] updateCol = {"bottle_status"};
+		String[] updateVal = {String.valueOf(BOTTLE_STATUS_UNPICKED)};
+		String[] condition = {"id"};
+		String[] conditionVal = {bottleID};
+		bottleSQL.update(updateCol, updateVal, condition, conditionVal);
+	}
+	
+	public void throwBackBottle(String jsonString, String userID)
+	{
+		String bottleID = null;
+		try {
+			JSONObject jsonObject = new JSONObject(jsonString);
+			bottleID = jsonObject.getString(BOTTLE_ID);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Drift Bottle : [User : " + userID + " throw back bottle" + bottleID + "]");
+		deleteRelationStatus(bottleID, userID);
+		updateBottleStatusToUnpick(bottleID);
+		updateVersionCode(bottleID);
+	}
+	//----------------------- throw back bottle --------------------------
+	
+	/*public static void main(String[] args) 
 	{
 		DriftBottle a = new DriftBottle();
 		a.removeBottle("{\"bottleID\" : \"123\"}", "115");
 	//	System.out.println(a.getBottlesByUserID("[{\"versionCode\":\"1\",\"bottleID\":\"119\"},{\"versionCode\":\"1\",\"bottleID\":\"120\"},{\"versionCode\":\"1\",\"bottleID\":\"121\"},{\"versionCode\":\"1\",\"bottleID\":\"122\"},{\"versionCode\":\"1\",\"bottleID\":\"123\"}]", "115"));
-	}
+	}*/
 }

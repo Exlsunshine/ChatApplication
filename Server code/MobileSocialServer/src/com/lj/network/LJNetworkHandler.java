@@ -37,15 +37,21 @@ public class LJNetworkHandler
 		driftBottle.removeBottle(jsonString, userID);
 	}
 	
+	public void throwBackBottle(String jsonString, String userID)
+	{
+		DriftBottle driftBottle = new DriftBottle();
+		driftBottle.throwBackBottle(jsonString, userID);
+	}
+	
 	public String requestTheme()
 	{
 		String result = ThemeGenerator.generateTheme();
 		return result;
 	}
 	
-	public static void main(String[] args) 
+	/*public static void main(String[] args) 
 	{
 		LJNetworkHandler handler = new LJNetworkHandler();
 		System.out.println(handler.requestTheme());
-	}
+	}*/
 }
