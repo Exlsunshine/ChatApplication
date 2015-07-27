@@ -50,12 +50,12 @@ public class FriendCircleHandler
 		if (UerRelationTB == null)
 			UerRelationTB = new SQLServerEnd(DATABASE_NAME, RelationTable);
 	}
-	
 	private void initPostLikeTB()
 	{
 		if (postLikeTB == null)
 			postLikeTB = new SQLServerEnd(DATABASE_NAME, PostLikeTable);
 	}
+	
 	/************************								***************************/
 	/************************			以下是要发布的接口		***************************/
 	/************************								***************************/
@@ -88,7 +88,11 @@ public class FriendCircleHandler
 			identity = getIdentityID("comment_data");
 			System.out.print(identity + "\n");
 			if (errorCode == 0)
+			{
+				int postID = Integer.parseInt(insertVal[1]);
+				increaseVersionCode(postID);
 				System.out.println("publishComment success.");
+			}
 			else
 				System.out.println("publishComment failed.");
 		}
@@ -188,6 +192,7 @@ public class FriendCircleHandler
 				errorCode = postDataTB.insert(insertCol, insertVal);
 			}
 			identity = getIdentityID("post_data");
+			//increaseVersionCode(identity);
 			System.out.print(identity + "\n");
 			if (errorCode == 0)
 				System.out.println("publishpost success.");
@@ -253,7 +258,7 @@ public class FriendCircleHandler
 		initPostDataTB();
 		
 		String imageUrl = "";
-		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex"};
+		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex", "version_code"};
 		String []condition = {"post_user_id"};
 		String []conditionVal = {Integer.toString(userID)};
 		ArrayList<HashMap<String, String>> result = postDataTB.select(query, condition, conditionVal);
@@ -326,7 +331,7 @@ public class FriendCircleHandler
 		initPostDataTB();
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("select top 10 id ,post_user_id, liked_number, post_date, content, post_type, location, sex from post_data where ( post_user_id = ");
+		sb.append("select top 10 id ,post_user_id, liked_number, post_date, content, post_type, location, sex, version_code from post_data where ( post_user_id = ");
 		for (int i = 0; i < relationResult.size(); i++)
 		{
 			sb.append(String.valueOf(userID)).append(" or post_user_id = ");
@@ -344,7 +349,7 @@ public class FriendCircleHandler
 		}
 		String sql = sb.toString();
 		System.out.print(sql);
-		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex"};
+		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex", "version_code"};
 		ArrayList<HashMap<String, String>> result = postDataTB.excecuteRawQuery(sql, query);
 		postDataTB.disconnect();
 		if (result.size() == 0)
@@ -408,7 +413,7 @@ public class FriendCircleHandler
 		
 		String imageUrl = "";
 		StringBuilder sb = new StringBuilder();
-		sb.append("select top 10 id ,post_user_id, liked_number, post_date, content, post_type, location, sex from post_data where ( post_user_id = ");
+		sb.append("select top 10 id ,post_user_id, liked_number, post_date, content, post_type, location, sex, version_code from post_data where ( post_user_id = ");
 		for (int i = 0; i < relationResult.size(); i++)
 		{
 			sb.append(String.valueOf(userID)).append(" or post_user_id = ");
@@ -423,7 +428,7 @@ public class FriendCircleHandler
 		}
 		String sql = sb.toString();
 		System.out.print(sql);
-		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex"};
+		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex", "version_code"};
 		ArrayList<HashMap<String, String>> result = postDataTB.excecuteRawQuery(sql, query);
 		postDataTB.disconnect();
 		if (result.size() == 0)
@@ -465,14 +470,14 @@ public class FriendCircleHandler
 	}
 	
 	
-	/**
+/*	*//**
 	 * 根据给定的userID，从服务器获取其自己与好友们N + 10条最新的Post<br>
 	 * <b>注：是从指定的postID下一条Post开始的最近N + 10条，即返回的postID均应该大于当前指定的postID</b>
 	 * 如果postID = -1 则意味着不做筛选，仅选择好友们最新的10条Post
 	 * @param userID
 	 * @return JSON格式的Post信息<br>
 	 * null表示出现异常
-	 */
+	 *//*
 	public String getLatestPosts(int userID, int postIDlatest, int postIDoldest, int num)
 	{
 		initUerRelationTB();
@@ -493,7 +498,7 @@ public class FriendCircleHandler
 		String imageUrl;
 		StringBuilder sb = new StringBuilder();
 		sb.append("select top ").append(num + " ");
-		sb.append("id ,post_user_id, liked_number, post_date, content, post_type, location, sex from post_data where ( post_user_id = ");
+		sb.append("id ,post_user_id, liked_number, post_date, content, post_type, location, sex, version_code from post_data where ( post_user_id = ");
 		for (int i = 0; i < relationResult.size(); i++)
 		{
 			sb.append(String.valueOf(userID)).append(" or post_user_id = ");
@@ -508,13 +513,13 @@ public class FriendCircleHandler
 		}
 		String sql = sb.toString();
 		System.out.print(sql);
-		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex"};
+		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex", "version_code"};
 		ArrayList<HashMap<String, String>> result = postDataTB.excecuteRawQuery(sql, query);
 		
 		
 		StringBuilder sb1 = new StringBuilder();
 		sb1.append("select ");
-		sb1.append("id ,post_user_id, liked_number, post_date, content, post_type, location, sex from post_data where ( post_user_id = ");
+		sb1.append("id ,post_user_id, liked_number, post_date, content, post_type, location, sex, version_code from post_data where ( post_user_id = ");
 		for (int i = 0; i < relationResult.size(); i++)
 		{
 			sb1.append(String.valueOf(userID)).append(" or post_user_id = ");
@@ -561,6 +566,135 @@ public class FriendCircleHandler
 		try 
 		{
 			str = PackString.arrylist2JsonString("latestpostsFromServer", result, 0);
+			System.out.print("\n" + str + "\n");
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return str;
+	}*/
+	
+	/**
+	 * 根据给定的userID，从服务器获取其自己与好友们N + 10条最新的Post<br>
+	 * <b>注：是从指定的postID下一条Post开始的最近N + 10条，即返回的postID均应该大于当前指定的postID</b>
+	 * 如果postID = -1 则意味着不做筛选，仅选择好友们最新的10条Post
+	 * @param userID
+	 * @return JSON格式的Post信息<br>
+	 * null表示出现异常
+	 */
+	public String getLatestPosts(int userID, int postIDlatest, int postIDoldest, int num, String postIDandVersionCodeJson)
+	{
+		initUerRelationTB();
+		System.out.print("\n" + postIDandVersionCodeJson + "\n");
+		String []relationquery = {"second_userid"};
+		String []relationcondition = {"first_userid"};
+		String []relationconditionVal = {Integer.toString(userID)};
+		ArrayList<HashMap<String, String>> relationResult = UerRelationTB.select(relationquery, relationcondition, relationconditionVal);
+		UerRelationTB.disconnect();
+		if (relationResult.size() == 0)
+		{
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("second_userid", Integer.toString(userID));
+			relationResult.add(map);
+		}
+		
+		initPostDataTB();
+		String imageUrl;
+		StringBuilder sb = new StringBuilder();
+		sb.append("select top ").append(10 + " ");
+		sb.append("id ,post_user_id, liked_number, post_date, content, post_type, location, sex, version_code from post_data where ( post_user_id = ");
+		for (int i = 0; i < relationResult.size(); i++)
+		{
+			sb.append(String.valueOf(userID)).append(" or post_user_id = ");
+			String friendId = relationResult.get(i).get("second_userid");
+			sb.append(friendId + " ");
+			if (i != relationResult.size() - 1)
+				sb.append("or ").append("post_user_id = ");
+			else
+			{
+				sb.append(") and (id > " + Integer.toString(postIDlatest) + ") " + "order by id DESC");
+			}
+		}
+		String sql = sb.toString();
+		System.out.print(sql);
+		String []query = {"id", "post_user_id", "liked_number", "post_date", "content", "post_type", "location", "sex", "version_code"};
+		ArrayList<HashMap<String, String>> newPosts = postDataTB.excecuteRawQuery(sql, query);
+		
+		
+		StringBuilder sb1 = new StringBuilder();
+		sb1.append("select ");
+		sb1.append("id ,post_user_id, liked_number, post_date, content, post_type, location, sex, version_code from post_data where ( post_user_id = ");
+		for (int i = 0; i < relationResult.size(); i++)
+		{
+			sb1.append(String.valueOf(userID)).append(" or post_user_id = ");
+			String friendId = relationResult.get(i).get("second_userid");
+			sb1.append(friendId + " ");
+			if (i != relationResult.size() - 1)
+				sb1.append("or ").append("post_user_id = ");
+			else
+			{
+				sb1.append(") and (id <= " + Integer.toString(postIDlatest) + ") " +"and ( id >= " + Integer.toString(postIDoldest) + ") " + "order by id DESC");
+			}
+		}
+		String sql1 = sb1.toString();
+		System.out.print(sql1);
+		ArrayList<HashMap<String, String>> oldPosts = postDataTB.excecuteRawQuery(sql1, query);
+		PackString jsonString = new PackString(postIDandVersionCodeJson.toString());
+		ArrayList<HashMap<String, Object>> postFromClient = jsonString.jsonString2Arrylist("postIDandVersionCode");
+		
+		System.out.print("\n" + oldPosts.size() + "\n");
+		System.out.print("\n" + postFromClient.size() + "\n");
+		for (int i = 0; i < oldPosts.size(); i++)
+		{
+			for (int j = 0; j < postFromClient.size(); j++)
+			{
+				/*System.out.print("\n" +oldPosts.get(i).get("id") + "\n");
+				System.out.print(postFromClient.get(j).get("id") + "\n");*/
+				if (oldPosts.get(i).get("id").equals(postFromClient.get(j).get("id").toString()))
+				{
+					/*System.out.print("\n" + oldPosts.get(i).get("version_code") + "\n");
+					System.out.print(postFromClient.get(j).get("version_code") + "\n");*/
+					if (! oldPosts.get(i).get("version_code").equals(postFromClient.get(j).get("version_code").toString()))
+					{
+						newPosts.add(oldPosts.get(i));
+					}
+				}
+			}
+		}
+		
+		System.out.print("\n" + newPosts.size() + "\n");
+		postDataTB.disconnect();
+		if (newPosts.size() == 0)
+			return null;
+		for (int i = 0; i < newPosts.size(); i++)
+		{
+			try 
+			{
+				if (newPosts.get(i).get("post_type").equals("2"))
+				{
+					//String img =  ImageTransmitOldVersion.image2String(result.get(i).get("content"));
+					
+					String imagePath = newPosts.get(i).get("content");
+					imagePath = imagePath.replace("D:/Data/IM/data/", "");
+					
+					imageUrl = "http://" + ConstantValues.Configs.TORNADO_SERVER_IP + ":"
+							+ ConstantValues.Configs.TORNADO_SERVER_PORT + "/" + imagePath;
+					newPosts.get(i).put("content", imageUrl);
+				}
+				
+			} catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		String str = null;
+		try 
+		{
+			str = PackString.arrylist2JsonString("latestpostsFromServer", newPosts, 0);
 			System.out.print("\n" + str + "\n");
 		} 
 		catch (Exception e) 
@@ -662,6 +796,7 @@ public class FriendCircleHandler
 		System.out.print("\n" + str);
 		return str;
 	}
+	
 	/**
 	 * 判断该条POST用户是否点赞，点赞则删除点赞记录，没点赞则插入点赞记录
 	 * @param userID
@@ -672,11 +807,11 @@ public class FriendCircleHandler
 	 */
 	public int modifyLikedNumber(int postID, int userID)
 	{
+		increaseVersionCode(postID);
 		initPostLikeTB();
 		
 		String []condition = {"post_id", "user_id"};
 		String []conditionVal = {Integer.toString(postID), Integer.toString(userID)};
-		
 		boolean isLiked = postLikeTB.isConditionExist(condition, conditionVal);
 		if (isLiked)
 		{
@@ -693,6 +828,7 @@ public class FriendCircleHandler
 			return 1;
 		}
 	}
+	
 	
 	/************************									**************************/
 	/************************			以上是要发布的接口			**************************/
@@ -780,7 +916,6 @@ public class FriendCircleHandler
 	}
 	
 	
-	
 	private String now()
 	{
 		Calendar cal = Calendar.getInstance();
@@ -793,5 +928,14 @@ public class FriendCircleHandler
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
 		Date date = new Date();
 		return "picture_transportation_postUserID_" + String.valueOf(postUserID) + "_" + dateFormat.format(date)  + ".jpg";
+	}
+	
+	private void increaseVersionCode(int postID)
+	{
+		initPostDataTB();
+		String sql = "select id from post_data where id = " + String.valueOf(postID) + " update post_data set version_code = version_code + 1 where id = " + String.valueOf(postID);
+		String []query = {"id"};
+		System.out.print("_______________________" + "\n");
+		ArrayList<HashMap<String, String>> result = postDataTB.excecuteRawQuery(sql, query);
 	}
 }

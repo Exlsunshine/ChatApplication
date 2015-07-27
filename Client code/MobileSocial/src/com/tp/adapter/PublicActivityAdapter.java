@@ -4,6 +4,9 @@ package com.tp.adapter;
 import java.util.List;
 
 import com.example.testmobiledatabase.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
 import com.tp.ui.ImageZoomInActivity;
@@ -42,12 +45,18 @@ public class PublicActivityAdapter extends BaseAdapter
     private Context context;
     private List<AbstractPost> posts;
     private int likedNumber = 0;
+    private ImageLoader imageLoader = ImageLoader.getInstance();
 	
     public PublicActivityAdapter(Context context, List<AbstractPost> posts) 
     {
-        super();
-        this.context = context;
-        this.posts = posts;
+		super();
+		this.context = context;
+		this.posts = posts;
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				context).diskCacheExtraOptions(480, 800, null)
+				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+				.build();// 开始构建
+		imageLoader.init(config);
     }
 
     @Override
@@ -290,11 +299,11 @@ public class PublicActivityAdapter extends BaseAdapter
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
-                    	if (post.getComments().get(1).getSex().equals("male"))
+                    	if (post.getComments().get(post.getcommentsize() - 2).getSex().equals("male"))
                     		commentprotrait2.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
-                    	if (post.getComments().get(2).getSex().equals("male"))
+                    	if (post.getComments().get(post.getcommentsize() - 1).getSex().equals("male"))
                     		commentprotrait3.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
@@ -357,9 +366,28 @@ public class PublicActivityAdapter extends BaseAdapter
                     ImageView photoView = (ImageView) view.findViewById(R.id.publicactivityadpter_photo);
                     
                     ImagePost ip = (ImagePost) post;
+					if (ip.isImgPathEmpty() == true) 
+					{
+						// 显示图片的配置
+						DisplayImageOptions options = new DisplayImageOptions.Builder()
+								.showImageOnLoading(R.drawable.tp_loading_picture)
+								.showImageOnFail(R.drawable.tp_loading_failed)
+								.cacheInMemory(true).cacheOnDisk(true)
+								.bitmapConfig(Bitmap.Config.RGB_565).build();
+						imageLoader.displayImage(ip.getImageURL(), photoView, options);
+					} 
+					else 
+					{
+						DisplayImageOptions options = new DisplayImageOptions.Builder()
+								.showImageOnLoading(R.drawable.tp_loading_picture)
+								.showImageOnFail(R.drawable.tp_loading_failed)
+								.cacheInMemory(true).cacheOnDisk(true)
+								.bitmapConfig(Bitmap.Config.RGB_565).build();
+						imageLoader.displayImage("file://" + ip.getImagePath(), photoView, options);
+					}
                     
-                    GetImageTask task = new GetImageTask(photoView, ip);
-                    task.execute(0);
+                    /*GetImageTask task = new GetImageTask(photoView, ip);
+                    task.execute(0);*/
                      
                     photoView.setOnLongClickListener(new OnLongClickListener() 
                     {
@@ -368,9 +396,10 @@ public class PublicActivityAdapter extends BaseAdapter
 						{
 							Log.e("onLongClick", "onLongClick");
 							ImagePost ipLongClick = (ImagePost) post;
-							if (ipLongClick.getImagePath() == null)
+							if (ipLongClick.isImgPathEmpty())
 							{
 								String URL = ipLongClick.getImageURL();
+								Log.e("publicpostadpter", "geturl");
 								Intent intent = new Intent(context, ImageZoomInActivity.class);
 								Bundle bundle = new Bundle();
 								bundle.putString("Path", URL);
@@ -379,7 +408,8 @@ public class PublicActivityAdapter extends BaseAdapter
 							}
 							else
 							{
-								String Path = ipLongClick.getImagePath();
+								String Path = "file://" + ipLongClick.getImagePath();
+								Log.e("publicpostadpter", "getImagePath");
 								Intent intent = new Intent(context, ImageZoomInActivity.class);
 								Bundle bundle = new Bundle();
 								bundle.putString("Path", Path);
@@ -516,11 +546,11 @@ public class PublicActivityAdapter extends BaseAdapter
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait1.setImageResource(R.drawable.tp_female);
-                    	if (post.getComments().get(1).getSex().equals("male"))
+                    	if (post.getComments().get(post.getcommentsize() - 2).getSex().equals("male"))
                     		commentprotrait2.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
-                    	if (post.getComments().get(2).getSex().equals("male"))
+                    	if (post.getComments().get(post.getcommentsize() - 1).getSex().equals("male"))
                     		commentprotrait3.setImageResource(R.drawable.tp_male);
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
@@ -544,7 +574,7 @@ public class PublicActivityAdapter extends BaseAdapter
         int flag = -1;
     }
     
-    public class GetImageTask extends AsyncTask<Integer, Integer, String> 
+   /* public class GetImageTask extends AsyncTask<Integer, Integer, String> 
     {  
     	private ImageView iv;
     	private ImagePost post;
@@ -583,5 +613,5 @@ public class PublicActivityAdapter extends BaseAdapter
     {
     	float scale = context.getResources().getDisplayMetrics().density;
     	return (int) (dp * scale + 0.5f);
-    }
+    }*/
 }

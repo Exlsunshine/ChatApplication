@@ -2,22 +2,19 @@ package com.tp.adapter;
 
 import java.util.ArrayList;
 
-import org.kobjects.base64.Base64;
 
 
 import com.example.testmobiledatabase.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.Comment;
 import com.tp.messege.ImagePost;
 import com.yg.commons.CommonUtil;
-import com.yg.message.ConvertUtil;
 import com.yg.ui.dialog.implementation.DateUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +30,8 @@ public class PostCommentListAdapter extends BaseAdapter
 	private AbstractPost post;
 	private ArrayList<Comment> commentList;
 	private Comment empty = new Comment();
+	protected ImageLoader imageLoader = ImageLoader.getInstance();
+	
 	public PostCommentListAdapter(Context contextSend, AbstractPost postSend, ArrayList<Comment> comments)
 	{
 		context = contextSend;
@@ -96,9 +95,20 @@ public class PostCommentListAdapter extends BaseAdapter
                 else
                 {
                 	ImagePost ip = (ImagePost) post;
-                	Bitmap bm = ip.getImage();
+                	/*Bitmap bm = ip.getImage();
                     Drawable dr = new BitmapDrawable(bm);
-                    holder.postphoto.setBackground(dr);
+                    holder.postphoto.setBackground(dr);*/
+					String imgPath = ip.getImagePath();
+					String imagePath = "file://" + imgPath;
+					// œ‘ æÕº∆¨µƒ≈‰÷√
+					DisplayImageOptions options = new DisplayImageOptions.Builder()
+							.showImageOnLoading(R.drawable.tp_loading_picture)
+							.showImageOnFail(R.drawable.tp_loading_failed)
+							.cacheInMemory(true).cacheOnDisk(true)
+							.bitmapConfig(Bitmap.Config.RGB_565).build();
+
+					imageLoader.displayImage(imagePath, holder.postphoto,
+							options);
                     holder.postphoto.setVisibility(View.VISIBLE);
                     holder.commentContent.setVisibility(View.GONE);
                     holder.commentTime.setVisibility(View.GONE);

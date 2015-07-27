@@ -33,25 +33,20 @@ public class ImageZoomInActivity extends Activity
 
 		imgPath = getIntent().getStringExtra("Path");
 		img = (ImageView) findViewById(R.id.img_zoomin_activity_IV);
-
-		File imgFile = new File(imgPath);
-		if (imgFile.exists())
+		
+		if (imgPath.contains("file://"))
 		{
+			File imgFile = new File(imgPath);
 			bmp = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(ImageZoomInActivity.this).build();
-			imageLoader.init(config);
 			DisplayImageOptions options = new DisplayImageOptions.Builder()
 					.showImageOnLoading(R.drawable.tp_loading_picture)
 					.showImageOnFail(R.drawable.tp_loading_failed)
 					.cacheInMemory(true).cacheOnDisk(true)
 					.bitmapConfig(Bitmap.Config.RGB_565).build();
-			imageLoader.displayImage("file://" + imgPath, img, options);
+			imageLoader.displayImage(imgPath, img, options);
 		} 
 		else
 		{
-			bmp = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(ImageZoomInActivity.this).build();
-			imageLoader.init(config);
 			DisplayImageOptions options = new DisplayImageOptions.Builder()
 					.showImageOnLoading(R.drawable.tp_loading_picture)
 					.showImageOnFail(R.drawable.tp_loading_failed)
