@@ -7,11 +7,14 @@ import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -33,10 +36,15 @@ public class chuck_animation extends Activity {
 		chuck_empty1=(ImageView)findViewById(R.id.lj_chuck_empty1);
 		chuck_spray=(ImageView) findViewById(R.id.lj_chuck_spray);
 		chuck_bottle_layout=(RelativeLayout) findViewById(R.id.lj_chuck_bottle_layout);
-		
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		int width = dm.widthPixels;//¿í¶Èheight = dm.heightPixels ;//¸ß¶È
+		int height = dm.heightPixels;
 		Animation animationR=AnimationUtils.loadAnimation(this,R.anim.anim_set);
 		Animation animationS=AnimationUtils.loadAnimation(this,R.anim.anim_set);
-		Animation animationT=AnimationUtils.loadAnimation(this,R.anim.chuck_bottle_translate);
+	//	Animation animationT=AnimationUtils.loadAnimation(this,R.anim.chuck_bottle_translate);
+		Animation animationT = new TranslateAnimation(0, (float) (-width * 0.39574719432959243945658594211459), 0, (float) (-height * 0.25014174344436569808646350106308));
+		animationT.setDuration(2000);
 		AnimationSet set=new AnimationSet(false);
 		set.addAnimation(animationR);
 		set.addAnimation(animationS);

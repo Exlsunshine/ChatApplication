@@ -36,7 +36,17 @@ public class PickupBottle extends Activity
 		public void handleMessage(android.os.Message msg)
 		{
 			if (msg.what == NO_BOTTLE_HANDLER)
+			{
 				voice_msg.setBackgroundResource(R.drawable.lj_bottle_star);
+				voice_msg.setOnClickListener(new OnClickListener() 
+				{
+					@Override
+					public void onClick(View v) 
+					{
+						finish(); 
+					}
+				});
+			}
 			else if (msg.what == PICK_BOTTLE_HANDLER)
 			{
 				final int bottleID = msg.arg1;
@@ -75,7 +85,7 @@ public class PickupBottle extends Activity
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(System.currentTimeMillis());
 		hour = c.get(Calendar.HOUR_OF_DAY);
-		minute = c.get(Calendar.MINUTE);
+		minute = c.get(Calendar.MINUTE); 
 		sec = c.get(Calendar.SECOND);
 		if (hour >= 18 || hour <= 6)
 			pick_up_layout.setBackgroundResource(R.drawable.bottle_pick_bg_spotlight_night);
