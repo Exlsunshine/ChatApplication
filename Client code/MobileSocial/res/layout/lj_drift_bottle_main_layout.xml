@@ -92,9 +92,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-7dp"
                 android:gravity="center"
                 android:text="@string/friend_discard_bottle"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -113,9 +115,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-7dp"
                 android:gravity="center"
                 android:text="@string/friend_collect_bottle"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -135,9 +139,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-7dp"
                 android:gravity="center"
                 android:text="@string/friend_my_bottle"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -148,6 +154,7 @@
         android:layout_width="fill_parent"
         android:layout_height="100dip"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
         android:visibility="gone" >
 
         <ImageView
@@ -173,9 +180,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-7dp"
                 android:gravity="center"
                 android:text="@string/friend_discard_bottle"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -194,9 +203,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-7dp"
                 android:gravity="center"
                 android:text="@string/friend_collect_bottle"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -216,9 +227,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-7dp"
                 android:gravity="center"
                 android:text="@string/friend_my_bottle"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -234,18 +247,6 @@
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/bottle_night_floodlight_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/bottle_night_moon"
-        android:layout_marginRight="18dp"
-        android:layout_marginTop="56dp"
-        android:contentDescription="@string/nothing"
-        android:src="@drawable/bottle_sandy_light_r001"
-        android:visibility="gone" />
-
-    <ImageView
         android:id="@+id/bottle_night_floodlight_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -256,17 +257,5 @@
         android:contentDescription="@string/nothing"
         android:src="@drawable/bottle_sandy_light_m001"
         android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/bottle_night_floodlight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="90dp"
-        android:layout_marginTop="146dp"
-        android:contentDescription="@string/nothing"
-        android:src="@drawable/bottle_sandy_light_l001"
-        android:visibility="visible" />
 
 </RelativeLayout>
