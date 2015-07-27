@@ -138,7 +138,7 @@ public class MyBottle extends Activity
 			Window window = delteDialog.getWindow();
 			window.setContentView(R.layout.lj_mybottle_delete_dialog);
 			Button cancel = (Button) window.findViewById(R.id.lj_my_bottle_delete_dialog_button_cancel);
-			Button confirm = (Button) window.findViewById(R.id.lj_my_bottle_delete__dialog_button_confirm);
+			Button confirm = (Button) window.findViewById(R.id.lj_my_bottle_delete_dialog_button_confirm);
 			cancel.setOnClickListener(new OnClickListener() 
 			{
 				@Override
@@ -184,7 +184,7 @@ public class MyBottle extends Activity
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View view, final int position, long id) 
 		{
-			int bottleID =myBottleList.get(position).getBottleID();
+			int bottleID = myBottleList.get(position).getBottleID();
 			Intent intent = new Intent();
 			intent.putExtra("bottleID", bottleID);
 			intent.setClass(getApplicationContext(), BottleInfoActivity.class);
@@ -196,7 +196,50 @@ public class MyBottle extends Activity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		if (requestCode == 0 && resultCode == RESULT_OK)
+		{
 			adapter.notifyDataSetChanged();
+			if (myBottleList.size() == 0)
+			{
+				View view = findViewById(R.id.lj_my_bottle_remind);
+				view.setVisibility(View.VISIBLE);
+				view.setOnClickListener(new OnClickListener() 
+				{
+					@Override
+					public void onClick(View arg0) 
+					{
+						setResult(RESULT_OK);
+						finish();
+					}
+				});
+			}
+		}
+		else if (requestCode == 0 && resultCode == BottleInfoActivity.THROW_BACK)
+		{
+			int bottleID = data.getIntExtra("bottleID", 0);
+			for (int i = 0; i < myBottleList.size(); i++)
+			{
+				if (myBottleList.get(i).getBottleID() == bottleID)
+				{
+					myBottleList.remove(i);
+					break;
+				}
+			}
+			adapter.notifyDataSetChanged();
+			if (myBottleList.size() == 0)
+			{
+				View view = findViewById(R.id.lj_my_bottle_remind);
+				view.setVisibility(View.VISIBLE);
+				view.setOnClickListener(new OnClickListener() 
+				{
+					@Override
+					public void onClick(View arg0) 
+					{
+						setResult(RESULT_OK);
+						finish();
+					}
+				});
+			}
+		}
 	}
 
 }

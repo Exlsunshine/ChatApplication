@@ -15,7 +15,18 @@
     <!-- "@android:color/white" -->
 
     <TextView 
-	    android:text="确认删除瓶子？"
+	    android:text="确认扔回瓶子？"
+	    android:layout_width="250dp"
+        android:layout_height="wrap_content"
+	    android:layout_marginTop="15dp"
+	    android:gravity="center"
+	    android:textColor="#1E90FF"
+	    android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp" />
+    
+    <TextView 
+	    android:text="扔回瓶子后，会被其他用户捡到。"
 	    android:layout_width="250dp"
         android:layout_height="wrap_content"
 	    android:layout_marginTop="15dp"
@@ -34,7 +45,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/lj_my_bottle_delete_dialog_button_cancel"
+            android:id="@+id/lj_throw_back_dialog_button_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,7 +55,7 @@
             android:textColor="#1E90FF" />
 
         <Button
-            android:id="@+id/lj_my_bottle_delete_dialog_button_confirm"
+            android:id="@+id/lj_throw_back_dialog_button_confirm"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20.0dip"

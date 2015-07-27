@@ -10,6 +10,7 @@ import org.json.JSONObject;
 public class CommBottle extends AbstractBottle
 {
 	//json object key string
+	public static final String OWNER_ID = "ownerID";
 	public static final String BOTTLE_STATUS = "bottleStatus";
 	public static final String BOTTLE_RELATION_STATUS = "bottleRelationStatus";
 	public static final String PORTRIAT_URL = "portraitURL";
@@ -25,6 +26,7 @@ public class CommBottle extends AbstractBottle
 	public static final int BOTTLE_RELATION_STATUS_NORMAL = 1;
 	public static final int BOTTLE_RELATION_STATUS_DELETE = 2;
 	
+	private int ownerID = 0;
 	private String nickname = null;
 	private String sex = null;
 	private String hometown = null;
@@ -47,9 +49,10 @@ public class CommBottle extends AbstractBottle
 	 * @param bottleID if of bottle
 	 * @param versionCode version code of bottle
 	 */
-	public CommBottle(String nickname, String sex, String hometown, String historyText, String portraitURL, int bottleStatus, int bottleRelationStatus, int bottleID, int versionCode) 
+	public CommBottle(int ownerID, String nickname, String sex, String hometown, String historyText, String portraitURL, int bottleStatus, int bottleRelationStatus, int bottleID, int versionCode) 
 	{
 		super(historyText);
+		this.ownerID = ownerID;
 		this.nickname = nickname;
 		this.sex = sex;
 		this.hometown = hometown;
@@ -60,9 +63,9 @@ public class CommBottle extends AbstractBottle
 		this.bottleRelationStatus = bottleRelationStatus;
 	}
 	
-	public CommBottle(String nickname, String sex, String hometown, AbstractBottle bottle, String portraitURL, int bottleStatus, int bottleRelationStatus, int bottleID, int versionCode)
+	public CommBottle(int ownerID, String nickname, String sex, String hometown, AbstractBottle bottle, String portraitURL, int bottleStatus, int bottleRelationStatus, int bottleID, int versionCode)
 	{
-		this(nickname, sex, hometown, bottle.getHistoryText(), portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+		this(ownerID, nickname, sex, hometown, bottle.getHistoryText(), portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
 	}
 	@Override
 	public String toJsonString() 
@@ -80,6 +83,11 @@ public class CommBottle extends AbstractBottle
 			e.printStackTrace();
 		}
 		return jsonObject.toString();
+	}
+	
+	public int getOwnerID()
+	{
+		return ownerID;
 	}
 	
 	public String getLastText()

@@ -7,23 +7,31 @@ import com.yg.commons.ConstantValues;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class BottleInfoActivity extends Activity
 {
+	public static final int THROW_BACK = 10;
+	private AlertDialog throwBackDialog = null;
 	private CommBottle bottle = null;
 	private final int REPLY_HANDLER = 0x02;
+	private final int THROWBACK_HANDLER = 0x03;
 	private EditText editText = null;
 	private TextView textView = null;
 	private BottleManager bottleManager = null;
@@ -36,6 +44,16 @@ public class BottleInfoActivity extends Activity
 				Intent intent = new Intent(BottleInfoActivity.this, chuck_animation.class);
 				startActivity(intent);
 				setResult(RESULT_OK);
+				finish();
+			}
+			else if (msg.what == THROWBACK_HANDLER)
+			{
+				Intent intent = new Intent(BottleInfoActivity.this, chuck_animation.class);
+				startActivity(intent);
+				
+				Intent data = new Intent();
+				data.putExtra("bottleID", bottle.getBottleID());
+				setResult(THROW_BACK, data);
 				finish();
 			}
 		};
@@ -117,8 +135,71 @@ public class BottleInfoActivity extends Activity
 			}
 			else if (id == R.id.lj_bottle_info_throwback_btn)
 			{
-				
+				if (bottle.getOwnerID() == ConstantValues.user.getID())
+					showThrowBackInvalidDialog();
+				else
+					showThrowBackDialog();
 			}
 		}
 	};
+	
+	private void showThrowBackInvalidDialog()
+	{
+		throwBackDialog = new AlertDialog.Builder(BottleInfoActivity.this, R.style.LoginDialogAnimation).create();
+		throwBackDialog.setCanceledOnTouchOutside(true);
+		throwBackDialog.show();
+		throwBackDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		throwBackDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		throwBackDialog.setCancelable(true);
+		Window window = throwBackDialog.getWindow();
+		window.setContentView(R.layout.lj_throw_back_invalid_dialog);
+		Button confirm = (Button) window.findViewById(R.id.lj_throw_back_invalid_dialog_button_confirm);
+		confirm.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				throwBackDialog.dismiss();
+			}
+		});
+	}
+	
+	private void showThrowBackDialog()
+	{
+		throwBackDialog = new AlertDialog.Builder(BottleInfoActivity.this, R.style.LoginDialogAnimation).create();
+		throwBackDialog.setCanceledOnTouchOutside(true);
+		throwBackDialog.show();
+		throwBackDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		throwBackDialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		throwBackDialog.setCancelable(true);
+		Window window = throwBackDialog.getWindow();
+		window.setContentView(R.layout.lj_throw_back_dialog);
+		Button cancel = (Button) window.findViewById(R.id.lj_throw_back_dialog_button_cancel);
+		Button confirm = (Button) window.findViewById(R.id.lj_throw_back_dialog_button_confirm);
+		cancel.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				throwBackDialog.dismiss();
+			}
+		});
+		confirm.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				new Thread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						bottleManager.throwBack(bottle);
+						handler.sendEmptyMessage(THROWBACK_HANDLER);
+					}
+				}).start();
+				throwBackDialog.dismiss();
+			}
+		});
+	}
 }
