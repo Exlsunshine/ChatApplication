@@ -36,6 +36,7 @@ public class chuck_animation extends Activity {
 		chuck_empty1=(ImageView)findViewById(R.id.lj_chuck_empty1);
 		chuck_spray=(ImageView) findViewById(R.id.lj_chuck_spray);
 		chuck_bottle_layout=(RelativeLayout) findViewById(R.id.lj_chuck_bottle_layout);
+		
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		int width = dm.widthPixels;//¿í¶Èheight = dm.heightPixels ;//¸ß¶È
@@ -61,6 +62,12 @@ public class chuck_animation extends Activity {
 				chuck_spray.setVisibility(View.VISIBLE);
 				ad.setOneShot(true);
 				ad.start();
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						chuck_spray.setVisibility(View.GONE);
+					}
+				}, 1000);
 				chuck_empty1.setVisibility(View.GONE);
 				chuck_empty2.setVisibility(View.GONE);
 			}
