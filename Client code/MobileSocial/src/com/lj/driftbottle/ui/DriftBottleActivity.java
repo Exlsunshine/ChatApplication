@@ -39,7 +39,7 @@ public class DriftBottleActivity extends Activity
 	private BottleManager bottleManager = null;
 	private PopupWindow popupWindow;
 	private TranslateAnimation ani0, ani1, ani2;
-	private AnimationDrawable ad, ad1, ad2;
+	private AnimationDrawable ad1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -105,24 +105,13 @@ public class DriftBottleActivity extends Activity
 		RelativeLayout bottle_night_bottom_layout = (RelativeLayout) findViewById(R.id.bottle_night_bottom_layout);
 		ImageView bottle_night_moon = (ImageView) findViewById(R.id.bottle_night_moon);
 		ImageView ballonImg = (ImageView) findViewById(R.id.bottle_img);
-		ImageView bottle_night_floodlight = (ImageView) findViewById(R.id.bottle_night_floodlight);
 		if (isNight())
 		{
 			bottle_main_layout.setBackgroundResource(R.drawable.bottle_night_bg);
 			ballonImg.setVisibility(View.GONE);
 			bottle_bottom_layout.setVisibility(View.GONE);
 			bottle_night_moon.setVisibility(View.VISIBLE);
-			bottle_night_floodlight.setVisibility(View.VISIBLE);
 			bottle_night_bottom_layout.setVisibility(View.VISIBLE);
-
-			new Handler().postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					ad.setOneShot(false);
-					ad.start();
-				}
-			}, 1000);
 		}
 		else
 		{
@@ -130,7 +119,6 @@ public class DriftBottleActivity extends Activity
 			ballonImg.setVisibility(View.VISIBLE);
 			bottle_bottom_layout.setVisibility(View.VISIBLE);
 			bottle_night_moon.setVisibility(View.GONE);
-			bottle_night_floodlight.setVisibility(View.GONE);
 			bottle_night_bottom_layout.setVisibility(View.GONE);
 		}
 	}
@@ -205,25 +193,13 @@ public class DriftBottleActivity extends Activity
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 
-		ImageView bottle_night_floodlight = (ImageView) findViewById(R.id.bottle_night_floodlight);
 		ImageView bottle_night_floodlight_1 = (ImageView) findViewById(R.id.bottle_night_floodlight_1);
-		ImageView bottle_night_floodlight_2 = (ImageView) findViewById(R.id.bottle_night_floodlight_2);
 
-		if (bottle_night_floodlight != null) 
-		{
-			ad = (AnimationDrawable) getResources().getDrawable(R.anim.bottle_night_floodlight);
-			bottle_night_floodlight.setBackground(ad);
-		}
-		else if (bottle_night_floodlight_1 != null) 
+		if (bottle_night_floodlight_1 != null) 
 		{
 			ad1 = (AnimationDrawable) getResources().getDrawable(R.anim.bottle_night_floodlight1);
 			bottle_night_floodlight_1.setBackground(ad1);
 		} 
-		else if (bottle_night_floodlight_2 != null) 
-		{
-			ad2 = (AnimationDrawable) getResources().getDrawable(R.anim.bottle_night_floodlight2);
-			bottle_night_floodlight_2.setBackground(ad2);
-		}
 	}
 
 	// ÈÓÆ¿×ÓµÄ´°¿Ú
