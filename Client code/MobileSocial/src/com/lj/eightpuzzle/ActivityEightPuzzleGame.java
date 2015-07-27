@@ -16,8 +16,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -326,7 +324,6 @@ public class ActivityEightPuzzleGame extends Activity
 		
 		Window window = gRestartDialog.getWindow();
 		window.setContentView(R.layout.lj_eightpuzzle_restart_dialog);
-		
 		
 		Button cancel = (Button) window.findViewById(R.id.lj_eightpuzzle_restart_dialog_button_cancel);
 		Button confirm = (Button) window.findViewById(R.id.lj_eightpuzzle_restart_dialog_button_confirm);

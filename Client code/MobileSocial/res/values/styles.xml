@@ -101,6 +101,16 @@
     </style>
 
     <!-- ********************************* -->
+    
+    <style name="lj_bottle_throw_btn_style">
+        <item name="android:background">@drawable/yg_loginguide_login_btn_selector</item>
+        <!-- <item name="android:padding">6.0dip</item> -->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
     <!-- Loginguide Activity LogIn dialog animation -->
     <!-- ********************************* -->
     <style name="LoginDialogAnimation" parent="@android:style/Theme.Dialog">
@@ -466,9 +476,19 @@
     
     
     
+    <style name="lj_setting_theme" parent="android:style/Theme.Holo.Light">  
+        <item name="android:actionBarTabStyle">@style/lj_setting_actionbar_tab_style</item>  
+        <item name="android:actionBarTabTextStyle">@style/lj_setting_actionbar_tab_text_style</item>  
+    </style>  
     
-    
-    
+    <style name="lj_setting_actionbar_tab_style" parent="android:style/Widget.Holo.Light.ActionBar.TabView">  
+        <item name="android:background">@drawable/lj_action_bar_background</item>  
+        </style> 
+        
+    <style name="lj_setting_actionbar_tab_text_style" parent="android:style/Widget.Holo.Light.ActionBar.TabText">          
+        <item name="android:textSize">15sp</item>     
+        <item name="android:textColor">@drawable/lj_action_bar_text_color</item>
+    </style>  
     
     
     

@@ -1,62 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/lj_chuck_layout1"
+        android:id="@+id/lj_throw_bottle_title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="55dip"
+        android:background="#1e90ff" >
 
-        <EditText
-            android:id="@+id/lj_chuck_edit"
+        <LinearLayout
+            android:id="@+id/lj_throw_bottle_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:layout_marginTop="50dip"
-            android:background="@drawable/bottle_stationery"
-            android:gravity="top"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/lj_chuck_bottle1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/bottle_type_text"
-            android:visibility="gone" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal" >
 
-        <RelativeLayout
-            android:id="@+id/lj_chuck_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="55dip"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/webviewtab_bg" >
-
-            <Button
-                android:id="@+id/lj_chuck_cancle"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="2.5dip"
-                android:background="@drawable/chat_bottom_keyboard"
-                android:visibility="visible" />
+                android:layout_gravity="center"
+                android:background="@drawable/yg_abc_ic_ab_back_holo_light"
+                android:gravity="center" />
 
-            <Button
-                android:id="@+id/lj_chuck_throw"
+            <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dip"
-                android:layout_toRightOf="@+id/chuck_cancle"
-                android:background="@drawable/chat_speak"
-                android:text="扔出去"
-                android:textColor="#fff"
-                android:textSize="20sp"
-                android:visibility="visible" />
-        </RelativeLayout>
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="漂流瓶"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bottle_stationery" >
+
+        <View
+            android:id="@+id/lj_bottle_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="100dp"
+            android:layout_alignParentBottom="true" />
+
+        <com.lj.driftbottle.ui.LineEditText
+            android:id="@+id/lj_driftbottle_edit"
+            style="?android:attr/textViewStyle"
+            android:hint="写下你的秘密......"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@null"
+            android:lineSpacingExtra="8dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/lj_bottle_throw_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/lj_driftbottle_edit"
+            android:layout_marginRight="40dp"
+            android:text="还差5个字" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/lj_bottle_bottom_view"
+            android:layout_marginBottom="60dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" >
+
+            <Button
+                android:id="@+id/lj_bottle_throw_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/lj_bottle_throw_btn_style"
+                android:text="扔出去" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
