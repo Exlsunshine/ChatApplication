@@ -30,7 +30,7 @@ public class EditWatcher implements TextWatcher
 	{
 		this.editText = editText;
 		this.textView = textView;
-		String text = "还差 " + MIN_TEXT_LENGTH + " 个字";
+		String text = "至少 " + MIN_TEXT_LENGTH + " 个字";
 		SpannableStringBuilder style = getDigitColorBuilder(text, Color.RED);
 		textView.setText(style);
 	}
