@@ -108,9 +108,9 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	
 	private void setupUserGuide()
 	{
-		userGuide = new UserGuide(this, "爱聊天", "历史消息列表", Gravity.TOP | Gravity.RIGHT, Overlay.Style.Circle, "#33CC99");
-		userGuide.addAnotherGuideArea(recentDialogRb, friendListRb, false, "常联系", "朋友列表", Gravity.TOP | Gravity.LEFT, "#FF9900");
-		userGuide.addAnotherGuideArea(friendListRb, menuFakePosition, true, "发现更多精彩", "摇一摇，朋友圈", Gravity.TOP, "#1E90FF");
+		userGuide = new UserGuide(this, "爱  聊  天", "消息记录", Gravity.TOP | Gravity.RIGHT, Overlay.Style.Circle, "#33CC99");
+		userGuide.addAnotherGuideArea(recentDialogRb, friendListRb, false, "常  联  系", "朋友列表", Gravity.TOP | Gravity.LEFT, "#FF9900");
+		userGuide.addAnotherGuideArea(friendListRb, menuFakePosition, true, "更 多 精 彩", "摇一摇，朋友圈", Gravity.TOP, "#1E90FF");
 		
 		menuFakePosition.setClickable(true);
 		menuFakePosition.setFocusable(true);
@@ -292,15 +292,56 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 				setMainMenuVisibility(true);
 				Log.w(DEBUG_TAG, "main_activity_recent_dialog");
 				break;  
-			case R.id.main_activity_friend_list:  
+			case R.id.main_activity_friend_list: 
 				setupActionBar();
 				setButtonVisibilities();
 				this.tabHost.setCurrentTabByTag(TabTags.friendListTab);  
 				setMainMenuVisibility(false);
 				Log.w(DEBUG_TAG, "main_activity_friend_list");
+				
+
+				setupAdvancedButtonUserGuide();
 				break; 
 			}  
 		}  
+	}
+	
+	private void setupAdvancedButtonUserGuide()
+	{
+		final ImageView searchFakePosition = (ImageView) findViewById(R.id.yg_friendlist_actionbar_default_layout_fake_search);
+		
+		searchFakePosition.setClickable(true);
+		searchFakePosition.setFocusable(true);
+		searchFakePosition.setVisibility(View.VISIBLE);
+		
+		menuFakePosition.setClickable(true);
+		menuFakePosition.setFocusable(true);
+		menuFakePosition.setVisibility(View.VISIBLE);
+		
+		centerControlMenuBasic.setUserGuideEnable(true);
+		centerControlMenuAdvanced.setUserGuideEnable(true);
+		
+		userGuide = new UserGuide(this, "搜  索", "快速查找好友", Gravity.BOTTOM | Gravity.LEFT, Overlay.Style.Circle, "#33CC99");
+		userGuide.addAnotherGuideArea(searchFakePosition, menuFakePosition, true, "匿 名 狂 欢", "视频&漂流瓶", Gravity.TOP, "#1E90FF");
+		userGuide.beginWith(searchFakePosition, false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+				menuFakePosition.setOnClickListener(null);
+				menuFakePosition.setClickable(false);
+				menuFakePosition.setFocusable(false);
+				menuFakePosition.setVisibility(View.GONE);
+				
+				searchFakePosition.setOnClickListener(null);
+				searchFakePosition.setClickable(false);
+				searchFakePosition.setFocusable(false);
+				searchFakePosition.setVisibility(View.GONE);
+				
+				centerControlMenuAdvanced.setUserGuideEnable(false);
+				centerControlMenuBasic.setUserGuideEnable(false);
+			}
+		});
 	}
 	
 	private void setMainMenuVisibility(boolean isInRecentDialogPage)
