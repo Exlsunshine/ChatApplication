@@ -59,5 +59,6 @@
     
     <color name="lj_touch_color">#DDDDDD</color>
     <color name="lj_setting_background_color">#F8F9FA</color>
+    <color name="lj_blue">#1E90FF</color>
     
 </resources>

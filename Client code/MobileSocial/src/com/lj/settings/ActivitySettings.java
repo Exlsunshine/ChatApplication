@@ -94,7 +94,7 @@ public class ActivitySettings extends Activity implements ActionBar.TabListener
                 actionBar.setSelectedNavigationItem(position);
             }
         });
-
+        
         // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by
