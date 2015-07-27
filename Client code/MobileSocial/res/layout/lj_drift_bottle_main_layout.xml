@@ -7,9 +7,9 @@
 
     <RelativeLayout
         android:id="@+id/bottle_layout_title"
-        android:background="#1e90ff"
         android:layout_width="fill_parent"
         android:layout_height="55dip"
+        android:background="#1e90ff"
         android:visibility="gone" >
 
         <LinearLayout
@@ -66,6 +66,7 @@
         android:layout_width="fill_parent"
         android:layout_height="100dip"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
         android:visibility="gone" >
 
         <ImageView
@@ -74,58 +75,70 @@
             android:layout_alignParentBottom="true"
             android:src="@drawable/bottle_board" />
 
-        <ImageView
-            android:id="@+id/bottle_bottom_throw_bottle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/bottle_button_throw" />
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/bottle_bottom_pick_bottle"
+            <ImageView
+                android:id="@+id/bottle_bottom_throw_bottle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottle_button_throw" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/friend_discard_bottle"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/bottle_button_fish" />
+            android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/bottle_bottom_my_bottle"
+            <ImageView
+                android:id="@+id/bottle_bottom_pick_bottle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottle_button_fish" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/friend_collect_bottle"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/bottle_button_list" />
+            android:layout_marginRight="10dp"
+            android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:paddingTop="2dp"
-            android:text="@string/friend_discard_bottle"
-            android:textColor="#ffffff" />
+            <ImageView
+                android:id="@+id/bottle_bottom_my_bottle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottle_button_list" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="2dp"
-            android:text="@string/friend_collect_bottle"
-            android:textColor="#ffffff" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/bottle_bottom_my_bottle"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="16dp"
-            android:paddingTop="2dp"
-            android:text="@string/friend_my_bottle"
-            android:textColor="#ffffff" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/friend_my_bottle"
+                android:textColor="#ffffff" />
+        </LinearLayout>
     </RelativeLayout>
 
     <!-- 黑夜 -->
@@ -143,58 +156,70 @@
             android:layout_alignParentBottom="true"
             android:src="@drawable/bottle_board" />
 
-        <ImageView
-            android:id="@+id/bottle_night_throw_bottle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/bottle_button_throw_highlight" />
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/bottle_night_pick_bottle"
+            <ImageView
+                android:id="@+id/bottle_night_throw_bottle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottle_button_throw" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/friend_discard_bottle"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/bottle_button_fish_highlight" />
+            android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/bottle_night_my_bottle"
+            <ImageView
+                android:id="@+id/bottle_night_pick_bottle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottle_button_fish" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/friend_collect_bottle"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/bottle_button_list_highlight" />
+            android:layout_marginRight="10dp"
+            android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:paddingTop="2dp"
-            android:text="@string/friend_discard_bottle"
-            android:textColor="#ffffff" />
+            <ImageView
+                android:id="@+id/bottle_night_my_bottle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottle_button_list" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="2dp"
-            android:text="@string/friend_collect_bottle"
-            android:textColor="#ffffff" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/bottle_night_my_bottle"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="16dp"
-            android:paddingTop="2dp"
-            android:text="@string/friend_my_bottle"
-            android:textColor="#ffffff" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/friend_my_bottle"
+                android:textColor="#ffffff" />
+        </LinearLayout>
     </RelativeLayout>
 
     <ImageView
