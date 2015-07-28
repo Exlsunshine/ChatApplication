@@ -38,7 +38,7 @@ public class SwitchButton extends CheckBox {
 
     private Bitmap mMask;
 
-    private RectF mSaveLayerRectF;
+    private RectF mSaveLayerRectF;  
 
     private PorterDuffXfermode mXfermode;
 
@@ -131,8 +131,8 @@ public class SwitchButton extends CheckBox {
         mMaskWidth = mMask.getWidth();
         mMaskHeight = mMask.getHeight();
 
-        mBtnOffPos = mBtnWidth / 2;
-        mBtnOnPos = mMaskWidth - mBtnWidth / 2;
+        mBtnOffPos = mBtnWidth / 2 - 17;
+        mBtnOnPos = mMaskWidth - mBtnWidth / 2 + 17;
 
         mBtnPos = mChecked ? mBtnOnPos : mBtnOffPos;
         mRealPos = getRealPos(mBtnPos);
@@ -319,22 +319,21 @@ public class SwitchButton extends CheckBox {
         // 绘制蒙板
         canvas.drawBitmap(mMask, 0, mExtendOffsetY, mPaint);
         mPaint.setXfermode(mXfermode);
-
         // 绘制底部图片
         canvas.drawBitmap(mBottom, mRealPos, mExtendOffsetY, mPaint);
-        mPaint.setXfermode(null);
+        mPaint.setXfermode(null); 
         // 绘制边框
         canvas.drawBitmap(mFrame, 0, mExtendOffsetY, mPaint);
-
+  
         // 绘制按钮
         canvas.drawBitmap(mCurBtnPic, mRealPos, mExtendOffsetY, mPaint);
         canvas.restore();
     }
-
+  
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension((int) mMaskWidth, (int) (mMaskHeight + 2 * mExtendOffsetY));
-    }
+    } 
 
     private void startAnimation(boolean turnOn) {
         mAnimating = true;
