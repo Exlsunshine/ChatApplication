@@ -6,11 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.jivesoftware.smack.SmackException;
+
 import com.example.testmobiledatabase.R;
+import com.quickblox.chat.QBChatService;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
+import com.quickblox.videochat.webrtc.QBRTCClient;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 
 import android.app.Fragment;
@@ -56,7 +60,20 @@ public class DialingFragment extends Fragment
 			@Override
 			public void onClick(View v) 
 			{
-				((VideoChatActivity) getActivity()).exit();
+				if (QBChatService.isInitialized()) 
+				{
+					try 
+					{
+						QBRTCClient.getInstance().close(true);
+						QBChatService.getInstance().logout();
+						QBChatService.getInstance().destroy();
+					} catch (SmackException.NotConnectedException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				getActivity().finish();
+				//((VideoChatActivity) getActivity()).exit();
 			}
 		});
 		
