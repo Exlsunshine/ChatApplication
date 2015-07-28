@@ -22,6 +22,7 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,6 +48,9 @@ import com.yg.emoji.EmojiParser;
 import com.yg.emoji.ParseEmojiMsgUtil;
 import com.yg.emoji.SelectFaceHelper;
 import com.yg.emoji.SelectFaceHelper.OnFaceOprateListener;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 import com.yg.image.select.ui.SelectImageActivity;
 import com.yg.message.AbstractMessage;
 import com.yg.message.AudioMessage;
@@ -89,6 +93,7 @@ public class DialogActivity extends Activity
 	private SelectFaceHelper faceHelper;
 	private View addFaceToolView;
 	private ImageView ampHint;
+	private InputMethodManager imm;
 	
 	private void setupDialogActionBar()
 	{
@@ -136,7 +141,7 @@ public class DialogActivity extends Activity
 		hideInputManager(this);
 	}
 	
-	public void hideInputManager(Context ct)
+	private void hideInputManager(Context ct)
 	{
 		try 
 		{
@@ -178,6 +183,30 @@ public class DialogActivity extends Activity
 		}
 	};
 	
+
+	private UserGuide userGuide;
+	private void setupUserGuide()
+	{
+		final LinearLayout centerFakePosition = (LinearLayout) findViewById(R.id.yg_dialog_activity_center_fake_position);
+		centerFakePosition.bringToFront();
+		userGuide = new UserGuide(this, "交 流 无 障 碍", "点击消息可将外语译成中文", Gravity.CENTER, Overlay.Style.Circle, "#33CC99");
+		userGuide.addAnotherGuideArea(centerFakePosition, voiceButton, false, "语 音 聊 天", "点击发送语音", Gravity.TOP | Gravity.RIGHT, Gravity.CENTER, "#FF9900");
+		userGuide.addAnotherGuideArea(voiceButton, emoji, false, "趣 味 Emoji", "点击发送表情", Gravity.TOP | Gravity.LEFT, Gravity.TOP | Gravity.LEFT, "#FF9900");
+		userGuide.addAnotherGuideArea(emoji, addButton, true, "更 多 精 彩", "发送照片与自己的位置", Gravity.TOP | Gravity.LEFT, Gravity.TOP | Gravity.LEFT, "#1E90FF");
+		
+		userGuide.beginWith(centerFakePosition, false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+//				centerFakePosition.setClickable(false);
+//				centerFakePosition.setEnabled(false);
+				centerFakePosition.setVisibility(View.GONE);
+				setupListeners();
+			}
+		});
+	}
+	
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -206,8 +235,8 @@ public class DialogActivity extends Activity
 		record_hint_text_record_layout = (LinearLayout) super.findViewById(R.id.yg_dialog_record_hint_record_text_layout);
 		record_hint_text_cancel_layout = (LinearLayout) super.findViewById(R.id.yg_dialog_record_hint_cancel_text_layout);
 		plusRelativelayout = (RelativeLayout) super.findViewById(R.id.yg_dialog_activity_plus_rl);
-		final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
+		
+		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		messages = new ArrayList<AbstractMessage>();
 		Log.i(DEBUG_TAG, "Dialog contains history messages:" + ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory().size());
 		messages.addAll(ConstantValues.user.makeDialogWith(getFriendByID(friendID)).getDialogHistory());
@@ -215,9 +244,14 @@ public class DialogActivity extends Activity
 		listView.setAdapter(msgAdapter);
 		listView.setSelection(msgAdapter.getCount() - 1);
 
-
 		initEmoji();
 		
+//		setupListeners();
+		setupUserGuide();
+	}
+	
+	private void setupListeners()
+	{
 		editText.setOnFocusChangeListener(new OnFocusChangeListener()
 		{
 			@Override
