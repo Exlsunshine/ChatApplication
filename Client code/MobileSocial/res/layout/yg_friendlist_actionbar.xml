@@ -30,6 +30,14 @@
             android:layout_centerVertical="true"
             android:queryHint="试着搜搜好友昵称 :)" >
         </SearchView>
+
+        <ImageView
+            android:id="@+id/yg_friendlist_actionbar_default_layout_fake_search"
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent" />
     </RelativeLayout>
 
     <RelativeLayout
