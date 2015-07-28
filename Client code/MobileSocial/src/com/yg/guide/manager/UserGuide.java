@@ -9,7 +9,10 @@ import com.yg.guide.tourguide.ToolTip;
 import com.yg.guide.tourguide.TourGuide;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -19,11 +22,28 @@ import android.view.animation.Animation;
 
 public class UserGuide
 {
+	public static final String RECENT_DIALOG_ACTIVITY = "RECENT_DIALOG_ACTIVITY";
+	public static final String FRIENDLIST_ACTIVITY = "FRIENDLIST_ACTIVITY";
+	public static final String DIALOG_ACTIVITY = "DIALOG_ACTIVITY";
+	public static final String FRIENDCIRCLE_ACTIVITY = "FRIENDCIRCLE_ACTIVITY";
+	public static final String SHAKE_ACTIVITY = "SHAKE_ACTIVITY";
+	public static final String MAP_ACTIVITY = "MAP_ACTIVITY";
+	public static final String GAME_MUSIC_ACTIVITY = "GAME_MUSIC_ACTIVITY";
+	public static final String GAME_PICTURE_PUZZLE_ACTIVITY = "GAME_PICTURE_PUZZLE_ACTIVITY";
+	public static final String GAME_BUBBLE_ACTIVITY = "GAME_BUBBLE_ACTIVITY";
+	
 	private static final String DEBUG_TAG = "UserGuide______";
 	private TourGuide tutorialHandler;
 	private Activity activity;
 	private GuideComplete callback;
 	private ArrayList<View> views;
+	private Context context;
+	private static SharedPreferences preference = null;
+
+	private static final String SHARED_PREFERENCE_NAME = "jmmsr_user_guide_information";
+	private static final boolean ENABLE = true;
+	private static final boolean DISABLE = false;
+	
 	
 	public UserGuide(Activity activity, String title, String description, int gravity, Style style, String toolTipColor)
 	{
@@ -33,10 +53,43 @@ public class UserGuide
 		initTourGuide(title, description, gravity, style, toolTipColor);
 	}
 
-	/*private void isNeedUserGuide()
+	public static boolean isNeedUserGuide(Context context, String activityTag)
 	{
-		LoginInfo loginInfo = new LoginInfo(activity);
-	}*/
+		if (preference == null)
+			preference = context.getSharedPreferences(SHARED_PREFERENCE_NAME, PreferenceActivity.MODE_PRIVATE);
+		
+		return preference.getBoolean(activityTag, ENABLE);
+	}
+	
+	public static void disableUserGuide(String activityTag)
+	{
+		if (preference == null)
+		{
+			Log.e(DEBUG_TAG, "Context or preference is null.");
+			return;
+		}
+		
+		preference.edit().putBoolean(activityTag, DISABLE).commit();
+	}
+	
+	public static void enableAllUserGuides(boolean enable)
+	{
+		if (preference == null)
+		{
+			Log.e(DEBUG_TAG, "Context or preference is null.");
+			return;
+		}
+		
+		preference.edit().putBoolean(RECENT_DIALOG_ACTIVITY, enable).commit();
+		preference.edit().putBoolean(FRIENDLIST_ACTIVITY, enable).commit();
+		preference.edit().putBoolean(DIALOG_ACTIVITY, enable).commit();
+		preference.edit().putBoolean(FRIENDCIRCLE_ACTIVITY, enable).commit();
+		preference.edit().putBoolean(SHAKE_ACTIVITY, enable).commit();
+		preference.edit().putBoolean(MAP_ACTIVITY, enable).commit();
+		preference.edit().putBoolean(GAME_MUSIC_ACTIVITY, enable).commit();
+		preference.edit().putBoolean(GAME_PICTURE_PUZZLE_ACTIVITY, enable).commit();
+		preference.edit().putBoolean(GAME_BUBBLE_ACTIVITY, enable).commit();
+	}
 	
 	private void initTourGuide(String title, String description, int gravity, Style style, final String toolTipColor)
 	{
