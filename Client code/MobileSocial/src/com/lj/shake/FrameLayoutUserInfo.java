@@ -28,6 +28,21 @@ public class FrameLayoutUserInfo extends FrameLayout
 	private TextView gGameTypeTextView = null;
 	private TextView gBeginGameTextView = null;
 	
+	public View getNickNameView()
+	{
+		return gNickNameTextView;
+	}
+	
+	public View getGameTypeTextView()
+	{
+		return gGameTypeTextView;
+	}
+	
+	public View getBeginGameTextView()
+	{
+		return gBeginGameTextView;
+	}
+	
 	public FrameLayoutUserInfo(Context context) 
 	{
 		super(context); 

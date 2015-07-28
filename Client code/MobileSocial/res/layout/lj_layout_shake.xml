@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:id="@+id/lj_map_male_female_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"

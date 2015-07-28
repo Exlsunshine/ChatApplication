@@ -18,6 +18,9 @@ import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.lj.songpuzzle.ActivitySongPuzzle;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 
 
 import android.content.Intent;
@@ -184,6 +187,29 @@ public class shakeHandler extends Handler
 		}
 	}
 	
+	private UserGuide userGuide;
+	
+	private void setupUserGuide()
+	{
+		final FrameLayoutUserInfo userInfoView = myContext.userDataListView.getCenterView();
+		userGuide = new UserGuide(myContext, "用 户 信 息", "点击可确定位置，左右滑动查看下一用户", Gravity.TOP, Overlay.Style.Rectangle, "#33CC99");
+		userGuide.addAnotherGuideArea(userInfoView.getNickNameView(), userInfoView.getGameTypeTextView(), false, "解 密 游 戏", "该用户设定的解密类型", Gravity.TOP | Gravity.RIGHT, Gravity.CENTER, "#FF9900");
+		userGuide.addAnotherGuideArea(userInfoView.getGameTypeTextView(), myContext.findViewById(R.id.lj_map_male_female_layout), true, "性 别 筛 选", "显示指定性别的用户", Gravity.LEFT, Gravity.CENTER, "#FF9900");
+		userInfoView.getBeginGameTextView().setEnabled(false);
+		userGuide.beginWith(userInfoView.getNickNameView(), false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+		//		initListener();
+				myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
+				myContext.gMaleSelect.setOnClickListener(gSexClickListener);
+				userInfoView.getBeginGameTextView().setEnabled(true);
+				UserGuide.disableUserGuide(UserGuide.MAP_ACTIVITY);
+			}
+		});
+	}
+	
 	@Override
 	public void handleMessage(Message msg) 
 	{
@@ -218,12 +244,17 @@ public class shakeHandler extends Handler
 			myContext.gFemaleSelect.bringToFront();
 			myContext.gMaleSelect.bringToFront();
 			myContext.findViewById(R.id.lj_map_linear).bringToFront();
-			myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
-			myContext.gMaleSelect.setOnClickListener(gSexClickListener);
 			myContext.findViewById(R.id.lj_map_male_female_layout).bringToFront();
 			myContext.findViewById(R.id.lj_map_male_female_layout).setVisibility(View.VISIBLE);
 			locateUsers(gUserShakeDataList);
 			initUserShakeData();
+			if (UserGuide.isNeedUserGuide(myContext, UserGuide.MAP_ACTIVITY))
+    			setupUserGuide();
+    		else
+    		{
+    			myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
+				myContext.gMaleSelect.setOnClickListener(gSexClickListener);
+    		}
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_SHAKE_SENSOR:
 			myContext.sensorManager.unregisterListener(myContext.shakelistener);
