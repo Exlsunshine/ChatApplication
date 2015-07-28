@@ -17,6 +17,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -179,6 +180,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		@Override
 		public void eventOccured(final int id) 
 		{
+			Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			vibrator.vibrate(30);
 			mask.setVisibility(View.GONE);
 			new Handler().postDelayed(new Runnable() 
 			{
@@ -231,6 +234,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		friendListRb = (RadioButton) findViewById(R.id.main_activity_friend_list);
 		mask = (ImageView)findViewById(R.id.main_activity_mask);
 		
+		CenterControllMenuClickListener menuClickListener = new CenterControllMenuClickListener();
+		
 		centerControlMenuBasic = (SatelliteMenu)findViewById(R.id.lj_menu_basic);
 		centerControlMenuBasic.setMainImage(R.drawable.sat_main_style2);
 		centerControlMenuBasic.setMaskView(mask);
@@ -242,7 +247,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
         itemsBasic.add(new SatelliteMenuItem(MENU_PROFILE_INDEX, R.drawable.yg_main_profile_icon));
         itemsBasic.add(new SatelliteMenuItem(6, android.R.color.transparent));
         centerControlMenuBasic.addItems(itemsBasic);   
-        centerControlMenuBasic.setOnItemClickedListener(new CenterControllMenuClickListener());
+        centerControlMenuBasic.setOnItemClickedListener(menuClickListener);
         
 		centerControlMenuAdvanced = (SatelliteMenu)findViewById(R.id.lj_menu_advanced);
 		centerControlMenuAdvanced.setMainImage(R.drawable.sat_main_style2);
@@ -250,13 +255,13 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		List<SatelliteMenuItem> itemsAdvanced = new ArrayList<SatelliteMenuItem>();
 		itemsAdvanced.add(new SatelliteMenuItem(1, android.R.color.transparent));
 		itemsAdvanced.add(new SatelliteMenuItem(MENU_SHAKE_INDEX, R.drawable.yg_main_shake_icon));
-		itemsAdvanced.add(new SatelliteMenuItem(MENU_DRIFT_BOTTLE_INDEX, R.drawable.yg_main_drift_bottle_icon));
 		itemsAdvanced.add(new SatelliteMenuItem(MENU_VIDEO_CHAT_INDEX, R.drawable.yg_main_video_chat_icon));
+		itemsAdvanced.add(new SatelliteMenuItem(MENU_DRIFT_BOTTLE_INDEX, R.drawable.yg_main_drift_bottle_icon));
 		itemsAdvanced.add(new SatelliteMenuItem(MENU_PROFILE_INDEX, R.drawable.yg_main_profile_icon));
 		itemsAdvanced.add(new SatelliteMenuItem(6, android.R.color.transparent));
 		centerControlMenuAdvanced.addItems(itemsAdvanced);
-		centerControlMenuAdvanced.setOnItemClickedListener(new CenterControllMenuClickListener());
-	
+		centerControlMenuAdvanced.setOnItemClickedListener(menuClickListener);
+		
 		menuFakePosition = (ImageView) findViewById(R.id.lj_menu_fake_position);
 	}
 	

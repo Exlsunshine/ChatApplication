@@ -4,15 +4,15 @@
 
     <item
         android:drawable="@drawable/bottle_spray1"
-        android:duration="1000">
+        android:duration="300">
     </item>
     <item
         android:drawable="@drawable/bottle_spray2"
-        android:duration="1000">
+        android:duration="300">
     </item>
     <item
         android:drawable="@drawable/bottle_spray3"
-        android:duration="1000">
+        android:duration="400">
     </item>
-
+    
 </animation-list>

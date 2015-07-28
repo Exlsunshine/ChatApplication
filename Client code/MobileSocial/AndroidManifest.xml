@@ -124,7 +124,8 @@
         </activity>
         <activity android:name="com.tp.ui.ImageZoomInActivity" />
         <activity android:name="com.lj.shake.ActivityShake" />
-        <activity android:name="com.lj.settings.ActivitySettings"/>
+        <activity android:name="com.lj.settings.ActivitySettings"
+             android:theme="@style/lj_setting_theme"/>
         <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityAgeSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityHometownSetting" />
@@ -134,7 +135,6 @@
         <activity android:name="com.lj.bazingaball.ActivityBazingaBall" android:noHistory="true" />
         <activity android:name="com.lj.networktest.ActivityNetworkError" />
         <activity android:name="com.lj.translator.TranslatorActivity" />
-        <activity android:name="com.lj.driftbottle.ui.Driftbottle_setting"/>
         <activity android:name="com.lj.driftbottle.ui.MyBottle"/>
         <activity android:name="com.lj.driftbottle.ui.PickupBottle"/>
         <activity android:name="com.lj.driftbottle.ui.chuck_animation"/>

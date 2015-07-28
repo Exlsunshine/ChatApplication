@@ -32,9 +32,10 @@ public abstract class AbstractBottle
 	 * append new text
 	 * @param appendText appended text
 	 */
-	public void appentText(String appendText)
+	public void appentText(String appendText, int userID)
 	{
-		this.appendText = (appendText + "\n").replaceAll("\\r\\n", "<br>").replaceAll("\\n", "<br>");
+		appendText = "u" + userID + ":" + appendText;
+		this.appendText = appendText.replaceAll("\r\n", "").replaceAll("\n", "") + "<br>";
 	}
 	
 	/**
