@@ -55,6 +55,7 @@ public class IncomingCallFragment extends Fragment implements Serializable
 		
 		if (savedInstanceState == null) 
         {
+			Log.d(TAG, "savedInstanceState is null");
             view = inflater.inflate(R.layout.yg_video_chat_incoming_fragment, container, false);
 
             initUI(view);
@@ -156,9 +157,9 @@ public class IncomingCallFragment extends Fragment implements Serializable
 	@Override
     public void onCreate(Bundle savedInstanceState) 
     {
-        setRetainInstance(true);
         Log.d(TAG, "onCreate() from IncomeCallFragment");
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override

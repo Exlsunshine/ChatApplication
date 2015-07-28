@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.SmackException.NotConnectedException;
 import org.webrtc.VideoRenderer;
 
 import com.example.testmobiledatabase.R;
@@ -51,7 +52,7 @@ import android.widget.Toast;
 
 public class VideoChatActivity extends Activity 
 {
-	private static final String TAG = "______MainActivity";
+	private static final String TAG = "______VideoChatActivity";
 	private String appID = "25675";
 	private String authorization_key = "9kyHfRghBQqQXn8";
 	private String authorization_secret = "8LQaKC-3J6dYugK";
@@ -59,7 +60,7 @@ public class VideoChatActivity extends Activity
 //	private String password = "userAPassword";//"8d91144Z72"; 
 	private QBUser user;
 	private QBChatService chatService;
-	private static boolean isInited = false;
+	private boolean isInited = false;
 	
 	
 	public void loginAsUserA()
@@ -138,6 +139,7 @@ public class VideoChatActivity extends Activity
 		{
 		    QBChatService.init(VideoChatActivity.this);
 		    chatService = QBChatService.getInstance();
+		    Log.i(TAG, "Init chatService.");
 		}
 		 
 		chatService.login(user, new QBEntityCallbackImpl()
@@ -463,16 +465,33 @@ public class VideoChatActivity extends Activity
 		Log.d(TAG, "QBRTCSession in addIncomeCallFragment is " + session);
 		if (session != null) 
 		{
-			Fragment fragment = new IncomingCallFragment();
+			IncomingCallFragment fragment = new IncomingCallFragment();
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("sessionDescription", session.getSessionDescription());
 			bundle.putIntegerArrayList("opponents", new ArrayList<Integer>(session.getOpponents()));
 			bundle.putInt("conference_type", session.getConferenceType().getValue());
 			fragment.setArguments(bundle);
+			Log.d(TAG, "-----------------------1");
+			FragmentManager fm = getFragmentManager();
+			Log.d(TAG, "-----------------------2");
 			getFragmentManager().beginTransaction().replace(R.id.yg_activity_video_main_layout_fragment_container, fragment, INCOME_CALL_FRAGMENT).commit();
+			Log.d(TAG, "-----------------------3");
 		} 
 		else
 			Log.e(TAG, "SKIP addIncomeCallFragment method");
+		
+		/*
+		IncomingCallFragment incomeCallFragment = (IncomingCallFragment) getFragmentManager().findFragmentByTag(INCOME_CALL_FRAGMENT);
+		if (incomeCallFragment == null)
+		{
+			ConversationFragment conversationFragment = (ConversationFragment) getFragmentManager().findFragmentByTag(CONVERSATION_CALL_FRAGMENT);
+			if (conversationFragment != null)
+			{
+				disableConversationFragmentButtons();
+				stopConversationFragmentBeeps();
+				hangUpCurrentSession();
+			}
+		}*/
 	}
     private void processCurrentWifiState(Context context) 
 	{
@@ -598,6 +617,12 @@ public class VideoChatActivity extends Activity
 			initLayout();
 	}
 	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+	}
+	
 	private void changeToFullScreen()
 	{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -618,6 +643,17 @@ public class VideoChatActivity extends Activity
 	
 	public void exit()
 	{
+		try {
+			chatService.logout();
+			QBChatService.getInstance().destroy();
+		} catch (NotConnectedException e) {
+			e.printStackTrace();
+		}
+		
+		Fragment fragment = getFragmentManager().findFragmentByTag(INCOME_CALL_FRAGMENT);
+		if (fragment != null) 
+			getFragmentManager().beginTransaction().remove(fragment).commit();
+		
 		VideoChatActivity.this.finish();
 	}
 	

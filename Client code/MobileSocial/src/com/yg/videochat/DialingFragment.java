@@ -110,7 +110,7 @@ public class DialingFragment extends Fragment
 		});
 	}
 	
-	private static boolean isFirst = true;
+	private boolean isFirst = true;
 	
 	private void hangup()
 	{
