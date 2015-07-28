@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class IncomingCallFragment extends Fragment implements Serializable
 {
@@ -105,10 +106,18 @@ public class IncomingCallFragment extends Fragment implements Serializable
 			@Override
 			public void onClick(View v)
 			{
-				reject();
+				if (excecuteReject)
+					reject();
+				else
+				{
+					excecuteReject = true;
+					Toast.makeText(getActivity(), "再点击一次拒绝视频", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 	}
+	
+	private boolean excecuteReject = false;
 
 	private void reject()
 	{

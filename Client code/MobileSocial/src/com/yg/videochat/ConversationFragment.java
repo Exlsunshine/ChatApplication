@@ -2,10 +2,6 @@ package com.yg.videochat;
 
 import java.util.ArrayList;
 
-import com.example.testmobiledatabase.R;
-import com.quickblox.videochat.webrtc.QBRTCSession;
-import com.quickblox.videochat.webrtc.QBRTCTypes;
-
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,10 +17,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.testmobiledatabase.R;
+import com.quickblox.videochat.webrtc.QBRTCSession;
+import com.quickblox.videochat.webrtc.QBRTCTypes;
 
 public class ConversationFragment extends Fragment
 {
@@ -59,7 +58,6 @@ public class ConversationFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
 		view = inflater.inflate(R.layout.yg_video_chat_conversation_fragment, container, false);
-		
 		
 		Log.d(TAG, "Fragment. Thread id: " + Thread.currentThread().getId());
 		
@@ -145,12 +143,14 @@ public class ConversationFragment extends Fragment
 					isCameraEnable = false;
 					toggleCamera(false);
 					cameraState = CameraState.DISABLED_FROM_USER;
+					camera.setImageResource(R.drawable.yg_video_chat_conversation_videocam_off);
 				} 
 				else
 				{
 					isCameraEnable = true;
 					toggleCamera(true);
 					cameraState = CameraState.ENABLED_FROM_USER;
+					camera.setImageResource(R.drawable.yg_video_chat_conversation_videocam_on);
 				}
 			}
 		});
@@ -161,6 +161,12 @@ public class ConversationFragment extends Fragment
 			public void onClick(View v) 
 			{
 				isSpeakerEnable = !isSpeakerEnable;
+				
+				if (isSpeakerEnable)
+					speaker.setImageResource(R.drawable.yg_video_chat_conversation_speaker_on);
+				else
+					speaker.setImageResource(R.drawable.yg_video_chat_conversation_speaker_off);
+				
 				if (((VideoChatActivity) getActivity()).getCurrentSession() != null)
 				{
 					Log.d(TAG, "Dynamic switched!");
@@ -181,12 +187,14 @@ public class ConversationFragment extends Fragment
 						Log.d(TAG, "Mic is off!");
 						((VideoChatActivity) getActivity()).getCurrentSession().setAudioEnabled(false);
 						isMicEnable = false;
+						mic.setImageResource(R.drawable.yg_video_chat_conversation_mic_off);
 					} 
 					else
 					{
 						Log.d(TAG, "Mic is on!");
 						((VideoChatActivity) getActivity()).getCurrentSession().setAudioEnabled(true);
 						isMicEnable = true;
+						mic.setImageResource(R.drawable.yg_video_chat_conversation_mic_on);
 					}
 				}
 			}

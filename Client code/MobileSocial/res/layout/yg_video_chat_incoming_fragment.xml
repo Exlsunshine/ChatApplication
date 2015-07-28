@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="返回"
-                android:textColor="@android:color/white"
+                android:textColor="@color/yg_activity_video_chat_back_color_selector"
                 android:textSize="17sp" />
         </LinearLayout>
 
