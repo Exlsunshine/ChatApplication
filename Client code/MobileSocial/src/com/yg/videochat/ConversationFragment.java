@@ -18,9 +18,13 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ConversationFragment extends Fragment
 {
@@ -31,6 +35,7 @@ public class ConversationFragment extends Fragment
 	private ImageView speaker;
 	private ImageView camera;
 	private ImageView cameraSwitch;
+	private RelativeLayout back;
 	private boolean isMicEnable = true;
 	private boolean isCameraEnable = true;
 	private boolean isSpeakerEnable = true;
@@ -48,6 +53,7 @@ public class ConversationFragment extends Fragment
 	private CameraState cameraState = CameraState.NONE;
 	private AudioStreamReceiver audioStreamReceiver;
 	private int qbConferenceType;
+	private boolean excecuteHangup = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
@@ -102,7 +108,9 @@ public class ConversationFragment extends Fragment
 		userName = (TextView) view.findViewById(R.id.yg_activity_video_chat_conversation_name);
 		imgMyCameraOff = (ImageView) view.findViewById(R.id.yg_activity_video_chat_conversation_camera_off);
 		
-		actionButtonsEnabled(false);
+		back = (RelativeLayout) view.findViewById(R.id.yg_activity_video_chat_conversation_inner_actionbar);
+		
+		actionButtonsEnabled(true);
 	}
 	
 	private void setupListeners()
@@ -189,16 +197,36 @@ public class ConversationFragment extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				stopOutBeep();
-				actionButtonsEnabled(false);
-				hangup.setEnabled(false);
-				Log.d(TAG, "Call is stopped");
-
-				((VideoChatActivity) getActivity()).hangUpCurrentSession();
-				hangup.setEnabled(false);
-				hangup.setActivated(false);
+				hangup();
 			}
 		});
+		
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				if (excecuteHangup)
+					hangup();
+				else
+				{
+					excecuteHangup = true;
+					Toast.makeText(getActivity(), "再点击一次挂断视频聊天", Toast.LENGTH_LONG).show();
+				}
+			}
+		});
+	}
+	
+	private void hangup()
+	{
+		stopOutBeep();
+		actionButtonsEnabled(false);
+		hangup.setEnabled(false);
+		Log.d(TAG, "Call is stopped");
+
+		((VideoChatActivity) getActivity()).hangUpCurrentSession();
+		hangup.setEnabled(false);
+		hangup.setActivated(false);
 	}
 	
 	public void actionButtonsEnabled(boolean enability) 
