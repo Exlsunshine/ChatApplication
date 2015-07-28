@@ -103,7 +103,10 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		setupRecentDialogActionBar();
 		registerReceiver(broadcastReceiver, intentFilter());
 		
-		setupUserGuide();
+		if (UserGuide.isNeedUserGuide(MainActivity.this, UserGuide.RECENT_DIALOG_ACTIVITY))
+			setupUserGuide();
+		else
+			setupListener();
 	}
 	
 	private void setupUserGuide()
@@ -131,6 +134,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 				
 				recentDialogRb.setChecked(true);
 				setupListener();
+				
+				UserGuide.disableUserGuide(UserGuide.RECENT_DIALOG_ACTIVITY);
 			}
 		});
 	}
@@ -299,8 +304,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 				setMainMenuVisibility(false);
 				Log.w(DEBUG_TAG, "main_activity_friend_list");
 				
-
-				setupAdvancedButtonUserGuide();
+				if (UserGuide.isNeedUserGuide(MainActivity.this, UserGuide.FRIENDLIST_ACTIVITY))
+					setupAdvancedButtonUserGuide();
 				break; 
 			}  
 		}  
@@ -340,6 +345,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 				
 				centerControlMenuAdvanced.setUserGuideEnable(false);
 				centerControlMenuBasic.setUserGuideEnable(false);
+				
+				UserGuide.disableUserGuide(UserGuide.FRIENDLIST_ACTIVITY);
 			}
 		});
 	}

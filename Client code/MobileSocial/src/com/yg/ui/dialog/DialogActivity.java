@@ -188,6 +188,7 @@ public class DialogActivity extends Activity
 	private void setupUserGuide()
 	{
 		final LinearLayout centerFakePosition = (LinearLayout) findViewById(R.id.yg_dialog_activity_center_fake_position);
+		centerFakePosition.setVisibility(View.VISIBLE);
 		centerFakePosition.bringToFront();
 		userGuide = new UserGuide(this, "交 流 无 障 碍", "点击消息可将外语译成中文", Gravity.CENTER, Overlay.Style.Circle, "#33CC99");
 		userGuide.addAnotherGuideArea(centerFakePosition, voiceButton, false, "语 音 聊 天", "点击发送语音", Gravity.TOP | Gravity.RIGHT, Gravity.CENTER, "#FF9900");
@@ -203,6 +204,8 @@ public class DialogActivity extends Activity
 //				centerFakePosition.setEnabled(false);
 				centerFakePosition.setVisibility(View.GONE);
 				setupListeners();
+				
+				UserGuide.disableUserGuide(UserGuide.DIALOG_ACTIVITY);
 			}
 		});
 	}
@@ -246,8 +249,10 @@ public class DialogActivity extends Activity
 
 		initEmoji();
 		
-//		setupListeners();
-		setupUserGuide();
+		if (UserGuide.isNeedUserGuide(DialogActivity.this, UserGuide.DIALOG_ACTIVITY))
+			setupUserGuide();
+		else
+			setupListeners();
 	}
 	
 	private void setupListeners()
