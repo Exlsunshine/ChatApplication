@@ -131,8 +131,8 @@ public class SwitchButton extends CheckBox {
         mMaskWidth = mMask.getWidth();
         mMaskHeight = mMask.getHeight();
 
-        mBtnOffPos = mBtnWidth / 2 - 17;
-        mBtnOnPos = mMaskWidth - mBtnWidth / 2 + 17;
+        mBtnOffPos = mBtnWidth / 2;
+        mBtnOnPos = mMaskWidth - mBtnWidth / 2;
 
         mBtnPos = mChecked ? mBtnOnPos : mBtnOffPos;
         mRealPos = getRealPos(mBtnPos);
@@ -140,7 +140,7 @@ public class SwitchButton extends CheckBox {
         final float density = getResources().getDisplayMetrics().density;
         mVelocity = (int) (VELOCITY * density + 0.5f);
         mExtendOffsetY = (int) (EXTENDED_OFFSET_Y * density + 0.5f);
-
+ 
         mSaveLayerRectF = new RectF(0, mExtendOffsetY, mMask.getWidth(), mMask.getHeight()
                 + mExtendOffsetY);
         mXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
