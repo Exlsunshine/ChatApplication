@@ -202,6 +202,8 @@
                         android:layout_width="@dimen/lj_userinfo_item_width"
                         android:layout_height="@dimen/lj_userinfo_item_height"
                         android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/lj_blue"
                         android:text="再挑战"
                         android:textSize="@dimen/lj_userinfo_text_size" />
                 </LinearLayout>

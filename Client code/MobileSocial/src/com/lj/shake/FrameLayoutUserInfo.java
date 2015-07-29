@@ -28,6 +28,11 @@ public class FrameLayoutUserInfo extends FrameLayout
 	private TextView gGameTypeTextView = null;
 	private TextView gBeginGameTextView = null;
 	
+	public View getGuideView()
+	{
+		return findViewById(R.id.lj_shake_guide_view); 
+	}
+	
 	public View getNickNameView()
 	{
 		return gNickNameTextView;

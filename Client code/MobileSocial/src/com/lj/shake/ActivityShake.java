@@ -110,7 +110,7 @@ public class ActivityShake extends Activity
 	
 	private void setupUserGuide()
 	{
-		userGuide = new UserGuide(this, "“°“ª“°", "—∞’“≈Û”—", Gravity.CENTER, Overlay.Style.Circle, "#33CC99");
+		userGuide = new UserGuide(this, "’“ ≈Û ”—", "“°“ª“°", Gravity.CENTER, Overlay.Style.Circle, "#CC3399");
 		userGuide.beginWith(gShakeBall, true, new GuideComplete()
 		{
 			@Override
