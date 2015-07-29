@@ -10,6 +10,9 @@ import com.example.testmobiledatabase.R;
 import com.lj.setting.achievement.ThreadGameChallengFail;
 import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 import com.yg.user.WebServiceAPI;
 
 import android.annotation.SuppressLint;
@@ -65,6 +68,7 @@ public class ActivityBazingaBall extends Activity
 	
 	private int userID;
 	private int gRequestCode = 0;
+	private boolean guideFlag = true;
 	
 	private Handler myhandler = new Handler()
 	{
@@ -162,15 +166,23 @@ public class ActivityBazingaBall extends Activity
 				if (a.width > BUTTON_SIZE / 4)
 					return;
 			}
-			
-			for (int i = 0; i < buttonset.size(); i++)
+			if (guideFlag)
 			{
-				BazingaButton a = buttonset.get(i);
-				a.viewtype = BazingaButton.SWALLOW_VIEW;
+				if (UserGuide.isNeedUserGuide(ActivityBazingaBall.this, UserGuide.GAME_BUBBLE_ACTIVITY))
+					setupGameBeginGuide();
+	    		else
+	    		{
+					Toast.makeText(ActivityBazingaBall.this, "游戏开始", Toast.LENGTH_LONG).show();
+					gamebegin = 1;
+					gThreadUpdateScore.start();
+					for (int i = 0; i < buttonset.size(); i++)
+					{
+						BazingaButton a = buttonset.get(i);
+						a.viewtype = BazingaButton.SWALLOW_VIEW;
+					}
+	    		}
 			}
-			Toast.makeText(ActivityBazingaBall.this, "Game Begin", Toast.LENGTH_LONG).show();
-			gamebegin = 1;
-			gThreadUpdateScore.start();
+			guideFlag = false;
 		}
 		
 		private void gameMode()
@@ -238,6 +250,10 @@ public class ActivityBazingaBall extends Activity
 				reStart();
 				iniMode();
 				initScoreTextView();
+				if (UserGuide.isNeedUserGuide(ActivityBazingaBall.this, UserGuide.GAME_BUBBLE_ACTIVITY))
+					setupUserGuide();
+				else
+					buttonset.get(0).setOnTouchListener(ButtonTouchlistener);
 				new ThreadButtonMove(myhandler).start();
 				gThreadUpdateScore = new ThreadUpdateScore(myhandler);
 				break;
@@ -245,70 +261,73 @@ public class ActivityBazingaBall extends Activity
 		}}
 	};
 	
+	private void onTouchPerform(View v)
+	{
+		if (((BazingaButton)v).isAlive())
+		{
+			mainlayout.removeView(v);
+			buttonset.remove((BazingaButton)v);
+			v.setVisibility(View.GONE);
+			BazingaButton []btnarray = divBazingaButton((BazingaButton)v);
+			for (int i = 0; i < 4; i++)
+				mainlayout.addView(btnarray[i]);
+		}
+		else if (!((BazingaButton)v).isAlive() && gamebegin == 2)
+		{
+			if (gRequestCode != BAZINGABALL_REQUEST_CODE)
+			{
+				if (isWin)
+				{
+					Toast.makeText(ActivityBazingaBall.this, "挑战成功", Toast.LENGTH_SHORT).show();
+					Thread td = new Thread(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							ConstantValues.user.makeFriendWith(userID, ActivityBazingaBall.this);
+						}
+					});
+					td.start();
+					iniMode();
+					reStart();
+					setResult(ActivityShake.RESULT_CODE_FRIENDADD);
+					finish();
+				}
+				else
+				{
+					Toast.makeText(ActivityBazingaBall.this, "解密失败", Toast.LENGTH_LONG).show();
+					new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
+					gameFinish();
+				}
+			}
+			else
+			{
+				if (isWin)
+				{
+					int myScore = Integer.valueOf(myScoreTextView.getText().toString());
+					Intent intent = new Intent();
+					intent.putExtra("score", myScore);
+					setResult(BAZINGABALL_RESULT_CODE, intent);
+					gameFinish();
+				}
+				else
+				{
+					Intent intent = new Intent();
+					intent.putExtra("score", goalScore);
+					setResult(BAZINGABALL_RESULT_CODE, intent);
+					gameFinish();
+				}
+			}
+		}
+	}
+	
 	OnTouchListener ButtonTouchlistener = new OnTouchListener() 
 	{
 		@Override
 		public boolean onTouch(View v, MotionEvent event) 
 		{
 			if (event.getAction() == MotionEvent.ACTION_DOWN)
-			{
-				if (((BazingaButton)v).isAlive())
-				{
-					mainlayout.removeView(v);
-					buttonset.remove((BazingaButton)v);
-					v.setVisibility(View.GONE);
-					BazingaButton []btnarray = divBazingaButton((BazingaButton)v);
-					for (int i = 0; i < 4; i++)
-						mainlayout.addView(btnarray[i]);
-				}
-				else if (!((BazingaButton)v).isAlive() && gamebegin == 2)
-				{
-					if (gRequestCode != BAZINGABALL_REQUEST_CODE)
-					{
-						if (isWin)
-						{
-							Toast.makeText(ActivityBazingaBall.this, "挑战成功", Toast.LENGTH_SHORT).show();
-							Thread td = new Thread(new Runnable()
-							{
-								@Override
-								public void run()
-								{
-									ConstantValues.user.makeFriendWith(userID, ActivityBazingaBall.this);
-								}
-							});
-							td.start();
-							iniMode();
-							reStart();
-							setResult(ActivityShake.RESULT_CODE_FRIENDADD);
-							finish();
-						}
-						else
-						{
-							Toast.makeText(ActivityBazingaBall.this, "解密失败", Toast.LENGTH_LONG).show();
-							new ThreadGameChallengFail(ConstantValues.user.getID(), userID).start();
-							gameFinish();
-						}
-					}
-					else
-					{
-						if (isWin)
-						{
-							int myScore = Integer.valueOf(myScoreTextView.getText().toString());
-							Intent intent = new Intent();
-							intent.putExtra("score", myScore);
-							setResult(BAZINGABALL_RESULT_CODE, intent);
-							gameFinish();
-						}
-						else
-						{
-							Intent intent = new Intent();
-							intent.putExtra("score", goalScore);
-							setResult(BAZINGABALL_RESULT_CODE, intent);
-							gameFinish();
-						}
-					}
-				}
-			}
+				onTouchPerform(v);
 			return true;
 		}
 	};
@@ -354,7 +373,6 @@ public class ActivityBazingaBall extends Activity
 		int picture = random.nextInt(4);
 		BazingaButton btn = new BazingaButton(ActivityBazingaBall.this, lp, 0, 0, phoneWidth,phoneHeight, BazingaButton.NONE,PICTURE[picture]);
 		mainlayout.addView(btn);
-		btn.setOnTouchListener(ButtonTouchlistener);
 		buttonset.add(btn);
 	}
 	 
@@ -410,11 +428,72 @@ public class ActivityBazingaBall extends Activity
 		mainlayout = new RelativeLayout(this);
 		mainlayout.setBackgroundColor(Color.BLACK);
 		setContentView(mainlayout);
+	//	setContentView(R.layout.lj_bazingaball_layout);
+//		mainlayout = (RelativeLayout) findViewById(R.id.lj_bazingaball_layout);
 		init();
 		Intent intent = getIntent();
 //		goalScore = intent.getIntExtra("goalScore", 50);
 		gRequestCode = intent.getIntExtra("requestCode", 0);
 		userID = intent.getIntExtra("userID", 0);
+	}
+	
+	private TextView guideView;
+	
+	private UserGuide userGuide;
+	
+	private void setupGameBeginGuide()
+	{
+		guideView.setVisibility(View.VISIBLE);
+		userGuide = new UserGuide(this, "游戏开始", "当没有大球存在时游戏开始。小球碰撞可互相融合，超过一定体积时，不再具备融合能力且无法点击分裂。场面上同时存在两个这样的球时，游戏结束。", Gravity.CENTER, Overlay.Style.Circle, "#990066");
+		userGuide.addAnotherGuideArea(guideView, myScoreTextView, false, "分数栏", "您的得分", Gravity.RIGHT, Gravity.CENTER, "#990066");
+		userGuide.addAnotherGuideArea(myScoreTextView, goalSocreTextView, true, "获胜条件", "您必须超越此分数", Gravity.LEFT, Gravity.CENTER, "#990066");
+		userGuide.beginWith(guideView, false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+				guideView.setVisibility(View.GONE);
+				Toast.makeText(ActivityBazingaBall.this, "游戏开始", Toast.LENGTH_LONG).show();
+				gamebegin = 1;
+				gThreadUpdateScore.start();
+				for (int i = 0; i < buttonset.size(); i++)
+				{
+					BazingaButton a = buttonset.get(i);
+					a.viewtype = BazingaButton.SWALLOW_VIEW;
+				}
+				UserGuide.disableUserGuide(UserGuide.GAME_BUBBLE_ACTIVITY);
+			}
+		});
+	}
+	
+	private void setupUserGuide()
+	{
+		guideView = new TextView(getApplicationContext());
+		guideView.setText("游戏说明");
+		guideView.setTextSize(30);
+		guideView.setTextColor(Color.WHITE);
+		LayoutParams guideLayout = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		guideLayout.topMargin = 100;
+		guideLayout.addRule(RelativeLayout.ALIGN_PARENT_TOP);  
+		guideLayout.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE); 
+		guideView.setLayoutParams(guideLayout);
+		mainlayout.addView(guideView);
+		guideView.setVisibility(View.GONE);
+		userGuide = new UserGuide(this, "分裂小球", "点击屏幕中心小球使之分裂", Gravity.CENTER, Overlay.Style.Circle, "#990066");
+//		userGuide.addAnotherGuideArea(recorderLayout.getLeftBox(), charView[0], false, "选项栏", "点击选择歌曲名", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF9900");
+//		userGuide.addAnotherGuideArea(charView[0], gBlankView[0], false, "您的答案", "点击可修改", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF9900");
+//		userGuide.addAnotherGuideArea(gBlankView[0], recorderLayout.getRightBox(), true, "下一首", "点击显示正误并跳至下一题", Gravity.TOP | Gravity.RIGHT, Gravity.CENTER, "#FF9900");
+		userGuide.beginWith(buttonset.get(0), true, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+			//	UserGuide.disableUserGuide(UserGuide.GAME_MUSIC_ACTIVITY);
+				buttonset.get(0).setOnTouchListener(ButtonTouchlistener);
+				onTouchPerform(buttonset.get(0));
+				Toast.makeText(getApplicationContext(), "请继续戳破四个大气球", Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	@Override
@@ -425,7 +504,6 @@ public class ActivityBazingaBall extends Activity
 		{
 			flag = false;
 			phoneWidth = mainlayout.getMeasuredWidth();
-			Log.e("sss", phoneWidth + "");
 			phoneHeight = mainlayout.getMeasuredHeight();
 			BUTTON_SIZE = (int) (phoneWidth * 0.463);
 			initMoleScore();

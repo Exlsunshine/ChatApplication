@@ -35,6 +35,7 @@
         android:id="@+id/layout"
         android:layout_width="400dp"
         android:layout_height="400dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal" >
     </com.lj.songpuzzle.FrameLayoutRecorder>
 

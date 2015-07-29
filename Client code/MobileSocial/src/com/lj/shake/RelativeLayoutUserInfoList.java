@@ -44,6 +44,11 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 	
 	private Handler gHandler;
 	
+	public FrameLayoutUserInfo getCenterView()
+	{
+		return gUserInfoViewCenter;
+	}
+	
 	private AnimationListener viewTranslateFalseListener = new AnimationListener() 
 	{
 		@Override

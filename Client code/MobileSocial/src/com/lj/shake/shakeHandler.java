@@ -18,6 +18,9 @@ import com.lj.eightpuzzle.ActivityEightPuzzleGame;
 import com.lj.songpuzzle.ActivitySongPuzzle;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 
 
 import android.content.Intent;
@@ -184,6 +187,36 @@ public class shakeHandler extends Handler
 		}
 	}
 	
+	private UserGuide userGuide;
+	
+	private void setupUserGuide()
+	{
+		final FrameLayoutUserInfo userInfoView = myContext.userDataListView.getCenterView();
+		final View view = userInfoView.getGuideView();
+		view.setVisibility(View.VISIBLE);
+		userGuide = new UserGuide(myContext, "性 别", "筛选帅哥或美女", Gravity.LEFT, Overlay.Style.Circle, "#33CC99");
+		userGuide.addAnotherGuideArea(myContext.findViewById(R.id.lj_map_male_female_layout), userInfoView.getNickNameView(), false, "临 近 用 户", "滑动查看其他用户信息", Gravity.TOP , Gravity.CENTER, "#FF9900");
+		userGuide.addAnotherGuideArea(userInfoView.getNickNameView(), userInfoView.getGameTypeTextView(), false, "解 密 游 戏", "对方设置的游戏类型", Gravity.TOP | Gravity.RIGHT, Gravity.CENTER, "#1E90FF");
+		userGuide.addAnotherGuideArea(userInfoView.getGameTypeTextView(), view, true, "GO!", "开启探索之旅", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF6666");
+//		userGuide = new UserGuide(myContext, "临 近 好 友", "左右滑动查看用户信息", Gravity.TOP, Overlay.Style.Circle, "#33CC99");
+//		userGuide.addAnotherGuideArea(userInfoView.getNickNameView(), userInfoView.getGameTypeTextView(), false, "解 密 游 戏", "游戏类型", Gravity.TOP | Gravity.RIGHT, Gravity.CENTER, "#FF9900");
+//		userGuide.addAnotherGuideArea(userInfoView.getGameTypeTextView(), myContext.findViewById(R.id.lj_map_male_female_layout), true, "性 别 筛 选", "显示指定性别的用户", Gravity.LEFT, Gravity.CENTER, "#FF9900");
+		userInfoView.getBeginGameTextView().setEnabled(false);
+		userGuide.beginWith(myContext.findViewById(R.id.lj_map_male_female_layout), false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+		//		initListener();
+				view.setVisibility(View.GONE);
+				myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
+				myContext.gMaleSelect.setOnClickListener(gSexClickListener);
+				userInfoView.getBeginGameTextView().setEnabled(true);
+				UserGuide.disableUserGuide(UserGuide.MAP_ACTIVITY);
+			}
+		});
+	}
+	
 	@Override
 	public void handleMessage(Message msg) 
 	{
@@ -218,12 +251,17 @@ public class shakeHandler extends Handler
 			myContext.gFemaleSelect.bringToFront();
 			myContext.gMaleSelect.bringToFront();
 			myContext.findViewById(R.id.lj_map_linear).bringToFront();
-			myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
-			myContext.gMaleSelect.setOnClickListener(gSexClickListener);
 			myContext.findViewById(R.id.lj_map_male_female_layout).bringToFront();
 			myContext.findViewById(R.id.lj_map_male_female_layout).setVisibility(View.VISIBLE);
 			locateUsers(gUserShakeDataList);
 			initUserShakeData();
+			if (UserGuide.isNeedUserGuide(myContext, UserGuide.MAP_ACTIVITY))
+    			setupUserGuide();
+    		else
+    		{
+    			myContext.gFemaleSelect.setOnClickListener(gSexClickListener);
+				myContext.gMaleSelect.setOnClickListener(gSexClickListener);
+    		}
 			break;
 		case ConstantValues.InstructionCode.SHAKE_HANDLER_SHAKE_SENSOR:
 			myContext.sensorManager.unregisterListener(myContext.shakelistener);
