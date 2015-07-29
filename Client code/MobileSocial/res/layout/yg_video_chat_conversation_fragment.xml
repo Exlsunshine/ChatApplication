@@ -117,7 +117,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
-            android:src="@drawable/yg_video_chat_incoming_deny_normal" />
+            android:src="@color/yg_video_chat_deny_button_selector" />
     </RelativeLayout>
 
 </FrameLayout>

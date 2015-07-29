@@ -52,7 +52,8 @@ public class ConversationFragment extends Fragment
 	private CameraState cameraState = CameraState.NONE;
 	private AudioStreamReceiver audioStreamReceiver;
 	private int qbConferenceType;
-	private boolean excecuteHangup = false;
+	private boolean excecuteHangupFromBackPressed = false;
+	private boolean excecuteHangupFromDenyPressed = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
@@ -205,7 +206,13 @@ public class ConversationFragment extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				hangup();
+				if (excecuteHangupFromDenyPressed)
+					hangup();
+				else
+				{
+					excecuteHangupFromDenyPressed = true;
+					Toast.makeText(getActivity(), "再点击一次挂断视频聊天", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 		
@@ -214,11 +221,11 @@ public class ConversationFragment extends Fragment
 			@Override
 			public void onClick(View v) 
 			{
-				if (excecuteHangup)
+				if (excecuteHangupFromBackPressed)
 					hangup();
 				else
 				{
-					excecuteHangup = true;
+					excecuteHangupFromBackPressed = true;
 					Toast.makeText(getActivity(), "再点击一次挂断视频聊天", Toast.LENGTH_LONG).show();
 				}
 			}
