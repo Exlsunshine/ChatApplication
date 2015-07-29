@@ -80,6 +80,16 @@ public class FrameLayoutRecorder extends RelativeLayout
 		gLeftBox.setOnTouchListener(listener);
 		gRightBox.setOnTouchListener(listener);
 	}
+	
+	public View getLeftBox()
+	{
+		return gLeftBox;
+	}
+	
+	public View getRightBox()
+	{
+		return gRightBox;
+	}
 	 
 	public void initLayout(int width)
 	{
