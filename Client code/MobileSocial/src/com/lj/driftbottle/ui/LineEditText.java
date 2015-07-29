@@ -20,6 +20,8 @@ public class LineEditText extends EditText
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setColor(Color.GRAY);
 		paint.setAntiAlias(true);
+		setText("\n\n\n");
+		
 	}
 
 	@Override

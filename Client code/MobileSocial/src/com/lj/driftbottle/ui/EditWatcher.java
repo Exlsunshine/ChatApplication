@@ -54,7 +54,7 @@ public class EditWatcher implements TextWatcher
 	public void afterTextChanged(Editable arg0) 
 	{
 		
-		int textLength = editText.getText().toString().length();
+		int textLength = editText.getText().toString().replace("\n", "").length();
 		if (length == textLength)
 			return;
 		length = textLength;
