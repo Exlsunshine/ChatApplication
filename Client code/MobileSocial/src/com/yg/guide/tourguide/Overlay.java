@@ -17,7 +17,7 @@ public class Overlay {
 	}
 
 	public Overlay() {
-		this(true, Color.parseColor("#55000000"), Style.Circle);
+		this(true, Color.parseColor("#88000000"), Style.Circle);
 	}
 
 	public Overlay(boolean disableClick, int backgroundColor, Style style) {
