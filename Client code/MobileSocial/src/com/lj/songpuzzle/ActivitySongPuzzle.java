@@ -80,9 +80,9 @@ public class ActivitySongPuzzle extends Activity {
 	private void setupUserGuide()
 	{
 		userGuide = new UserGuide(this, "播放", "点击播放音乐", Gravity.CENTER, Overlay.Style.Circle, "#33CC99");
-		userGuide.addAnotherGuideArea(recorderLayout.getLeftBox(), charView[0], false, "选项栏", "点击选择歌曲名", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF9900");
+		userGuide.addAnotherGuideArea(recorderLayout.getLeftBox(), charView[0], false, "选项栏", "点击选择歌曲名", Gravity.TOP, Gravity.CENTER, "#FF9900");
 		userGuide.addAnotherGuideArea(charView[0], gBlankView[0], false, "您的答案", "点击可修改", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF9900");
-		userGuide.addAnotherGuideArea(gBlankView[0], recorderLayout.getRightBox(), true, "下一首", "点击显示正误并跳至下一题", Gravity.TOP | Gravity.RIGHT, Gravity.CENTER, "#FF9900");
+		userGuide.addAnotherGuideArea(gBlankView[0], recorderLayout.getRightBox(), true, "下一首", "点击显示正误并跳至下一题", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF9900");
 		userGuide.beginWith(recorderLayout.getLeftBox(), false, new GuideComplete()
 		{
 			@Override

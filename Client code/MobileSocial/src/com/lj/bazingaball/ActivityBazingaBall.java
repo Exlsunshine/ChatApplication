@@ -10,6 +10,9 @@ import com.example.testmobiledatabase.R;
 import com.lj.setting.achievement.ThreadGameChallengFail;
 import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 import com.yg.user.WebServiceAPI;
 
 import android.annotation.SuppressLint;
@@ -65,6 +68,7 @@ public class ActivityBazingaBall extends Activity
 	
 	private int userID;
 	private int gRequestCode = 0;
+	private boolean guideFlag = true;
 	
 	private Handler myhandler = new Handler()
 	{
@@ -162,15 +166,23 @@ public class ActivityBazingaBall extends Activity
 				if (a.width > BUTTON_SIZE / 4)
 					return;
 			}
-			
-			for (int i = 0; i < buttonset.size(); i++)
+			if (guideFlag)
 			{
-				BazingaButton a = buttonset.get(i);
-				a.viewtype = BazingaButton.SWALLOW_VIEW;
+				if (UserGuide.isNeedUserGuide(ActivityBazingaBall.this, UserGuide.GAME_BUBBLE_ACTIVITY))
+					setupGameBeginGuide();
+	    		else
+	    		{
+					Toast.makeText(ActivityBazingaBall.this, "游戏开始", Toast.LENGTH_LONG).show();
+					gamebegin = 1;
+					gThreadUpdateScore.start();
+					for (int i = 0; i < buttonset.size(); i++)
+					{
+						BazingaButton a = buttonset.get(i);
+						a.viewtype = BazingaButton.SWALLOW_VIEW;
+					}
+	    		}
 			}
-			Toast.makeText(ActivityBazingaBall.this, "Game Begin", Toast.LENGTH_LONG).show();
-			gamebegin = 1;
-			gThreadUpdateScore.start();
+			guideFlag = false;
 		}
 		
 		private void gameMode()
@@ -238,6 +250,8 @@ public class ActivityBazingaBall extends Activity
 				reStart();
 				iniMode();
 				initScoreTextView();
+				if (UserGuide.isNeedUserGuide(ActivityBazingaBall.this, UserGuide.GAME_BUBBLE_ACTIVITY))
+					setupUserGuide();
 				new ThreadButtonMove(myhandler).start();
 				gThreadUpdateScore = new ThreadUpdateScore(myhandler);
 				break;
@@ -410,11 +424,67 @@ public class ActivityBazingaBall extends Activity
 		mainlayout = new RelativeLayout(this);
 		mainlayout.setBackgroundColor(Color.BLACK);
 		setContentView(mainlayout);
+	//	setContentView(R.layout.lj_bazingaball_layout);
+//		mainlayout = (RelativeLayout) findViewById(R.id.lj_bazingaball_layout);
 		init();
 		Intent intent = getIntent();
 //		goalScore = intent.getIntExtra("goalScore", 50);
 		gRequestCode = intent.getIntExtra("requestCode", 0);
 		userID = intent.getIntExtra("userID", 0);
+	}
+	
+	private TextView guideView;
+	
+	private UserGuide userGuide;
+	
+	private void setupGameBeginGuide()
+	{
+		userGuide = new UserGuide(this, "游戏开始", "当没有大球存在时游戏开始。小球获得融合能力。互相碰撞产生融合。融合到一定面积时，变异成坏死小球。坏死小球不具备融合能力。但场面上同时存在两个坏死小球时，游戏结束。", Gravity.CENTER, Overlay.Style.Circle, "#33CC99");
+		userGuide.addAnotherGuideArea(guideView, myScoreTextView, false, "分数栏", "您的分数", Gravity.RIGHT, Gravity.CENTER, "#FF9900");
+		userGuide.addAnotherGuideArea(myScoreTextView, goalSocreTextView, true, "分数栏", "挑战目标的分数", Gravity.LEFT, Gravity.CENTER, "#FF9900");
+		userGuide.beginWith(guideView, false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+				guideView.setVisibility(View.GONE);
+				Toast.makeText(ActivityBazingaBall.this, "游戏开始", Toast.LENGTH_LONG).show();
+				gamebegin = 1;
+				gThreadUpdateScore.start();
+				for (int i = 0; i < buttonset.size(); i++)
+				{
+					BazingaButton a = buttonset.get(i);
+					a.viewtype = BazingaButton.SWALLOW_VIEW;
+				}
+				UserGuide.disableUserGuide(UserGuide.GAME_BUBBLE_ACTIVITY);
+			}
+		});
+	}
+	
+	private void setupUserGuide()
+	{
+		guideView = new TextView(getApplicationContext());
+		guideView.setText("游戏说明");
+		guideView.setTextSize(30);
+		guideView.setTextColor(Color.WHITE);
+		LayoutParams guideLayout = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		guideLayout.topMargin = 100;
+		guideLayout.addRule(RelativeLayout.ALIGN_PARENT_TOP);  
+		guideLayout.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE); 
+		guideView.setLayoutParams(guideLayout);
+		mainlayout.addView(guideView);
+		userGuide = new UserGuide(this, "分裂小球", "点击屏幕中心小球使之分裂", Gravity.CENTER, Overlay.Style.Circle, "#33CC99");
+//		userGuide.addAnotherGuideArea(recorderLayout.getLeftBox(), charView[0], false, "选项栏", "点击选择歌曲名", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF9900");
+//		userGuide.addAnotherGuideArea(charView[0], gBlankView[0], false, "您的答案", "点击可修改", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF9900");
+//		userGuide.addAnotherGuideArea(gBlankView[0], recorderLayout.getRightBox(), true, "下一首", "点击显示正误并跳至下一题", Gravity.TOP | Gravity.RIGHT, Gravity.CENTER, "#FF9900");
+		userGuide.beginWith(guideView, true, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+			//	UserGuide.disableUserGuide(UserGuide.GAME_MUSIC_ACTIVITY);
+			}
+		});
 	}
 
 	@Override
@@ -425,7 +495,6 @@ public class ActivityBazingaBall extends Activity
 		{
 			flag = false;
 			phoneWidth = mainlayout.getMeasuredWidth();
-			Log.e("sss", phoneWidth + "");
 			phoneHeight = mainlayout.getMeasuredHeight();
 			BUTTON_SIZE = (int) (phoneWidth * 0.463);
 			initMoleScore();

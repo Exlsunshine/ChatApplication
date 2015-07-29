@@ -18,7 +18,6 @@ public class ThreadUpdateScore extends Thread
 		gHandler = handler;
 		myScore = 0;
 		gAlive = true;
-		Log.e("sssssssssssssssssssssssssssssssssss", "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
 	}
 	
 	@Override
