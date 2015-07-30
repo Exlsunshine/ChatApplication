@@ -87,8 +87,8 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	{
     	fakeButton.setVisibility(View.VISIBLE);
     	fakeButton.bringToFront();
-		userGuide = new UserGuide(this, "发 送", "匿名发送新鲜事", Gravity.CENTER, Overlay.Style.Circle, "#33CC99");
-		userGuide.addAnotherGuideArea(send, fakeButton, true, "我 的 分 享", "点击查看自己的新鲜事", Gravity.BOTTOM, Gravity.CENTER, "#FF9900");
+		userGuide = new UserGuide(this, "匿 名", "发送新鲜事", Gravity.BOTTOM | Gravity.LEFT, Overlay.Style.Circle, "#FF9900");
+		userGuide.addAnotherGuideArea(send, fakeButton, true, "我 的 分 享", "点击查看自己的新鲜事", Gravity.BOTTOM, Gravity.CENTER, "#1E90FF");
 		userGuide.beginWith(send, false, new GuideComplete()
 		{
 			@Override
