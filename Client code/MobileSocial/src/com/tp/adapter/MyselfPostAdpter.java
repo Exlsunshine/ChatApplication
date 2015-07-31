@@ -156,7 +156,9 @@ public class MyselfPostAdpter extends BaseAdapter
 							}
 						}
 					});
-                   
+                    View divider = view.findViewById(R.id.tp_feed_comments_comment_divider);
+                    View divider1 = view.findViewById(R.id.tp_feed_comments_comment_divider1);
+                    View divider2 = view.findViewById(R.id.tp_feed_comments_comment_divider2);
                     TextView comment1 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body);
                     TextView comment2 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body1);
                     TextView comment3 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body2);
@@ -195,6 +197,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     	RL.setVisibility(View.GONE);
                     	feedComments2.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider.setVisibility(View.INVISIBLE);
                     	break;
                     case 2:
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -220,6 +223,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider1.setVisibility(View.INVISIBLE);
                     	break;
                     case 3:
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -257,6 +261,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -293,6 +298,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	commentsEllipsisText.setText("查看全部评论(" + size + ')');
                     	RL.setVisibility(View.VISIBLE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     }
                     contentLayout.addView(view);
                 }
@@ -300,6 +306,9 @@ public class MyselfPostAdpter extends BaseAdapter
                 else if (post.getPostType() == 2) 
                 {
                     View view = LayoutInflater.from(context).inflate(R.layout.tp_moment_photo_partial,null);
+                    View divider = view.findViewById(R.id.tp_feed_comments_comment_divider);
+                    View divider1 = view.findViewById(R.id.tp_feed_comments_comment_divider1);
+                    View divider2 = view.findViewById(R.id.tp_feed_comments_comment_divider2);
                     TextView comment1 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body);
                     TextView comment2 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body1);
                     TextView comment3 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body2);
@@ -452,6 +461,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     	RL.setVisibility(View.GONE);
                     	feedComments2.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider.setVisibility(View.INVISIBLE);
                     	break;
                     case 2:
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -477,6 +487,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider1.setVisibility(View.INVISIBLE);
                     	break;
                     case 3:
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -512,6 +523,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -548,6 +560,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	commentsEllipsisText.setText("查看全部评论(" + size + ')');
                     	RL.setVisibility(View.VISIBLE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     }
                     contentLayout.addView(view);
                 }
