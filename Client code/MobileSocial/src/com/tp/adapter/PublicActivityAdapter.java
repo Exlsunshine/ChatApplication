@@ -1,6 +1,7 @@
 
 package com.tp.adapter;
 
+import java.io.File;
 import java.util.List;
 
 import com.example.testmobiledatabase.R;
@@ -10,20 +11,15 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
 import com.tp.ui.ImageZoomInActivity;
-import com.tp.ui.PublicActivity;
 import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
-import com.yg.image.preview.ImagePreviewManager;
 import com.yg.ui.dialog.implementation.DateUtil;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class PublicActivityAdapter extends BaseAdapter 
@@ -56,6 +51,7 @@ public class PublicActivityAdapter extends BaseAdapter
 				context).diskCacheExtraOptions(480, 800, null)
 				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
 				.build();// 开始构建
+				
 		imageLoader.init(config);
     }
 
@@ -375,17 +371,22 @@ public class PublicActivityAdapter extends BaseAdapter
 								.cacheInMemory(true).cacheOnDisk(true)
 								.bitmapConfig(Bitmap.Config.RGB_565).build();
 						imageLoader.displayImage(ip.getImageURL(), photoView, options);
+						String path = imageLoader.getInstance().getDiscCache().get(ip.getImageURL()).getAbsolutePath();
+						ip.setImagePath(path);
 					} 
 					else 
 					{
 						DisplayImageOptions options = new DisplayImageOptions.Builder()
-								.showImageOnLoading(R.drawable.tp_loading_picture)
-								.showImageOnFail(R.drawable.tp_loading_failed)
-								.cacheInMemory(true).cacheOnDisk(true)
-								.bitmapConfig(Bitmap.Config.RGB_565).build();
-						imageLoader.displayImage("file://" + ip.getImagePath(), photoView, options);
+						.showImageOnLoading(R.drawable.tp_loading_picture)
+						.showImageOnFail(R.drawable.tp_loading_failed)
+						.cacheInMemory(true).cacheOnDisk(true)
+						.bitmapConfig(Bitmap.Config.RGB_565).build();
+						File imageFile = new File(ip.getImagePath());
+						if (imageFile.exists())
+							imageLoader.displayImage("file://" + ip.getImagePath(), photoView, options);
+						else
+							imageLoader.displayImage(ip.getImageURL(), photoView, options);
 					}
-                    
                     /*GetImageTask task = new GetImageTask(photoView, ip);
                     task.execute(0);*/
                      

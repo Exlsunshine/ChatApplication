@@ -194,7 +194,10 @@ public class ImagePost extends AbstractPost
 		return this.imgUrl;
 	}
 	
-
+	public void setImagePath(String path)
+	{
+		this.imgPath = path;
+	}
 	/**
 	 * ÉèÖÃ{@link #publish()}·µ»ØµÄcommentID
 	 */
