@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^column$', 'Display.views.column'),
     url(r'^line$', 'Display.views.line'),
     url(r'^skip$', 'Display.views.skip'),
-    url(r'^s$', 'Display.views.home'),
+    url(r'^$', 'Display.views.home'),
 ]
