@@ -13,7 +13,7 @@ def skip(request):
 
 
 def home(request):
-    response =  render(request, "index.html")
+    response =  render(request, "home.html")
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
