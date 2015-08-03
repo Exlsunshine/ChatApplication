@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.SmackException.NotConnectedException;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.webrtc.VideoRenderer;
 
 import com.example.testmobiledatabase.R;
@@ -32,6 +34,7 @@ import com.quickblox.videochat.webrtc.callbacks.QBRTCClientVideoTracksCallbacks;
 import com.quickblox.videochat.webrtc.view.QBGLVideoView;
 import com.quickblox.videochat.webrtc.view.QBRTCVideoTrack;
 import com.quickblox.videochat.webrtc.view.VideoCallBacks;
+import com.yg.user.WebServiceAPI;
 
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -56,13 +59,13 @@ public class VideoChatActivity extends Activity
 	private String appID = "25675";
 	private String authorization_key = "9kyHfRghBQqQXn8";
 	private String authorization_secret = "8LQaKC-3J6dYugK";
-//	private String login = "userA";//"jmmsrbjut2";
-//	private String password = "userAPassword";//"8d91144Z72"; 
+	private String login = "userA";//"jmmsrbjut2";
+	private String password = "userAPassword";//"8d91144Z72"; 
 	private QBUser user;
 	private QBChatService chatService;
 	private boolean isInited = false;
 	
-	
+	/*
 	public void loginAsUserA()
 	{
 		login("userA", "userAPassword");
@@ -72,7 +75,7 @@ public class VideoChatActivity extends Activity
 	{
 		login("userB", "userBPassword");
 	}
-	
+	*/
 	private void initFramework()
 	{
 		if (isInited)
@@ -86,8 +89,16 @@ public class VideoChatActivity extends Activity
 		QBSettings.getInstance().fastConfigInit(appID, authorization_key, authorization_secret);
 	}
 	
-	public void login(final String login, final String password)
+	private LoginFeedbackListener callback;
+	public static final int LOGIN_ERROR = 0x01;
+	public static final int LOGIN_SUCCESS = 0x02;
+	
+	public void login(final String login, final String password, LoginFeedbackListener callback)
 	{
+		this.login = login;
+		this.password = password;
+		this.callback = callback;
+		
 		initFramework();
 		
 		user = new QBUser(login, password);
@@ -113,6 +124,7 @@ public class VideoChatActivity extends Activity
 		    	    public void onError(List<String> errors)
 		    	    {
 		    	    	updateMessage("Failed to signIn.");
+				    	VideoChatActivity.this.callback.onGotLoginFeedback(LOGIN_ERROR);
 		    	    }
 		    	});
 		    }
@@ -121,6 +133,7 @@ public class VideoChatActivity extends Activity
 		    public void onError(List<String> errors) 
 		    {
 		    	updateMessage("Failed to createSession.");
+		    	VideoChatActivity.this.callback.onGotLoginFeedback(LOGIN_ERROR);
 		    }
 		});
 	}
@@ -128,7 +141,7 @@ public class VideoChatActivity extends Activity
 	private void updateMessage(String text)
 	{
 		Log.i(TAG, text);
-		Toast.makeText(VideoChatActivity.this, text, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(VideoChatActivity.this, text, Toast.LENGTH_SHORT).show();
 	}
 	
 	/*@Override
@@ -170,6 +183,7 @@ public class VideoChatActivity extends Activity
     		addConnectionCallbacksListener();*/
     		 
     		QBRTCClient.getInstance().prepareToProcessCalls(VideoChatActivity.this);
+    		VideoChatActivity.this.callback.onGotLoginFeedback(LOGIN_SUCCESS);
     	
 			return;
 		}
@@ -190,6 +204,7 @@ public class VideoChatActivity extends Activity
 		    		addConnectionCallbacksListener();
 		    		 
 		    		QBRTCClient.getInstance().prepareToProcessCalls(VideoChatActivity.this);
+		    		VideoChatActivity.this.callback.onGotLoginFeedback(LOGIN_SUCCESS);
 		    	}
 		    }
 		 
@@ -199,6 +214,7 @@ public class VideoChatActivity extends Activity
 		    	Log.e(TAG, "Failed to login chatService!");
 		    	Log.e(TAG, String.valueOf(errors.size()));
 		    	Log.e(TAG, String.valueOf(errors));
+		    	VideoChatActivity.this.callback.onGotLoginFeedback(LOGIN_ERROR);
 		    }
 		});
 	}
@@ -828,5 +844,59 @@ public class VideoChatActivity extends Activity
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		
+		/*Thread td = new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try 
+				{
+					JSONObject obj = new JSONObject();
+					obj.put(DialingFragment.LOGIN_ACCOUNT, login);
+					obj.put(DialingFragment.LOGIN_PASSWORD, password);
+					String [] param = new String[1];
+					Object [] vlaue = new Object[1];
+					param[0] = "callerUserInfo";
+					vlaue[0] = obj.toString();
+					
+					WebServiceAPI wsAPI = new WebServiceAPI(DialingFragment.PACKAGE_NAME, DialingFragment.CLASS_NAME);
+					wsAPI.callFuntion("logoffAccount", param, vlaue);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		td.start();
+		
+		Thread td2 = new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try 
+				{
+					JSONObject obj = new JSONObject();
+					obj.put(DialingFragment.LOGIN_ACCOUNT, login);
+					obj.put(DialingFragment.LOGIN_PASSWORD, password);
+					String [] param = new String[1];
+					Object [] vlaue = new Object[1];
+					param[0] = "callerUserInfo";
+					vlaue[0] = obj.toString();
+					
+					WebServiceAPI wsAPI = new WebServiceAPI(DialingFragment.PACKAGE_NAME, DialingFragment.CLASS_NAME);
+					wsAPI.callFuntion("logoffAccount", param, vlaue);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		td2.start();*/
 	}
 }

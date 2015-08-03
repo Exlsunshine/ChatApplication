@@ -45,32 +45,34 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/yg_activity_video_chat_inner_actionbar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/yg_video_chat_random_portrait2" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/yg_activity_video_chat_hangup"
+        android:layout_above="@+id/yg_activity_video_chat_hangup_or_find"
         android:layout_below="@+id/yg_activity_video_chat_inner_portrait" >
 
         <TextView
+            android:id="@+id/yg_activity_video_chat_inner_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
-            android:text="正在匹配中..."
-            android:textSize="18sp"
-            android:textColor="@android:color/white" />
+            android:text="尽情享受\n狂欢之旅"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/yg_activity_video_chat_hangup"
+        android:id="@+id/yg_activity_video_chat_hangup_or_find"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_above="@+id/yg_activity_video_chat_inner_hint"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/yg_video_chat_incoming_accept_normal" />
 
     <TextView
@@ -79,9 +81,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="10dp"
-        android:text="开始匹配"
-        android:textColor="@android:color/white" />
+        android:layout_marginBottom="50dp"
+        android:text="开始寻找新朋友"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
 </RelativeLayout>
