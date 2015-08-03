@@ -10,3 +10,12 @@ def column(request):
 
 def skip(request):
     return render(request, "skip.html")
+
+
+def home(request):
+    response =  render(request, "home.html")
+    response['Cache-Control'] = "no-cache"
+    response['Cache-Control'] = "no-store"
+    response['Pragma'] = "no-cache"
+
+    return render(request, "home.html")
