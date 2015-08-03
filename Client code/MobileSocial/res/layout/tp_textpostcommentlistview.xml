@@ -37,7 +37,7 @@
             style="@style/feed_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/textpostcommentlistview_tp_userportrait"/>
         
 		<ImageView 
@@ -49,13 +49,13 @@
             android:layout_toRightOf="@id/textpostcommentlistview_tp_userportrait"
             android:visibility="gone"/>
         
-        <TextView
+        <!-- <TextView
             android:id="@+id/textpostcommentlistview_commentTime"
             style="@style/feed_subtext_on_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textpostcommentlistview_commentContent"
-            android:layout_toRightOf="@id/textpostcommentlistview_tp_userportrait"/>
+            android:layout_toRightOf="@id/textpostcommentlistview_tp_userportrait"/> -->
     </RelativeLayout>
 
 </RelativeLayout>

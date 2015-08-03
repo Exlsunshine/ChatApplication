@@ -12,7 +12,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/lj_game_setting_top_marign"
             android:background="@color/lj_setting_background_color"
             android:orientation="vertical" >
 
@@ -21,11 +20,11 @@
                 android:layout_height="2dp"
                 android:src="@drawable/lj_setting_line" />
 
-            <RelativeLayout
+            <RelativeLayout 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white" >
-
+ 
                 <TextView
                     android:layout_width="@dimen/lj_userinfo_item_width"
                     android:layout_height="@dimen/lj_userinfo_item_height"
@@ -35,7 +34,7 @@
                     android:text="声音"
                     android:textSize="@dimen/lj_userinfo_text_size" />
 
-                <Switch
+                <com.lj.ui.switchbutton.SwitchButton
                     android:id="@+id/lj_game_setting_sound_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,7 +62,7 @@
                     android:text="震动"
                     android:textSize="@dimen/lj_userinfo_text_size" />
 
-                <Switch
+                <com.lj.ui.switchbutton.SwitchButton
                     android:id="@+id/lj_game_setting_shake_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white" >
 
-                <Switch
+                <com.lj.ui.switchbutton.SwitchButton
                     android:id="@+id/lj_game_setting_eightpuzzle_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -135,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white" >
 
-                <Switch
+                <com.lj.ui.switchbutton.SwitchButton
                     android:id="@+id/lj_game_setting_song_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -164,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white" >
 
-                <Switch
+                <com.lj.ui.switchbutton.SwitchButton
                     android:id="@+id/lj_game_setting_bazinga_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -203,6 +202,8 @@
                         android:layout_width="@dimen/lj_userinfo_item_width"
                         android:layout_height="@dimen/lj_userinfo_item_height"
                         android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/lj_blue"
                         android:text="再挑战"
                         android:textSize="@dimen/lj_userinfo_text_size" />
                 </LinearLayout>

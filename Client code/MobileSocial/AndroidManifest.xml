@@ -14,7 +14,6 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="18" />
@@ -55,7 +54,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="rRtGKXrzh5fWSVtbC7MAKORu" />
+            android:value="QE0CcmzMbOQNNrHW6GH7mEGv" />
 
         <activity
             android:name="com.yg.ui.login.WelcomeActivity"
@@ -134,8 +133,11 @@
         <activity android:name="com.tp.ui.MyselfPostActivity" >
         </activity>
         <activity android:name="com.tp.ui.ImageZoomInActivity" />
+        
         <activity android:name="com.lj.shake.ActivityShake" />
-        <activity android:name="com.lj.settings.ActivitySettings" />
+        <activity
+            android:name="com.lj.settings.ActivitySettings"
+            android:theme="@style/lj_setting_theme" />
         <activity android:name="com.lj.setting.userinfo.ActivitySexSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityAgeSetting" />
         <activity android:name="com.lj.setting.userinfo.ActivityHometownSetting" />
@@ -147,17 +149,17 @@
             android:noHistory="true" />
         <activity android:name="com.lj.networktest.ActivityNetworkError" />
         <activity android:name="com.lj.translator.TranslatorActivity" />
-        <activity android:name="com.lj.driftbottle.ui.Driftbottle_setting" />
         <activity android:name="com.lj.driftbottle.ui.MyBottle" />
         <activity android:name="com.lj.driftbottle.ui.PickupBottle" />
         <activity android:name="com.lj.driftbottle.ui.chuck_animation" />
         <activity android:name="com.lj.driftbottle.ui.BottleInfoActivity" />
         <activity android:name="com.lj.driftbottle.ui.DriftBottleActivity" />
+        
         <activity android:name="com.yg.image.preview.ImagePreviewActivity" />
         <activity
             android:name="com.yg.videochat.VideoChatActivity"
             android:label="@string/title_activity_video_chat"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
     </application>
 

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
-import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.setting.achievement.ThreadGameChallengFail;
 import com.lj.shake.ActivityShake;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -49,11 +51,47 @@ public class ActivitySongPuzzle extends Activity {
 	private int[] gBlankSet;
 	private Animation gCharZoomin;
 	private Animation gCharZoomout;
+	private FrameLayoutRecorder recorderLayout;
 	
 	private AlertDialog gRightDialog = null;
 	private AlertDialog gGameEndDialog = null;
 	
 	private int gRightNum = 0;
+	
+	private UserGuide userGuide;
+	
+	private void setupListener()
+	{
+		recorderLayout.setVideoControlListener(videoControlListener);
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 6; j++)
+			{
+				int index = i * 6 + j;
+				charView[index].setOnClickListener(charClickListener);
+			}
+		}
+		for (int i = 0; i < gBlankView.length; i++)
+			gBlankView[i].setOnClickListener(blankClickListener);
+	}
+	
+	
+	private void setupUserGuide()
+	{
+		userGuide = new UserGuide(this, "听 音 辨 曲", "点击播放音乐", Gravity.CENTER, Overlay.Style.Circle, "#33CC99");
+		userGuide.addAnotherGuideArea(recorderLayout.getLeftBox(), charView[0], false, "开始解谜", "选择歌曲名", Gravity.TOP, Gravity.CENTER, "#FF9900");
+		userGuide.addAnotherGuideArea(charView[0], gBlankView[0], false, "您的答案", "点击可修改", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF9900");
+		userGuide.addAnotherGuideArea(gBlankView[0], recorderLayout.getRightBox(), true, "确认", "查看答案正误并跳至下一题", Gravity.TOP | Gravity.LEFT, Gravity.CENTER, "#FF6666");
+		userGuide.beginWith(recorderLayout.getLeftBox(), false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+				setupListener();
+				UserGuide.disableUserGuide(UserGuide.GAME_MUSIC_ACTIVITY);
+			}
+		});
+	}
 	
 	private Handler gHandler = new Handler()
 	{
@@ -67,6 +105,10 @@ public class ActivitySongPuzzle extends Activity {
 				ArrayList<HashMap<String, Object>> songData = (ArrayList<HashMap<String, Object>>) msg.obj;
 				gSongPuzzleGame = new SongPuzzleGame(songData);
 				initData();
+				if (UserGuide.isNeedUserGuide(ActivitySongPuzzle.this, UserGuide.GAME_MUSIC_ACTIVITY))
+	    			setupUserGuide();
+	    		else
+	    			setupListener();
 				break;
 			}
 		};
@@ -377,7 +419,6 @@ public class ActivitySongPuzzle extends Activity {
 			gBlankView[i].setBackgroundResource(R.drawable.lj_songpuzzle_blankboard);
 			gBlankView[i].setTextSize(gPhoneHeight / 50);
 			gBlankView[i].setId(i);
-			gBlankView[i].setOnClickListener(blankClickListener);
 			blankLinearLayout.addView(gBlankView[i]);
 		}
 		
@@ -401,7 +442,6 @@ public class ActivitySongPuzzle extends Activity {
 				charView[index].setBackgroundResource(R.drawable.lj_songpuzzle_charboard);
 				charView[index].setTextSize(gPhoneHeight / 50);
 				charView[index].setId(index);
-				charView[index].setOnClickListener(charClickListener);
 				charLinearLayout.addView(charView[index]);
 			}
 		}
@@ -459,7 +499,7 @@ public class ActivitySongPuzzle extends Activity {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus && flag)
 		{
-			FrameLayoutRecorder layout = (FrameLayoutRecorder)findViewById(R.id.layout);
+			recorderLayout = (FrameLayoutRecorder)findViewById(R.id.layout);
 			
 			DisplayMetrics metrics=new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -467,8 +507,7 @@ public class ActivitySongPuzzle extends Activity {
 			gPhoneHeight = metrics.heightPixels;
 			int widthPixels=(int) (metrics.widthPixels * RECORDER_SCALE);
 			
-			layout.initLayout(widthPixels);
-			layout.setVideoControlListener(videoControlListener);
+			recorderLayout.initLayout(widthPixels);
 			
 			initUI();
 			flag = false;

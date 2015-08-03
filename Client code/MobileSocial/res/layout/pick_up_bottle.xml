@@ -22,7 +22,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="170dp"
-        android:src="@drawable/bottle_picked_text_msg"
         android:visibility="gone" />
 
     <ImageView

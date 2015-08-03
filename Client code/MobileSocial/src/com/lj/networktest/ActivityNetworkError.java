@@ -1,11 +1,9 @@
 package com.lj.networktest;
 
 import com.example.testmobiledatabase.R;
-import com.lj.setting.userinfo.FragmentUserInfoSetting;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;

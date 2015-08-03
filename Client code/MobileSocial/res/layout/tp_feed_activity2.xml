@@ -40,7 +40,14 @@
            miles:scrollBarPanelInAnimation="@anim/tp_in"
            miles:scrollBarPanelOutAnimation="@anim/tp_out"
            ptr:mode="both" />
- 
+ <Button 
+     android:id="@+id/tp_fake_button"
+     android:layout_width="fill_parent"
+     android:layout_height="50dp"
+     android:layout_marginLeft="0dp"
+     android:layout_marginTop="20dp"
+     android:background="@android:color/transparent"
+     android:visibility="gone"/>
  <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >

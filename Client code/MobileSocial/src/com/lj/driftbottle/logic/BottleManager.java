@@ -7,24 +7,47 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+import android.util.Log;
+
+import com.yg.commons.ConstantValues;
 import com.yg.user.WebServiceAPI;
 
 public class BottleManager 
 {
-	private int userID = 0;
+	private int userID = -1;
+	private final String ERROR_FLAG = "BottleManager";
 	private final String PACKAGENAME = "network.lj.com";
 	private final String CLASSNAME = "LJNetworkHandler";
 	private Hashtable<Integer, CommBottle> bottleTable = new Hashtable<Integer, CommBottle>();
 	
-	WebServiceAPI webserviceAPI = new WebServiceAPI(PACKAGENAME, CLASSNAME);
+	private WebServiceAPI webserviceAPI = new WebServiceAPI(PACKAGENAME, CLASSNAME);
+
+	private static BottleManager manager = null;
+	private BottleManager()
+	{
+		
+	}
 	
-	public BottleManager(int userID) 
+	public static BottleManager getInstance()
+	{
+		if (manager == null)
+			manager = new BottleManager();
+		return manager;
+	}
+	
+	public void init(int userID)
 	{
 		this.userID = userID;
 	}
 	
 	public void throwBottle(FirstBottle bottle)
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return;
+		}
 		String[] name = {"bottleJsonString"};
 		String[] values = {bottle.toJsonString()};
 		String jsonResult = webserviceAPI.callFuntion("generateBottle", name, values).toString();
@@ -40,6 +63,7 @@ public class BottleManager
 		String portraitURL = null;
 		int bottleID = 0;
 		int versionCode = 0;
+		int ownerID = ConstantValues.user.getID();
 		try {
 			bottleStatus = jsonObject.getInt(CommBottle.BOTTLE_STATUS);
 			portraitURL = jsonObject.getString(CommBottle.PORTRIAT_URL);
@@ -49,28 +73,52 @@ public class BottleManager
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		CommBottle newBottle = new CommBottle(bottle, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+		String nickname = "";
+		String sex = "";
+		String hometown = "";
+		CommBottle newBottle = new CommBottle(ownerID, nickname, sex, hometown, bottle, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
 		bottleTable.put(newBottle.getBottleID(), newBottle);
+	}
+	
+	private CommBottle createCommonBottleByJsonObject(JSONObject jsonObject)
+	{
+		try {
+			int bottleStatus = jsonObject.getInt(CommBottle.BOTTLE_STATUS);
+			String historyText = jsonObject.getString(CommBottle.HISTORY_TEXT);
+			String portraitURL = jsonObject.getString(CommBottle.PORTRIAT_URL);
+			int bottleID = jsonObject.getInt(CommBottle.BOTTLE_ID);
+			int bottleRelationStatus = jsonObject.getInt(CommBottle.BOTTLE_RELATION_STATUS);
+			int versionCode = jsonObject.getInt(CommBottle.VERSION_CODE);
+			String nickname = jsonObject.getString(CommBottle.NICK_NAME);
+			String sex = jsonObject.getString(CommBottle.SEX);
+			String hometown = jsonObject.getString(CommBottle.HOMETOWN);
+			int ownerID = jsonObject.getInt(CommBottle.OWNER_ID);
+			CommBottle bottle = new CommBottle(ownerID, nickname, sex, hometown, historyText, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+			return bottle;
+		} catch (JSONException e) 
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public CommBottle pickup()
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return null;
+		}
 		String[] name = {"userID"};
 		String[] values = {String.valueOf(userID)};
 		String jsonResult = webserviceAPI.callFuntion("getNewBottle", name, values).toString();
 		JSONObject jsonObject = null;
-//		System.out.println(jsonResult);
+		System.out.println(jsonResult);
 		try {
 			jsonObject = new JSONObject(jsonResult);
 			if (jsonObject.getBoolean("isEmpty"))
 				return null;
-			String historyText = jsonObject.getString(CommBottle.HISTORY_TEXT);
-			String portraitURL = jsonObject.getString(CommBottle.PORTRIAT_URL);
-			int bottleStatus = jsonObject.getInt(CommBottle.BOTTLE_STATUS);
-			int bottleID = jsonObject.getInt(CommBottle.BOTTLE_ID);
-			int bottleRelationStatus = jsonObject.getInt(CommBottle.BOTTLE_RELATION_STATUS);
-			int versionCode = jsonObject.getInt(CommBottle.VERSION_CODE);
-			CommBottle bottle = new CommBottle(historyText, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+			CommBottle bottle = createCommonBottleByJsonObject(jsonObject);
 			bottleTable.put(bottle.getBottleID(), bottle);
 			return bottle;
 		} catch (JSONException e) {
@@ -81,6 +129,11 @@ public class BottleManager
 	
 	public void reply(AbstractBottle bottle)
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return;
+		}
 		String[] name = {"jsonString"};
 		String[] values = {bottle.toJsonString()};
 		String jsonResult = webserviceAPI.callFuntion("updateBottle", name, values).toString();
@@ -125,6 +178,11 @@ public class BottleManager
 	
 	public ArrayList<CommBottle> myBottles()
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return null;
+		}
 		String[] name = {"jsonString", "userID"};
 		String[] values = {toJsonString(), String.valueOf(userID)};
 		String jsonResult = webserviceAPI.callFuntion("getBottlesByUserID", name, values).toString();
@@ -133,13 +191,7 @@ public class BottleManager
 			for (int i = 0; i < jsonArray.length(); i++)
 			{
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				String historyText = jsonObject.getString(CommBottle.HISTORY_TEXT);
-				String portraitURL = jsonObject.getString(CommBottle.PORTRIAT_URL);
-				int bottleStatus = jsonObject.getInt(CommBottle.BOTTLE_STATUS);
-				int bottleID = jsonObject.getInt(CommBottle.BOTTLE_ID);
-				int bottleRelationStatus = jsonObject.getInt(CommBottle.BOTTLE_RELATION_STATUS);
-				int versionCode = jsonObject.getInt(CommBottle.VERSION_CODE);
-				CommBottle bottle = new CommBottle(historyText, portraitURL, bottleStatus, bottleRelationStatus, bottleID, versionCode);
+				CommBottle bottle = createCommonBottleByJsonObject(jsonObject);
 				bottleTable.put(bottle.getBottleID(), bottle);
 			}
 		} catch (JSONException e) {
@@ -155,6 +207,11 @@ public class BottleManager
 	
 	public void removeBottle(CommBottle bottle)
 	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return;
+		}
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put(CommBottle.BOTTLE_ID, String.valueOf(bottle.getBottleID()));
@@ -164,6 +221,30 @@ public class BottleManager
 		String[] name = {"jsonString", "userID"};
 		String[] values = {jsonObject.toString(), String.valueOf(userID)};
 		webserviceAPI.callFuntion("removeBottle", name, values);
+		bottleTable.remove(bottle.getBottleID());
+	}
+	
+	public void throwBack(int bottleID)
+	{
+		throwBack(bottleTable.get(bottleID));
+	}
+	
+	public void throwBack(CommBottle bottle)
+	{
+		if (userID == -1)
+		{
+			Log.e(ERROR_FLAG, "BottleManager Instance not init");
+			return;
+		}
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(CommBottle.BOTTLE_ID, String.valueOf(bottle.getBottleID()));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		String[] name = {"jsonString", "userID"};
+		String[] values = {jsonObject.toString(), String.valueOf(userID)};
+		webserviceAPI.callFuntion("throwBackBottle", name, values);
 		bottleTable.remove(bottle.getBottleID());
 	}
 	

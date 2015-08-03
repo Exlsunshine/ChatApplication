@@ -1,6 +1,5 @@
 package com.lj.setting.userinfo;
 
-import java.io.File;
 import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
@@ -9,22 +8,14 @@ import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.image.select.ui.SelectImageActivity;
 import com.yg.ui.MainActivity;
-import com.yg.ui.signup.SignupActivity;
-
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -51,7 +42,7 @@ public class FragmentUserInfoSetting extends Fragment
 	public static final int ACTIVITY_RESULT_CODE_HOMETOWN = 3;
 	public static final int ACTIVITY_REQUEST_CODE_HOMETOWN = 3;
 	
-	private static final int ACTIVITY_RESULT_CODE_PORTRAIT = 4;
+//	private static final int ACTIVITY_RESULT_CODE_PORTRAIT = 4;
 	private static final int ACTIVITY_REQUEST_CODE_PORTRAIT = 4;
 	
 	private ImageView gPortraitImage = null;

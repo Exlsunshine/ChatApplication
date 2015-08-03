@@ -68,7 +68,7 @@ public class PostCommentListAdapter extends BaseAdapter
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.tp_textpostcommentlistview, null);
             holder.commentContent = (TextView) convertView.findViewById(R.id.textpostcommentlistview_commentContent);
-            holder.commentTime = (TextView) convertView.findViewById(R.id.textpostcommentlistview_commentTime);
+            //holder.commentTime = (TextView) convertView.findViewById(R.id.textpostcommentlistview_commentTime);
             holder.postphoto = (ImageView) convertView.findViewById(R.id.textpostcommentlistview_postphoto);
             holder.userPortrait = (ImageView) convertView.findViewById(R.id.textpostcommentlistview_tp_userportrait);
             if (position == 0) 
@@ -90,14 +90,15 @@ public class PostCommentListAdapter extends BaseAdapter
                     
                     String suggestiontime = DateUtil.getSuggestion(currentTime, earlyTime.substring(0, 19));
                     holder.commentContent.setText(postContent);
-                    holder.commentTime.setText(suggestiontime);
+                    //holder.commentTime.setText(suggestiontime);
                 }
                 else
                 {
                 	ImagePost ip = (ImagePost) post;
-                	/*Bitmap bm = ip.getImage();
-                    Drawable dr = new BitmapDrawable(bm);
-                    holder.postphoto.setBackground(dr);*/
+                	if (ip.isImgPathEmpty())
+                		Log.i("_____________________________",  "ImgPathEmpty" + post.getContent().toString());
+                	else
+                		Log.i("_____________________________",  "ImgPathnotEmpty");
 					String imgPath = ip.getImagePath();
 					String imagePath = "file://" + imgPath;
 					// œ‘ æÕº∆¨µƒ≈‰÷√
@@ -111,7 +112,7 @@ public class PostCommentListAdapter extends BaseAdapter
 							options);
                     holder.postphoto.setVisibility(View.VISIBLE);
                     holder.commentContent.setVisibility(View.GONE);
-                    holder.commentTime.setVisibility(View.GONE);
+                    //holder.commentTime.setVisibility(View.GONE);
                 }
             }
             else
@@ -122,7 +123,7 @@ public class PostCommentListAdapter extends BaseAdapter
                 else
                 	holder.userPortrait.setImageResource(R.drawable.tp_female);
             	holder.commentContent.setVisibility(View.VISIBLE);
-                holder.commentTime.setVisibility(View.VISIBLE);
+               // holder.commentTime.setVisibility(View.VISIBLE);
                 holder.postphoto.setVisibility(View.GONE);
             	holder.flag = position;
             	holder.commentContent.setText(comment.getComment());
@@ -132,7 +133,7 @@ public class PostCommentListAdapter extends BaseAdapter
                 earlyTime = earlyTime.replace(" ", "-");
                 earlyTime = earlyTime.replace(":", "-");
                 String suggestiontime = DateUtil.getSuggestion(earlyTime, currentTime);
-                holder.commentTime.setText(suggestiontime);
+               // holder.commentTime.setText(suggestiontime);
             }
             convertView.setTag(holder);
         }
@@ -142,7 +143,6 @@ public class PostCommentListAdapter extends BaseAdapter
 	static class ViewHolder 
 	{
         TextView commentContent;
-        TextView commentTime;
         ImageView postphoto;
         TextView status;
         ImageView userPortrait;

@@ -17,7 +17,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,6 +52,9 @@ import com.lj.shake.ActivityShake;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.SendPostActivity;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 import com.yg.ui.friendlist.FriendListActivity;
 import com.yg.ui.recentdialog.RecentDialogActivity;
 import com.yg.videochat.VideoChatActivity;
@@ -57,6 +62,7 @@ import com.yg.videochat.VideoChatActivity;
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity implements OnCheckedChangeListener
 {
+	private static final String DEBUG_TAG = "MainActivity______";
 	public static final String CLEAR_ACTIONBAR_REQUEST = "clearActionbar";
 	private class TabTags
 	{
@@ -73,6 +79,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	private RadioButton recentDialogRb;
 	private RadioButton friendListRb;
 	private ImageView mask;
+	private UserGuide userGuide;
+	private ImageView menuFakePosition;
 	
 	private final int MENU_SHAKE_INDEX = 2;
 	private final int MENU_FRIENDCIRCLE_INDEX = 3;
@@ -92,11 +100,46 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		setContentView(R.layout.activity_main);  
 		
 		setupLayout();
-		setupListener();
+//		setupListener();
 		setupTabData();
 		setupRecentDialogActionBar();
-		
 		registerReceiver(broadcastReceiver, intentFilter());
+		
+		if (UserGuide.isNeedUserGuide(MainActivity.this, UserGuide.RECENT_DIALOG_ACTIVITY))
+			setupUserGuide();
+		else
+			setupListener();
+	}
+	
+	private void setupUserGuide()
+	{
+		userGuide = new UserGuide(this, "爱  聊  天", "消息记录", Gravity.TOP | Gravity.RIGHT, Overlay.Style.Circle, "#33CC99");
+		userGuide.addAnotherGuideArea(recentDialogRb, friendListRb, false, "常  联  系", "朋友列表", Gravity.TOP | Gravity.LEFT, "#FF9900");
+		userGuide.addAnotherGuideArea(friendListRb, menuFakePosition, true, "更 多 精 彩", "摇一摇，朋友圈", Gravity.TOP, "#1E90FF");
+		
+		menuFakePosition.setClickable(true);
+		menuFakePosition.setFocusable(true);
+		centerControlMenuBasic.setUserGuideEnable(true);
+		centerControlMenuAdvanced.setUserGuideEnable(true);
+		
+		userGuide.beginWith(recentDialogRb, false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+				menuFakePosition.setOnClickListener(null);
+				menuFakePosition.setClickable(false);
+				menuFakePosition.setFocusable(false);
+				menuFakePosition.setVisibility(View.GONE);
+				centerControlMenuAdvanced.setUserGuideEnable(false);
+				centerControlMenuBasic.setUserGuideEnable(false);
+				
+				recentDialogRb.setChecked(true);
+				setupListener();
+				
+				UserGuide.disableUserGuide(UserGuide.RECENT_DIALOG_ACTIVITY);
+			}
+		});
 	}
 	
 	private AnimatorSet flipAnimationSet;
@@ -138,6 +181,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		@Override
 		public void eventOccured(final int id) 
 		{
+			Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+			vibrator.vibrate(30);
 			mask.setVisibility(View.GONE);
 			new Handler().postDelayed(new Runnable() 
 			{
@@ -191,6 +236,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 		friendListRb = (RadioButton) findViewById(R.id.main_activity_friend_list);
 		mask = (ImageView)findViewById(R.id.main_activity_mask);
 		
+		CenterControllMenuClickListener menuClickListener = new CenterControllMenuClickListener();
+		
 		centerControlMenuBasic = (SatelliteMenu)findViewById(R.id.lj_menu_basic);
 		centerControlMenuBasic.setMainImage(R.drawable.sat_main_style2);
 		centerControlMenuBasic.setMaskView(mask);
@@ -202,27 +249,27 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
         itemsBasic.add(new SatelliteMenuItem(MENU_PROFILE_INDEX, R.drawable.yg_main_profile_icon));
         itemsBasic.add(new SatelliteMenuItem(6, android.R.color.transparent));
         centerControlMenuBasic.addItems(itemsBasic);   
-        centerControlMenuBasic.setOnItemClickedListener(new CenterControllMenuClickListener());
+        centerControlMenuBasic.setOnItemClickedListener(menuClickListener);
         
-		
 		centerControlMenuAdvanced = (SatelliteMenu)findViewById(R.id.lj_menu_advanced);
 		centerControlMenuAdvanced.setMainImage(R.drawable.sat_main_style2);
 		centerControlMenuAdvanced.setMaskView(mask);
-		
 		List<SatelliteMenuItem> itemsAdvanced = new ArrayList<SatelliteMenuItem>();
 		itemsAdvanced.add(new SatelliteMenuItem(1, android.R.color.transparent));
 		itemsAdvanced.add(new SatelliteMenuItem(MENU_SHAKE_INDEX, R.drawable.yg_main_shake_icon));
-		itemsAdvanced.add(new SatelliteMenuItem(MENU_DRIFT_BOTTLE_INDEX, R.drawable.yg_main_drift_bottle_icon));
 		itemsAdvanced.add(new SatelliteMenuItem(MENU_VIDEO_CHAT_INDEX, R.drawable.yg_main_video_chat_icon));
+		itemsAdvanced.add(new SatelliteMenuItem(MENU_DRIFT_BOTTLE_INDEX, R.drawable.yg_main_drift_bottle_icon));
 		itemsAdvanced.add(new SatelliteMenuItem(MENU_PROFILE_INDEX, R.drawable.yg_main_profile_icon));
 		itemsAdvanced.add(new SatelliteMenuItem(6, android.R.color.transparent));
 		centerControlMenuAdvanced.addItems(itemsAdvanced);
-		centerControlMenuAdvanced.setOnItemClickedListener(new CenterControllMenuClickListener());
-        
+		centerControlMenuAdvanced.setOnItemClickedListener(menuClickListener);
+		
+		menuFakePosition = (ImageView) findViewById(R.id.lj_menu_fake_position);
 	}
 	
 	private void setupListener()
 	{
+		Log.w(DEBUG_TAG, "setupListener.");
 		recentDialogRb.setOnCheckedChangeListener(this);  
 		friendListRb.setOnCheckedChangeListener(this);  
 		mask.setOnTouchListener(new OnTouchListener() 
@@ -246,6 +293,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 	{
+		Log.w(DEBUG_TAG, "onCheckedChanged");
 		if(isChecked)
 		{  
 			switch (buttonView.getId()) 
@@ -254,15 +302,60 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 				setupRecentDialogActionBar();
 				this.tabHost.setCurrentTabByTag(TabTags.recentDialogTab);  
 				setMainMenuVisibility(true);
+				Log.w(DEBUG_TAG, "main_activity_recent_dialog");
 				break;  
-			case R.id.main_activity_friend_list:  
+			case R.id.main_activity_friend_list: 
 				setupActionBar();
 				setButtonVisibilities();
 				this.tabHost.setCurrentTabByTag(TabTags.friendListTab);  
 				setMainMenuVisibility(false);
+				Log.w(DEBUG_TAG, "main_activity_friend_list");
+				
+				if (UserGuide.isNeedUserGuide(MainActivity.this, UserGuide.FRIENDLIST_ACTIVITY))
+					setupAdvancedButtonUserGuide();
 				break; 
 			}  
 		}  
+	}
+	
+	private void setupAdvancedButtonUserGuide()
+	{
+		final ImageView searchFakePosition = (ImageView) findViewById(R.id.yg_friendlist_actionbar_default_layout_fake_search);
+		
+		searchFakePosition.setClickable(true);
+		searchFakePosition.setFocusable(true);
+		searchFakePosition.setVisibility(View.VISIBLE);
+		
+		menuFakePosition.setClickable(true);
+		menuFakePosition.setFocusable(true);
+		menuFakePosition.setVisibility(View.VISIBLE);
+		
+		centerControlMenuBasic.setUserGuideEnable(true);
+		centerControlMenuAdvanced.setUserGuideEnable(true);
+		
+		userGuide = new UserGuide(this, "搜  索", "快速查找好友", Gravity.BOTTOM | Gravity.LEFT, Overlay.Style.Circle, "#33CC99");
+		userGuide.addAnotherGuideArea(searchFakePosition, menuFakePosition, true, "匿 名 狂 欢", "视频&漂流瓶", Gravity.TOP, "#1E90FF");
+		userGuide.beginWith(searchFakePosition, false, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+				menuFakePosition.setOnClickListener(null);
+				menuFakePosition.setClickable(false);
+				menuFakePosition.setFocusable(false);
+				menuFakePosition.setVisibility(View.GONE);
+				
+				searchFakePosition.setOnClickListener(null);
+				searchFakePosition.setClickable(false);
+				searchFakePosition.setFocusable(false);
+				searchFakePosition.setVisibility(View.GONE);
+				
+				centerControlMenuAdvanced.setUserGuideEnable(false);
+				centerControlMenuBasic.setUserGuideEnable(false);
+				
+				UserGuide.disableUserGuide(UserGuide.FRIENDLIST_ACTIVITY);
+			}
+		});
 	}
 	
 	private void setMainMenuVisibility(boolean isInRecentDialogPage)

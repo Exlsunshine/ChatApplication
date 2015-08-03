@@ -2,57 +2,62 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E7E7D6">
+    android:background="@color/lj_setting_background_color" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" >
+        android:layout_marginRight="10dp"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:src="@drawable/lj_setting_line" />
 
         <com.lj.setting.achievement.LinearLayoutAchieveItem
             android:id="@+id/lj_setting_achieve_1"
             android:layout_width="fill_parent"
             android:layout_height="120dp"
             android:layout_marginTop="10dp" />
-        
+
         <com.lj.setting.achievement.LinearLayoutAchieveItem
             android:id="@+id/lj_setting_achieve_2"
             android:layout_width="fill_parent"
             android:layout_height="120dp"
             android:layout_marginTop="10dp" />
-        
+
         <com.lj.setting.achievement.LinearLayoutAchieveItem
             android:id="@+id/lj_setting_achieve_3"
             android:layout_width="fill_parent"
             android:layout_height="120dp"
             android:layout_marginTop="10dp" />
-        
+
         <com.lj.setting.achievement.LinearLayoutAchieveItem
             android:id="@+id/lj_setting_achieve_4"
             android:layout_width="fill_parent"
             android:layout_height="120dp"
             android:layout_marginTop="10dp" />
-        
+
         <com.lj.setting.achievement.LinearLayoutAchieveItem
             android:id="@+id/lj_setting_achieve_5"
             android:layout_width="fill_parent"
             android:layout_height="120dp"
             android:layout_marginTop="10dp" />
-        
+
         <com.lj.setting.achievement.LinearLayoutAchieveItem
             android:id="@+id/lj_setting_achieve_6"
             android:layout_width="fill_parent"
             android:layout_height="120dp"
             android:layout_marginTop="10dp" />
-        
+
         <com.lj.setting.achievement.LinearLayoutAchieveItem
             android:id="@+id/lj_setting_achieve_7"
             android:layout_width="fill_parent"
             android:layout_height="120dp"
             android:layout_marginTop="10dp" />
-        
+
         <com.lj.setting.achievement.LinearLayoutAchieveItem
             android:id="@+id/lj_setting_achieve_8"
             android:layout_width="fill_parent"

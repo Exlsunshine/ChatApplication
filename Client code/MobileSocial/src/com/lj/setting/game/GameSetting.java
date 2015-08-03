@@ -39,6 +39,6 @@ public class GameSetting
 		WebServiceAPI webserviceMole = new WebServiceAPI("gameSettingPackage", "GameMole");
 		String[] name = {"userID", "score"};
 		Object[] values = {userID, score};
-		Object result = webserviceMole.callFuntion("uploadScore", name, values);
+		webserviceMole.callFuntion("uploadScore", name, values);
 	}
 }

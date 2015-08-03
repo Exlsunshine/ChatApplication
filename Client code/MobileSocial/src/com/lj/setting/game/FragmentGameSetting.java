@@ -1,28 +1,22 @@
 package com.lj.setting.game;
 
 
-import java.io.File;
 import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
 import com.lj.bazingaball.ActivityBazingaBall;
 import com.lj.eightpuzzle.ThreadDownloadGameImage;
+import com.lj.ui.switchbutton.SwitchButton;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.image.select.ui.SelectImageActivity;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -32,6 +26,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -39,17 +35,17 @@ import android.widget.Toast;
 
 public class FragmentGameSetting extends Fragment
 {
-	private static final int ACTIVITY_RESULT_CODE_EIGHTPUZZLE = 1;
+//	private static final int ACTIVITY_RESULT_CODE_EIGHTPUZZLE = 1;
 	private static final int ACTIVITY_REQUEST_CODE_EIGHTPUZZLE = 1;
 	
-	private boolean hasEightpuzzle = false;
+	private boolean hasEightpuzzle = true;
 	private boolean hasBazingball = false;
 	
 	private Context gContext;
 	private View gView;
-	private Switch gEightPuzzleSwitch = null;
-	private Switch gSongSwitch = null;
-	private Switch gBazingaSwitch = null;
+	private SwitchButton gEightPuzzleSwitch = null;
+	private SwitchButton gSongSwitch = null;
+	private SwitchButton gBazingaSwitch = null;
 	private ImageView gEightPuzzleImage = null;
 	private TextView gBazingaScoreText = null;
 	private TextView gBazingaBeginText = null;
@@ -68,7 +64,7 @@ public class FragmentGameSetting extends Fragment
 				else if (msg.arg1 == ConstantValues.InstructionCode.GAME_TYPE_EIGHTPUZZLE)
 				{
 					gEightPuzzleSwitch.setChecked(true);
-					gSongSwitch.setChecked(false);
+					gSongSwitch.setChecked(false); 
 					gBazingaSwitch.setChecked(false);
 				}
 				else if (msg.arg1 == ConstantValues.InstructionCode.GAME_TYPE_SONGPUZZLE)
@@ -143,6 +139,61 @@ public class FragmentGameSetting extends Fragment
 		}
 	};
 	
+	private OnCheckedChangeListener gSwitchOnCheckedChangeListener = new OnCheckedChangeListener() 
+	{
+		@Override
+		public void onCheckedChanged(CompoundButton v, boolean isChecked) 
+		{
+			int id = v.getId();
+			if(isChecked)
+			{
+				if (id == R.id.lj_game_setting_eightpuzzle_switch)
+				{
+					if (hasEightpuzzle)
+					{
+						gSongSwitch.setChecked(false);
+						gBazingaSwitch.setChecked(false);
+						gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_EIGHTPUZZLE));
+					}
+					else
+					{
+						Toast.makeText(gContext, "您尚未选择图片", Toast.LENGTH_SHORT).show();
+						v.setChecked(false);
+					}
+						
+				}
+				else if (id == R.id.lj_game_setting_song_switch)
+				{
+					gEightPuzzleSwitch.setChecked(false);
+					gBazingaSwitch.setChecked(false);
+					gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_SONGPUZZLE));
+				}
+				else if (id == R.id.lj_game_setting_bazinga_switch)
+				{
+					if (hasBazingball)
+					{
+						gEightPuzzleSwitch.setChecked(false);
+						gSongSwitch.setChecked(false);
+						gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_BAZINGABALL));
+					}
+					else
+					{
+						Toast.makeText(gContext, "您需要完成一次游戏，初始化分数。", Toast.LENGTH_SHORT).show();
+						v.setChecked(false);
+					}
+				}
+			}
+			else
+			{
+				if (gEightPuzzleSwitch.isChecked() || gBazingaSwitch.isChecked() || gSongSwitch.isChecked())
+					return;
+				v.setChecked(true);
+				Toast.makeText(gContext, "您必须设定一个游戏", Toast.LENGTH_SHORT).show();
+			//	gChangeMap.put("game", String.valueOf(ConstantValues.InstructionCode.GAME_TYPE_SONGPUZZLE));
+			}
+		}
+	};
+	
 	private OnClickListener gSwitchClickListener = new OnClickListener() 
 	{
 		@Override
@@ -150,7 +201,7 @@ public class FragmentGameSetting extends Fragment
 		{
 			int id = v.getId();
 			
-			if(((Switch)v).isChecked())
+			if(((SwitchButton)v).isChecked())
 			{
 				if (id == R.id.lj_game_setting_eightpuzzle_switch)
 				{
@@ -209,13 +260,13 @@ public class FragmentGameSetting extends Fragment
 	{
 		super.onActivityCreated(savedInstanceState);
 		
-		gEightPuzzleSwitch = (Switch)gView.findViewById(R.id.lj_game_setting_eightpuzzle_switch);
-		gSongSwitch = (Switch)gView.findViewById(R.id.lj_game_setting_song_switch);
-		gBazingaSwitch = (Switch)gView.findViewById(R.id.lj_game_setting_bazinga_switch);
+		gEightPuzzleSwitch = (SwitchButton)gView.findViewById(R.id.lj_game_setting_eightpuzzle_switch);
+		gSongSwitch = (SwitchButton)gView.findViewById(R.id.lj_game_setting_song_switch);
+		gBazingaSwitch = (SwitchButton)gView.findViewById(R.id.lj_game_setting_bazinga_switch);
 		
-		gEightPuzzleSwitch.setOnClickListener(gSwitchClickListener);
-		gSongSwitch.setOnClickListener(gSwitchClickListener);
-		gBazingaSwitch.setOnClickListener(gSwitchClickListener);
+		gEightPuzzleSwitch.setOnCheckedChangeListener(gSwitchOnCheckedChangeListener);
+		gSongSwitch.setOnCheckedChangeListener(gSwitchOnCheckedChangeListener);
+		gBazingaSwitch.setOnCheckedChangeListener(gSwitchOnCheckedChangeListener);
 		
 		gEightPuzzleImage = (ImageView)gView.findViewById(R.id.lj_game_setting_eightpuzzle_image);
 		gEightPuzzleImage.setOnClickListener(gViewOnClickListener);

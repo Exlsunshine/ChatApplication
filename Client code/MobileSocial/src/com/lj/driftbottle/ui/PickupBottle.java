@@ -3,6 +3,7 @@ package com.lj.driftbottle.ui;
 import java.util.Calendar;
 
 import com.example.testmobiledatabase.R;
+import com.lj.driftbottle.logic.BottleManager;
 import com.lj.driftbottle.logic.CommBottle;
 
 import android.app.Activity;
@@ -18,9 +19,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-public class PickupBottle extends Activity {
+public class PickupBottle extends Activity 
+{
+	private BottleManager bottleManager = null;
 	private AnimationDrawable ad;
 	private ImageView pick_spray1, pick_spray2, voice_msg, close;
 	private RelativeLayout pick_up_layout;
@@ -35,20 +37,30 @@ public class PickupBottle extends Activity {
 		{
 			if (msg.what == NO_BOTTLE_HANDLER)
 			{
-				Toast.makeText(getApplicationContext(), "当前没有漂流瓶", Toast.LENGTH_SHORT).show();
+				voice_msg.setBackgroundResource(R.drawable.lj_bottle_star);
+				voice_msg.setOnClickListener(new OnClickListener() 
+				{
+					@Override
+					public void onClick(View v) 
+					{
+						finish(); 
+					}
+				});
 			}
 			else if (msg.what == PICK_BOTTLE_HANDLER)
 			{
 				final int bottleID = msg.arg1;
-				voice_msg.setOnClickListener(new OnClickListener() {
-					
+				voice_msg.setBackgroundResource(R.drawable.bottle_picked_text_msg);
+				voice_msg.setOnClickListener(new OnClickListener() 
+				{
 					@Override
-					public void onClick(View arg0) {
+					public void onClick(View arg0) 
+					{
 						Intent intent = new Intent();
 						intent.putExtra("bottleID", bottleID);
 						intent.setClass(getApplicationContext(), BottleInfoActivity.class);
 						startActivity(intent);
-						
+						finish();
 					}
 				});
 			}
@@ -61,6 +73,7 @@ public class PickupBottle extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.pick_up_bottle);
+		bottleManager = BottleManager.getInstance();
 		// 初始化
 		pick_spray1 = (ImageView) findViewById(R.id.lj_pick_spray1);
 		pick_spray2 = (ImageView) findViewById(R.id.lj_pick_spray2);
@@ -72,7 +85,7 @@ public class PickupBottle extends Activity {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(System.currentTimeMillis());
 		hour = c.get(Calendar.HOUR_OF_DAY);
-		minute = c.get(Calendar.MINUTE);
+		minute = c.get(Calendar.MINUTE); 
 		sec = c.get(Calendar.SECOND);
 		if (hour >= 18 || hour <= 6)
 			pick_up_layout.setBackgroundResource(R.drawable.bottle_pick_bg_spotlight_night);
@@ -123,7 +136,7 @@ public class PickupBottle extends Activity {
 			@Override
 			public void run() 
 			{
-				CommBottle bottle = DriftBottleActivity.bottleManager.pickup();
+				CommBottle bottle = bottleManager.pickup();
 				if (bottle == null)
 				{
 					handler.sendEmptyMessage(NO_BOTTLE_HANDLER);
@@ -153,8 +166,8 @@ public class PickupBottle extends Activity {
 		ad = (AnimationDrawable) getResources().getDrawable(
 				R.anim.pick_up_spray);
 		if (pick_spray1 != null && pick_spray2 != null) {
-			pick_spray1.setBackgroundDrawable(ad);
-			pick_spray2.setBackgroundDrawable(ad);
+			pick_spray1.setBackground(ad);
+			pick_spray2.setBackground(ad);
 		}
 
 	}

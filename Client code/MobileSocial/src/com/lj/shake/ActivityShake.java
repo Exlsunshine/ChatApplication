@@ -6,8 +6,11 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
 import com.example.testmobiledatabase.R;
-import com.lj.customview.LoadingView;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
+import com.yg.ui.dialog.DialogActivity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -20,8 +23,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -100,6 +103,23 @@ public class ActivityShake extends Activity
         
         markerclicklistener = new markerClickListener(myHandler);
         baiduMap.setOnMarkerClickListener(markerclicklistener);
+        gShakeBall.setHandler(myHandler);
+	}
+	
+	private UserGuide userGuide;
+	
+	private void setupUserGuide()
+	{
+		userGuide = new UserGuide(this, "’“ ≈Û ”—", "“°“ª“°", Gravity.CENTER, Overlay.Style.Circle, "#CC3399");
+		userGuide.beginWith(gShakeBall, true, new GuideComplete()
+		{
+			@Override
+			public void onUserGuideCompleted()
+			{
+				initListener();
+				UserGuide.disableUserGuide(UserGuide.SHAKE_ACTIVITY);
+			}
+		});
 	}
 	
     @Override
@@ -111,8 +131,8 @@ public class ActivityShake extends Activity
         mainLayout = (RelativeLayout)findViewById(R.id.lj_shake_layout);
         initDpi();
         initView();
-        initListener();
         setupDialogActionBar();
+        
     }
 
     @Override
@@ -122,9 +142,12 @@ public class ActivityShake extends Activity
     	if (hasFocus && !flag)
     	{
     		gShakeBall = (ShakeBall)findViewById(R.id.lj_shake_ball);
-    		gShakeBall.setHandler(myHandler);
     		gShakeBall.setMoveRange(mainLayout.getWidth(), mainLayout.getHeight());
     		flag = true;
+    		if (UserGuide.isNeedUserGuide(ActivityShake.this, UserGuide.SHAKE_ACTIVITY))
+    			setupUserGuide();
+    		else
+    			initListener();
     	}
     }
     

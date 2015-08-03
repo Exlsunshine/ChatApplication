@@ -14,6 +14,9 @@ import com.tp.messege.AbstractPost;
 import com.tp.messege.EmptyPost;
 import com.tp.views.MenuRightAnimations;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +39,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +52,8 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 {
     // clock
     private FrameLayout clockLayout;
+    private LinearLayout send, back;
+    private Button fakeButton;
     private PullToRefreshListView mPullRefreshListView;
     private ListView mListView;
     private EmptyPost empty = new EmptyPost();
@@ -61,6 +68,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     private int position1 = 0;
     private boolean isOncreate = false;
     private int index = 0, top = 0;
+    private UserGuide userGuide;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     
     private void setupDialogActionBar()
@@ -72,24 +80,23 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		
 		TextView title = (TextView)findViewById(R.id.tp_publicactivity_actionbar_title);
 		title.setText("朋友圈");
-		LinearLayout back = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_back);
-		LinearLayout send = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_send);
-		back.setOnClickListener(new OnClickListener()
+		back = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_back);
+		send = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_send);
+	}
+    private void setupUserGuide()
+	{
+    	fakeButton.setVisibility(View.VISIBLE);
+    	fakeButton.bringToFront();
+		userGuide = new UserGuide(this, "匿 名", "发送新鲜事", Gravity.BOTTOM | Gravity.LEFT, Overlay.Style.Circle, "#FF9900");
+		userGuide.addAnotherGuideArea(send, fakeButton, true, "我 的 分 享", "点击查看自己的新鲜事", Gravity.BOTTOM, Gravity.CENTER, "#1E90FF");
+		userGuide.beginWith(send, false, new GuideComplete()
 		{
 			@Override
-			public void onClick(View v)
+			public void onUserGuideCompleted()
 			{
-				finish();
-			}
-		});
-		
-		send.setOnClickListener(new OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				Intent intent = new Intent(PublicActivity.this, SendPostActivity.class);
-				startActivity(intent);
+				fakeButton.setVisibility(View.GONE);
+				setClickListener();
+				UserGuide.disableUserGuide(UserGuide.FRIENDCIRCLE_ACTIVITY);
 			}
 		});
 	}
@@ -139,12 +146,11 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
                 }
         	};
         }.start();
-        
+        fakeButton = (Button) findViewById(R.id.tp_fake_button);
         mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.publicactivity_pulltorefreshlist_view);
         mListView = mPullRefreshListView.getRefreshableView();
-        mListView.setOnItemClickListener(new OnItemClickListenerImpl());
+       
         mPullRefreshListView.setOnPositionChangedListener(this);
-        setClickListener();
         clockLayout = (FrameLayout)findViewById(R.id.publicactivity_clock);
         mPullRefreshListView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true, true)); 
         mPullRefreshListView.setOnScrollListener(new OnScrollListener() 
@@ -190,6 +196,10 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 			{
 			}
 		});
+        if (UserGuide.isNeedUserGuide(PublicActivity.this, UserGuide.FRIENDCIRCLE_ACTIVITY))
+        	setupUserGuide();
+        else
+        	setClickListener();
         isOncreate = true;
     }
     
@@ -205,7 +215,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 				mListView.setAdapter(chatHistoryAdapter);
 				mListView.setSelectionFromTop(index, top);
 				Log.e("PA_____", "setSelection position1 = " + position1);
-				mListView.setOnItemClickListener(new OnItemClickListenerImpl());
+				/*mListView.setOnItemClickListener(new OnItemClickListenerImpl());*/
 				mPullRefreshListView.onRefreshComplete();
 				break;
 			case pulluprefresh:
@@ -474,6 +484,33 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	private void setClickListener() 
 	{
 		mPullRefreshListView.setOnRefreshListener(mOnrefreshListener);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				finish();
+			}
+		});
+		
+		send.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Intent intent = new Intent(PublicActivity.this, SendPostActivity.class);
+				startActivity(intent);
+			}
+		});
+		/*fakeButton.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Log.e("fakeButton.setOnClickListener", "onclick");
+			}
+		});*/
+		mListView.setOnItemClickListener(new OnItemClickListenerImpl());
 	}
 	
 	@Override
@@ -494,28 +531,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         			handler.sendMessage(message);
 				}
 			});
-			/*Thread td = new Thread(new Runnable()
-	        {
-				@Override
-	        	public void run() 
-	        	{
-	        		try
-	        		{
-	        			Thread.sleep(50);
-	        			Message message = Message.obtain();
-	        			ap.clear();
-	        			ap.add(empty);
-	        			ap.addAll(ConstantValues.user.pm.getfriendpost());
-	        			message.what = setAdpter;
-	        			handler.sendMessage(message);
-	        		}
-	        		catch (Exception e)
-	                {
-	        			e.printStackTrace();
-	                }
-	        	}
-	        });
-			td.start();*/
 			super.onResume();
 		}
 		else

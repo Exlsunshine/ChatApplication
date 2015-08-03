@@ -51,17 +51,28 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/lj_map_line" />
 
-            <TextView
-                android:id="@+id/lj_map_begingame"
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:textSize="@dimen/lj_activity_map_text_size"
-                android:background="@drawable/lj_map_textview_circular"
-                android:gravity="center"
-                android:text="开始解密"
-                android:textColor="@color/black" />
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/lj_map_begingame"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/lj_map_textview_circular"
+                    android:gravity="center"
+                    android:text="开始解密"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/lj_activity_map_text_size" />
+
+                <View
+                    android:id="@+id/lj_shake_guide_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="gone" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 

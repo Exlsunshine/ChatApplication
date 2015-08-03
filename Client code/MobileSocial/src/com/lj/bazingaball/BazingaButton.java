@@ -331,6 +331,8 @@ public class BazingaButton extends View implements Comparable<BazingaButton>{
 		canvas.drawLine(width - start, start, start, height - start, paint);
 	}
 	
+	
+	
 	public boolean isAlive()
 	{
 		return alive;
