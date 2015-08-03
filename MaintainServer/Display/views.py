@@ -1,4 +1,7 @@
+
 from django.shortcuts import render
+from django.http import HttpResponse
+
 
 # Create your views here.
 def line(request):
@@ -17,5 +20,16 @@ def home(request):
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
-
     return response
+
+def dynamic(request):
+    response =  render(request, "dynamic.html")
+    response['Cache-Control'] = "no-cache"
+    response['Cache-Control'] = "no-store"
+    response['Pragma'] = "no-cache"
+    return response
+
+def getNum(request):
+    import random
+    random = random.uniform(-2,2)
+    return HttpResponse(random)
