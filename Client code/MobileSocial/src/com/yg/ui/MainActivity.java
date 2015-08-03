@@ -49,6 +49,8 @@ import com.lj.satellitemenu.SatelliteMenu.SateliteClickedListener;
 import com.lj.satellitemenu.SatelliteMenuItem;
 import com.lj.settings.ActivitySettings;
 import com.lj.shake.ActivityShake;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tp.ui.PublicActivity;
 import com.tp.ui.SendPostActivity;
 import com.yg.commons.ConstantValues;
@@ -109,6 +111,15 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 			setupUserGuide();
 		else
 			setupListener();
+		
+		initImageLoader();
+	}
+	
+	private void initImageLoader()
+	{
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).build();
+		imageLoader.init(config);
 	}
 	
 	private void setupUserGuide()
