@@ -13,7 +13,7 @@ def column(request):
     return render(request, "column.html", {'sexDict' : sexDict})
 
 def skip(request):
-    return render(request, "skip.html")
+    return render(request, "index.html")
 
 
 def home(request):
