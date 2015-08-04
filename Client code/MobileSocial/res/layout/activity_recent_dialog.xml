@@ -1,17 +1,16 @@
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"  
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#F8F8FF" >
+    android:background="@android:color/holo_green_light" >
 
     <com.yg.ui.recentdialog.implementation.RecentDialogListView
-        android:id="@+id/yg_recent_dialog_listview"  
-    	android:layout_width="fill_parent"  
-        android:layout_height="fill_parent"   
-        android:divider="#DCDCDC"  
+        android:id="@+id/yg_recent_dialog_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="#F0EFF5"
-        android:dividerHeight="2px" >  
-    </com.yg.ui.recentdialog.implementation.RecentDialogListView>  
+        android:divider="#DCDCDC"
+        android:dividerHeight="2px" >
+    </com.yg.ui.recentdialog.implementation.RecentDialogListView>
 
-</LinearLayout >
+</LinearLayout>

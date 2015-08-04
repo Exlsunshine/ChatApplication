@@ -9,8 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -90,6 +93,8 @@ public class RecentDialogActivity extends Activity implements RemoveListener//, 
 				ConstantValues.user.setContext(RecentDialogActivity.this);
 				ArrayList<Dialog> dialogs = ConstantValues.user.getRecentDialogs();
 				
+				refreshListViewBackground(dialogs.size());
+				
 				for (int i = 0; i <dialogs.size(); i++)
 				{
 					int friendID = dialogs.get(i).getAnotherUserID();
@@ -139,6 +144,26 @@ public class RecentDialogActivity extends Activity implements RemoveListener//, 
 		}
 
 		return result;
+	}
+	
+	private Handler handler;
+	private static final int UPDATE_WITH_DEFAULT_BACKGROUND = 0x01;
+	private static final int UPDATE_WITH_NORMAL_BACKGROUND = 0x02;
+	
+	private void refreshListViewBackground(int count)
+	{
+		if (count == 0)
+		{
+			Message msg = new Message();
+			msg.what = UPDATE_WITH_DEFAULT_BACKGROUND;
+			handler.sendEmptyMessage(UPDATE_WITH_DEFAULT_BACKGROUND);
+		}
+		else
+		{
+			Message msg = new Message();
+			msg.what = UPDATE_WITH_NORMAL_BACKGROUND;
+			handler.sendEmptyMessage(UPDATE_WITH_NORMAL_BACKGROUND);
+		}
 	}
 	
 	@Override
@@ -202,6 +227,27 @@ public class RecentDialogActivity extends Activity implements RemoveListener//, 
 			}
 		});*/
 		
+		handler = new Handler()
+		{
+			@Override
+			public void handleMessage(Message msg) 
+			{
+				super.handleMessage(msg);
+				
+				switch (msg.what)
+				{
+				case UPDATE_WITH_DEFAULT_BACKGROUND:
+					finalListView.setBackgroundResource(R.drawable.yg_recent_dialog_background);
+					break;
+				case UPDATE_WITH_NORMAL_BACKGROUND:
+					finalListView.setBackgroundColor(Color.parseColor("#F0EFF5"));
+					break;
+				default:
+					break;
+				}
+			};
+		};
+		
 		loadRecentDialogs();
 		
 		registerReceiver(broadcastReceiver, intentFilter());
@@ -222,6 +268,9 @@ public class RecentDialogActivity extends Activity implements RemoveListener//, 
 		dates.clear();
 		portraits.clear();
 		unreadAmount.clear();
+		
+		refreshListViewBackground(dialogs.size());
+		
 		for (int i = 0; i <dialogs.size(); i++)
 		{
 			int friendID = dialogs.get(i).getAnotherUserID();
@@ -301,6 +350,8 @@ public class RecentDialogActivity extends Activity implements RemoveListener//, 
 			
 			myAdapter.remove(position - 2);
 			myAdapter.notifyDataSetChanged();
+			
+			refreshListViewBackground(myAdapter.getCount());
 		}
 	}
 	
