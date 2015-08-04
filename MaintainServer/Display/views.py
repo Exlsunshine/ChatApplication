@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 
+
 # Create your views here.
 def line(request):
     return render(request, "line.html")
@@ -16,7 +17,9 @@ def skip(request):
 
 
 def home(request):
-    response =  render(request, "home.html")
+    home_active = 'active'
+    SecTitleIcon = 'icon-dashboard'
+    response =  render(request, "home.html", {'home_active' : home_active, 'sec_title_icon' :SecTitleIcon})
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
@@ -35,7 +38,9 @@ def getNum(request):
     return HttpResponse(random)
 
 def getRealTimeOnlinePage(request):
-    response =  render(request, "Display/subview/realtime_online.html")
+    realtimeonline_active = 'active'
+    SecTitleIcon = 'icon-edit'
+    response =  render(request, "Display/subview/realtime_online.html", {'realtimeonline_active' : realtimeonline_active, 'sec_title_icon' :SecTitleIcon} )
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
