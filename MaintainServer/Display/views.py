@@ -26,7 +26,7 @@ def home(request):
     return response
 
 def dynamic(request):
-    response =  render(request, "dynamic.html")
+    response =  render(request, "Display/charts/realtime_online.html")
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
@@ -34,7 +34,7 @@ def dynamic(request):
 
 def getNum(request):
     import random
-    random = random.uniform(-2,2)
+    random = random.randint(10,20)
     return HttpResponse(random)
 
 def getRealTimeOnlinePage(request):

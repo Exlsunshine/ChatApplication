@@ -40,12 +40,15 @@ $(function () {
                 text: '实时在线人数'
             },
             xAxis: {
+                title:{
+                    text:'时间'
+                },
                 type: 'datetime',
                 tickPixelInterval: 150
             },
             yAxis: {
                 title: {
-                    text: 'Value'
+                    text: '人数'
                 },
                 plotLines: [{
                     value: 0,
@@ -57,7 +60,7 @@ $(function () {
                 formatter: function () {
                     return '<b>' + this.series.name + '</b><br/>' +
                         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
+                        Highcharts.numberFormat(this.y, 2) + '人';
                 }
             },
             legend: {
@@ -67,7 +70,7 @@ $(function () {
                 enabled: false
             },
             series: [{
-                name: 'Random data',
+                name: '实时在线人数',
                 data: (function () {
                     // generate an array of random data
                     var data = [],
@@ -77,7 +80,7 @@ $(function () {
                     for (i = -19; i <= 0; i += 1) {
                         data.push({
                             x: time + i * 1000,
-                            y: Math.random()
+                            y: 50
                         });
                     }
                     return data;
