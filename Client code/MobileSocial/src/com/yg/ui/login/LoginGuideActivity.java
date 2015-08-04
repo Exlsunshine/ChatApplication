@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,7 +44,7 @@ import com.yg.ui.signup.SignupActivity;
 
 public class LoginGuideActivity extends Activity
 {
-	//private static final String DEBUG_TAG = "LoginGuideActivity______";
+//	private static final String DEBUG_TAG = "LoginGuideActivity______";
 	private AlertDialog loginDialog, forgotDialog, signupDialog, testNetworkDialog;
 	
 	private ViewPager viewPager;
@@ -297,6 +299,24 @@ public class LoginGuideActivity extends Activity
 		}
 	} 
 	
+	private void hideInputManager()
+	{
+		try
+		{
+			Window window = loginDialog.getWindow();
+			View view = window.getCurrentFocus();
+			if (view != null)
+			{  
+			    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+			}
+		}
+		catch (Exception e)
+		{
+			e.getStackTrace();
+		}
+	}
+	
 	private class onLoginBtnClickListener implements OnClickListener
 	{
 		@Override
@@ -315,6 +335,8 @@ public class LoginGuideActivity extends Activity
 			switch (result)
 			{
 			case 0:
+				hideInputManager();
+				
 				//add loading animation
 				runOnUiThread(new Runnable() 
 				{
@@ -377,10 +399,10 @@ public class LoginGuideActivity extends Activity
 			case 4:
 				email.startAnimation(shake);
 				password.startAnimation(shake);
-				Toast.makeText(LoginGuideActivity.this, "Wrong password or email address.", Toast.LENGTH_LONG).show();
+				Toast.makeText(LoginGuideActivity.this, "√‹¬ÎªÚ” œ‰¥ÌŒÛ!", Toast.LENGTH_LONG).show();
 				break;
 			case 5:
-				Toast.makeText(LoginGuideActivity.this, "Unkown error.", Toast.LENGTH_LONG).show();
+				Toast.makeText(LoginGuideActivity.this, "Œ¥÷™¥ÌŒÛ!", Toast.LENGTH_LONG).show();
 				break;
 			default:
 				break;
