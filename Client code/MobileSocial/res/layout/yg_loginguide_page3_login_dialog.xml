@@ -15,7 +15,6 @@
     <!-- "@android:color/white" -->
 
     <EditText
-        android:text=""
         android:id="@+id/yg_loginguide_page3_dialog_email"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -27,10 +26,10 @@
         android:inputType="textEmailAddress"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
-        android:paddingTop="10dp" />
+        android:paddingTop="10dp"
+        android:text="" />
 
     <EditText
-        android:text=""
         android:id="@+id/yg_loginguide_page3_dialog_password"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -41,7 +40,8 @@
         android:inputType="textPassword"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
-        android:paddingTop="10dp" />
+        android:paddingTop="10dp"
+        android:text="" />
 
     <LinearLayout
         android:id="@+id/yg_loginguide_page3_dialog_login_button_layout"
@@ -55,23 +55,25 @@
         <Button
             android:id="@+id/yg_loginguide_page3_dialog_forgot"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
             android:text="找回密码"
-            android:textColor="#1E90FF" />
+            android:textColor="#1E90FF"
+            android:textSize="17sp" />
 
         <Button
             android:id="@+id/yg_loginguide_page3_dialog_login"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_marginLeft="20.0dip"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
             android:text="登陆"
             android:textColor="#1E90FF"
+            android:textSize="17sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -79,9 +81,9 @@
         android:id="@+id/yg_loginguide_page3_dialog_login_loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minWidth="300dp"
-        android:minHeight="200dp"
         android:gravity="center"
+        android:minHeight="200dp"
+        android:minWidth="300dp"
         android:visibility="gone" >
 
         <ImageView

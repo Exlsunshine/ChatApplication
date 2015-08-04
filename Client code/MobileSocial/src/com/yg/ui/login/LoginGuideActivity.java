@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -317,6 +318,12 @@ public class LoginGuideActivity extends Activity
 		}
 	}
 	
+	private void viberate()
+	{
+		Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+		vibrator.vibrate(500);
+	}
+	
 	private class onLoginBtnClickListener implements OnClickListener
 	{
 		@Override
@@ -388,18 +395,22 @@ public class LoginGuideActivity extends Activity
 				break;
 			case 1:
 				email.startAnimation(shake);
+				viberate();
 				break;
 			case 2:
 				password.startAnimation(shake);
+				viberate();
 				break;
 			case 3:
 				email.startAnimation(shake);
 				password.startAnimation(shake);
+				viberate();
 				break;
 			case 4:
 				email.startAnimation(shake);
 				password.startAnimation(shake);
 				Toast.makeText(LoginGuideActivity.this, "√‹¬ÎªÚ” œ‰¥ÌŒÛ!", Toast.LENGTH_LONG).show();
+				viberate();
 				break;
 			case 5:
 				Toast.makeText(LoginGuideActivity.this, "Œ¥÷™¥ÌŒÛ!", Toast.LENGTH_LONG).show();
