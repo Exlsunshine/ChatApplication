@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^$', 'Display.views.home'),
 
     url(r'^getNum$', 'Display.views.getNum'),
+    url(r'^subview$', 'Display.views.subview'),
 ]

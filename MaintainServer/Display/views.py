@@ -33,3 +33,17 @@ def getNum(request):
     import random
     random = random.uniform(-2,2)
     return HttpResponse(random)
+
+def getRealTimeOnlinePage(request):
+    response =  render(request, "Display/subview/realtime_online.html")
+    response['Cache-Control'] = "no-cache"
+    response['Cache-Control'] = "no-store"
+    response['Pragma'] = "no-cache"
+    return response
+
+def subview(request):
+    pageName = request.GET['pageName']
+    if (pageName == 'RealTimeOnline'):
+        return getRealTimeOnlinePage(request)
+    else:
+        return home(request)
