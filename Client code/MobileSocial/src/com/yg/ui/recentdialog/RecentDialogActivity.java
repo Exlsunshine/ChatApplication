@@ -19,6 +19,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.testmobiledatabase.R;
 import com.yg.commons.CommonUtil;
@@ -54,6 +56,8 @@ public class RecentDialogActivity extends Activity implements RemoveListener//, 
 	
 	private int currentChattingWithID = -1;
 	private boolean isRunningAtBackground = false;
+	
+	private LinearLayout emptyMsgBackground;
 	
 	@Override
 	protected void onResume() 
@@ -179,6 +183,7 @@ public class RecentDialogActivity extends Activity implements RemoveListener//, 
 		finalListView.setAdapter(myAdapter);
 		finalListView.setOnItemClickListener(new OnItemClickListenerImpl());
 
+		emptyMsgBackground = (LinearLayout) super.findViewById(R.id.yg_recent_dialog_empty_background);
 		/*finalListView.setonRefreshListener(new OnRefreshListener()
 		{
 			public void onRefresh()
@@ -237,10 +242,14 @@ public class RecentDialogActivity extends Activity implements RemoveListener//, 
 				switch (msg.what)
 				{
 				case UPDATE_WITH_DEFAULT_BACKGROUND:
-					finalListView.setBackgroundResource(R.drawable.yg_recent_dialog_background);
+					emptyMsgBackground.setVisibility(View.VISIBLE);
+					finalListView.setVisibility(View.INVISIBLE);
+//					finalListView.setBackgroundResource(R.drawable.yg_recent_dialog_background);
 					break;
 				case UPDATE_WITH_NORMAL_BACKGROUND:
-					finalListView.setBackgroundColor(Color.parseColor("#F0EFF5"));
+//					finalListView.setBackgroundColor(Color.parseColor("#F0EFF5"));
+					emptyMsgBackground.setVisibility(View.INVISIBLE);
+					finalListView.setVisibility(View.VISIBLE);
 					break;
 				default:
 					break;
