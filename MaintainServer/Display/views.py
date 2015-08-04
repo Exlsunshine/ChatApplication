@@ -1,6 +1,7 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from dataprocess.DataGenerator import *
 
 
 
@@ -25,17 +26,16 @@ def home(request):
     response['Pragma'] = "no-cache"
     return response
 
-def dynamic(request):
-    response =  render(request, "Display/charts/realtime_online.html")
-    response['Cache-Control'] = "no-cache"
-    response['Cache-Control'] = "no-store"
-    response['Pragma'] = "no-cache"
-    return response
-
 def getNum(request):
     import random
-    random = random.randint(10,20)
-    return HttpResponse(random)
+    num = getOnLineNum()
+    random_num = random.randint(10,20)
+    sign = random.randint(0, 1)
+    if (sign == 0):
+        num = num + random_num
+    else:
+        num = num - random_num
+    return HttpResponse(num)
 
 def getRealTimeOnlinePage(request):
     realtimeonline_active = 'active'

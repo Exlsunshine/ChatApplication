@@ -32,6 +32,7 @@ $(function () {
                             xmlHttp.send( null );
                             var y = parseInt(xmlHttp.responseText);
                             series.addPoint([x, y], true, true);
+                            document.getElementById("realtime_online_num").innerHTML = y;
                         }, 1000);
                     }
                 }
@@ -76,11 +77,17 @@ $(function () {
                     var data = [],
                         time = (new Date()).getTime(),
                         i;
+                    var xmlHttp = null;
+                            xmlHttp = new XMLHttpRequest();
+                            xmlHttp.open( "GET", "getNum", false );
+                            xmlHttp.send( null );
+                            var y = parseInt(xmlHttp.responseText);
+                            document.getElementById("realtime_online_num").innerHTML = y;
 
                     for (i = -19; i <= 0; i += 1) {
                         data.push({
                             x: time + i * 1000,
-                            y: 50
+                            y: y
                         });
                     }
                     return data;

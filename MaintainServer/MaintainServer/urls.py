@@ -21,7 +21,6 @@ urlpatterns = [
     url(r'^column$', 'Display.views.column'),
     url(r'^line$', 'Display.views.line'),
     url(r'^skip$', 'Display.views.skip'),
-     url(r'^dynamic$', 'Display.views.dynamic'),
     url(r'^$', 'Display.views.home'),
 
     url(r'^getNum$', 'Display.views.getNum'),
