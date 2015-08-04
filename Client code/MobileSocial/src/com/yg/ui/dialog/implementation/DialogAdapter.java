@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.testmobiledatabase.R;
 import com.lj.translator.Translator;
 import com.lj.translator.TranslatorActivity;
+import com.tp.ui.ImageZoomInActivity;
 import com.tp.ui.MyselfPostActivity;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
@@ -131,6 +132,17 @@ public class DialogAdapter extends BaseAdapter
 				holder.tvMyText.setVisibility(View.GONE);
 				
 				holder.ivMyImage.setImageBitmap(((ImageMessage)messages.get(position)).getImage());
+				holder.ivMyImage.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						Intent intent = new Intent(context, ImageZoomInActivity.class);
+						intent.putExtra("Path", "file://" + ((ImageMessage)messages.get(position)).getContent());
+						context.startActivity(intent);
+					}
+				});
+				
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 				holder.ivMyAudio.setVisibility(View.GONE);
@@ -196,6 +208,17 @@ public class DialogAdapter extends BaseAdapter
 				holder.tvFriendText.setVisibility(View.GONE);
 				
 				holder.ivFriendImage.setImageBitmap(((ImageMessage)messages.get(position)).getImage());
+				
+				holder.ivFriendImage.setOnClickListener(new OnClickListener()
+				{
+					@Override
+					public void onClick(View v)
+					{
+						Intent intent = new Intent(context, ImageZoomInActivity.class);
+						intent.putExtra("Path", "file://" + ((ImageMessage)messages.get(position)).getContent());
+						context.startActivity(intent);
+					}
+				});
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_TEXT:
 				holder.ivFriendAudio.setVisibility(View.GONE);
