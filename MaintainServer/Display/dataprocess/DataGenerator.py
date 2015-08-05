@@ -1,5 +1,6 @@
 __author__ = 'LJ'
 
+
 def getOnLineNumFromDataBase():
     return 300
 
@@ -16,6 +17,10 @@ def getSexSatisticsDictFromDataBase():
     dict = {}
     dict['male'] = 37.3
     dict['female'] = 100 - dict['male']
+    return dict
+
+def getMapDistributionDictFromDataBase():
+    dict = {}
     return dict
 
 def main():
