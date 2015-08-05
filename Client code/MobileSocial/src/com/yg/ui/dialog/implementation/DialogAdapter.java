@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +34,7 @@ import com.yg.user.FriendUser;
 
 public class DialogAdapter extends BaseAdapter 
 {
+	private static final String DEBUG_TAG = "DialogAdapter______";
 	private Context context;
 	private ArrayList<AbstractMessage> messages;
 	private ImagePreviewManager imagePreviewManager;
@@ -113,17 +117,20 @@ public class DialogAdapter extends BaseAdapter
 				holder.tvMyAudioLength.setVisibility(View.VISIBLE);
 				holder.ivMyImage.setVisibility(View.GONE);
 				holder.tvMyText.setVisibility(View.GONE);
+				holder.tvMyAudioLength.setText(String.format("%d''", ((AudioMessage)messages.get(position)).getDuration(context)));
 				
 				holder.ivMyAudio.setOnClickListener(new OnClickListener()
 				{
 					@Override
-					public void onClick(View v) 
+					public void onClick(final View v) 
 					{
-						((AudioMessage)messages.get(position)).play(context);
+						GetDureationTast durationTask = new GetDureationTast(v, position, 
+								R.anim.yg_dialog_activity_my_voice_playing_anim,
+								R.drawable.yg_dialog_activity_my_voice_norm);
+						durationTask.execute(v, position);
 					}
 				});
 				
-				holder.tvMyAudioLength.setText(String.format("%d''", ((AudioMessage)messages.get(position)).getDuration(context)));
 				break;
 			case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
 				holder.ivMyAudio.setVisibility(View.GONE);
@@ -192,9 +199,12 @@ public class DialogAdapter extends BaseAdapter
 				holder.ivFriendAudio.setOnClickListener(new OnClickListener()
 				{
 					@Override
-					public void onClick(View v) 
+					public void onClick(final View v) 
 					{
-						((AudioMessage)messages.get(position)).play(context);
+						GetDureationTast durationTask = new GetDureationTast(v, position, 
+								R.anim.yg_dialog_activity_friend_voice_playing_anim,
+								R.drawable.yg_dialog_activity_friend_voice_norm);
+						durationTask.execute(v, position);
 					}
 				});
 				
@@ -301,5 +311,64 @@ public class DialogAdapter extends BaseAdapter
 		ImageView ivFriendPortrait, ivMyPortrait;
 		RelativeLayout rlFriendLayout, rlMyLayout;
 		TextView tvTime;
+	}
+	
+	private class GetDureationTast extends AsyncTask<Object, String, Void>
+	{
+		private ImageView imageView;
+		private int position;
+		private long duration;
+		private AnimationDrawable frameAnimation;
+		private int animationID;
+		private int defaultBackgroundID;
+		
+		public GetDureationTast(View view, int position, int animationID, int defaultBackgroundID)
+		{
+			this.position = position;
+			this.imageView = (ImageView) view;
+			this.animationID = animationID;
+			this.defaultBackgroundID = defaultBackgroundID;
+		}
+		
+		@Override
+		protected void onPreExecute() 
+		{
+			super.onPreExecute();
+			
+			((AudioMessage)messages.get(position)).play(context);
+			imageView.setBackgroundResource(animationID);
+			frameAnimation = (AnimationDrawable) imageView.getBackground();
+		    frameAnimation.start();
+		}
+		
+		@Override
+		protected Void doInBackground(Object... params) 
+		{
+			duration = ((AudioMessage)messages.get(position)).getDuration(context);
+			Log.i(DEBUG_TAG, "Voice duration is " + duration);
+			
+			 while(duration != 0 && duration > 0)
+			 {
+				 try 
+				 {
+					 Thread.sleep(1000);
+					 duration--;
+				 } catch (InterruptedException e) {
+					 e.printStackTrace();
+				 }
+			 } 
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) 
+		{
+			super.onPostExecute(result);
+			
+			Log.i(DEBUG_TAG, "Stop void animation.");
+			frameAnimation.stop();
+			imageView.setBackgroundResource(defaultBackgroundID);
+		}
 	}
 }
