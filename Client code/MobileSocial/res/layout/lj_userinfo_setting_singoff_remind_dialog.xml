@@ -56,26 +56,5 @@
             android:textColor="#1E90FF"/>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/yg_loginguide_page3_dialog_login_loading_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minWidth="300dp"
-        android:minHeight="200dp"
-        android:gravity="center"
-        android:visibility="gone" >
-
-        <ImageView
-            android:id="@+id/yg_loginguide_page3_dialog_login_loading_layout_left_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yg_loading_bkg1" />
-
-        <ImageView
-            android:id="@+id/yg_loginguide_page3_dialog_login_loading_layout_right_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yg_loading_bkg2" />
-    </RelativeLayout>
 
 </LinearLayout>
