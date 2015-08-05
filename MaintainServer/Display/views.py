@@ -20,7 +20,8 @@ def skip(request):
 def home(request):
     home_active = 'active'
     SecTitleIcon = 'icon-dashboard'
-    response =  render(request, "home.html", {'home_active' : home_active, 'sec_title_icon' :SecTitleIcon})
+    online_stack = 'nav nav-stacked'
+    response =  render(request, "home.html", {'home_active' : home_active, 'sec_title_icon' :SecTitleIcon, 'online_stack': online_stack})
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
@@ -44,7 +45,10 @@ def getDownloadNum(request):
 def getRealTimeOnlinePage(request):
     realtimeonline_active = 'active'
     SecTitleIcon = 'icon-edit'
-    response =  render(request, "Display/subview/realtime_online.html", {'realtimeonline_active' : realtimeonline_active, 'sec_title_icon' :SecTitleIcon} )
+    online_active = 'active'
+    online_stack = 'in nav nav-stacked'
+    response =  render(request, "Display/subview/realtime_online.html", {'realtimeonline_active' : realtimeonline_active, 'sec_title_icon' :SecTitleIcon
+                                                                          ,'online_active':online_active,'online_stack':online_stack} )
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
@@ -53,8 +57,11 @@ def getRealTimeOnlinePage(request):
 def getPerHourOnlinePage(request):
     list = getPerHourOnLineNumFromDataBase()
     perhouronline_active = 'active'
+    online_active = 'active'
     SecTitleIcon = 'icon-edit'
-    response =  render(request, "Display/subview/perhour_online.html", {'perhouronline_active' : perhouronline_active, 'sec_title_icon' :SecTitleIcon, 'perhouronline_list' : list} )
+    online_stack = 'in nav nav-stacked'
+    response =  render(request, "Display/subview/perhour_online.html", {'perhouronline_active' : perhouronline_active, 'sec_title_icon' :SecTitleIcon, 'perhouronline_list' : list
+                                                                        ,'online_active':online_active, 'online_stack':online_stack} )
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
