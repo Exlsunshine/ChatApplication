@@ -33,6 +33,11 @@ $(function () {
                             var y = parseInt(xmlHttp.responseText);
                             series.addPoint([x, y], true, true);
                             document.getElementById("realtime_online_num").innerHTML = y;
+
+                            xmlHttp.open( "GET", "getDownloadNum", false );
+                            xmlHttp.send( null );
+                            var downloadNum = parseInt(xmlHttp.responseText);
+                            document.getElementById("download_num").innerHTML = downloadNum;
                         }, 1000);
                     }
                 }
@@ -83,6 +88,11 @@ $(function () {
                             xmlHttp.send( null );
                             var y = parseInt(xmlHttp.responseText);
                             document.getElementById("realtime_online_num").innerHTML = y;
+
+                            xmlHttp.open( "GET", "getDownloadNum", false );
+                            xmlHttp.send( null );
+                            var downloadNum = parseInt(xmlHttp.responseText);
+                            document.getElementById("download_num").innerHTML = downloadNum;
 
                     for (i = -19; i <= 0; i += 1) {
                         data.push({

@@ -26,9 +26,9 @@ def home(request):
     response['Pragma'] = "no-cache"
     return response
 
-def getNum(request):
+def getRealtimeOnLineNum(request):
     import random
-    num = getOnLineNum()
+    num = getOnLineNumFromDataBase()
     random_num = random.randint(10,20)
     sign = random.randint(0, 1)
     if (sign == 0):
@@ -36,6 +36,10 @@ def getNum(request):
     else:
         num = num - random_num
     return HttpResponse(num)
+
+def getDownloadNum(request):
+    num = getDownloadNuFromDataBasem()
+    return HttpResponse(300)
 
 def getRealTimeOnlinePage(request):
     realtimeonline_active = 'active'

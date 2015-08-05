@@ -1,11 +1,14 @@
 __author__ = 'LJ'
 
-def getOnLineNum():
+def getOnLineNumFromDataBase():
+    return 300
+
+def getDownloadNuFromDataBasem():
     return 300
 
 
 def main():
-    num = getOnLineNum()
+    num = getOnLineNumFromDataBase()
     print num
 
 if __name__ == '__main__':

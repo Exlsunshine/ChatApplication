@@ -2,6 +2,7 @@
 /Client code/MobileSocial/gen
 /Server code/MobileSocialServer/bin
 /Server code/MobileSocialServer/.metadata
+*.pyc
 issues.txt
 issues2.txt
 

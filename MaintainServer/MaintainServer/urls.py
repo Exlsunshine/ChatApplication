@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^skip$', 'Display.views.skip'),
     url(r'^$', 'Display.views.home'),
 
-    url(r'^getNum$', 'Display.views.getNum'),
+    url(r'^getNum$', 'Display.views.getRealtimeOnLineNum'),
+    url(r'^getDownloadNum$', 'Display.views.getDownloadNum'),
     url(r'^subview$', 'Display.views.subview'),
 ]
