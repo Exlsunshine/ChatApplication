@@ -1,5 +1,5 @@
 package com.lj.driftbottle.logic;
-
+ 
 
 /**
  * Bottle base class
