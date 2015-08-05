@@ -12,10 +12,15 @@ def getPerHourOnLineNumFromDataBase():
         list.append(i)
     return list
 
+def getSexSatisticsDictFromDataBase():
+    dict = {}
+    dict['male'] = 37.3
+    dict['female'] = 100 - dict['male']
+    return dict
 
 def main():
-    num = getOnLineNumFromDataBase()
-    print num
+    dict = getSexSatisticsDictFromDataBase()
+    print dict['male']
 
 if __name__ == '__main__':
     main()
