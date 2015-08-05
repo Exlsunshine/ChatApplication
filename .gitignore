@@ -3,7 +3,7 @@
 /Server code/MobileSocialServer/bin
 /Server code/MobileSocialServer/.metadata
 *.pyc
-MaintainServer/.idea/*
+/MaintainServer/.idea/*
 issues.txt
 issues2.txt
 
