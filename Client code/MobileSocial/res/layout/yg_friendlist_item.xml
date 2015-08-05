@@ -6,7 +6,7 @@
     android:layout_height="65dp"
     android:background="@android:color/white"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,7 +31,6 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/picture"
             android:text="Name"
@@ -42,21 +41,14 @@
         android:id="@+id/yg_friendlist_item_star"
         android:layout_width="90dp"
         android:layout_height="match_parent"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
         android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter" />
-<!--android:src="@drawable/yg_slide_yellow_star_gray_icon"   -->
+        android:scaleType="fitCenter"
+        android:src="@drawable/yg_slide_yellow_star_gray_icon" />
+
     <ImageView
         android:id="@+id/button"
         android:layout_width="90dp"
         android:layout_height="match_parent"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="0dp"
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter"
         android:src="@drawable/yg_slide_delete_icon" />
