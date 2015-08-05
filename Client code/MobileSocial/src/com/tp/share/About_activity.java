@@ -40,7 +40,7 @@ import android.widget.Toast;
 
 public class About_activity extends Activity 
 {
-	private ImageView weiBoBtn, weChatBtn, qqBtn, copyBoardBtn, eMailBtn, friendCircleBtn;
+	private ImageView weiBoBtn, weChatBtn, qqBtn, copyBoardBtn, eMailBtn, friendCircleBtn, renrenBtn;
 	private Button updateBtn, recommandBtn, policyBtn;
 	private ImageView mask, blurImageView;
 	private RelativeLayout aboutLayout;
@@ -51,8 +51,8 @@ public class About_activity extends Activity
 	private Bitmap bm;
 	boolean isBlur = false;
 	private final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
-	private final String title = "软件分享";
-	final String content = "这是一个测试啊啊啊";
+	private final String title = "分享";
+	final String content = "好东西，要分享！向大家推荐#Mystery#陌生交友应用!";
 	private final String TAG_ = "About_activity";
     @Override
     protected void onCreate(Bundle savedInstanceState) 
@@ -185,6 +185,7 @@ public class About_activity extends Activity
     	copyBoardBtn = (ImageView) findViewById(R.id.tp_about_copyBoard_btn);
     	eMailBtn = (ImageView) findViewById(R.id.tp_about_email_btn);
     	friendCircleBtn = (ImageView) findViewById(R.id.tp_about_friendcircle_btn);
+    	renrenBtn = (ImageView) findViewById(R.id.tp_about_renren_btn);
     	animationTopToMid = AnimationUtils.loadAnimation(About_activity.this, R.anim.tp_top_to_mid);
     	animationMidToBottom = AnimationUtils.loadAnimation(About_activity.this, R.anim.tp_mid_to_bottom);
     	animationMidToBottom.setAnimationListener(new onAnimationListener());
@@ -214,8 +215,8 @@ public class About_activity extends Activity
 			{
 				Log.e(TAG_, "weiBoBtn click");
 				Intent intent = new Intent("android.intent.action.SEND");
-				intent.putExtra(Intent.EXTRA_SUBJECT, "分享软件");
-				intent.putExtra(Intent.EXTRA_TEXT, "我要共享这个软件");
+				intent.putExtra(Intent.EXTRA_SUBJECT, title);
+				intent.putExtra(Intent.EXTRA_TEXT, content);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.setType("text/plain");
 				intent.setComponent(new ComponentName("com.tencent.mobileqq","com.tencent.mobileqq.activity.JumpActivity"));
@@ -227,8 +228,15 @@ public class About_activity extends Activity
 			@Override
 			public void onClick(View arg0) 
 			{
-				Log.e(TAG_, "weiBoBtn click");
-				Toast.makeText(About_activity.this, "此功能暂无", Toast.LENGTH_SHORT).show();
+				Toast.makeText(About_activity.this, "此功能正在开发中，敬请期待!", Toast.LENGTH_SHORT).show();
+			}
+		});
+    	renrenBtn.setOnClickListener(new OnClickListener() 
+    	{
+			@Override
+			public void onClick(View arg0) 
+			{
+				Toast.makeText(About_activity.this, "此功能正在开发中，敬请期待!", Toast.LENGTH_SHORT).show();
 			}
 		});
     	weChatBtn.setOnClickListener(new OnClickListener() 
@@ -241,13 +249,12 @@ public class About_activity extends Activity
 					@Override
 					public void onStart() 
 					{
-						Toast.makeText(About_activity.this, "开始分享.", Toast.LENGTH_SHORT).show();
 					}
 					@Override
 					public void onComplete(SHARE_MEDIA arg0, int eCode, SocializeEntity arg2) {
 						if (eCode == 200) 
 						{
-	                         Toast.makeText(About_activity.this, "分享成功.", Toast.LENGTH_SHORT).show();
+	                         //Toast.makeText(About_activity.this, "分享成功!", Toast.LENGTH_SHORT).show();
 	                     } 
 						else 
 						{
@@ -256,7 +263,7 @@ public class About_activity extends Activity
 	                          {
 	                              eMsg = "没有授权";
 	                          }
-	                          Toast.makeText(About_activity.this, "分享失败[" + eCode + "] " + eMsg,Toast.LENGTH_SHORT).show();
+	                         // Toast.makeText(About_activity.this, "分享失败[" + eCode + "] " + eMsg,Toast.LENGTH_SHORT).show();
 	                     }
 					}
 				};
@@ -271,11 +278,13 @@ public class About_activity extends Activity
 			{
 				 Intent email =  new  Intent(android.content.Intent.ACTION_SEND);  
 		         email.setType( "plain/text" );  
-		         String emailSubject =  "共享软件";
-		         String emailBody = "我要共享这个软件";
+		         String emailSubject =  title;
+		         String emailBody = content;
+
+		         email.putExtra(android.content.Intent.EXTRA_EMAIL, "");
 		         email.putExtra(android.content.Intent.EXTRA_SUBJECT, emailSubject);  
 		         email.putExtra(android.content.Intent.EXTRA_TEXT, emailBody);  
-		         startActivityForResult(Intent.createChooser(email,  "请选择邮件发送软件" ),1001 );  
+		         startActivityForResult(Intent.createChooser(email,  "请选择邮箱" ),1001 );  
 			}
 		});
     	copyBoardBtn.setOnClickListener(new OnClickListener() 
@@ -286,11 +295,11 @@ public class About_activity extends Activity
 				ClipboardManager cmb = (ClipboardManager)About_activity.this.getSystemService(About_activity.this.CLIPBOARD_SERVICE); 
 				if (cmb.getText().equals(content))
 				{
-					Toast.makeText(About_activity.this, "内容已经存在", Toast.LENGTH_SHORT).show();
+					Toast.makeText(About_activity.this, "内容已经存在，快告诉小伙伴们吧!", Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
-					Toast.makeText(About_activity.this, "内容复制成功", Toast.LENGTH_SHORT).show();
+					Toast.makeText(About_activity.this, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
 					cmb.setText(content.trim());
 				}
 			}
@@ -305,13 +314,12 @@ public class About_activity extends Activity
 					@Override
 					public void onStart() 
 					{
-						Toast.makeText(About_activity.this, "开始分享.", Toast.LENGTH_SHORT).show();
 					}
 					@Override
 					public void onComplete(SHARE_MEDIA arg0, int eCode, SocializeEntity arg2) {
 						if (eCode == 200) 
 						{
-	                         Toast.makeText(About_activity.this, "分享成功.", Toast.LENGTH_SHORT).show();
+	                         //Toast.makeText(About_activity.this, "分享成功.", Toast.LENGTH_SHORT).show();
 	                     } 
 						else 
 						{
@@ -320,7 +328,7 @@ public class About_activity extends Activity
 	                          {
 	                              eMsg = "没有授权";
 	                          }
-	                          Toast.makeText(About_activity.this, "分享失败[" + eCode + "] " + eMsg,Toast.LENGTH_SHORT).show();
+	                      //Toast.makeText(About_activity.this, "分享失败[" + eCode + "] " + eMsg,Toast.LENGTH_SHORT).show();
 	                     }
 					}
 				};
@@ -373,6 +381,7 @@ public class About_activity extends Activity
             }
         });
     }
+    
     private Handler handler = new Handler()
     {
 		@Override
@@ -380,17 +389,6 @@ public class About_activity extends Activity
 		{
 			switch (msg.what) 
 			{
-			/*case blurlayout:
-				RelativeLayout view = (RelativeLayout)findViewById(R.id.tp_about_layout);
-				view.setDrawingCacheEnabled(true);
-				view.buildDrawingCache();
-				bm = view.getDrawingCache();
-				bm = Blur.fastblur(bm, 25);
-				blurImageView.setImageBitmap(bm);
-				blurImageView.setVisibility(View.VISIBLE);
-				blurImageView.bringToFront();
-				buttonLayout.bringToFront();
-				break;*/
 			case showblurlayout:
 				blurImageView.setImageBitmap(bm);
 				blurImageView.setVisibility(View.VISIBLE);
