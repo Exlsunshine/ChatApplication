@@ -3,6 +3,8 @@ package com.tp.ui;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
 import com.example.testmobiledatabase.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
@@ -374,67 +376,22 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> 
 	{
 		int pullState;
+		private ArrayList<AbstractPost> tmp;
 		public GetDataTask(int pullType) 
 		{
 			this.pullState = pullType;
 		}
 		
 		@Override
-		protected String[] doInBackground(Void... params) {
-			try 
-			{
-				Thread.sleep(1000);
-			} 
-			catch (InterruptedException e) 
-			{
-			}
-			return mStrings;
-		}
-
-		@Override
-		protected void onPostExecute(String[] result) {
+		protected String[] doInBackground(Void... params) 
+		{
 			if(pullState == 1) 
 			{
-				Log.e("onPostExecute", "下拉");
-				Thread td = new Thread(new Runnable()
-		        {
-					@Override
-		        	public void run() 
-		        	{
-		        		try
-		        		{
-		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getLatestPosts();
-		        			
-		        			if (tmp == null)
-		        			{
-		        				Log.d("PA______",  "tmp getLatestPosts size null");
-		        				Message message = Message.obtain();
-			    				message.what = pulluprefreshempty;
-			    				handler.sendMessage(message);
-		        			}
-		        			else
-		        			{
-		        				Log.d("PA______", tmp.size() + "tmp getLatestPosts size");
-		        				ap.clear();
-			        			ap.add(empty);
-			          			ap.addAll(tmp);
-			          			Message message = Message.obtain();
-			    				message.what = setAdpter;
-			    				handler.sendMessage(message);
-		        			}
-		        		}
-		        		catch (Exception e)
-		                {
-		        			e.printStackTrace();
-		                }
-		        	}
-		        });
-				td.start();
 				try 
 				{
-					td.join();
+					tmp = ConstantValues.user.pm.getLatestPosts();
 				} 
-				catch (InterruptedException e) 
+				catch (JSONException e) 
 				{
 					e.printStackTrace();
 				}
@@ -442,43 +399,55 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 			if(pullState == 2) 
 			{
 				//上拉
-				Log.e("onPostExecute", "上拉");
-				Thread td = new Thread(new Runnable()
-		        {
-					@Override
-		        	public void run() 
-		        	{
-		        		try
-		        		{
-		        			Log.d("getHistoryPostssdebug_______", "______");
-		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getHistoryPosts();
-		        			if (tmp == null)
-		        			{
-		        				Message message = Message.obtain();
-			    				message.what = pulluprefreshempty;
-			    				handler.sendMessage(message);
-		        			}
-		        			else
-		        			{
-		        				ap.clear();
-			        			ap.add(empty);
-		        				ap.addAll(tmp);
-			          			Message message = Message.obtain();
-			    				message.what = pulluprefresh;
-			    				handler.sendMessage(message);
-		        			}
-		        		}
-		        		catch (Exception e)
-		                {
-		        			e.printStackTrace();
-		                }
-		        	}
-		        });
-				td.start();
+				tmp = ConstantValues.user.pm.getHistoryPosts();
 			}
-			super.onPostExecute(result);
+			return null;
 		}
-		private String[] mStrings = { "Abbaye de Belloc" };
+
+		@Override
+		protected void onPostExecute(String[] result)
+		{
+			super.onPostExecute(result);
+
+			if(pullState == 1) 
+			{
+					if (tmp == null)
+	    			{
+	    				Log.d("PA______",  "tmp getLatestPosts size null");
+	    				Message message = Message.obtain();
+	    				message.what = pulluprefreshempty;
+	    				handler.sendMessage(message);
+	    			}
+	    			else
+	    			{
+	    				Log.d("PA______", tmp.size() + "tmp getLatestPosts size");
+	    				ap.clear();
+	        			ap.add(empty);
+	          			ap.addAll(tmp);
+	          			Message message = Message.obtain();
+	    				message.what = setAdpter;
+	    				handler.sendMessage(message);
+	    			}
+			}
+			if(pullState == 2) 
+			{
+    			if (tmp == null)
+    			{
+    				Message message = Message.obtain();
+    				message.what = pulluprefreshempty;
+    				handler.sendMessage(message);
+    			}
+    			else
+    			{
+    				ap.clear();
+        			ap.add(empty);
+    				ap.addAll(tmp);
+          			Message message = Message.obtain();
+    				message.what = pulluprefresh;
+    				handler.sendMessage(message);
+    			}
+			}
+		}
 	}
 	
 	private void setClickListener() 
