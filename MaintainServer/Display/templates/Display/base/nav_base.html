@@ -7,29 +7,24 @@
                     <span>主页</span>
                 </a>
             </li>
-            <li class={{realtimeonline_active}}>
-                <a href='subview?pageName=RealTimeOnline'>
-                    <i class='icon-edit'></i>
-                    <span>实时在线人数</span>
-                </a>
-            </li>
+
             <li>
                 <a class='dropdown-collapse ' href='#'>
-                    <i class='icon-tint'></i>
-                    <span>UI Elements & Widgets</span>
+                    <i class='icon-edit'></i>
+                    <span>在线人数</span>
                     <i class='icon-angle-down angle-down'></i>
                 </a>
                 <ul class='nav nav-stacked'>
-                    <li class=''>
-                        <a href='ui_elements.html'>
+                    <li class={{realtimeonline_active}}>
+                        <a href='subview?pageName=RealTimeOnline'>
                             <i class='icon-caret-right'></i>
-                            <span>UI Elements</span>
+                            <span>实时在线人数</span>
                         </a>
                     </li>
-                    <li class=''>
-                        <a href='widgets.html'>
+                    <li class={{perhouronline_active}}>
+                        <a href='subview?pageName=PerHourOnline'>
                             <i class='icon-caret-right'></i>
-                            <span>Widgets</span>
+                            <span>每小时在线人数</span>
                         </a>
                     </li>
                 </ul>

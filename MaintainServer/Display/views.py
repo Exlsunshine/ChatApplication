@@ -38,7 +38,7 @@ def getRealtimeOnLineNum(request):
     return HttpResponse(num)
 
 def getDownloadNum(request):
-    num = getDownloadNuFromDataBasem()
+    num = getDownloadNumFromDataBase()
     return HttpResponse(300)
 
 def getRealTimeOnlinePage(request):
@@ -50,9 +50,21 @@ def getRealTimeOnlinePage(request):
     response['Pragma'] = "no-cache"
     return response
 
+def getPerHourOnlinePage(request):
+    list = getPerHourOnLineNumFromDataBase()
+    perhouronline_active = 'active'
+    SecTitleIcon = 'icon-edit'
+    response =  render(request, "Display/subview/perhour_online.html", {'perhouronline_active' : perhouronline_active, 'sec_title_icon' :SecTitleIcon, 'perhouronline_list' : list} )
+    response['Cache-Control'] = "no-cache"
+    response['Cache-Control'] = "no-store"
+    response['Pragma'] = "no-cache"
+    return response
+
 def subview(request):
     pageName = request.GET['pageName']
     if (pageName == 'RealTimeOnline'):
         return getRealTimeOnlinePage(request)
+    elif (pageName == 'PerHourOnline'):
+        return getPerHourOnlinePage(request)
     else:
         return home(request)
