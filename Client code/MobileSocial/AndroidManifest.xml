@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.testmobiledatabase"
     android:versionCode="1"
@@ -133,7 +133,34 @@
         <activity android:name="com.tp.ui.MyselfPostActivity" >
         </activity>
         <activity android:name="com.tp.ui.ImageZoomInActivity" />
-        
+        <activity
+            android:name="com.tp.share.About_activity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="com.tp.share.TermOfService_activity" >
+        </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="55b9bd2b67e58eb1d1000057" >
+        </meta-data>
+
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.renn.rennsdk.oauth.OAuthActivity"
+            android:configChanges="orientation|navigation|keyboardHidden" />
         <activity android:name="com.lj.shake.ActivityShake" />
         <activity
             android:name="com.lj.settings.ActivitySettings"
@@ -154,7 +181,6 @@
         <activity android:name="com.lj.driftbottle.ui.chuck_animation" />
         <activity android:name="com.lj.driftbottle.ui.BottleInfoActivity" />
         <activity android:name="com.lj.driftbottle.ui.DriftBottleActivity" />
-        
         <activity android:name="com.yg.image.preview.ImagePreviewActivity" />
         <activity
             android:name="com.yg.videochat.VideoChatActivity"

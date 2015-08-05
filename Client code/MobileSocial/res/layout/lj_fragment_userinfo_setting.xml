@@ -40,7 +40,7 @@
                     android:layout_width="@dimen/lj_userinfo_portrait_height"
                     android:layout_height="@dimen/lj_userinfo_portrait_height"
                     android:layout_marginLeft="@dimen/lj_userinfo_item_left_marign"
-                    android:background="@drawable/ic_launcher"
+                    android:background="@drawable/lancher_icon"
                     android:scaleType="fitCenter" />
             </LinearLayout>
 
@@ -317,6 +317,35 @@
             android:layout_marginTop="@dimen/lj_userinfo_setting_top_marign"
             android:background="@color/lj_setting_background_color"
             android:orientation="vertical" >
+            
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:src="@drawable/lj_setting_line" />
+
+            <RelativeLayout
+                android:id="@+id/lj_userinfo_setting_about_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <TextView
+                    android:id="@+id/lj_userinfo_setting_about_text"
+                    android:layout_width="@dimen/lj_userinfo_item_width"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_marginLeft="@dimen/lj_userinfo_setting_left_marign"
+                    android:gravity="center"
+                    android:text="关于"
+                    android:textSize="@dimen/lj_userinfo_text_size" />
+
+                <ImageView
+                    android:id="@+id/lj_userinfo_setting_about_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/lj_userinfo_item_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lj_userinfo_setting_left_marign"
+                    android:src="@drawable/lj_userinfo_setting_arrow" />
+            </RelativeLayout>
 
             <ImageView
                 android:layout_width="match_parent"
