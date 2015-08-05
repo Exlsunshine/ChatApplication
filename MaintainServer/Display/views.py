@@ -96,6 +96,24 @@ def getSexStatisticsPage(request):
     response['Pragma'] = "no-cache"
     return response
 
+def getMapDistributionPage(request):
+    online_stack = 'nav nav-stacked'
+    statistics_stack =  'in nav nav-stacked'
+
+    SecTitleIcon = 'icon-cogs'
+    statistics_active = 'active'
+    map_active = 'active'
+
+    dict = getSexSatisticsDictFromDataBase()
+    response =  render(request, "Display/subview/mapdistribution.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
+                                                                        ,'map_active':map_active,
+                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack
+                                                                       ,'sexDict':dict} )
+    response['Cache-Control'] = "no-cache"
+    response['Cache-Control'] = "no-store"
+    response['Pragma'] = "no-cache"
+    return response
+
 def subview(request):
     pageName = request.GET['pageName']
     if (pageName == 'RealTimeOnline'):
@@ -104,5 +122,7 @@ def subview(request):
         return getPerHourOnlinePage(request)
     elif (pageName == 'SexStatistics'):
         return getSexStatisticsPage(request)
+    elif (pageName == 'MapDistribution'):
+        return getMapDistributionPage(request)
     else:
         return home(request)

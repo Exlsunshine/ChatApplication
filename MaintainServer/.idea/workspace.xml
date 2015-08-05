@@ -24,54 +24,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="nav_base.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Display/templates/Display/base/nav_base.html">
+      <file leaf-file-name="mapdistribution_chart.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Display/templates/Display/charts/mapdistribution_chart.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.214286">
-              <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.6336088">
+              <caret line="112" column="23" selection-start-line="112" selection-start-column="23" selection-end-line="112" selection-end-column="23" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sexstatistics.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Display/templates/Display/subview/sexstatistics.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.3571428">
-              <caret line="2" column="40" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Display/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="92" column="77" selection-start-line="92" selection-start-column="77" selection-end-line="92" selection-end-column="77" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataGenerator.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Display/dataprocess/DataGenerator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sexstatistics_chart.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Display/templates/Display/charts/sexstatistics_chart.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6859504">
-              <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -109,21 +67,23 @@
         <option value="$PROJECT_DIR$/Display/templates/dynamic.html" />
         <option value="$PROJECT_DIR$/Display/templates/Display/charts.html" />
         <option value="$PROJECT_DIR$/Display/templates/Display/charts/dynamic.html" />
-        <option value="$PROJECT_DIR$/Display/templates/Display/base/page_base.html" />
         <option value="$PROJECT_DIR$/Display/templates/Display/charts/realtime_online.html" />
         <option value="$PROJECT_DIR$/Display/templates/Display/charts/realtime_online_chart.html" />
         <option value="$PROJECT_DIR$/MaintainServer/urls.py" />
         <option value="$PROJECT_DIR$/Display/templates/Display/base/online_num_base.html" />
-        <option value="$PROJECT_DIR$/Display/templates/Display/subview/realtime_online.html" />
-        <option value="$PROJECT_DIR$/Display/templates/Display/subview/perhour_online.html" />
         <option value="$PROJECT_DIR$/Display/templates/Display/charts/perhour_online_chart.html" />
         <option value="$PROJECT_DIR$/Display/templates/Display/base/title_base.html" />
         <option value="$PROJECT_DIR$/Display/templates/Display/base/sec_title_base.html" />
-        <option value="$PROJECT_DIR$/Display/templates/Display/base/nav_base.html" />
-        <option value="$PROJECT_DIR$/Display/templates/Display/subview/sexstatistics.html" />
-        <option value="$PROJECT_DIR$/Display/views.py" />
         <option value="$PROJECT_DIR$/Display/dataprocess/DataGenerator.py" />
         <option value="$PROJECT_DIR$/Display/templates/Display/charts/sexstatistics_chart.html" />
+        <option value="$PROJECT_DIR$/Display/templates/Display/base/page_base.html" />
+        <option value="$PROJECT_DIR$/Display/templates/Display/subview/perhour_online.html" />
+        <option value="$PROJECT_DIR$/Display/templates/Display/subview/realtime_online.html" />
+        <option value="$PROJECT_DIR$/Display/templates/Display/subview/mapdistribution.html" />
+        <option value="$PROJECT_DIR$/Display/templates/Display/subview/sexstatistics.html" />
+        <option value="$PROJECT_DIR$/Display/templates/Display/base/nav_base.html" />
+        <option value="$PROJECT_DIR$/Display/views.py" />
+        <option value="$PROJECT_DIR$/Display/templates/Display/charts/mapdistribution_chart.html" />
       </list>
     </option>
   </component>
@@ -298,6 +258,54 @@
               <option name="myItemId" value="Display" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MaintainServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MaintainServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Display" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MaintainServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MaintainServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Display" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -330,11 +338,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\workspace\ChatApplication\MaintainServer\Display\static\chart\js" />
+      <recent name="E:\workspace\ChatApplication\MaintainServer\Display\static\chart" />
       <recent name="E:\workspace\ChatApplication\MaintainServer\Display\templates\Display\charts" />
       <recent name="E:\workspace\ChatApplication\MaintainServer\Display\templates" />
       <recent name="E:\workspace\ChatApplication\MaintainServer\Display\templates\subview" />
-      <recent name="E:\workspace\ChatApplication\MaintainServer\Display\static\download" />
-      <recent name="E:\workspace\ChatApplication\MaintainServer\Display\static\video" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\workspace\ChatApplication\MaintainServer\Display\templates" />
@@ -344,7 +352,7 @@
       <recent name="E:\workspace\ChatApplication\MaintainServer\Display\static\page\assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.DataGenerator">
+  <component name="RunManager" selected="Python.runserver">
     <configuration default="false" name="MySql" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -602,26 +610,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Display/static/page/assets/images/plugins/dynatree/icons.gif">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Display/static/page/assets/images/plugins/dynatree/loading.gif">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Display/static/page/assets/images/plugins/bootstrap_colorpicker/alpha.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Display/static/page/assets/images/plugins/bootstrap_colorpicker/hue.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Display/static/page/assets/images/plugins/bootstrap_colorpicker/saturation.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -826,13 +814,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Display/templates/Display/base/page_base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5489614">
-          <caret line="101" column="40" selection-start-line="101" selection-start-column="40" selection-end-line="101" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/realtime_online.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.0357144">
@@ -861,13 +842,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Display/templates/Display/subview/realtime_online.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Display/templates/Display/charts/realtime_online_chart.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-21.5">
@@ -889,29 +863,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Display/templates/Display/charts/perhour_online_chart.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37190083">
-          <caret line="22" column="64" selection-start-line="22" selection-start-column="64" selection-end-line="22" selection-end-column="64" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Display/templates/Display/base/sec_title_base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0523416">
           <caret line="2" column="40" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Display/templates/Display/subview/perhour_online.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -923,37 +878,101 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Display/templates/Display/base/nav_base.html">
+    <entry file="file://$PROJECT_DIR$/Display/templates/Display/charts/sexstatistics_chart.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.214286">
-          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.6280992">
+          <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Display/static/chart/js/highmaps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Html/Highmaps-1.1.7/examples/map-drilldown/z.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.107143">
+          <caret line="349" column="0" selection-start-line="349" selection-start-column="0" selection-end-line="351" selection-end-column="99" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Display/templates/Display/charts/perhour_online_chart.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.12534435">
+          <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Display/templates/Display/base/page_base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.5357144">
+          <caret line="95" column="86" selection-start-line="95" selection-start-column="86" selection-end-line="95" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Display/templates/Display/subview/realtime_online.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.107143">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Display/templates/Display/subview/perhour_online.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.7142856">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="8" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Display/templates/Display/subview/sexstatistics.html">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.75">
+          <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Display/templates/Display/subview/mapdistribution.html">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.3571428">
-          <caret line="2" column="40" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
+          <caret line="2" column="51" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Display/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="77" selection-start-line="92" selection-start-column="77" selection-end-line="92" selection-end-column="77" />
+        <state vertical-scroll-proportion="0.47082227">
+          <caret line="100" column="44" selection-start-line="100" selection-start-column="44" selection-end-line="100" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Display/templates/Display/charts/sexstatistics_chart.html">
+    <entry file="file://$PROJECT_DIR$/Display/templates/Display/base/nav_base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6859504">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.4187328">
+          <caret line="45" column="65" selection-start-line="45" selection-start-column="50" selection-end-line="45" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Display/templates/Display/charts/mapdistribution_chart.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6336088">
+          <caret line="112" column="23" selection-start-line="112" selection-start-column="23" selection-end-line="112" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>

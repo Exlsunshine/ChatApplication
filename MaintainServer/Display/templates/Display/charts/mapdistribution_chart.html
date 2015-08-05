@@ -1,0 +1,177 @@
+<script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.2.min.js"></script>
+		<style type="text/css">
+${demo.css}
+		</style>
+		<script type="text/javascript">
+$(function () {
+
+    // Prepare demo data
+    var data = [
+
+        {
+            "hc-key": "cn-sh",  //上海
+            "value": 1
+        },
+        {
+            "hc-key": "cn-zj", //浙江
+            "value": 3
+        },
+        {
+            "hc-key": "cn-gs", //甘肃
+            "value": 9
+        },
+        {
+            "hc-key": "cn-nx", //宁夏
+            "value": 10
+        },
+        {
+            "hc-key": "cn-sa",  //陕西
+            "value": 24
+        },
+        {
+            "hc-key": "cn-ah",//安徽
+            "value": 29
+        },
+        {
+            "hc-key": "cn-hu", //湖北
+            "value": 30
+        },
+        {
+            "hc-key": "cn-gd", //广东
+            "value": 450
+        },
+        {
+            "hc-key": "cn-fj",//福建
+            "value": 46
+        },
+        {
+            "hc-key": "cn-bj", //北京
+            "value": 48
+        },
+        {
+            "hc-key": "cn-hb",//河北
+            "value": 49
+        },
+        {
+            "hc-key": "cn-sd", //山东
+            "value": 52
+        },
+        {
+            "hc-key": "cn-tj", //天津
+            "value": 54
+        },
+        {
+            "hc-key": "cn-js",//江苏
+            "value": 55
+        },
+        {
+            "hc-key": "cn-ha", //海南
+            "value": 56
+        },
+        {
+            "hc-key": "cn-qh", //青海
+            "value": 57
+        },
+        {
+            "hc-key": "cn-jl",//吉林
+            "value": 58
+        },
+        {
+            "hc-key": "cn-xz", //西藏
+            "value": 59
+        },
+        {
+            "hc-key": "cn-xj",//新疆
+            "value": 6
+        },
+        {
+            "hc-key": "cn-he",//河南
+            "value": 61
+        },
+        {
+            "hc-key": "cn-nm",//内蒙
+            "value": 62
+        },
+        {
+            "hc-key": "cn-hl", //黑龙江
+            "value": 63
+        },
+        {
+            "hc-key": "cn-yn",//云南
+            "value": 64
+        },
+        {
+            "hc-key": "cn-gx",//广西
+            "value": 65
+        },
+        {
+            "hc-key": "cn-ln",//辽宁
+            "value": 66
+        },
+        {
+            "hc-key": "cn-sc",//四川
+            "value": 67
+        },
+        {
+            "hc-key": "cn-cq",//重庆
+            "value": 68
+        },
+        {
+            "hc-key": "cn-gz",//贵州
+            "value": 69
+        },
+        {
+            "hc-key": "cn-hn",//湖南
+            "value": 70
+        },
+        {
+            "hc-key": "cn-sx",//山西
+            "value": 7
+        },
+        {
+            "hc-key": "cn-jx",江西
+            "value": 72
+        }
+    ];
+
+    // Initiate the chart
+    $('#container').highcharts('Map', {
+
+        title : {
+            text : '用户家乡分布图'
+        },
+
+
+
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        colorAxis: {
+            min: 0
+        },
+
+        series : [{
+            data : data,
+            mapData: Highcharts.maps['countries/cn/custom/cn-all-sar-taiwan'],
+            joinBy: 'hc-key',
+            name: '人数',
+            states: {
+                hover: {
+                    color: '#BADA55'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}'
+            }
+        }]
+    });
+});
+
+		</script>
+<div id="container" style="min-width: 750px; height: 600px; margin: 0 auto"></div>
