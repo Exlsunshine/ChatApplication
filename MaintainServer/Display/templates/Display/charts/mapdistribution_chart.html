@@ -5,132 +5,133 @@ ${demo.css}
 		<script type="text/javascript">
 $(function () {
 
+var dict = {{ mapDict|safe }};
     // Prepare demo data
     var data = [
 
         {
             "hc-key": "cn-sh",  //上海
-            "value": 1
+            "value": dict.sh
         },
         {
             "hc-key": "cn-zj", //浙江
-            "value": 3
+            "value": dict.zj
         },
         {
             "hc-key": "cn-gs", //甘肃
-            "value": 9
+            "value": dict.gs
         },
         {
             "hc-key": "cn-nx", //宁夏
-            "value": 10
+            "value": dict.nx
         },
         {
             "hc-key": "cn-sa",  //陕西
-            "value": 24
+            "value": dict.sa
         },
         {
             "hc-key": "cn-ah",//安徽
-            "value": 29
+            "value": dict.ah
         },
         {
             "hc-key": "cn-hu", //湖北
-            "value": 30
+            "value":dict.hu
         },
         {
             "hc-key": "cn-gd", //广东
-            "value": 450
+            "value": dict.gd
         },
         {
             "hc-key": "cn-fj",//福建
-            "value": 46
+            "value": dict.fj
         },
         {
             "hc-key": "cn-bj", //北京
-            "value": 48
+            "value": dict.bj
         },
         {
             "hc-key": "cn-hb",//河北
-            "value": 49
+            "value": dict.hb
         },
         {
             "hc-key": "cn-sd", //山东
-            "value": 52
+            "value": dict.sd
         },
         {
             "hc-key": "cn-tj", //天津
-            "value": 54
+            "value": dict.tj
         },
         {
             "hc-key": "cn-js",//江苏
-            "value": 55
+            "value": dict.js
         },
         {
             "hc-key": "cn-ha", //海南
-            "value": 56
+            "value": dict.ha
         },
         {
             "hc-key": "cn-qh", //青海
-            "value": 57
+            "value": dict.qh
         },
         {
             "hc-key": "cn-jl",//吉林
-            "value": 58
+            "value": dict.jl
         },
         {
             "hc-key": "cn-xz", //西藏
-            "value": 59
+            "value": dict.xz
         },
         {
             "hc-key": "cn-xj",//新疆
-            "value": 6
+            "value": dict.xj
         },
         {
             "hc-key": "cn-he",//河南
-            "value": 61
+            "value": dict.he
         },
         {
             "hc-key": "cn-nm",//内蒙
-            "value": 62
+            "value": dict.nm
         },
         {
             "hc-key": "cn-hl", //黑龙江
-            "value": 63
+            "value": dict.hl
         },
         {
             "hc-key": "cn-yn",//云南
-            "value": 64
+            "value": dict.yn
         },
         {
             "hc-key": "cn-gx",//广西
-            "value": 65
+            "value": dict.gx
         },
         {
             "hc-key": "cn-ln",//辽宁
-            "value": 66
+            "value": dict.ln
         },
         {
             "hc-key": "cn-sc",//四川
-            "value": 67
+            "value": dict.sc
         },
         {
             "hc-key": "cn-cq",//重庆
-            "value": 68
+            "value": dict.cq
         },
         {
             "hc-key": "cn-gz",//贵州
-            "value": 69
+            "value": dict.gz
         },
         {
             "hc-key": "cn-hn",//湖南
-            "value": 70
+            "value": dict.hn
         },
         {
             "hc-key": "cn-sx",//山西
-            "value": 7
+            "value": dict.sx
         },
         {
             "hc-key": "cn-jx",//江西
-            "value": 72
+            "value": dict.jx
         }
     ];
 

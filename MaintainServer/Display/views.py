@@ -104,11 +104,11 @@ def getMapDistributionPage(request):
     statistics_active = 'active'
     map_active = 'active'
 
-    dict = getSexSatisticsDictFromDataBase()
+    dict = getMapDistributionDictFromDataBase()
     response =  render(request, "Display/subview/mapdistribution.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
                                                                         ,'map_active':map_active,
                                                                        'online_stack':online_stack, 'statistics_stack':statistics_stack
-                                                                       ,'sexDict':dict} )
+                                                                       ,'mapDict':dict} )
     response['Cache-Control'] = "no-cache"
     response['Cache-Control'] = "no-store"
     response['Pragma'] = "no-cache"
