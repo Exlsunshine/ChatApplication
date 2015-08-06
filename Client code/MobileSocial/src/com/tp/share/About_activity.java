@@ -11,6 +11,7 @@ import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
+import com.yg.blur.BlurBuilder;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -21,6 +22,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -49,7 +51,7 @@ public class About_activity extends Activity
 	private Animation animationTopToMid, animationMidToBottom;
 	private boolean isRecommandClicked = false;
 	private final int blurlayout = 0, showblurlayout = 1;
-	private Bitmap bm;
+	private Bitmap bm = null;
 	boolean isBlur = false;
 	private final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
 	private final String title = "·ÖÏí";
@@ -167,7 +169,6 @@ public class About_activity extends Activity
 			public void onClick(View v)
 			{
 				bm.recycle();
-				aboutLayout.destroyDrawingCache();
 				System.gc();
 				finish();
 			}
@@ -364,14 +365,15 @@ public class About_activity extends Activity
 			@Override
 			public void onClick(View arg0) 
 			{
-				isRecommandClicked = true;
+				new BlurTask().execute();
+				/*isRecommandClicked = true;
 				Message message = Message.obtain();
 				message.what = showblurlayout;
 				handler.sendMessage(message);
-				buttonLayout.startAnimation(animationTopToMid);
+				buttonLayout.startAnimation(animationTopToMid);*/
 			}
 		});
-    	aboutLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() 
+    	/*aboutLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() 
     	{
             @Override
             public void onGlobalLayout() 
@@ -387,8 +389,41 @@ public class About_activity extends Activity
             		isBlur = true;
             	}
             }
-        });
+        });*/
     }
+    
+    private RelativeLayout lay;
+    private class BlurTask extends AsyncTask<Void, Void, Void>
+	{
+    	@Override
+    	protected void onPreExecute() 
+    	{
+    		lay = (RelativeLayout) findViewById(R.id.tp_about_linearlayout);
+    		super.onPreExecute();
+    	}
+    	
+		@Override
+		protected Void doInBackground(Void... params)
+		{
+			if (bm == null)
+			{
+				Log.i("About page", "Width: " + aboutLayout.getWidth() + " Height: " + aboutLayout.getHeight());
+				bm = BlurBuilder.blur(aboutLayout);
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			isRecommandClicked = true;
+			Message message = Message.obtain();
+			message.what = showblurlayout;
+			handler.sendMessage(message);
+			buttonLayout.startAnimation(animationTopToMid);
+			super.onPostExecute(result);
+		}
+	}
     
     private Handler handler = new Handler()
     {
