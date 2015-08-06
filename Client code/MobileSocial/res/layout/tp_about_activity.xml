@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:alpha="0.8"
+        android:alpha="0.9"
         android:background="@layout/tp_about_background"
         android:orientation="vertical"
         android:visibility="gone" >

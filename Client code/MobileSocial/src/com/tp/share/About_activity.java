@@ -16,6 +16,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -295,8 +296,10 @@ public class About_activity extends Activity
 			@Override
 			public void onClick(View arg0) 
 			{
-				ClipboardManager cmb = (ClipboardManager)About_activity.this.getSystemService(About_activity.this.CLIPBOARD_SERVICE); 
-				if (cmb.getText().equals(content))
+				ClipboardManager cmb = (ClipboardManager)About_activity.this.getSystemService(Context.CLIPBOARD_SERVICE); 
+				Toast.makeText(About_activity.this, "已复制到剪贴板，快告诉小伙伴们吧!", Toast.LENGTH_SHORT).show();
+				cmb.setText(content.trim());
+				/*if (cmb.getText().equals(content))
 				{
 					Toast.makeText(About_activity.this, "内容已经存在，快告诉小伙伴们吧!", Toast.LENGTH_SHORT).show();
 				}
@@ -304,7 +307,7 @@ public class About_activity extends Activity
 				{
 					Toast.makeText(About_activity.this, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
 					cmb.setText(content.trim());
-				}
+				}*/
 			}
 		});
     	friendCircleBtn.setOnClickListener(new OnClickListener() 
@@ -368,7 +371,8 @@ public class About_activity extends Activity
 				buttonLayout.startAnimation(animationTopToMid);
 			}
 		});
-    	aboutLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    	aboutLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() 
+    	{
             @Override
             public void onGlobalLayout() 
             {
