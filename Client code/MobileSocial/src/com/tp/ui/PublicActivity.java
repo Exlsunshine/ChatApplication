@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import org.json.JSONException;
 
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
-
 import com.example.testmobiledatabase.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
@@ -512,7 +511,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     				handler.sendMessage(message);
     			}
 			}
-			super.onPostExecute(result);
 		}
 	}
 	

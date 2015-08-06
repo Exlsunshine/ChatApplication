@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.example.testmobiledatabase.R;
 import com.lj.settings.ActivitySettings;
+import com.tp.share.About_activity;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
 import com.yg.image.select.ui.SelectImageActivity;
@@ -61,7 +62,8 @@ public class FragmentUserInfoSetting extends Fragment
 								   R.id.lj_userinfo_setting_constellation_layout, R.id.lj_userinfo_setting_constellation_text, R.id.lj_userinfo_setting_constellation_image,
 								   R.id.lj_userinfo_setting_hometown_layout, R.id.lj_userinfo_setting_hometown_text, R.id.lj_userinfo_setting_hometown_image,
 								   R.id.lj_userinfo_setting_password_layout, R.id.lj_userinfo_setting_password_text, R.id.lj_userinfo_setting_password_image,
-								   R.id.lj_userinfo_setting_portrait, R.id.lj_userinfo_setting_singoff};
+								   R.id.lj_userinfo_setting_portrait, R.id.lj_userinfo_setting_singoff,
+								   R.id.lj_userinfo_setting_about_layout, R.id.lj_userinfo_setting_about_text, R.id.lj_userinfo_setting_about_image};
 	
 	public FragmentUserInfoSetting(Context context, HashMap<String, String> map) 
 	{
@@ -111,6 +113,12 @@ public class FragmentUserInfoSetting extends Fragment
 				Intent intent = new Intent(gContext, SelectImageActivity.class);
 				intent.putExtra(SelectImageActivity.FILTER_ENABLE, true);
 				startActivityForResult(intent, ACTIVITY_REQUEST_CODE_PORTRAIT);
+			}
+			else if (id == R.id.lj_userinfo_setting_about_layout || id == R.id.lj_userinfo_setting_about_text || id == R.id.lj_userinfo_setting_about_image)
+			{
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), About_activity.class);
+				startActivity(intent);
 			}
 			else if (id == R.id.lj_userinfo_setting_singoff)
 				showSignOffDialog();
