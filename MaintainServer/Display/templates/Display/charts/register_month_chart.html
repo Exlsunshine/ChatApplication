@@ -7,22 +7,20 @@
     }
 </style>
 <script type="text/javascript">
-	var registerday_list = {{registerday_list|safe}}
+	var registermonth_list = {{registermonth_list|safe}}
 	$(function() {
 		$('#container')
 				.highcharts(
 						{
 							title : {
-								text : '本日新注册人数',
+								text : '本月新注册人数',
 								x : -20
 							//center
 							},
 							xAxis : {
-								categories : [ '01:00', '02:00', '03:00',
-										'04:00', '05:00', '06:00', '07:00', '08:00',
-										'09:00', '10:00', '11:00' ,'12:00', '13:00', '14:00', '15:00',
-										'16:00', '17:00', '18:00', '19:00', '20:00',
-										'21:00', '22:00', '23:00', '24:00']
+								categories : [ '1月', '2月', '3月',
+										'4月', '5月', '6月', '7月', '8月',
+										'9月', '10月', '11月' ,'12月']
 							},
 							yAxis : {
 								title : {
@@ -45,8 +43,8 @@
      						   },
 							series : [
 									{
-										name: '本日新注册人数',
-										data : registerday_list
+										name: '本月新注册人数',
+										data : registermonth_list
 									} ,]
 						});
 	});

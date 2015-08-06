@@ -32,7 +32,7 @@ def getMapDistributionDictFromDataBase():
 
 def getRegisterDayFromDataBase():
     list = []
-    for i in range(0,24):
+    for i in range(0,12):
         list.append(i)
     return list
 

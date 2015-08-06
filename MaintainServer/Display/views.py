@@ -128,6 +128,20 @@ def getRegisterDayPage(request):
                                                                        ,'registerday_list':list} )
     return response
 
+def getRegisterMonthPage(request):
+    online_stack = 'nav nav-stacked'
+    statistics_stack =  'in nav nav-stacked'
+
+    SecTitleIcon = 'icon-comments'
+    statistics_active = 'active'
+    register_active = 'active'
+    list = getRegisterDayFromDataBase()
+    response =  render(request, "Display/subview/register_month.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
+                                                                        ,'register_active':register_active,
+                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack
+                                                                       ,'registermonth_list':list} )
+    return response
+
 def subview(request):
     pageName = request.GET['pageName']
     if (pageName == 'RealTimeOnline'):
@@ -140,5 +154,7 @@ def subview(request):
         return getMapDistributionPage(request)
     elif (pageName == 'RegisterDayPage'):
         return getRegisterDayPage(request)
+    elif (pageName == 'RegisterMonthPage'):
+        return getRegisterMonthPage(request)
     else:
         return home(request)
