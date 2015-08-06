@@ -191,6 +191,16 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tp_feed_activity2);
+        
+        /**
+    	 * Below codes belongs to YG
+    	 */
+		System.gc();
+    	/**
+    	 * Above codes belongs to YG
+    	 */
+		
+		
         MenuRightAnimations.initOffset(PublicActivity.this);
         setupDialogActionBar();
         new Thread()
@@ -537,6 +547,13 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 			@Override
 			public void onClick(View v)
 			{
+				/**
+		    	 * Below codes belongs to YG
+		    	 */
+				System.gc();
+				/**
+		    	 * Above codes belongs to YG
+		    	 */
 				finish();
 			}
 		});
