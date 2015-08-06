@@ -41,9 +41,6 @@ def home(request):
     SecTitleIcon = 'icon-dashboard'
 
     response =  render(request, "home.html", {'home_active' : home_active, 'sec_title_icon' :SecTitleIcon, 'online_stack': online_stack, 'statistics_stack':statistics_stack})
-    response['Cache-Control'] = "no-cache"
-    response['Cache-Control'] = "no-store"
-    response['Pragma'] = "no-cache"
     return response
 
 
@@ -59,9 +56,6 @@ def getRealTimeOnlinePage(request):
 
     response =  render(request, "Display/subview/realtime_online.html", {'realtimeonline_active' : realtimeonline_active, 'sec_title_icon' :SecTitleIcon
                                                                           ,'online_active':online_active,'online_stack':online_stack, 'statistics_stack':statistics_stack} )
-    response['Cache-Control'] = "no-cache"
-    response['Cache-Control'] = "no-store"
-    response['Pragma'] = "no-cache"
     return response
 
 def getPerHourOnlinePage(request):
@@ -75,9 +69,6 @@ def getPerHourOnlinePage(request):
     SecTitleIcon = 'icon-edit'
     response =  render(request, "Display/subview/perhour_online.html", {'perhouronline_active' : perhouronline_active, 'sec_title_icon' :SecTitleIcon, 'perhouronline_list' : list
                                                                         ,'online_active':online_active, 'online_stack':online_stack, 'statistics_stack':statistics_stack} )
-    response['Cache-Control'] = "no-cache"
-    response['Cache-Control'] = "no-store"
-    response['Pragma'] = "no-cache"
     return response
 
 def getSexStatisticsPage(request):
@@ -91,9 +82,19 @@ def getSexStatisticsPage(request):
     response =  render(request, "Display/subview/sexstatistics.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
                                                                         ,'sex_active':sex_active, 'online_stack':online_stack, 'statistics_stack':statistics_stack
                                                                        ,'sexDict':dict} )
-    response['Cache-Control'] = "no-cache"
-    response['Cache-Control'] = "no-store"
-    response['Pragma'] = "no-cache"
+    return response
+
+def getAgeDistributionPage(request):
+    online_stack = 'nav nav-stacked'
+    statistics_stack =  'in nav nav-stacked'
+    SecTitleIcon = 'icon-list-ul'
+    statistics_active = 'active'
+    age_active = 'active'
+
+    dict = getAgeDictFromDataBase()
+    response =  render(request, "Display/subview/agedistribution.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
+                                                                        ,'age_active':age_active, 'online_stack':online_stack, 'statistics_stack':statistics_stack
+                                                                       ,'ageDict':dict} )
     return response
 
 def getMapDistributionPage(request):
@@ -109,9 +110,6 @@ def getMapDistributionPage(request):
                                                                         ,'map_active':map_active,
                                                                        'online_stack':online_stack, 'statistics_stack':statistics_stack
                                                                        ,'mapDict':dict} )
-    response['Cache-Control'] = "no-cache"
-    response['Cache-Control'] = "no-store"
-    response['Pragma'] = "no-cache"
     return response
 
 def getRegisterDayPage(request):
@@ -206,6 +204,8 @@ def subview(request):
         return getPerHourOnlinePage(request)
     elif (pageName == 'SexStatistics'):
         return getSexStatisticsPage(request)
+    elif (pageName == 'AgeDistribution'):
+        return getAgeDistributionPage(request)
     elif (pageName == 'MapDistribution'):
         return getMapDistributionPage(request)
     elif (pageName == 'RegisterDayPage'):

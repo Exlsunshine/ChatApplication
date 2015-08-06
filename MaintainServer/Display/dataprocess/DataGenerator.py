@@ -23,6 +23,13 @@ def getSexSatisticsDictFromDataBase():
     dict['female'] = 100 - dict['male']
     return dict
 
+def getAgeDictFromDataBase():
+    import random
+    dict = []
+    for i in range(0, 9):
+        dict.append( random.randint(100,500))
+    return dict
+
 def getMapDistributionDictFromDataBase():
     import random
     dict = {}
