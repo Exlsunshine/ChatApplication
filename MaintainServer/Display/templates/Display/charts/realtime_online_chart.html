@@ -38,6 +38,11 @@ $(function () {
                             xmlHttp.send( null );
                             var downloadNum = parseInt(xmlHttp.responseText);
                             document.getElementById("download_num").innerHTML = downloadNum;
+
+                            xmlHttp.open( "GET", "getMaxOnlineNum", false );
+                            xmlHttp.send( null );
+                            var maxNum = parseInt(xmlHttp.responseText);
+                            document.getElementById("max_num").innerHTML = maxNum;
                         }, 1000);
                     }
                 }
@@ -93,6 +98,11 @@ $(function () {
                             xmlHttp.send( null );
                             var downloadNum = parseInt(xmlHttp.responseText);
                             document.getElementById("download_num").innerHTML = downloadNum;
+
+                            xmlHttp.open( "GET", "getMaxOnlineNum", false );
+                            xmlHttp.send( null );
+                            var maxNum = parseInt(xmlHttp.responseText);
+                            document.getElementById("max_num").innerHTML = maxNum;
 
                     for (i = -19; i <= 0; i += 1) {
                         data.push({

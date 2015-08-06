@@ -29,7 +29,11 @@ def getRealtimeOnLineNum(request):
 
 def getDownloadNum(request):
     num = getDownloadNumFromDataBase()
-    return HttpResponse(300)
+    return HttpResponse(num)
+
+def getMaxOnlineNum(request):
+    num = getMaxOnlineNumFromDataBase()
+    return HttpResponse(num)
 
 
 def home(request):

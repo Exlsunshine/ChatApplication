@@ -11,6 +11,9 @@ def getOnLineNumFromDataBase():
 def getDownloadNumFromDataBase():
     return 300
 
+def getMaxOnlineNumFromDataBase():
+    return 300
+
 def getPerHourOnLineNumFromDataBase():
     list = []
     for i in range(0,24):

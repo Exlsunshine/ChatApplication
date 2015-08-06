@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^$', 'Display.views.home'),
 
     url(r'^getNum$', 'Display.views.getRealtimeOnLineNum'),
+    url(r'^getMaxOnlineNum$', 'Display.views.getMaxOnlineNum'),
     url(r'^getDownloadNum$', 'Display.views.getDownloadNum'),
     url(r'^subview$', 'Display.views.subview'),
 ]
