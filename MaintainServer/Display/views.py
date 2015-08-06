@@ -55,7 +55,7 @@ def getRealTimeOnlinePage(request):
 
 
     realtimeonline_active = 'active'
-    SecTitleIcon = 'icon-edit'
+    SecTitleIcon = 'icon-mobile-phone'
     online_active = 'active'
 
     response =  render(request, "Display/subview/realtime_online.html", {'realtimeonline_active' : realtimeonline_active, 'sec_title_icon' :SecTitleIcon
@@ -70,7 +70,7 @@ def getPerHourOnlinePage(request):
     list = getPerHourOnLineNumFromDataBase()
     perhouronline_active = 'active'
     online_active = 'active'
-    SecTitleIcon = 'icon-edit'
+    SecTitleIcon = 'icon-mobile-phone'
     response =  render(request, "Display/subview/perhour_online.html", {'perhouronline_active' : perhouronline_active, 'sec_title_icon' :SecTitleIcon, 'perhouronline_list' : list
                                                                         ,'online_active':online_active, 'online_stack':online_stack, 'statistics_stack':statistics_stack} )
     return response

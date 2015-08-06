@@ -41,6 +41,7 @@ $(function () {
             y: 25,
             floating: true,
             backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+         //   backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
             borderColor: '#CCC',
             borderWidth: 1,
             shadow: false
@@ -64,6 +65,7 @@ $(function () {
                 }
             }
         },
+        colors:['#0099ff','#ff6666'],
         series: [{
             name: '本年注册人数（男）',
             data: registeryear_dict.male
