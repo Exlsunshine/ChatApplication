@@ -114,6 +114,20 @@ def getMapDistributionPage(request):
     response['Pragma'] = "no-cache"
     return response
 
+def getRegisterDayPage(request):
+    online_stack = 'nav nav-stacked'
+    statistics_stack =  'in nav nav-stacked'
+
+    SecTitleIcon = 'icon-comments'
+    statistics_active = 'active'
+    register_active = 'active'
+    list = getRegisterDayFromDataBase()
+    response =  render(request, "Display/subview/register_day.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
+                                                                        ,'register_active':register_active,
+                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack
+                                                                       ,'registerday_list':list} )
+    return response
+
 def subview(request):
     pageName = request.GET['pageName']
     if (pageName == 'RealTimeOnline'):
@@ -124,5 +138,7 @@ def subview(request):
         return getSexStatisticsPage(request)
     elif (pageName == 'MapDistribution'):
         return getMapDistributionPage(request)
+    elif (pageName == 'RegisterDayPage'):
+        return getRegisterDayPage(request)
     else:
         return home(request)

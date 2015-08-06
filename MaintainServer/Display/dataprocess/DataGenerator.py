@@ -30,6 +30,12 @@ def getMapDistributionDictFromDataBase():
         dict[PROVINCE_DICT[k]] =  random_num = random.randint(100,500)
     return dict
 
+def getRegisterDayFromDataBase():
+    list = []
+    for i in range(0,24):
+        list.append(i)
+    return list
+
 def main():
     dict = getSexSatisticsDictFromDataBase()
     print dict['male']
