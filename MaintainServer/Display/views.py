@@ -156,6 +156,48 @@ def getRegisterYearPage(request):
                                                                        ,'registeryear_dict':dict} )
     return response
 
+def getZombieReturnDayPage(request):
+    online_stack = 'nav nav-stacked'
+    statistics_stack =  'in nav nav-stacked'
+
+    SecTitleIcon = 'icon-pencil'
+    statistics_active = 'active'
+    zombiereturn_active = 'active'
+    dict = getZombieReturnDayDictFromDataBase()
+    response =  render(request, "Display/subview/zombie_return_day.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
+                                                                        ,'zombiereturn_active':zombiereturn_active,
+                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack
+                                                                       ,'zombiereturn_day_dict':dict} )
+    return response
+
+def getZombieReturnMonthPage(request):
+    online_stack = 'nav nav-stacked'
+    statistics_stack =  'in nav nav-stacked'
+
+    SecTitleIcon = 'icon-pencil'
+    statistics_active = 'active'
+    zombiereturn_active = 'active'
+    dict = getZombieReturnMonthDictFromDataBase()
+    response =  render(request, "Display/subview/zombie_return_month.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
+                                                                        ,'zombiereturn_active':zombiereturn_active,
+                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack
+                                                                       ,'zombiereturn_month_dict':dict} )
+    return response
+
+def getZombieReturnYearPage(request):
+    online_stack = 'nav nav-stacked'
+    statistics_stack =  'in nav nav-stacked'
+
+    SecTitleIcon = 'icon-comments'
+    statistics_active = 'active'
+    register_active = 'active'
+    dict = getZombieReturnYearDictFromDataBase()
+    response =  render(request, "Display/subview/zombie_return_year.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
+                                                                        ,'register_active':register_active,
+                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack
+                                                                       ,'zombiereturn_year_dict':dict} )
+    return response
+
 def subview(request):
     pageName = request.GET['pageName']
     if (pageName == 'RealTimeOnline'):
@@ -172,5 +214,11 @@ def subview(request):
         return getRegisterMonthPage(request)
     elif (pageName == 'RegisterYearPage'):
         return getRegisterYearPage(request)
+    elif (pageName == 'ZombieReturnDayPage'):
+        return getZombieReturnDayPage(request)
+    elif (pageName == 'ZombieReturnMonthPage'):
+        return getZombieReturnMonthPage(request)
+    elif (pageName == 'ZombieReturnYearPage'):
+        return getZombieReturnYearPage(request)
     else:
         return home(request)

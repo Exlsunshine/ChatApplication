@@ -1,0 +1,133 @@
+<script type="text/javascript"
+        src="static/chart/js/jquery-1.8.2.min.js"></script>
+<style type="text/css">
+    ${
+    demo
+    .css
+    }
+</style>
+<script type="text/javascript">
+var zombiereturn_day_dict = {{zombiereturn_day_dict|safe}}
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: '本日僵尸用户回归人数'
+        },
+        xAxis: {
+            categories:  [ '01:00', '02:00', '03:00',
+										'04:00', '05:00', '06:00', '07:00', '08:00',
+										'09:00', '10:00', '11:00' ,'12:00', '13:00', '14:00', '15:00',
+										'16:00', '17:00', '18:00', '19:00', '20:00',
+										'21:00', '22:00', '23:00', '24:00']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '人数'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: -30,
+            verticalAlign: 'top',
+            y: 25,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y + '<br/>' +
+                    '总和: ' + this.point.stackTotal;
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: '本日僵尸用户回归人数（男）',
+            data: zombiereturn_day_dict.male
+        }, {
+            name: '本日僵尸用户回归人数（女）',
+            data: zombiereturn_day_dict.female
+        }]
+    });
+});
+
+
+
+
+
+
+
+
+/*
+	var registerday_list = {{registerday_list|safe}}
+	$(function() {
+		$('#container')
+				.highcharts(
+						{
+							title : {
+								text : '本日新注册人数',
+								x : -20
+							//center
+							},
+							xAxis : {
+								categories : [ '01:00', '02:00', '03:00',
+										'04:00', '05:00', '06:00', '07:00', '08:00',
+										'09:00', '10:00', '11:00' ,'12:00', '13:00', '14:00', '15:00',
+										'16:00', '17:00', '18:00', '19:00', '20:00',
+										'21:00', '22:00', '23:00', '24:00']
+							},
+							yAxis : {
+								title : {
+									text : '人数'
+								},
+								plotLines : [ {
+									value : 0,
+									width : 1,
+									color : '#808080'
+								} ]
+							},
+							tooltip : {
+								valueSuffix : '人'
+							},
+							legend: {
+           					 layout: 'vertical',
+         					   align: 'right',
+       						     verticalAlign: 'middle',
+        					    borderWidth: 0
+     						   },
+							series : [
+									{
+										name: '本日新注册人数',
+										data : registerday_list
+									} ,]
+						});
+	});*/
+</script>
+
+<div id="container"
+     style="min-width: 310px; height: 400px; margin: 0 auto"></div>
