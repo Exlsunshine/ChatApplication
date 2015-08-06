@@ -3,11 +3,16 @@ package com.tp.ui;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
+
 import com.example.testmobiledatabase.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.tp.adapter.PublicActivityAdapter;
 import com.tp.adapter.PullToRefreshBase.OnRefreshListener;
+import com.tp.adapter.PullToRefreshBase.OnShouldPullDwonListener;
 import com.tp.adapter.PullToRefreshListView;
 import com.tp.adapter.PullToRefreshListView.OnPositionChangedListener;
 import com.tp.messege.AbstractPost;
@@ -50,6 +55,87 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class PublicActivity extends Activity implements OnTouchListener, OnPositionChangedListener 
 {
+	/**
+	 * Below codes belongs to YG
+	 */
+	private WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
+	private static final int DO_NOT_CHANGE_REFRESH = 0x01;
+	private void initDropdownAnim() 
+	{
+		mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
+		mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() 
+		{
+			@Override
+			public void onRefresh()
+			{
+				new Task().execute();
+			}
+		});
+		mWaveSwipeRefreshLayout.setCustomEnable(false);
+	}
+
+	private class Task extends AsyncTask<Void, Void, String[]> 
+	{
+		private ArrayList<AbstractPost> posts;
+		
+		@Override
+		protected String[] doInBackground(Void... params) 
+		{
+			long beginTime = 0;
+			long endTime = 0;
+			try 
+			{
+				beginTime = System.currentTimeMillis();
+				posts = ConstantValues.user.pm.getLatestPosts();
+				endTime = System.currentTimeMillis();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+				
+			if ((endTime - beginTime) < 3000)
+			{
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+				
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String[] result) 
+		{
+			if (posts == null)
+			{
+				Log.d("Pull down to refresh", "getLatestPosts size 0");
+				Message message = Message.obtain();
+				message.what = pulluprefreshempty;
+				handler.sendMessage(message);
+			} 
+			else 
+			{
+				Log.d("Pull down to refresh",  "getLatestPosts size " + posts.size());
+				ap.clear();
+				ap.add(empty);
+				ap.addAll(posts);
+				Message message = Message.obtain();
+				message.what = setAdpter;
+				handler.sendMessage(message);
+			}
+				
+			mWaveSwipeRefreshLayout.setRefreshing(false);
+			mWaveSwipeRefreshLayout.setCustomEnable(false);
+			mPullRefreshListView.setPullDownActionEnabled(true);
+			super.onPostExecute(result);
+		}
+	}
+	/**
+	 * Above codes belongs to YG
+	 */
+
+		
     // clock
     private FrameLayout clockLayout;
     private LinearLayout send, back;
@@ -201,6 +287,14 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         else
         	setClickListener();
         isOncreate = true;
+        
+        /**
+    	 * Below codes belongs to YG
+    	 */
+        initDropdownAnim();
+    	/**
+    	 * Above codes belongs to YG
+    	 */
     }
     
     private Handler handler = new Handler()
@@ -373,6 +467,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> 
 	{
+		private ArrayList<AbstractPost> tmp;
 		int pullState;
 		public GetDataTask(int pullType) 
 		{
@@ -380,109 +475,64 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		}
 		
 		@Override
-		protected String[] doInBackground(Void... params) {
-			try 
-			{
-				Thread.sleep(1000);
-			} 
-			catch (InterruptedException e) 
+		protected String[] doInBackground(Void... params) 
+		{
+			if(pullState == 1) 
 			{
 			}
-			return mStrings;
+			if(pullState == 2) 
+			{
+				//上拉
+				Log.d("onPostExecute", "上拉");
+				tmp = ConstantValues.user.pm.getHistoryPosts();
+			}			
+			return null;
 		}
 
 		@Override
 		protected void onPostExecute(String[] result) {
 			if(pullState == 1) 
 			{
-				Log.e("onPostExecute", "下拉");
-				Thread td = new Thread(new Runnable()
-		        {
-					@Override
-		        	public void run() 
-		        	{
-		        		try
-		        		{
-		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getLatestPosts();
-		        			
-		        			if (tmp == null)
-		        			{
-		        				Log.d("PA______",  "tmp getLatestPosts size null");
-		        				Message message = Message.obtain();
-			    				message.what = pulluprefreshempty;
-			    				handler.sendMessage(message);
-		        			}
-		        			else
-		        			{
-		        				Log.d("PA______", tmp.size() + "tmp getLatestPosts size");
-		        				ap.clear();
-			        			ap.add(empty);
-			          			ap.addAll(tmp);
-			          			Message message = Message.obtain();
-			    				message.what = setAdpter;
-			    				handler.sendMessage(message);
-		        			}
-		        		}
-		        		catch (Exception e)
-		                {
-		        			e.printStackTrace();
-		                }
-		        	}
-		        });
-				td.start();
-				try 
-				{
-					td.join();
-				} 
-				catch (InterruptedException e) 
-				{
-					e.printStackTrace();
-				}
 			}
 			if(pullState == 2) 
 			{
-				//上拉
-				Log.e("onPostExecute", "上拉");
-				Thread td = new Thread(new Runnable()
-		        {
-					@Override
-		        	public void run() 
-		        	{
-		        		try
-		        		{
-		        			Log.d("getHistoryPostssdebug_______", "______");
-		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getHistoryPosts();
-		        			if (tmp == null)
-		        			{
-		        				Message message = Message.obtain();
-			    				message.what = pulluprefreshempty;
-			    				handler.sendMessage(message);
-		        			}
-		        			else
-		        			{
-		        				ap.clear();
-			        			ap.add(empty);
-		        				ap.addAll(tmp);
-			          			Message message = Message.obtain();
-			    				message.what = pulluprefresh;
-			    				handler.sendMessage(message);
-		        			}
-		        		}
-		        		catch (Exception e)
-		                {
-		        			e.printStackTrace();
-		                }
-		        	}
-		        });
-				td.start();
+				if (tmp == null)
+    			{
+    				Message message = Message.obtain();
+    				message.what = pulluprefreshempty;
+    				handler.sendMessage(message);
+    			}
+    			else
+    			{
+    				ap.clear();
+        			ap.add(empty);
+    				ap.addAll(tmp);
+          			Message message = Message.obtain();
+    				message.what = pulluprefresh;
+    				handler.sendMessage(message);
+    			}
 			}
 			super.onPostExecute(result);
 		}
-		private String[] mStrings = { "Abbaye de Belloc" };
 	}
 	
 	private void setClickListener() 
 	{
+		/**
+    	 * Below codes belongs to YG
+    	 */
+		mPullRefreshListView.setOnShouldPullDwonListener(new OnShouldPullDwonListener()
+		{
+			@Override
+			public void onShouldPullDown() 
+			{
+				mWaveSwipeRefreshLayout.setCustomEnable(true);
+			}
+		});
+    	/**
+    	 * Above codes belongs to YG
+    	 */
+        
 		mPullRefreshListView.setOnRefreshListener(mOnrefreshListener);
 		back.setOnClickListener(new OnClickListener()
 		{
