@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.testmobiledatabase.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
 import com.tp.ui.ImageZoomInActivity;
@@ -413,7 +414,9 @@ public class MyselfPostAdpter extends BaseAdapter
                     	DisplayImageOptions options = new DisplayImageOptions.Builder()  
                     	.showImageOnLoading(R.drawable.tp_loading_picture)  
                     	.showImageOnFail(R.drawable.tp_loading_failed)  
-                    	.cacheInMemory(true)  
+                    	//.cacheInMemory(false) 
+                    	.resetViewBeforeLoading()
+                    	.imageScaleType(ImageScaleType.EXACTLY)
                     	.cacheOnDisk(true)  
                     	.bitmapConfig(Bitmap.Config.RGB_565)  
                     	.build();
@@ -426,7 +429,9 @@ public class MyselfPostAdpter extends BaseAdapter
                     	DisplayImageOptions options = new DisplayImageOptions.Builder()  
                     	.showImageOnLoading(R.drawable.tp_loading_picture)  
                     	.showImageOnFail(R.drawable.tp_loading_failed)  
-                    	.cacheInMemory(true)  
+                    	//.cacheInMemory(false)  
+                    	.resetViewBeforeLoading()
+                    	.imageScaleType(ImageScaleType.EXACTLY)
                     	.cacheOnDisk(true)  
                     	.bitmapConfig(Bitmap.Config.RGB_565)  
                     	.build();  
