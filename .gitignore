@@ -4,10 +4,10 @@
 /Server code/MobileSocialServer/.metadata
 /Client code/MobileSocial/.classpath
 /Client code/MobileSocial/project.properties
-/Client code/MobileSocial/SocialSDKLibraryProject/bin
-/Client code/MobileSocial/SocialSDKLibraryProject/gen
-/Client code/MobileSocial/SocialSDKLibraryProject/.classpath
-/Client code/MobileSocial/SocialSDKLibraryProject/project.properties
+/Client code/SocialSDKLibraryProject/bin
+/Client code/SocialSDKLibraryProject/gen
+/Client code/SocialSDKLibraryProject/.classpath
+/Client code/SocialSDKLibraryProject/project.properties
 issues.txt
 issues2.txt
 
