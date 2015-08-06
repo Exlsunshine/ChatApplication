@@ -18,9 +18,10 @@ def getPerHourOnLineNumFromDataBase():
     return list
 
 def getSexSatisticsDictFromDataBase():
+    import random
     dict = {}
-    dict['male'] = 37.3
-    dict['female'] = 100 - dict['male']
+    dict['male'] =  random.randint(100,500)
+    dict['female'] =  random.randint(100,500)
     return dict
 
 def getAgeDictFromDataBase():
