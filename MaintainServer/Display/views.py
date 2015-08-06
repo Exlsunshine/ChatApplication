@@ -149,7 +149,7 @@ def getRegisterYearPage(request):
     SecTitleIcon = 'icon-comments'
     statistics_active = 'active'
     register_active = 'active'
-    dict = getRegisterMonthDictFromDataBase()
+    dict = getRegisterYearDictFromDataBase()
     response =  render(request, "Display/subview/register_year.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
                                                                         ,'register_active':register_active,
                                                                        'online_stack':online_stack, 'statistics_stack':statistics_stack

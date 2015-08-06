@@ -50,6 +50,16 @@ def getRegisterMonthDictFromDataBase():
         dict['female'].append(random.randint(0,59))
     return dict
 
+def getRegisterYearDictFromDataBase():
+    import random
+    dict = {}
+    dict['male'] = []
+    dict['female'] = []
+    for i in range(0,12):
+        dict['male'].append(random.randint(0,59))
+        dict['female'].append(random.randint(0,59))
+    return dict
+
 def main():
     dict = getSexSatisticsDictFromDataBase()
     print dict['male']
