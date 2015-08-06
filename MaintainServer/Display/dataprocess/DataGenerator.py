@@ -27,14 +27,28 @@ def getMapDistributionDictFromDataBase():
     import random
     dict = {}
     for k in PROVINCE_DICT.keys():
-        dict[PROVINCE_DICT[k]] =  random_num = random.randint(100,500)
+        dict[PROVINCE_DICT[k]] =  random.randint(100,500)
     return dict
 
-def getRegisterDayFromDataBase():
-    list = []
-    for i in range(0,12):
-        list.append(i)
-    return list
+def getRegisterDayDictFromDataBase():
+    import random
+    dict = {}
+    dict['male'] = []
+    dict['female'] = []
+    for i in range(0,24):
+        dict['male'].append(random.randint(0,59))
+        dict['female'].append(random.randint(0,59))
+    return dict
+
+def getRegisterMonthDictFromDataBase():
+    import random
+    dict = {}
+    dict['male'] = []
+    dict['female'] = []
+    for i in range(0,30):
+        dict['male'].append(random.randint(0,59))
+        dict['female'].append(random.randint(0,59))
+    return dict
 
 def main():
     dict = getSexSatisticsDictFromDataBase()

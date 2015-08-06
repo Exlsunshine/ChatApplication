@@ -121,11 +121,11 @@ def getRegisterDayPage(request):
     SecTitleIcon = 'icon-comments'
     statistics_active = 'active'
     register_active = 'active'
-    list = getRegisterDayFromDataBase()
+    dict = getRegisterDayDictFromDataBase()
     response =  render(request, "Display/subview/register_day.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
                                                                         ,'register_active':register_active,
                                                                        'online_stack':online_stack, 'statistics_stack':statistics_stack
-                                                                       ,'registerday_list':list} )
+                                                                       ,'registerday_dict':dict} )
     return response
 
 def getRegisterMonthPage(request):
@@ -135,11 +135,25 @@ def getRegisterMonthPage(request):
     SecTitleIcon = 'icon-comments'
     statistics_active = 'active'
     register_active = 'active'
-    list = getRegisterDayFromDataBase()
+    dict = getRegisterMonthDictFromDataBase()
     response =  render(request, "Display/subview/register_month.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
                                                                         ,'register_active':register_active,
                                                                        'online_stack':online_stack, 'statistics_stack':statistics_stack
-                                                                       ,'registermonth_list':list} )
+                                                                       ,'registermonth_dict':dict} )
+    return response
+
+def getRegisterYearPage(request):
+    online_stack = 'nav nav-stacked'
+    statistics_stack =  'in nav nav-stacked'
+
+    SecTitleIcon = 'icon-comments'
+    statistics_active = 'active'
+    register_active = 'active'
+    dict = getRegisterMonthDictFromDataBase()
+    response =  render(request, "Display/subview/register_year.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
+                                                                        ,'register_active':register_active,
+                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack
+                                                                       ,'registeryear_dict':dict} )
     return response
 
 def subview(request):
@@ -156,5 +170,7 @@ def subview(request):
         return getRegisterDayPage(request)
     elif (pageName == 'RegisterMonthPage'):
         return getRegisterMonthPage(request)
+    elif (pageName == 'RegisterYearPage'):
+        return getRegisterYearPage(request)
     else:
         return home(request)
