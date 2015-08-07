@@ -192,10 +192,10 @@ def getZombieReturnYearPage(request):
 
     SecTitleIcon = 'icon-meh'
     statistics_active = 'active'
-    register_active = 'active'
+    zombiereturn_active = 'active'
     dict = getZombieReturnYearDictFromDataBase()
     response =  render(request, "Display/subview/zombie_return_year.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'register_active':register_active,
+                                                                        ,'zombiereturn_active':zombiereturn_active,
                                                                        'online_stack':online_stack, 'statistics_stack':statistics_stack
                                                                        ,'zombiereturn_year_dict':dict} )
     return response
