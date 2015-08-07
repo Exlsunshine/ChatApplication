@@ -4,6 +4,8 @@
 /Server code/MobileSocialServer/.metadata
 *.pyc
 /MaintainServer/.idea/*
+/MaintainServer/Display/static/download/*
+/MaintainServer/Display/static/video/*
 issues.txt
 issues2.txt
 
