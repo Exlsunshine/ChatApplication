@@ -1,6 +1,7 @@
 package com.yg.ui.dialog.implementation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,12 +39,14 @@ public class DialogAdapter extends BaseAdapter
 	private Context context;
 	private ArrayList<AbstractMessage> messages;
 	private ImagePreviewManager imagePreviewManager;
+	private HashMap<Integer, GetDureationTast> animManager;
 	
 	public DialogAdapter(Context context, ArrayList<AbstractMessage> messages)
 	{
 		this.context = context;
 		this.messages = messages;
 		this.imagePreviewManager = new ImagePreviewManager(context);
+		this.animManager = new HashMap<Integer, DialogAdapter.GetDureationTast>();
 	}
 	
 	@Override
@@ -124,10 +127,20 @@ public class DialogAdapter extends BaseAdapter
 					@Override
 					public void onClick(final View v) 
 					{
-						GetDureationTast durationTask = new GetDureationTast(v, position, 
-								R.anim.yg_dialog_activity_my_voice_playing_anim,
-								R.drawable.yg_dialog_activity_my_voice_norm);
-						durationTask.execute(v, position);
+						if (animManager.containsKey(position))
+						{
+							Log.i(DEBUG_TAG, "Aborting..." + position);
+							animManager.get(position).abort();
+						}
+						else
+						{
+							GetDureationTast durationTask = new GetDureationTast(v, position, 
+									R.anim.yg_dialog_activity_my_voice_playing_anim,
+									R.drawable.yg_dialog_activity_my_voice_norm);
+							cleanAllAudio();
+							animManager.put(position, durationTask);
+							durationTask.execute(v, position);
+						}
 					}
 				});
 				
@@ -201,10 +214,20 @@ public class DialogAdapter extends BaseAdapter
 					@Override
 					public void onClick(final View v) 
 					{
-						GetDureationTast durationTask = new GetDureationTast(v, position, 
-								R.anim.yg_dialog_activity_friend_voice_playing_anim,
-								R.drawable.yg_dialog_activity_friend_voice_norm);
-						durationTask.execute(v, position);
+						if (animManager.containsKey(position))
+						{
+							Log.i(DEBUG_TAG, "Aborting..." + position);
+							animManager.get(position).abort();
+						}
+						else
+						{
+							GetDureationTast durationTask = new GetDureationTast(v, position, 
+									R.anim.yg_dialog_activity_friend_voice_playing_anim,
+									R.drawable.yg_dialog_activity_friend_voice_norm);
+							cleanAllAudio();
+							animManager.put(position, durationTask);
+							durationTask.execute(v, position);
+						}
 					}
 				});
 				
@@ -313,12 +336,25 @@ public class DialogAdapter extends BaseAdapter
 		TextView tvTime;
 	}
 	
+	public void cleanAllAudio()
+	{
+		for (Integer key : animManager.keySet())
+		{
+			try
+			{
+				animManager.get(key).abort();
+			}catch (Exception e)
+			{
+				e.getStackTrace();
+			}
+		}
+	}
+	
 	private class GetDureationTast extends AsyncTask<Object, String, Void>
 	{
 		private ImageView imageView;
 		private int position;
-		private long duration;
-		private AnimationDrawable frameAnimation;
+		private AnimationDrawable frameAnimation = null;
 		private int animationID;
 		private int defaultBackgroundID;
 		
@@ -335,29 +371,12 @@ public class DialogAdapter extends BaseAdapter
 		{
 			super.onPreExecute();
 			
-			((AudioMessage)messages.get(position)).play(context);
 			imageView.setBackgroundResource(animationID);
-			frameAnimation = (AnimationDrawable) imageView.getBackground();
-		    frameAnimation.start();
 		}
 		
 		@Override
 		protected Void doInBackground(Object... params) 
 		{
-			duration = ((AudioMessage)messages.get(position)).getDuration(context);
-			Log.i(DEBUG_TAG, "Voice duration is " + duration);
-			
-			 while(duration != 0 && duration > 0)
-			 {
-				 try 
-				 {
-					 Thread.sleep(1000);
-					 duration--;
-				 } catch (InterruptedException e) {
-					 e.printStackTrace();
-				 }
-			 } 
-			
 			return null;
 		}
 		
@@ -366,9 +385,27 @@ public class DialogAdapter extends BaseAdapter
 		{
 			super.onPostExecute(result);
 			
-			Log.i(DEBUG_TAG, "Stop void animation.");
+			frameAnimation = (AnimationDrawable) imageView.getBackground();
+			((AudioMessage)messages.get(position)).play(context, new OnPlayCompletedListener()
+		    {
+				@Override
+				public void onPlayCompleted()
+				{
+					frameAnimation.stop();
+				    imageView.setBackgroundResource(defaultBackgroundID);
+				    animManager.remove(position);
+				}
+			});
+			frameAnimation.start();
+		}
+		
+		public void abort()
+		{
+			Log.i(DEBUG_TAG, "onAbort() " + position);
+			((AudioMessage)messages.get(position)).stop();
 			frameAnimation.stop();
-			imageView.setBackgroundResource(defaultBackgroundID);
+		    imageView.setBackgroundResource(defaultBackgroundID);
+		    animManager.remove(position);
 		}
 	}
 }
