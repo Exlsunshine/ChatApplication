@@ -111,11 +111,16 @@ public class DialogActivity extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				if (msgAdapter != null)
-					msgAdapter.cleanAllAudio();
-				DialogActivity.this.finish();
+				finishActivity();
 			}
 		});
+	}
+	
+	private void finishActivity()
+	{
+		if (msgAdapter != null)
+			msgAdapter.cleanAllAudio();
+		DialogActivity.this.finish();
 	}
 	
 	private void notifyChattingWithSomebody()
@@ -652,6 +657,11 @@ public class DialogActivity extends Activity
 				}
 			}
 		}
+	};
+	
+	public void onBackPressed() 
+	{
+		finishActivity();
 	};
 	
 	protected void onResume()
