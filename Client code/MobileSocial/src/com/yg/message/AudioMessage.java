@@ -7,9 +7,11 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
 
 import com.yg.commons.ConstantValues;
+import com.yg.ui.dialog.implementation.OnPlayCompletedListener;
 
 /**
  * 语音类型的消息，继承自{@link AbstractMessage}：<br>
@@ -26,6 +28,7 @@ public class AudioMessage extends AbstractMessage
 	private String audioPath = null;
 	private long audioLength = -1;
 	private File audioFile;
+	private OnPlayCompletedListener playerCallback;
 	
 	/**
 	 * 
@@ -136,9 +139,10 @@ public class AudioMessage extends AbstractMessage
 	/**
 	 * 播放此条消息中的语音
 	 */
-	public void play(Context context)
+	public void play(Context context, OnPlayCompletedListener playerCallback)
 	{
 		this.context = context;
+		this.playerCallback = playerCallback;
 		try {
 			playFromBytes(this.audio, this.context);
 		} catch (IOException e) {
@@ -163,6 +167,17 @@ public class AudioMessage extends AbstractMessage
 		if (audioFile == null || mPlayer == null)
 			loadAudioData(bytes, context);
 		
+		if (this.playerCallback != null && mPlayer != null)
+		{
+			mPlayer.setOnCompletionListener(new OnCompletionListener()
+			{
+				@Override
+				public void onCompletion(MediaPlayer mp)
+				{
+					playerCallback.onPlayCompleted();
+				}
+			});
+		}
 		mPlayer.start();
 	}
 	
