@@ -6,86 +6,70 @@
     android:layout_height="fill_parent"
     android:background="@color/feed_item_bg" >
 
-    <!-- timeline on left -->
+    <jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
+        android:id="@+id/main_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent" >
-
-        <ImageView
-            android:id="@+id/publicactivity_timeline_track"
-            android:layout_width="4dip"
+        <FrameLayout
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="72.0dip"
-            android:background="@color/red"
-            android:scaleType="fitXY"
-            android:src="@drawable/tp_feed_item_track" />
-    </RelativeLayout>
+            android:background="@color/feed_item_bg" >
 
-       <com.tp.adapter.PullToRefreshListView
-           xmlns:miles="http://schemas.android.com/apk/res/com.example.testmobiledatabase"
-           xmlns:ptr="http://schemas.android.com/apk/res-auto"
-           android:id="@+id/publicactivity_pulltorefreshlist_view"
-           android:layout_width="fill_parent"
-           android:layout_height="fill_parent"
-           android:cacheColorHint="@color/clear"
-           android:divider="@android:color/transparent"
-           
-           android:fastScrollEnabled="false"
-           android:listSelector="@color/clear"
-           android:paddingTop="0dip"
-           android:scrollbars="vertical"
-           android:scrollingCache="false"
-           miles:scrollBarPanel="@layout/tp_clock"
-           miles:scrollBarPanelInAnimation="@anim/tp_in"
-           miles:scrollBarPanelOutAnimation="@anim/tp_out"
-           ptr:mode="both" />
- 
- <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent" >
 
-        <include
-            android:id="@+id/publicactivity_clock"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="40dp"
-            layout="@layout/tp_clock" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/publicactivity_timeline_track"
+                    android:layout_width="4dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="72.0dip"
+                    android:background="@color/red"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/tp_feed_item_track" />
+            </RelativeLayout>
 
-    <!-- logo banner -->
+            <com.tp.adapter.PullToRefreshListView
+                xmlns:miles="http://schemas.android.com/apk/res/com.example.testmobiledatabase"
+                xmlns:ptr="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/publicactivity_pulltorefreshlist_view"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:cacheColorHint="@color/clear"
+                android:divider="@android:color/transparent"
+                android:fastScrollEnabled="false"
+                android:listSelector="@color/clear"
+                android:paddingTop="0dip"
+                android:scrollbars="vertical"
+                android:scrollingCache="false"
+                miles:scrollBarPanel="@layout/tp_clock"
+                miles:scrollBarPanelInAnimation="@anim/tp_in"
+                miles:scrollBarPanelOutAnimation="@anim/tp_out"
+                ptr:mode="both" />
 
-<!--     <RelativeLayout
-        android:id="@+id/qa_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="44.0dip"
-        android:background="@drawable/m_bar" >
+            <Button
+                android:id="@+id/tp_fake_button"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/transparent"
+                android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/path_logo"
-            style="@style/qa_logo"
-            android:layout_centerHorizontal="true" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
 
-        <ImageView
-            android:id="@+id/qa_bar_menu"
-            style="@style/qa_bar_button_left"
-            android:src="@drawable/m_bar_left" />
-
-        <ImageButton
-            android:id="@+id/qa_bar_friends"
-            style="@style/qa_bar_button_right"
-            android:src="@drawable/m_bar_right" />
-
-        <TextView
-            android:id="@+id/page_title_text"
-            style="@style/qa_bar_text"
-            android:layout_width="0.0dip"
-            android:layout_toLeftOf="@id/qa_bar_friends"
-            android:layout_toRightOf="@id/qa_bar_menu"
-            android:text="" />
-    </RelativeLayout> -->
-
-    <!-- <include layout="@layout/splash" /> -->
+                <include
+                    android:id="@+id/publicactivity_clock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="40dp"
+                    layout="@layout/tp_clock" />
+            </RelativeLayout>
+        </FrameLayout>
+    </jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout>
 
 </FrameLayout>

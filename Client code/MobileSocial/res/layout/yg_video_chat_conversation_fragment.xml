@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.quickblox.videochat.webrtc.view.QBGLVideoView
+            android:id="@+id/yg_activity_video_chat_conversation_local_video"
+            android:layout_width="115dp"
+            android:layout_height="150dp"
+            android:layout_alignParentRight="true" />
+
+        <com.quickblox.videochat.webrtc.view.QBGLVideoView
+            android:id="@+id/yg_activity_video_chat_conversation_remote_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/yg_activity_video_chat_conversation_camera_off"
+            android:layout_width="115dp"
+            android:layout_height="150dp"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/background_dark"
+            android:gravity="center_vertical"
+            android:scaleType="centerCrop"
+            android:src="@android:color/black"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/yg_activity_video_chat_conversation_inner_actionbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp" >
+
+            <LinearLayout
+                android:id="@+id/yg_activity_video_chat_conversation_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/yg_activity_video_chat_back_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="返回"
+                    android:textColor="@color/yg_activity_video_chat_back_color_selector"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/yg_activity_video_chat_conversation_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="怪蜀黎"
+                android:textColor="@android:color/white"
+                android:textSize="17sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/yg_activity_video_chat_conversation_camera_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/yg_activity_video_chat_conversation_camera_switch_selector"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/yg_video_chat_conversation_hangup"
+            android:layout_marginBottom="20dp" >
+
+            <ImageView
+                android:id="@+id/yg_video_chat_conversation_speaker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="25dp"
+                android:layout_toLeftOf="@+id/yg_video_chat_conversation_mic"
+                android:src="@drawable/yg_video_chat_conversation_speaker_on" />
+
+            <ImageView
+                android:id="@+id/yg_video_chat_conversation_mic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/yg_video_chat_conversation_mic_on" />
+
+            <ImageView
+                android:id="@+id/yg_video_chat_conversation_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/yg_video_chat_conversation_mic"
+                android:src="@drawable/yg_video_chat_conversation_videocam_on" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/yg_video_chat_conversation_hangup"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:src="@color/yg_video_chat_deny_button_selector" />
+    </RelativeLayout>
+
+</FrameLayout>

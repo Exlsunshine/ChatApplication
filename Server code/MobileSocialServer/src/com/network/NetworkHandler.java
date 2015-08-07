@@ -16,6 +16,8 @@ import com.mail.SendMailDemo;
 import com.util.HometownHandler;
 import com.util.PortraitTransmit;
 import com.util.SortPlace;
+import com.yg.video.MatchManager;
+import com.yg.video.VideoAccountManager;
 
 public class NetworkHandler
 {
@@ -586,11 +588,43 @@ public class NetworkHandler
 		return errorCode1 | errorCode2;
 	}
 	
-	//--------------------------------------- LJ ---------------------------------------------------
+	//--------------------------------------- Below code belongs to LJ ---------------------------------------------------
 	public String testConnect(String array, int n)
 	{
 		String str = new StringBuilder(array).reverse().toString();
 		System.out.println("Test Network condition : " + n);
 		return str;
+	}
+	//--------------------------------------- Above code belongs to LJ ---------------------------------------------------
+	
+	public String getAvailableAccount()
+	{
+		try {
+			return VideoAccountManager.getInstance().getAvailableAccount();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public void logoffAccount(String accountInfo)
+	{
+		VideoAccountManager.getInstance().logoffAccount(accountInfo);
+	}
+	
+	public int acceptMatching(String callerUserInfo)
+	{
+		return MatchManager.getInstance().acceptMatching(callerUserInfo);
+	}
+	
+	public String getOnlineUser(String callerUserInfo)
+	{
+		return MatchManager.getInstance().getOnlineUser(callerUserInfo);
+	}
+	
+	public int stopMatching(String callerUserInfo)
+	{
+		return MatchManager.getInstance().stopMatching(callerUserInfo);
 	}
 }

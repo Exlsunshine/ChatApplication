@@ -6,12 +6,16 @@ import java.util.List;
 import com.example.testmobiledatabase.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
 import com.tp.ui.ImageZoomInActivity;
 import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
+import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
+import com.yg.ui.dialog.implementation.DateUtil;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -118,7 +122,7 @@ public class MyselfPostAdpter extends BaseAdapter
                 ImageView feed_post_type = (ImageView) convertView.findViewById(R.id.publicactivityadpter_feed_post_type);
                 // content layout
                 LinearLayout contentLayout = (LinearLayout) convertView.findViewById(R.id.publicactivityadpter_feed_post_body);
-                
+                String currentTime = CommonUtil.now();
                 // Text
                 if (post.getPostType() == 1) 
                 {
@@ -153,7 +157,9 @@ public class MyselfPostAdpter extends BaseAdapter
 							}
 						}
 					});
-                   
+                    View divider = view.findViewById(R.id.tp_feed_comments_comment_divider);
+                    View divider1 = view.findViewById(R.id.tp_feed_comments_comment_divider1);
+                    View divider2 = view.findViewById(R.id.tp_feed_comments_comment_divider2);
                     TextView comment1 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body);
                     TextView comment2 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body1);
                     TextView comment3 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body2);
@@ -180,7 +186,11 @@ public class MyselfPostAdpter extends BaseAdapter
                     	break;
                     case 1:
                     	comment1.setText(post.getComments().get(0).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
+                    	String earlyTimecase1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase1 = earlyTimecase1.replace(" ", "-");
+                        earlyTimecase1 = earlyTimecase1.replace(":", "-");
+                        String suggestiontime = DateUtil.getSuggestion(currentTime, earlyTimecase1.substring(0, 19));
+                    	commentDate1.setText(suggestiontime);
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -188,12 +198,22 @@ public class MyselfPostAdpter extends BaseAdapter
                     	RL.setVisibility(View.GONE);
                     	feedComments2.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider.setVisibility(View.INVISIBLE);
                     	break;
                     case 2:
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 1).getCommentDate());
+                    	String earlyTimecase2_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase2_1 = earlyTimecase2_1.replace(" ", "-");
+                        earlyTimecase2_1 = earlyTimecase2_1.replace(":", "-");
+                        String suggestiontimecase2_1 = DateUtil.getSuggestion(currentTime, earlyTimecase2_1.substring(0, 19));
+                    	commentDate1.setText(suggestiontimecase2_1);
+                    	
+                    	String earlyTimecase2_2 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecase2_2 = earlyTimecase2_2.replace(" ", "-");
+                        earlyTimecase2_2 = earlyTimecase2_2.replace(":", "-");
+                        String suggestiontimecase2_2 = DateUtil.getSuggestion(currentTime, earlyTimecase2_2.substring(0, 19));
+                    	commentDate2.setText(suggestiontimecase2_2);
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -204,14 +224,31 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider1.setVisibility(View.INVISIBLE);
                     	break;
                     case 3:
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
                     	comment3.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
-                    	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
+                    	
+                    	String earlyTimecase3_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase3_1 = earlyTimecase3_1.replace(" ", "-");
+                        earlyTimecase3_1 = earlyTimecase3_1.replace(":", "-");
+                        String suggestiontimecase3_1 = DateUtil.getSuggestion(currentTime, earlyTimecase3_1.substring(0, 19));
+                    	commentDate1.setText(suggestiontimecase3_1);
+                    	
+                    	String earlyTimecase3_2 = post.getComments().get(size - 2).getCommentDate();
+                        earlyTimecase3_2 = earlyTimecase3_2.replace(" ", "-");
+                        earlyTimecase3_2 = earlyTimecase3_2.replace(":", "-");
+                        String suggestiontimecase3_2 = DateUtil.getSuggestion(currentTime, earlyTimecase3_2.substring(0, 19));
+                    	commentDate2.setText(suggestiontimecase3_2);
+                    	
+                    	String earlyTimecase3_3 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecase3_3 = earlyTimecase3_3.replace(" ", "-");
+                        earlyTimecase3_3 = earlyTimecase3_3.replace(":", "-");
+                        String suggestiontimecase3_3 = DateUtil.getSuggestion(currentTime, earlyTimecase3_3.substring(0, 19));
+                    	commentDate3.setText(suggestiontimecase3_3);
+                    	
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -225,14 +262,29 @@ public class MyselfPostAdpter extends BaseAdapter
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
                     	comment3.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
-                    	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
+                    	String earlyTimecasedefault_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecasedefault_1 = earlyTimecasedefault_1.replace(" ", "-");
+                        earlyTimecasedefault_1 = earlyTimecasedefault_1.replace(":", "-");
+                        String suggestiontimecasedefault_1 = DateUtil.getSuggestion(currentTime, earlyTimecasedefault_1.substring(0, 19));
+                    	commentDate1.setText(suggestiontimecasedefault_1);
+                    	
+                    	String earlyTimecasedefault_2 = post.getComments().get(size - 2).getCommentDate();
+                        earlyTimecasedefault_2 = earlyTimecasedefault_2.replace(" ", "-");
+                        earlyTimecasedefault_2 = earlyTimecasedefault_2.replace(":", "-");
+                        String suggestiontimecasedefault_2 = DateUtil.getSuggestion(currentTime, earlyTimecasedefault_2.substring(0, 19));
+                    	commentDate2.setText(suggestiontimecasedefault_2);
+                    	
+                    	String earlyTimecasedefault_3 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecasedefault_3 = earlyTimecasedefault_3.replace(" ", "-");
+                        earlyTimecasedefault_3 = earlyTimecasedefault_3.replace(":", "-");
+                        String suggestiontimecasedefault_3 = DateUtil.getSuggestion(currentTime, earlyTimecasedefault_3.substring(0, 19));
+                    	commentDate3.setText(suggestiontimecasedefault_3);
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -247,6 +299,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	commentsEllipsisText.setText("查看全部评论(" + size + ')');
                     	RL.setVisibility(View.VISIBLE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     }
                     contentLayout.addView(view);
                 }
@@ -254,6 +307,9 @@ public class MyselfPostAdpter extends BaseAdapter
                 else if (post.getPostType() == 2) 
                 {
                     View view = LayoutInflater.from(context).inflate(R.layout.tp_moment_photo_partial,null);
+                    View divider = view.findViewById(R.id.tp_feed_comments_comment_divider);
+                    View divider1 = view.findViewById(R.id.tp_feed_comments_comment_divider1);
+                    View divider2 = view.findViewById(R.id.tp_feed_comments_comment_divider2);
                     TextView comment1 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body);
                     TextView comment2 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body1);
                     TextView comment3 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body2);
@@ -358,18 +414,24 @@ public class MyselfPostAdpter extends BaseAdapter
                     	DisplayImageOptions options = new DisplayImageOptions.Builder()  
                     	.showImageOnLoading(R.drawable.tp_loading_picture)  
                     	.showImageOnFail(R.drawable.tp_loading_failed)  
-                    	.cacheInMemory(true)  
+                    	//.cacheInMemory(false) 
+                    	.resetViewBeforeLoading()
+                    	.imageScaleType(ImageScaleType.EXACTLY)
                     	.cacheOnDisk(true)  
                     	.bitmapConfig(Bitmap.Config.RGB_565)  
                     	.build();
-                    	imageLoader.displayImage(ip.getImageURL(), photoView, options); 
+                    	imageLoader.displayImage(ip.getImageURL(), photoView, options);
+                    	String path = imageLoader.getInstance().getDiscCache().get(ip.getImageURL()).getAbsolutePath();
+						ip.setImagePath(path);
                     }
                     else
                     {
                     	DisplayImageOptions options = new DisplayImageOptions.Builder()  
                     	.showImageOnLoading(R.drawable.tp_loading_picture)  
                     	.showImageOnFail(R.drawable.tp_loading_failed)  
-                    	.cacheInMemory(true)  
+                    	//.cacheInMemory(false)  
+                    	.resetViewBeforeLoading()
+                    	.imageScaleType(ImageScaleType.EXACTLY)
                     	.cacheOnDisk(true)  
                     	.bitmapConfig(Bitmap.Config.RGB_565)  
                     	.build();  
@@ -390,7 +452,13 @@ public class MyselfPostAdpter extends BaseAdapter
                     	break;
                     case 1:
                     	comment1.setText(post.getComments().get(0).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
+                    	
+                    	String earlyTimecase1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase1 = earlyTimecase1.replace(" ", "-");
+                        earlyTimecase1 = earlyTimecase1.replace(":", "-");
+                        String suggestiontime = DateUtil.getSuggestion(currentTime, earlyTimecase1.substring(0, 19));
+                    	commentDate1.setText(suggestiontime);
+                    	
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -398,12 +466,22 @@ public class MyselfPostAdpter extends BaseAdapter
                     	RL.setVisibility(View.GONE);
                     	feedComments2.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider.setVisibility(View.INVISIBLE);
                     	break;
                     case 2:
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 1).getCommentDate());
+                    	String earlyTimecase2_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase2_1 = earlyTimecase2_1.replace(" ", "-");
+                        earlyTimecase2_1 = earlyTimecase2_1.replace(":", "-");
+                        String suggestiontimecase2_1 = DateUtil.getSuggestion(currentTime, earlyTimecase2_1.substring(0, 19));
+                    	commentDate1.setText(suggestiontimecase2_1);
+                    	
+                    	String earlyTimecase2_2 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecase2_2 = earlyTimecase2_2.replace(" ", "-");
+                        earlyTimecase2_2 = earlyTimecase2_2.replace(":", "-");
+                        String suggestiontimecase2_2 = DateUtil.getSuggestion(currentTime, earlyTimecase2_2.substring(0, 19));
+                    	commentDate2.setText(suggestiontimecase2_2);
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -414,14 +492,29 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider1.setVisibility(View.INVISIBLE);
                     	break;
                     case 3:
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
                     	comment3.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
-                    	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
+                    	String earlyTimecase3_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecase3_1 = earlyTimecase3_1.replace(" ", "-");
+                        earlyTimecase3_1 = earlyTimecase3_1.replace(":", "-");
+                        String suggestiontimecase3_1 = DateUtil.getSuggestion(currentTime, earlyTimecase3_1.substring(0, 19));
+                    	commentDate1.setText(suggestiontimecase3_1);
+                    	
+                    	String earlyTimecase3_2 = post.getComments().get(size - 2).getCommentDate();
+                        earlyTimecase3_2 = earlyTimecase3_2.replace(" ", "-");
+                        earlyTimecase3_2 = earlyTimecase3_2.replace(":", "-");
+                        String suggestiontimecase3_2 = DateUtil.getSuggestion(currentTime, earlyTimecase3_2.substring(0, 19));
+                    	commentDate2.setText(suggestiontimecase3_2);
+                    	
+                    	String earlyTimecase3_3 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecase3_3 = earlyTimecase3_3.replace(" ", "-");
+                        earlyTimecase3_3 = earlyTimecase3_3.replace(":", "-");
+                        String suggestiontimecase3_3 = DateUtil.getSuggestion(currentTime, earlyTimecase3_3.substring(0, 19));
+                    	commentDate3.setText(suggestiontimecase3_3);
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -435,14 +528,29 @@ public class MyselfPostAdpter extends BaseAdapter
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
                     	comment2.setText(post.getComments().get(size - 2).getComment());
                     	comment3.setText(post.getComments().get(size - 1).getComment());
-                    	commentDate1.setText(post.getComments().get(0).getCommentDate());
-                    	commentDate2.setText(post.getComments().get(size - 2).getCommentDate());
-                    	commentDate3.setText(post.getComments().get(size - 1).getCommentDate());
+                    	String earlyTimecasedefault_1 = post.getComments().get(0).getCommentDate();
+                        earlyTimecasedefault_1 = earlyTimecasedefault_1.replace(" ", "-");
+                        earlyTimecasedefault_1 = earlyTimecasedefault_1.replace(":", "-");
+                        String suggestiontimecasedefault_1 = DateUtil.getSuggestion(currentTime, earlyTimecasedefault_1.substring(0, 19));
+                    	commentDate1.setText(suggestiontimecasedefault_1);
+                    	
+                    	String earlyTimecasedefault_2 = post.getComments().get(size - 2).getCommentDate();
+                        earlyTimecasedefault_2 = earlyTimecasedefault_2.replace(" ", "-");
+                        earlyTimecasedefault_2 = earlyTimecasedefault_2.replace(":", "-");
+                        String suggestiontimecasedefault_2 = DateUtil.getSuggestion(currentTime, earlyTimecasedefault_2.substring(0, 19));
+                    	commentDate2.setText(suggestiontimecasedefault_2);
+                    	
+                    	String earlyTimecasedefault_3 = post.getComments().get(size - 1).getCommentDate();
+                        earlyTimecasedefault_3 = earlyTimecasedefault_3.replace(" ", "-");
+                        earlyTimecasedefault_3 = earlyTimecasedefault_3.replace(":", "-");
+                        String suggestiontimecasedefault_3 = DateUtil.getSuggestion(currentTime, earlyTimecasedefault_3.substring(0, 19));
+                    	commentDate3.setText(suggestiontimecasedefault_3);
                     	if (post.getComments().get(0).getSex().equals("male"))
                     		commentprotrait1.setImageResource(R.drawable.tp_male);
                     	else
@@ -457,6 +565,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	commentsEllipsisText.setText("查看全部评论(" + size + ')');
                     	RL.setVisibility(View.VISIBLE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     }
                     contentLayout.addView(view);
                 }

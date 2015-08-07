@@ -1,6 +1,7 @@
 
 package com.tp.adapter;
 
+import java.io.File;
 import java.util.List;
 
 import com.example.testmobiledatabase.R;
@@ -10,21 +11,17 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.ImagePost;
 import com.tp.ui.ImageZoomInActivity;
-import com.tp.ui.PublicActivity;
 import com.tp.ui.TextPostCommentListActivity;
 import com.tp.views.CircularImage;
 import com.yg.commons.CommonUtil;
 import com.yg.commons.ConstantValues;
-import com.yg.image.preview.ImagePreviewManager;
 import com.yg.ui.dialog.implementation.DateUtil;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class PublicActivityAdapter extends BaseAdapter 
@@ -56,6 +52,7 @@ public class PublicActivityAdapter extends BaseAdapter
 				context).diskCacheExtraOptions(480, 800, null)
 				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
 				.build();// 开始构建
+				
 		imageLoader.init(config);
     }
 
@@ -168,7 +165,9 @@ public class PublicActivityAdapter extends BaseAdapter
 							}
 						}
 					});
-                   
+                    View divider = view.findViewById(R.id.tp_feed_comments_comment_divider);
+                    View divider1 = view.findViewById(R.id.tp_feed_comments_comment_divider1);
+                    View divider2 = view.findViewById(R.id.tp_feed_comments_comment_divider2);
                     TextView comment1 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body);
                     TextView comment2 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body1);
                     TextView comment3 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body2);
@@ -208,6 +207,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     	RL.setVisibility(View.GONE);
                     	feedComments2.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider.setVisibility(View.INVISIBLE);
                     	break;
                     case 2:
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -234,6 +234,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider1.setVisibility(View.INVISIBLE);
                     	break;
                     case 3:
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -271,6 +272,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -309,6 +311,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	commentsEllipsisText.setText("查看全部评论(" + size + ')');
                     	RL.setVisibility(View.VISIBLE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     }
                     contentLayout.addView(view);
                 }
@@ -316,6 +319,9 @@ public class PublicActivityAdapter extends BaseAdapter
                 else if (post.getPostType() == 2) 
                 {
                     View view = LayoutInflater.from(context).inflate(R.layout.tp_moment_photo_partial,null);
+                    View divider = view.findViewById(R.id.tp_feed_comments_comment_divider);
+                    View divider1 = view.findViewById(R.id.tp_feed_comments_comment_divider1);
+                    View divider2 = view.findViewById(R.id.tp_feed_comments_comment_divider2);
                     TextView comment1 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body);
                     TextView comment2 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body1);
                     TextView comment3 = (TextView) view.findViewById(R.id.publicactivityadpter_comment_body2);
@@ -375,17 +381,22 @@ public class PublicActivityAdapter extends BaseAdapter
 								.cacheInMemory(true).cacheOnDisk(true)
 								.bitmapConfig(Bitmap.Config.RGB_565).build();
 						imageLoader.displayImage(ip.getImageURL(), photoView, options);
+						String path = imageLoader.getInstance().getDiscCache().get(ip.getImageURL()).getAbsolutePath();
+						ip.setImagePath(path);
 					} 
 					else 
 					{
 						DisplayImageOptions options = new DisplayImageOptions.Builder()
-								.showImageOnLoading(R.drawable.tp_loading_picture)
-								.showImageOnFail(R.drawable.tp_loading_failed)
-								.cacheInMemory(true).cacheOnDisk(true)
-								.bitmapConfig(Bitmap.Config.RGB_565).build();
-						imageLoader.displayImage("file://" + ip.getImagePath(), photoView, options);
+						.showImageOnLoading(R.drawable.tp_loading_picture)
+						.showImageOnFail(R.drawable.tp_loading_failed)
+						.cacheInMemory(true).cacheOnDisk(true)
+						.bitmapConfig(Bitmap.Config.RGB_565).build();
+						File imageFile = new File(ip.getImagePath());
+						if (imageFile.exists())
+							imageLoader.displayImage("file://" + ip.getImagePath(), photoView, options);
+						else
+							imageLoader.displayImage(ip.getImageURL(), photoView, options);
 					}
-                    
                     /*GetImageTask task = new GetImageTask(photoView, ip);
                     task.execute(0);*/
                      
@@ -454,6 +465,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     	RL.setVisibility(View.GONE);
                     	feedComments2.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider.setVisibility(View.INVISIBLE);
                     	break;
                     case 2:
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -481,6 +493,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     		commentprotrait2.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
                     	feedComments3.setVisibility(View.GONE);
+                    	divider1.setVisibility(View.INVISIBLE);
                     	break;
                     case 3:
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -518,6 +531,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     	else
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	RL.setVisibility(View.GONE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     	break;
                     default :
                     	comment1.setText(post.getComments().get(0).getComment());
@@ -556,6 +570,7 @@ public class PublicActivityAdapter extends BaseAdapter
                     		commentprotrait3.setImageResource(R.drawable.tp_female);
                     	commentsEllipsisText.setText("查看全部评论(" + size + ')');
                     	RL.setVisibility(View.VISIBLE);
+                    	divider2.setVisibility(View.INVISIBLE);
                     }
                     contentLayout.addView(view);
                 }

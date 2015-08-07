@@ -107,7 +107,7 @@ public class AudioMessage extends AbstractMessage
 	 * 返回音频消息的时间长度
 	 * @return 音频时间长度
 	 */
-	public long getDuration(Context context)
+	public synchronized long getDuration(Context context)
 	{
 		this.context = context;
 		if (audioLength == -1)

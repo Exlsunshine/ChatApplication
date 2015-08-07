@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,11 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -355,9 +360,44 @@ public class FriendListActivity extends Activity implements RemoveListener, OnRe
 			}, 300);
 		}
 	}
+	
+	private void showBackDialog(final int position, final int id)
+	{
+		final AlertDialog dialog = new AlertDialog.Builder(this,R.style.LoginDialogAnimation).create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+		dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		
+		Window window = dialog.getWindow();
+		window.setContentView(R.layout.yg_friendlist_delete_confirmation);
+		Button cancel = (Button) window.findViewById(R.id.yg_friendlist_delete_confirmation_cancel);
+		cancel.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				dialog.dismiss();
+			}
+		});
+		Button ok = (Button) window.findViewById(R.id.yg_friendlist_delete_confirmation_ok);
+		ok.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) 
+			{
+				dialog.dismiss();
+				new FriendshipOperationTask().execute(position, id);
+			}
+		});
+	}
+	
 	public void removeItem(int position, int id)
 	{
-		new FriendshipOperationTask().execute(position, id);
+		if (id == FRIENDSHIP_REQUEST_DELETE)
+			showBackDialog(position, id);
+		else
+			new FriendshipOperationTask().execute(position, id);
 		/*//Add star to a friend
 		if (id == 0)
 		{

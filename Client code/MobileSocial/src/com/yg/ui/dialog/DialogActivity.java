@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
@@ -137,8 +138,6 @@ public class DialogActivity extends Activity
 			faceHelper = new SelectFaceHelper(this, addFaceToolView);
 			faceHelper.setFaceOpreateListener(mOnFaceOprateListener);
 		}
-		
-		hideInputManager(this);
 	}
 	
 	private void hideInputManager(Context ct)
@@ -250,9 +249,32 @@ public class DialogActivity extends Activity
 		initEmoji();
 		
 		if (UserGuide.isNeedUserGuide(DialogActivity.this, UserGuide.DIALOG_ACTIVITY))
+		{
+			//Hide input keyboard
+			try
+			{
+				View view = getCurrentFocus();
+				if (view != null)
+				{  
+					Log.i(DEBUG_TAG, "Hiding...");
+				    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+				}
+				else
+					Log.e(DEBUG_TAG, "Not Hiding...");
+			}
+			catch (Exception e)
+			{
+				e.getStackTrace();
+			}
+			
 			setupUserGuide();
+		}
 		else
+		{
+			editText.requestFocus();
 			setupListeners();
+		}
 	}
 	
 	private void setupListeners()

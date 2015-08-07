@@ -12,6 +12,7 @@
     android:paddingRight="15dp" >
 
     <TextView
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -54,7 +55,8 @@
             android:background="@android:color/white"
             android:gravity="center"
             android:text="取消"
-            android:textColor="#1E90FF" />
+            android:textColor="#1E90FF"
+            android:textSize="17sp" />
 
         <Button
             android:id="@+id/yg_loginguide_page3_forgot__dialog_reset"
@@ -65,6 +67,7 @@
             android:gravity="center"
             android:text="重置"
             android:textColor="#1E90FF"
+            android:textSize="17sp"
             android:textStyle="bold" />
     </LinearLayout>
 

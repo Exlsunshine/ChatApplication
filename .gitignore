@@ -2,6 +2,12 @@
 /Client code/MobileSocial/gen
 /Server code/MobileSocialServer/bin
 /Server code/MobileSocialServer/.metadata
+/Client code/MobileSocial/.classpath
+/Client code/MobileSocial/project.properties
+/Client code/SocialSDKLibraryProject/bin
+/Client code/SocialSDKLibraryProject/gen
+/Client code/SocialSDKLibraryProject/.classpath
+/Client code/SocialSDKLibraryProject/project.properties
 issues.txt
 issues2.txt
 

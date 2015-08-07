@@ -3,17 +3,24 @@ package com.tp.ui;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 import com.example.testmobiledatabase.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.tp.adapter.PublicActivityAdapter;
 import com.tp.adapter.PullToRefreshBase.OnRefreshListener;
+import com.tp.adapter.PullToRefreshBase.OnShouldPullDwonListener;
 import com.tp.adapter.PullToRefreshListView;
 import com.tp.adapter.PullToRefreshListView.OnPositionChangedListener;
 import com.tp.messege.AbstractPost;
 import com.tp.messege.EmptyPost;
 import com.tp.views.MenuRightAnimations;
 import com.yg.commons.ConstantValues;
+import com.yg.guide.manager.GuideComplete;
+import com.yg.guide.manager.UserGuide;
+import com.yg.guide.tourguide.Overlay;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +43,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,8 +54,91 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class PublicActivity extends Activity implements OnTouchListener, OnPositionChangedListener 
 {
+	/**
+	 * Below codes belongs to YG
+	 */
+	private WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
+	private static final int DO_NOT_CHANGE_REFRESH = 0x01;
+	private void initDropdownAnim() 
+	{
+		mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
+		mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() 
+		{
+			@Override
+			public void onRefresh()
+			{
+				new Task().execute();
+			}
+		});
+		mWaveSwipeRefreshLayout.setCustomEnable(false);
+	}
+
+	private class Task extends AsyncTask<Void, Void, String[]> 
+	{
+		private ArrayList<AbstractPost> posts;
+		
+		@Override
+		protected String[] doInBackground(Void... params) 
+		{
+			long beginTime = 0;
+			long endTime = 0;
+			try 
+			{
+				beginTime = System.currentTimeMillis();
+				posts = ConstantValues.user.pm.getLatestPosts();
+				endTime = System.currentTimeMillis();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+				
+			if ((endTime - beginTime) < 3000)
+			{
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+				
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String[] result) 
+		{
+			if (posts == null)
+			{
+				Log.d("Pull down to refresh", "getLatestPosts size 0");
+				Message message = Message.obtain();
+				message.what = pulluprefreshempty;
+				handler.sendMessage(message);
+			} 
+			else 
+			{
+				Log.d("Pull down to refresh",  "getLatestPosts size " + posts.size());
+				ap.clear();
+				ap.add(empty);
+				ap.addAll(posts);
+				Message message = Message.obtain();
+				message.what = setAdpter;
+				handler.sendMessage(message);
+			}
+				
+			mWaveSwipeRefreshLayout.setRefreshing(false);
+			mWaveSwipeRefreshLayout.setCustomEnable(false);
+			mPullRefreshListView.setPullDownActionEnabled(true);
+			super.onPostExecute(result);
+		}
+	}
+	/**
+	 * Above codes belongs to YG
+	 */
+
+		
     // clock
     private FrameLayout clockLayout;
+    private LinearLayout send, back;
+    private Button fakeButton;
     private PullToRefreshListView mPullRefreshListView;
     private ListView mListView;
     private EmptyPost empty = new EmptyPost();
@@ -61,6 +153,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     private int position1 = 0;
     private boolean isOncreate = false;
     private int index = 0, top = 0;
+    private UserGuide userGuide;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     
     private void setupDialogActionBar()
@@ -72,24 +165,23 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		
 		TextView title = (TextView)findViewById(R.id.tp_publicactivity_actionbar_title);
 		title.setText("朋友圈");
-		LinearLayout back = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_back);
-		LinearLayout send = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_send);
-		back.setOnClickListener(new OnClickListener()
+		back = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_back);
+		send = (LinearLayout)findViewById(R.id.tp_publicactivity_actionbar_send);
+	}
+    private void setupUserGuide()
+	{
+    	fakeButton.setVisibility(View.VISIBLE);
+    	fakeButton.bringToFront();
+		userGuide = new UserGuide(this, "匿 名", "发送新鲜事", Gravity.BOTTOM | Gravity.LEFT, Overlay.Style.Circle, "#FF9900");
+		userGuide.addAnotherGuideArea(send, fakeButton, true, "我 的 分 享", "点击查看自己的新鲜事", Gravity.BOTTOM, Gravity.CENTER, "#1E90FF");
+		userGuide.beginWith(send, false, new GuideComplete()
 		{
 			@Override
-			public void onClick(View v)
+			public void onUserGuideCompleted()
 			{
-				finish();
-			}
-		});
-		
-		send.setOnClickListener(new OnClickListener() 
-		{
-			@Override
-			public void onClick(View v) 
-			{
-				Intent intent = new Intent(PublicActivity.this, SendPostActivity.class);
-				startActivity(intent);
+				fakeButton.setVisibility(View.GONE);
+				setClickListener();
+				UserGuide.disableUserGuide(UserGuide.FRIENDCIRCLE_ACTIVITY);
 			}
 		});
 	}
@@ -99,6 +191,16 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tp_feed_activity2);
+        
+        /**
+    	 * Below codes belongs to YG
+    	 */
+		System.gc();
+    	/**
+    	 * Above codes belongs to YG
+    	 */
+		
+		
         MenuRightAnimations.initOffset(PublicActivity.this);
         setupDialogActionBar();
         new Thread()
@@ -139,12 +241,11 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
                 }
         	};
         }.start();
-        
+        fakeButton = (Button) findViewById(R.id.tp_fake_button);
         mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.publicactivity_pulltorefreshlist_view);
         mListView = mPullRefreshListView.getRefreshableView();
-        mListView.setOnItemClickListener(new OnItemClickListenerImpl());
+       
         mPullRefreshListView.setOnPositionChangedListener(this);
-        setClickListener();
         clockLayout = (FrameLayout)findViewById(R.id.publicactivity_clock);
         mPullRefreshListView.setOnScrollListener(new PauseOnScrollListener(imageLoader, true, true)); 
         mPullRefreshListView.setOnScrollListener(new OnScrollListener() 
@@ -190,7 +291,19 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 			{
 			}
 		});
+        if (UserGuide.isNeedUserGuide(PublicActivity.this, UserGuide.FRIENDCIRCLE_ACTIVITY))
+        	setupUserGuide();
+        else
+        	setClickListener();
         isOncreate = true;
+        
+        /**
+    	 * Below codes belongs to YG
+    	 */
+        initDropdownAnim();
+    	/**
+    	 * Above codes belongs to YG
+    	 */
     }
     
     private Handler handler = new Handler()
@@ -205,7 +318,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 				mListView.setAdapter(chatHistoryAdapter);
 				mListView.setSelectionFromTop(index, top);
 				Log.e("PA_____", "setSelection position1 = " + position1);
-				mListView.setOnItemClickListener(new OnItemClickListenerImpl());
+				/*mListView.setOnItemClickListener(new OnItemClickListenerImpl());*/
 				mPullRefreshListView.onRefreshComplete();
 				break;
 			case pulluprefresh:
@@ -363,6 +476,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 	
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> 
 	{
+		private ArrayList<AbstractPost> tmp;
 		int pullState;
 		public GetDataTask(int pullType) 
 		{
@@ -370,110 +484,98 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 		}
 		
 		@Override
-		protected String[] doInBackground(Void... params) {
-			try 
-			{
-				Thread.sleep(1000);
-			} 
-			catch (InterruptedException e) 
+		protected String[] doInBackground(Void... params) 
+		{
+			if(pullState == 1) 
 			{
 			}
-			return mStrings;
+			if(pullState == 2) 
+			{
+				//上拉
+				Log.d("onPostExecute", "上拉");
+				tmp = ConstantValues.user.pm.getHistoryPosts();
+			}			
+			return null;
 		}
 
 		@Override
 		protected void onPostExecute(String[] result) {
 			if(pullState == 1) 
 			{
-				Log.e("onPostExecute", "下拉");
-				Thread td = new Thread(new Runnable()
-		        {
-					@Override
-		        	public void run() 
-		        	{
-		        		try
-		        		{
-		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getLatestPosts();
-		        			
-		        			if (tmp == null)
-		        			{
-		        				Log.d("PA______",  "tmp getLatestPosts size null");
-		        				Message message = Message.obtain();
-			    				message.what = pulluprefreshempty;
-			    				handler.sendMessage(message);
-		        			}
-		        			else
-		        			{
-		        				Log.d("PA______", tmp.size() + "tmp getLatestPosts size");
-		        				ap.clear();
-			        			ap.add(empty);
-			          			ap.addAll(tmp);
-			          			Message message = Message.obtain();
-			    				message.what = setAdpter;
-			    				handler.sendMessage(message);
-		        			}
-		        		}
-		        		catch (Exception e)
-		                {
-		        			e.printStackTrace();
-		                }
-		        	}
-		        });
-				td.start();
-				try 
-				{
-					td.join();
-				} 
-				catch (InterruptedException e) 
-				{
-					e.printStackTrace();
-				}
 			}
 			if(pullState == 2) 
 			{
-				//上拉
-				Log.e("onPostExecute", "上拉");
-				Thread td = new Thread(new Runnable()
-		        {
-					@Override
-		        	public void run() 
-		        	{
-		        		try
-		        		{
-		        			Log.d("getHistoryPostssdebug_______", "______");
-		        			ArrayList<AbstractPost> tmp = ConstantValues.user.pm.getHistoryPosts();
-		        			if (tmp == null)
-		        			{
-		        				Message message = Message.obtain();
-			    				message.what = pulluprefreshempty;
-			    				handler.sendMessage(message);
-		        			}
-		        			else
-		        			{
-		        				ap.clear();
-			        			ap.add(empty);
-		        				ap.addAll(tmp);
-			          			Message message = Message.obtain();
-			    				message.what = pulluprefresh;
-			    				handler.sendMessage(message);
-		        			}
-		        		}
-		        		catch (Exception e)
-		                {
-		        			e.printStackTrace();
-		                }
-		        	}
-		        });
-				td.start();
+				if (tmp == null)
+    			{
+    				Message message = Message.obtain();
+    				message.what = pulluprefreshempty;
+    				handler.sendMessage(message);
+    			}
+    			else
+    			{
+    				ap.clear();
+        			ap.add(empty);
+    				ap.addAll(tmp);
+          			Message message = Message.obtain();
+    				message.what = pulluprefresh;
+    				handler.sendMessage(message);
+    			}
 			}
-			super.onPostExecute(result);
 		}
-		private String[] mStrings = { "Abbaye de Belloc" };
 	}
 	
 	private void setClickListener() 
 	{
+		/**
+    	 * Below codes belongs to YG
+    	 */
+		mPullRefreshListView.setOnShouldPullDwonListener(new OnShouldPullDwonListener()
+		{
+			@Override
+			public void onShouldPullDown() 
+			{
+				mWaveSwipeRefreshLayout.setCustomEnable(true);
+			}
+		});
+    	/**
+    	 * Above codes belongs to YG
+    	 */
+        
 		mPullRefreshListView.setOnRefreshListener(mOnrefreshListener);
+		back.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				/**
+		    	 * Below codes belongs to YG
+		    	 */
+				System.gc();
+				/**
+		    	 * Above codes belongs to YG
+		    	 */
+				finish();
+			}
+		});
+		
+		send.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Intent intent = new Intent(PublicActivity.this, SendPostActivity.class);
+				startActivity(intent);
+			}
+		});
+		/*fakeButton.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				Log.e("fakeButton.setOnClickListener", "onclick");
+			}
+		});*/
+		mListView.setOnItemClickListener(new OnItemClickListenerImpl());
 	}
 	
 	@Override
@@ -494,28 +596,6 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
         			handler.sendMessage(message);
 				}
 			});
-			/*Thread td = new Thread(new Runnable()
-	        {
-				@Override
-	        	public void run() 
-	        	{
-	        		try
-	        		{
-	        			Thread.sleep(50);
-	        			Message message = Message.obtain();
-	        			ap.clear();
-	        			ap.add(empty);
-	        			ap.addAll(ConstantValues.user.pm.getfriendpost());
-	        			message.what = setAdpter;
-	        			handler.sendMessage(message);
-	        		}
-	        		catch (Exception e)
-	                {
-	        			e.printStackTrace();
-	                }
-	        	}
-	        });
-			td.start();*/
 			super.onResume();
 		}
 		else

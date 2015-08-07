@@ -3,18 +3,19 @@ package com.yg.network.openfire;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jivesoftware.smack.AccountManager;
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.PacketListener;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.filter.MessageTypeFilter;
-import org.jivesoftware.smack.filter.PacketFilter;
-import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.packet.Packet;
-import org.jivesoftware.smack.util.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import z.org.jivesoftware.smack.AccountManager;
+import z.org.jivesoftware.smack.ConnectionConfiguration;
+import z.org.jivesoftware.smack.PacketListener;
+import z.org.jivesoftware.smack.XMPPConnection;
+import z.org.jivesoftware.smack.XMPPException;
+import z.org.jivesoftware.smack.filter.MessageTypeFilter;
+import z.org.jivesoftware.smack.filter.PacketFilter;
+import z.org.jivesoftware.smack.packet.Message;
+import z.org.jivesoftware.smack.packet.Packet;
+import z.org.jivesoftware.smack.util.StringUtils;
 
 import android.os.Handler;
 import android.util.Log;

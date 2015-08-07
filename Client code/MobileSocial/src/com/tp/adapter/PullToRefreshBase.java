@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -304,6 +305,24 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
+	public static interface OnShouldPullDwonListener
+	{
+		public void onShouldPullDown();
+	}
+
+	private long lastUpdateTime = -1;
+	private boolean enablePullDownAction = true;
+	private OnShouldPullDwonListener onShouldPullDwonListener;
+	
+	public final void setOnShouldPullDwonListener(OnShouldPullDwonListener listener) {
+		onShouldPullDwonListener = listener;
+	}
+	
+	public void setPullDownActionEnabled(boolean enablePullDownAction)
+	{
+		this.enablePullDownAction = enablePullDownAction;
+	}
+	
 	@Override
 	public final boolean onTouchEvent(MotionEvent event) {
 		if (!isPullToRefreshEnabled) {
@@ -318,9 +337,34 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout {
 			return false;
 		}
 
+		long currentTime = System.currentTimeMillis();
 		switch (event.getAction()) {
 
 			case MotionEvent.ACTION_MOVE: {
+				
+				if (isBeingDragged && (lastMotionY - event.getY() <= 0)) 
+				{
+					if (!enablePullDownAction)
+						return false;
+					else
+						enablePullDownAction = false;
+					
+					if (lastUpdateTime == -1)
+					{
+						lastUpdateTime = currentTime;
+						Log.i(VIEW_LOG_TAG, "Time to call");
+						onShouldPullDwonListener.onShouldPullDown();
+					}
+					else
+					{
+							lastUpdateTime = currentTime;
+							Log.i(VIEW_LOG_TAG, "Time to call");
+							onShouldPullDwonListener.onShouldPullDown();
+					}
+					
+					return false;
+				}
+				
 				if (isBeingDragged) {
 					lastMotionY = event.getY();
 					this.pullEvent();

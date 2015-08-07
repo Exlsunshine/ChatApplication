@@ -1,17 +1,41 @@
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"  
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#F8F8FF" >
+    android:background="@android:color/holo_green_light" >
 
     <com.yg.ui.recentdialog.implementation.RecentDialogListView
-        android:id="@+id/yg_recent_dialog_listview"  
-    	android:layout_width="fill_parent"  
-        android:layout_height="fill_parent"   
-        android:divider="#DCDCDC"  
+        android:id="@+id/yg_recent_dialog_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="#F0EFF5"
-        android:dividerHeight="2px" >  
-    </com.yg.ui.recentdialog.implementation.RecentDialogListView>  
+        android:divider="#DCDCDC"
+        android:dividerHeight="0.3dp" >
+    </com.yg.ui.recentdialog.implementation.RecentDialogListView>
 
-</LinearLayout >
+    <LinearLayout
+        android:id="@+id/yg_recent_dialog_empty_background"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#F0EFF5"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:src="@drawable/yg_recent_dialog_empty_message" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="暂时没有新消息"
+            android:textColor="#A6A6A6"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</RelativeLayout>

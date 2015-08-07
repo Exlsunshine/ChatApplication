@@ -14,12 +14,10 @@
     <string name="title_activity_activity_shake">ActivityShake</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="title_activity_friend_detail">FriendDetailActivity</string>
-	
     <string name="pull_to_refresh_pull_down_label">滑动刷新</string>
     <string name="pull_to_refresh_release_label">释放刷新</string>
     <string name="pull_to_refresh_refreshing_label">加载中</string>
     <string name="pull_to_refresh_tap_label">点击刷新</string>
-    
     <string name="lj_achieve_title_1">社交达人</string>
     <string name="lj_achieve_title_2">不摇不相识</string>
     <string name="lj_achieve_title_3">兵临城下</string>
@@ -28,7 +26,6 @@
     <string name="lj_achieve_title_6">不屈不挠</string>
     <string name="lj_achieve_title_7">滔滔不绝</string>
     <string name="lj_achieve_title_8">久经沙场</string>
-    
     <string name="lj_achieve_des_1">好友数量</string>
     <string name="lj_achieve_des_2">使用摇一摇次数</string>
     <string name="lj_achieve_des_3">被解密成功次数</string>
@@ -37,12 +34,11 @@
     <string name="lj_achieve_des_6">解密失败次数</string>
     <string name="lj_achieve_des_7">发语音次数</string>
     <string name="lj_achieve_des_8">使用时间</string>
-    
     <string name="lj_network_error_text">请确保手机已连接到网络</string>
     <string name="lj_network_error_server">若您确定可以连接到互联网，则可能是因为您当前所处的网络环境较差，解决方案如下：\n方案1：请尝试切换到其他wifi下或使用3G/4G访问。\n方案2：请参看光盘1中的本地服务器搭建指导手册搭建本地服务器。</string>
     <string name="lj_network_error_contacts">若在搭建配置服务器和客户端过程中遇到任何问题请致电\n杨光 13671045367\n李健 15810352125\n唐鹏 15001297208\n</string>
 
-	<!-- 朋友们 -->
+    <!-- 朋友们 -->
 
     <string name="friend_discard_bottle">扔一个</string>
     <string name="friend_collect_bottle">捡一个</string>
@@ -50,4 +46,6 @@
     <string name="nothing"></string>
     <string name="dialog_confirm_button">确定</string>
     <string name="dialog_cancel_button">取消</string>
+    <string name="title_activity_video_chat">VideoChatActivity</string>
+
 </resources>

@@ -163,7 +163,7 @@ public class ClientUser extends AbstractUser
 	{
 		for (int i = 0; i < getFriendList().size(); i++)
 		{
-			if (i == getFriendList().get(i).getID())
+			if (userID == getFriendList().get(i).getID())
 				return;
 		}
 		
