@@ -42,7 +42,7 @@ def home(request):
 
 
     home_active = 'active'
-    SecTitleIcon = 'icon-dashboard'
+    SecTitleIcon = 'icon-home'
 
     response =  render(request, "home.html", {'home_active' : home_active, 'sec_title_icon' :SecTitleIcon, 'online_stack': online_stack, 'statistics_stack':statistics_stack})
     return response
@@ -55,7 +55,7 @@ def getRealTimeOnlinePage(request):
 
 
     realtimeonline_active = 'active'
-    SecTitleIcon = 'icon-mobile-phone'
+    SecTitleIcon = 'icon-group'
     online_active = 'active'
 
     response =  render(request, "Display/subview/realtime_online.html", {'realtimeonline_active' : realtimeonline_active, 'sec_title_icon' :SecTitleIcon
@@ -70,7 +70,7 @@ def getPerHourOnlinePage(request):
     list = getPerHourOnLineNumFromDataBase()
     perhouronline_active = 'active'
     online_active = 'active'
-    SecTitleIcon = 'icon-mobile-phone'
+    SecTitleIcon = 'icon-h-sign'
     response =  render(request, "Display/subview/perhour_online.html", {'perhouronline_active' : perhouronline_active, 'sec_title_icon' :SecTitleIcon, 'perhouronline_list' : list
                                                                         ,'online_active':online_active, 'online_stack':online_stack, 'statistics_stack':statistics_stack} )
     return response
@@ -78,7 +78,7 @@ def getPerHourOnlinePage(request):
 def getSexStatisticsPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
-    SecTitleIcon = 'icon-cogs'
+    SecTitleIcon = 'icon-user'
     statistics_active = 'active'
     sex_active = 'active'
 
@@ -91,7 +91,7 @@ def getSexStatisticsPage(request):
 def getAgeDistributionPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
-    SecTitleIcon = 'icon-list-ul'
+    SecTitleIcon = 'icon-time'
     statistics_active = 'active'
     age_active = 'active'
 
@@ -105,7 +105,7 @@ def getMapDistributionPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
 
-    SecTitleIcon = 'icon-cogs'
+    SecTitleIcon = 'icon-map-marker'
     statistics_active = 'active'
     map_active = 'active'
 
@@ -120,7 +120,7 @@ def getRegisterDayPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
 
-    SecTitleIcon = 'icon-comments'
+    SecTitleIcon = 'icon-smile'
     statistics_active = 'active'
     register_active = 'active'
     dict = getRegisterDayDictFromDataBase()
@@ -134,7 +134,7 @@ def getRegisterMonthPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
 
-    SecTitleIcon = 'icon-comments'
+    SecTitleIcon = 'icon-smile'
     statistics_active = 'active'
     register_active = 'active'
     dict = getRegisterMonthDictFromDataBase()
@@ -148,7 +148,7 @@ def getRegisterYearPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
 
-    SecTitleIcon = 'icon-comments'
+    SecTitleIcon = 'icon-smile'
     statistics_active = 'active'
     register_active = 'active'
     dict = getRegisterYearDictFromDataBase()
@@ -162,7 +162,7 @@ def getZombieReturnDayPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
 
-    SecTitleIcon = 'icon-pencil'
+    SecTitleIcon = 'icon-meh'
     statistics_active = 'active'
     zombiereturn_active = 'active'
     dict = getZombieReturnDayDictFromDataBase()
@@ -176,7 +176,7 @@ def getZombieReturnMonthPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
 
-    SecTitleIcon = 'icon-pencil'
+    SecTitleIcon = 'icon-meh'
     statistics_active = 'active'
     zombiereturn_active = 'active'
     dict = getZombieReturnMonthDictFromDataBase()
@@ -190,7 +190,7 @@ def getZombieReturnYearPage(request):
     online_stack = 'nav nav-stacked'
     statistics_stack =  'in nav nav-stacked'
 
-    SecTitleIcon = 'icon-comments'
+    SecTitleIcon = 'icon-meh'
     statistics_active = 'active'
     register_active = 'active'
     dict = getZombieReturnYearDictFromDataBase()
