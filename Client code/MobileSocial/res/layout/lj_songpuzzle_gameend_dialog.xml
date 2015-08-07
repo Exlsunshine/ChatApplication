@@ -17,6 +17,7 @@
     <TextView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/lj_dialog_dis_textsize"
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:paddingBottom="10dp"
@@ -25,29 +26,44 @@
         android:text="游戏结束"
         android:textColor="#1E90FF" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@android:color/darker_gray" />
+
     <TextView
         android:id="@+id/lj_songpuzzle_dialog_correctnum_text"
-        android:layout_width="250dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:gravity="center"
+        android:textSize="@dimen/lj_dialog_dis_textsize"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingTop="10dp"
         android:text=""
         android:textColor="#1E90FF" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/lj_songpuzzle_dialog_end_status_test"
-        android:layout_width="250dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:textSize="@dimen/lj_dialog_dis_textsize"
         android:gravity="center"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingTop="10dp"
         android:text=""
         android:textColor="#1E90FF" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -62,29 +78,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="@dimen/lj_dialog_dis_textsize"
             android:background="@android:color/white"
             android:gravity="center"
             android:text=""
             android:textColor="#1E90FF" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:minHeight="200dp"
-        android:minWidth="300dp"
-        android:visibility="gone" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yg_loading_bkg1" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yg_loading_bkg2" />
-    </RelativeLayout>
 
 </LinearLayout>

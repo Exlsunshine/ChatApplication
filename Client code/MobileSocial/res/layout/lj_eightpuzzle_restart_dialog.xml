@@ -22,9 +22,14 @@
 	    android:layout_marginTop="15dp"
 	    android:gravity="center"
 	    android:textColor="#1E90FF"
+	    android:textSize="@dimen/lj_dialog_dis_textsize"
 	    android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingTop="10dp" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:id="@+id/lj_eightpuzzle_restart_dialog_button_layout"
@@ -35,48 +40,38 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
+        
+        
         <Button
-            android:id="@+id/lj_eightpuzzle_restart_dialog_button_cancel"
+            android:id="@+id/lj_eightpuzzle_restart_dialog_button_confirm"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="@dimen/lj_dialog_confirm_textsize"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="取消"
-            android:textColor="#1E90FF" />
-
+            android:text="确定"
+            android:textColor="#1E90FF"/>
+        <ImageView
+            android:layout_width="0.1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/darker_gray" />
+        
         <Button
-            android:id="@+id/lj_eightpuzzle_restart_dialog_button_confirm"
+            android:id="@+id/lj_eightpuzzle_restart_dialog_button_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20.0dip"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:text="确认"
-            android:textColor="#1E90FF"/>
+            android:textSize="@dimen/lj_dialog_cancel_textsize"
+            android:text="取消"
+            android:textColor="@android:color/holo_red_dark" />
+
+        
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/yg_loginguide_page3_dialog_login_loading_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minWidth="300dp"
-        android:minHeight="200dp"
-        android:gravity="center"
-        android:visibility="gone" >
-
-        <ImageView
-            android:id="@+id/yg_loginguide_page3_dialog_login_loading_layout_left_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yg_loading_bkg1" />
-
-        <ImageView
-            android:id="@+id/yg_loginguide_page3_dialog_login_loading_layout_right_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yg_loading_bkg2" />
-    </RelativeLayout>
 
 </LinearLayout>

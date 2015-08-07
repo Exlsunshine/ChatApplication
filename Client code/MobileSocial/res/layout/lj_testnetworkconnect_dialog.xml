@@ -25,6 +25,10 @@
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingTop="10dp" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@android:color/darker_gray" />
     <RelativeLayout
         android:id="@+id/lj_loginguide_page3_dialog_login_loading_layout"
         android:layout_width="match_parent"

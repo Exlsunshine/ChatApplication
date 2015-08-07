@@ -79,6 +79,7 @@ public class FragmentGameSetting extends Fragment
 					gSongSwitch.setChecked(false);
 					gBazingaSwitch.setChecked(true);
 				}
+				gChangeMap.remove("game");
 			}
 			else if (msg.what == ConstantValues.InstructionCode.GAMESET_HANDLER_DOWNLOAD_IMAGE)
 			{

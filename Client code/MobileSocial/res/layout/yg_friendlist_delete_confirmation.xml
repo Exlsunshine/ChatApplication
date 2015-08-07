@@ -45,14 +45,14 @@
             android:background="@android:color/white"
             android:gravity="center"
             android:text="确定"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="17sp" />
+            android:textColor="#1E90FF"
+            android:textSize="18sp" />
 
         <ImageView
             android:layout_width="0.1dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
             android:background="@android:color/darker_gray" />
 
         <Button
@@ -64,7 +64,7 @@
             android:background="@android:color/white"
             android:gravity="center"
             android:text="取消"
-            android:textColor="#1E90FF"
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="19sp" />
     </LinearLayout>
 

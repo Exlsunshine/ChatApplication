@@ -27,6 +27,9 @@
     <dimen name="lj_game_setting_left_marign">15dp</dimen>
     <dimen name="lj_game_setting_eightpuzzle_left_marign">30dp</dimen>
     <dimen name="lj_userinfo_eightpuzzle_image_height">100dp</dimen>
+    <dimen name="lj_dialog_dis_textsize">18sp</dimen>
+    <dimen name="lj_dialog_confirm_textsize">18sp</dimen>
+    <dimen name="lj_dialog_cancel_textsize">19sp</dimen>
 
     <!-- Floating button -->
     <dimen name="fab_size_normal">56dp</dimen>
