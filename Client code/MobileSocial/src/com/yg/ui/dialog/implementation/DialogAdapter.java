@@ -310,7 +310,7 @@ public class DialogAdapter extends BaseAdapter
 	private void setTime(ViewHolder holder, int position)
 	{
 		holder.tvTime.setVisibility(View.GONE);
-		if (position > 1)
+		if (position >= 1)
 		{
 			if (!DateUtil.lessThan5Mins(messages.get(position).getDate(), messages.get(position - 1).getDate()))
 			{
