@@ -47,6 +47,7 @@
             android:visibility="visible" >
 			<!-- line -->
             <View
+                android:id="@+id/tp_text_post_divider"
                 android:layout_width="fill_parent"
                 android:layout_height="1.0dip"
                 android:background="@color/bubble_item_divider"/>

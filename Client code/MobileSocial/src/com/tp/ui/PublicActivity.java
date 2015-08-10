@@ -91,7 +91,7 @@ public class PublicActivity extends Activity implements OnTouchListener, OnPosit
 				e.printStackTrace();
 			}
 				
-			if ((endTime - beginTime) < 3000)
+			if ((endTime - beginTime) < 4000)
 			{
 				try {
 					Thread.sleep(1000);

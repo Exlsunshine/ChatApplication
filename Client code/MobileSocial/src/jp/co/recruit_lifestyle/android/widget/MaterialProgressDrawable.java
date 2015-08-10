@@ -74,7 +74,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     private static final float STROKE_WIDTH_LARGE = 3f;
 
     private final int[] COLORS = new int[] {
-            Color.BLACK
+            Color.WHITE
     };
 
     /** The duration of a single progress spin in milliseconds. */
@@ -222,9 +222,9 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
         mRing.setAlpha(alpha);
     }
 
-    public int getAlpha() {
+   /* public int getAlpha() {
         return mRing.getAlpha();
-    }
+    }*/
 
     @Override
     public void setColorFilter(ColorFilter colorFilter) {
@@ -636,10 +636,11 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
          * @param show Set to true to show the arrow head on the progress spinner.
          */
         public void setShowArrow(boolean show) {
-            if (mShowArrow != show) {
+            /*if (mShowArrow != show) {
                 mShowArrow = show;
                 invalidateSelf();
-            }
+            }*/
+        	mShowArrow = true;
         }
 
         /**

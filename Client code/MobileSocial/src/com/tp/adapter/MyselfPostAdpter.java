@@ -181,6 +181,7 @@ public class MyselfPostAdpter extends BaseAdapter
                     switch (size)
                     {
                     case 0:
+                    	view.findViewById(R.id.tp_text_post_divider).setVisibility(View.INVISIBLE);
                     	ll.setVisibility(View.GONE);
                     	RL.setVisibility(View.GONE);
                     	break;
@@ -414,9 +415,9 @@ public class MyselfPostAdpter extends BaseAdapter
                     	DisplayImageOptions options = new DisplayImageOptions.Builder()  
                     	.showImageOnLoading(R.drawable.tp_loading_picture)  
                     	.showImageOnFail(R.drawable.tp_loading_failed)  
-                    	//.cacheInMemory(false) 
-                    	.resetViewBeforeLoading()
-                    	.imageScaleType(ImageScaleType.EXACTLY)
+                    	.cacheInMemory(true) 
+//                    	.resetViewBeforeLoading()
+//                    	.imageScaleType(ImageScaleType.EXACTLY)
                     	.cacheOnDisk(true)  
                     	.bitmapConfig(Bitmap.Config.RGB_565)  
                     	.build();
@@ -429,9 +430,9 @@ public class MyselfPostAdpter extends BaseAdapter
                     	DisplayImageOptions options = new DisplayImageOptions.Builder()  
                     	.showImageOnLoading(R.drawable.tp_loading_picture)  
                     	.showImageOnFail(R.drawable.tp_loading_failed)  
-                    	//.cacheInMemory(false)  
-                    	.resetViewBeforeLoading()
-                    	.imageScaleType(ImageScaleType.EXACTLY)
+                    	.cacheInMemory(true)  
+//                    	.resetViewBeforeLoading()
+//                    	.imageScaleType(ImageScaleType.EXACTLY)
                     	.cacheOnDisk(true)  
                     	.bitmapConfig(Bitmap.Config.RGB_565)  
                     	.build();  

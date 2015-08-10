@@ -25,7 +25,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
@@ -112,9 +111,16 @@ public class DialogActivity extends Activity
 			@Override
 			public void onClick(View v)
 			{
-				DialogActivity.this.finish();
+				finishActivity();
 			}
 		});
+	}
+	
+	private void finishActivity()
+	{
+		if (msgAdapter != null)
+			msgAdapter.cleanAllAudio();
+		DialogActivity.this.finish();
 	}
 	
 	private void notifyChattingWithSomebody()
@@ -651,6 +657,11 @@ public class DialogActivity extends Activity
 				}
 			}
 		}
+	};
+	
+	public void onBackPressed() 
+	{
+		finishActivity();
 	};
 	
 	protected void onResume()

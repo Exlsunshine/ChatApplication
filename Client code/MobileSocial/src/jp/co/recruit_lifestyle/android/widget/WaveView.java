@@ -16,6 +16,8 @@
 
 package jp.co.recruit_lifestyle.android.widget;
 
+import com.example.testmobiledatabase.R;
+
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -336,7 +338,7 @@ public class WaveView extends View implements ViewTreeObserver.OnPreDrawListener
 
   private void setUpPaint() {
     mPaint = new Paint();
-    mPaint.setColor(0xff2196F3);
+    mPaint.setColor(0xFF1E90FF);
     mPaint.setAntiAlias(true);
     mPaint.setStyle(Paint.Style.FILL);
 
@@ -509,6 +511,12 @@ public class WaveView extends View implements ViewTreeObserver.OnPreDrawListener
   }
 
   public void startDropAnimation() {
+	  
+	  mDisappearCircleAnimator = ValueAnimator.ofFloat(1.f, 1.f);
+		mDisappearCircleAnimator.setDuration(1); 
+		mDisappearCircleAnimator.start();
+		
+		
     mDropCircleAnimator = ValueAnimator.ofFloat(500 * (mWidth / 1440.f), mMaxDropHeight);
     mDropCircleAnimator.setDuration(DROP_CIRCLE_ANIMATOR_DURATION);
     mDropCircleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

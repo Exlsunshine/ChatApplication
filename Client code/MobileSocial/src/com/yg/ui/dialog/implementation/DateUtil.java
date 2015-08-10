@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.yg.commons.CommonUtil;
+
 import android.util.Log;
 
 public class DateUtil
@@ -49,15 +51,22 @@ public class DateUtil
 		long min = (diff - day * 3600 * 24 - hour * 3600) / 60;
 		//long seconds = diff - day * 3600 * 24 - hour * 3600 - min * 60;
 		
-		if (day > 0 && hour != 0 || min != 0)
+		if (day > 0 && (hour != 0 || min != 0))
 			day++;
 		
-		if (day == 1)
+		if ((day == 0) && (Math.abs(current.getDate() - early.getDate()) == 1))
 			return "昨天";
+		if (day == 1)
+			return "前天";
 		else if (day >= 2 && day <= 7)
 			return String.valueOf(day) + " 天前";
 		else if (day > 7)
-			return earlyDateStr.substring(0, 10);
+		{
+			if (current.getYear() == early.getYear())
+				return earlyDateStr.substring(5, 5);
+			else
+				return earlyDateStr.substring(0, 10);
+		}
 		
 		if (hour >= 1)
 			return String.valueOf(hour) + " 小时前";
