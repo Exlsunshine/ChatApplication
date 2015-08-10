@@ -101,6 +101,28 @@ def getZombieReturnYearDictFromDataBase():
         dict['female'].append(random.randint(0,59))
     return dict
 
+def buildStackDict(key):
+    dict = {}
+    dict['online_stack'] = 'nav nav-stacked'
+    dict['statistics_stack'] = 'nav nav-stacked'
+    dict['distribution_stack'] = 'nav nav-stacked'
+
+    if (key != 'null'):
+        dict[key] = 'in nav nav-stacked'
+    return dict
+
+def buildActiveDict(key, dict):
+    dict[key] = 'active'
+    return dict
+
+def buildIconDict(value, dict):
+    dict['sec_title_icon'] = value
+    return dict
+
+def buildValueDict(key, value, dict):
+    dict[key] = value
+    return dict
+
 def main():
     dict = getSexSatisticsDictFromDataBase()
     print dict['male']

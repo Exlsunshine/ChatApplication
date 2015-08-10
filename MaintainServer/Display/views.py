@@ -29,169 +29,122 @@ def getMaxOnlineNum(request):
 
 
 def home(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
+    dict = buildStackDict('null')
+    dict = buildActiveDict('home_active', dict)
+    dict = buildIconDict('icon-home', dict)
 
-    home_active = 'active'
-    SecTitleIcon = 'icon-home'
-
-    response =  render(request, "home.html", {'home_active' : home_active, 'sec_title_icon' :SecTitleIcon, 'online_stack': online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack})
+    response =  render(request, "home.html", dict)
     return response
 
 
 
 def getRealTimeOnlinePage(request):
-    online_stack = 'in nav nav-stacked'
-    statistics_stack =  'nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
+    dict = buildStackDict('online_stack')
+    dict = buildActiveDict('realtimeonline_active', dict)
+    dict = buildActiveDict('online_active', dict)
+    dict = buildIconDict('icon-group', dict)
 
-    realtimeonline_active = 'active'
-    SecTitleIcon = 'icon-group'
-    online_active = 'active'
-
-    response =  render(request, "Display/subview/realtime_online.html", {'realtimeonline_active' : realtimeonline_active, 'sec_title_icon' :SecTitleIcon
-                                                                          ,'online_active':online_active,'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack} )
+    response =  render(request, "Display/subview/realtime_online.html", dict)
     return response
 
 def getPerHourOnlinePage(request):
-    online_stack = 'in nav nav-stacked'
-    statistics_stack =  'nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
-
-    list = getPerHourOnLineNumFromDataBase()
-    perhouronline_active = 'active'
-    online_active = 'active'
-    SecTitleIcon = 'icon-h-sign'
-    response =  render(request, "Display/subview/perhour_online.html", {'perhouronline_active' : perhouronline_active, 'sec_title_icon' :SecTitleIcon, 'perhouronline_list' : list
-                                                                        ,'online_active':online_active, 'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack} )
+    dict = buildStackDict('online_stack')
+    dict = buildActiveDict('perhouronline_active', dict)
+    dict = buildActiveDict('online_active', dict)
+    dict = buildIconDict('icon-h-sign', dict)
+    dict = buildValueDict('perhouronline_list', getPerHourOnLineNumFromDataBase(), dict)
+    response =  render(request, "Display/subview/perhour_online.html", dict)
     return response
 
 def getSexStatisticsPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'nav nav-stacked'
-    distribution_stack =  'in nav nav-stacked'
-    SecTitleIcon = 'icon-user'
-    distribution_active = 'active'
-    sex_active = 'active'
 
-    dict = getSexSatisticsDictFromDataBase()
-    response =  render(request, "Display/subview/sexstatistics.html", {'distribution_active' : distribution_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'sex_active':sex_active, 'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'sexDict':dict} )
+    dict = buildStackDict('distribution_stack')
+    dict = buildActiveDict('distribution_active', dict)
+    dict = buildActiveDict('sex_active', dict)
+    dict = buildIconDict('icon-user', dict)
+
+    dict = buildValueDict('sexDict', getSexSatisticsDictFromDataBase(), dict)
+
+    response =  render(request, "Display/subview/sexstatistics.html", dict )
     return response
 
 def getAgeDistributionPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'in nav nav-stacked'
-    distribution_stack =  'in nav nav-stacked'
-    SecTitleIcon = 'icon-time'
-    distribution_active = 'active'
-    age_active = 'active'
+    dict = buildStackDict('distribution_stack')
+    dict = buildActiveDict('distribution_active', dict)
+    dict = buildActiveDict('age_active', dict)
+    dict = buildIconDict('icon-time', dict)
+    dict = buildValueDict('ageDict', getAgeDictFromDataBase(), dict)
 
-    dict = getAgeDictFromDataBase()
-    response =  render(request, "Display/subview/agedistribution.html", {'distribution_active' : distribution_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'age_active':age_active, 'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'ageDict':dict} )
+    response =  render(request, "Display/subview/agedistribution.html", dict )
     return response
 
 def getMapDistributionPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'in nav nav-stacked'
-    distribution_stack =  'in nav nav-stacked'
-    SecTitleIcon = 'icon-map-marker'
-    distribution_active = 'active'
-    map_active = 'active'
+    dict = buildStackDict('distribution_stack')
+    dict = buildActiveDict('distribution_active', dict)
+    dict = buildActiveDict('map_active', dict)
+    dict = buildIconDict('icon-globe', dict)
+    dict = buildValueDict('mapDict', getMapDistributionDictFromDataBase(), dict)
 
-    dict = getMapDistributionDictFromDataBase()
-    response =  render(request, "Display/subview/mapdistribution.html", {'distribution_active' : distribution_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'map_active':map_active,
-                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'mapDict':dict} )
+    response =  render(request, "Display/subview/mapdistribution.html", dict)
     return response
 
 def getRegisterDayPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'in nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
-    SecTitleIcon = 'icon-smile'
-    statistics_active = 'active'
-    register_active = 'active'
-    dict = getRegisterDayDictFromDataBase()
-    response =  render(request, "Display/subview/register_day.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'register_active':register_active,
-                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'registerday_dict':dict} )
+    dict = buildStackDict('statistics_stack')
+    dict = buildActiveDict('statistics_active', dict)
+    dict = buildActiveDict('register_active', dict)
+    dict = buildIconDict('icon-smile', dict)
+    dict = buildValueDict('registerday_dict', getRegisterDayDictFromDataBase(), dict)
+    response =  render(request, "Display/subview/register_day.html", dict)
     return response
 
 def getRegisterMonthPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'in nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
-    SecTitleIcon = 'icon-smile'
-    statistics_active = 'active'
-    register_active = 'active'
-    dict = getRegisterMonthDictFromDataBase()
-    response =  render(request, "Display/subview/register_month.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'register_active':register_active,
-                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'registermonth_dict':dict} )
+    dict = buildStackDict('statistics_stack')
+    dict = buildActiveDict('statistics_active', dict)
+    dict = buildActiveDict('register_active', dict)
+    dict = buildIconDict('icon-smile', dict)
+    dict = buildValueDict('registermonth_dict', getRegisterMonthDictFromDataBase(), dict)
+
+    response =  render(request, "Display/subview/register_month.html", dict)
     return response
 
 def getRegisterYearPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'in nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
-    SecTitleIcon = 'icon-smile'
-    statistics_active = 'active'
-    register_active = 'active'
-    dict = getRegisterYearDictFromDataBase()
-    response =  render(request, "Display/subview/register_year.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'register_active':register_active,
-                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'registeryear_dict':dict} )
+    dict = buildStackDict('statistics_stack')
+    dict = buildActiveDict('statistics_active', dict)
+    dict = buildActiveDict('register_active', dict)
+    dict = buildIconDict('icon-smile', dict)
+    dict = buildValueDict('registeryear_dict', getRegisterYearDictFromDataBase(), dict)
+
+    response =  render(request, "Display/subview/register_year.html", dict)
     return response
 
 def getZombieReturnDayPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'in nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
-    SecTitleIcon = 'icon-meh'
-    statistics_active = 'active'
-    zombiereturn_active = 'active'
-    dict = getZombieReturnDayDictFromDataBase()
-    response =  render(request, "Display/subview/zombie_return_day.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'zombiereturn_active':zombiereturn_active,
-                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'zombiereturn_day_dict':dict} )
+    dict = buildStackDict('statistics_stack')
+    dict = buildActiveDict('statistics_active', dict)
+    dict = buildActiveDict('zombiereturn_active', dict)
+    dict = buildIconDict('icon-meh', dict)
+    dict = buildValueDict('zombiereturn_day_dict', getZombieReturnDayDictFromDataBase(), dict)
+
+    response =  render(request, "Display/subview/zombie_return_day.html", dict)
     return response
 
 def getZombieReturnMonthPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'in nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
-    SecTitleIcon = 'icon-meh'
-    statistics_active = 'active'
-    zombiereturn_active = 'active'
-    dict = getZombieReturnMonthDictFromDataBase()
-    response =  render(request, "Display/subview/zombie_return_month.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'zombiereturn_active':zombiereturn_active,
-                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'zombiereturn_month_dict':dict} )
+    dict = buildStackDict('statistics_stack')
+    dict = buildActiveDict('statistics_active', dict)
+    dict = buildActiveDict('zombiereturn_active', dict)
+    dict = buildIconDict('icon-meh', dict)
+    dict = buildValueDict('zombiereturn_month_dict', getZombieReturnMonthDictFromDataBase(), dict)
+
+    response =  render(request, "Display/subview/zombie_return_month.html", dict)
     return response
 
 def getZombieReturnYearPage(request):
-    online_stack = 'nav nav-stacked'
-    statistics_stack =  'in nav nav-stacked'
-    distribution_stack =  'nav nav-stacked'
-    SecTitleIcon = 'icon-meh'
-    statistics_active = 'active'
-    zombiereturn_active = 'active'
-    dict = getZombieReturnYearDictFromDataBase()
-    response =  render(request, "Display/subview/zombie_return_year.html", {'statistics_active' : statistics_active, 'sec_title_icon' :SecTitleIcon
-                                                                        ,'zombiereturn_active':zombiereturn_active,
-                                                                       'online_stack':online_stack, 'statistics_stack':statistics_stack,'distribution_stack':distribution_stack
-                                                                       ,'zombiereturn_year_dict':dict} )
+    dict = buildStackDict('statistics_stack')
+    dict = buildActiveDict('statistics_active', dict)
+    dict = buildActiveDict('zombiereturn_active', dict)
+    dict = buildIconDict('icon-meh', dict)
+    dict = buildValueDict('zombiereturn_year_dict', getZombieReturnYearDictFromDataBase(), dict)
+
+    response =  render(request, "Display/subview/zombie_return_year.html", dict)
     return response
 
 def subview(request):
