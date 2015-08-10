@@ -6,15 +6,7 @@ from dataprocess.DataGenerator import *
 
 
 # Create your views here.
-def line(request):
-    return render(request, "line.html")
 
-def column(request):
-    sexDict = {'male' : 30.34, 'female' : 40.32}
-    return render(request, "column.html", {'sexDict' : sexDict})
-
-def skip(request):
-    return render(request, "index.html")
 
 def getRealtimeOnLineNum(request):
     import random

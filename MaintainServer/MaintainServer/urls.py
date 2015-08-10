@@ -18,9 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^column$', 'Display.views.column'),
-    url(r'^line$', 'Display.views.line'),
-    url(r'^skip$', 'Display.views.skip'),
     url(r'^$', 'Display.views.home'),
 
     url(r'^getNum$', 'Display.views.getRealtimeOnLineNum'),
