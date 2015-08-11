@@ -25,12 +25,10 @@ def getSexSatisticsDictFromDataBase():
     dict = getSexDictFromDataBase()
     return dict
 
-def getAgeDictFromDataBase():
-    import random
-    dict = []
-    for i in range(0, 9):
-        dict.append( random.randint(100,500))
-    return dict
+def getAgeListFromDataBase():
+    from AgeDataProcess import getAgeListFromDataBase
+    List = getAgeListFromDataBase()
+    return List
 
 def getMapDistributionDictFromDataBase():
     import random

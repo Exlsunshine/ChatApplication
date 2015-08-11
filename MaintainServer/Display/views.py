@@ -73,7 +73,7 @@ def getAgeDistributionPage(request):
     dict = buildActiveDict('distribution_active', dict)
     dict = buildActiveDict('age_active', dict)
     dict = buildIconDict('icon-time', dict)
-    dict = buildValueDict('ageDict', getAgeDictFromDataBase(), dict)
+    dict = buildValueDict('ageDict', getAgeListFromDataBase(), dict)
 
     response =  render(request, "Display/subview/agedistribution.html", dict )
     return response
