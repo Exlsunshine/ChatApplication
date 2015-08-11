@@ -1,0 +1,16 @@
+{% extends 'Display/base/page_base.html' %}
+{% block content %}
+ <div class='pull-right'>
+        <div class='btn-group'>
+            <a href="subview?pageName=RegisterDayPage" class="btn btn-white hidden-phone">本日</a>
+            <a href="subview?pageName=RegisterMonthPage" class="btn btn-white">本月</a>
+            <a href="subview?pageName=RegisterYearPage" class="btn btn-white ">本年</a>
+        </div>
+    </div>
+{% include 'Display/charts/register_month_chart.html' %}
+{% endblock %}
+
+{% block footer %}
+<script src="static/chart/js/highcharts.js"></script>
+<script src="static/chart/js/modules/exporting.js"></script>
+{% endblock%}

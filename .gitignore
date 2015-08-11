@@ -8,13 +8,18 @@
 /Client code/SocialSDKLibraryProject/gen
 /Client code/SocialSDKLibraryProject/.classpath
 /Client code/SocialSDKLibraryProject/project.properties
+
+/MaintainServer/.idea/*
+/MaintainServer/Display/static/download/*
+/MaintainServer/Display/static/video/*
+
 issues.txt
 issues2.txt
 
-*.class
-
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+*.pyc
+*.class
 
 # Package Files #
 #*.jar

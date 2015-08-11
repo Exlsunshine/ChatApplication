@@ -1,0 +1,50 @@
+<script type="text/javascript" src="static/chart/js/jquery-1.8.2.min.js"></script>
+		<style type="text/css">
+${demo.css}
+		</style>
+		<script type="text/javascript">
+		var dict = {{ ageDict|safe }};
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: '年龄分布'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br>人数：{point.y}人'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f}%',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: "年龄分布",
+            colorByPoint: true,
+            data: [{ name: "16-20", y: dict[0] },
+             {name: "21-25",y: dict[1]},
+             {name: "26-30",y: dict[2]},
+             {name: "31-35",y: dict[3]},
+             {name: "36-40",y: dict[4]},
+             {name: "41-45",y: dict[5]},
+             {name: "46-50",y: dict[6]},
+             {name: "51-55",y: dict[7]},
+             {name: "56-60",y: dict[8]}]
+        }]
+    });
+});
+		</script>
+<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>

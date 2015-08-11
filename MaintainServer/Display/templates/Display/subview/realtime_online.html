@@ -1,0 +1,10 @@
+{% extends 'Display/base/page_base.html' %}
+{% block content %}
+{% include 'Display/base/online_num_base.html' %}
+{% include 'Display/charts/realtime_online_chart.html' %}
+{% endblock %}
+
+{% block footer %}
+<script src="static/chart/js/highcharts.js"></script>
+<script src="static/chart/js/modules/exporting.js"></script>
+{% endblock%}
