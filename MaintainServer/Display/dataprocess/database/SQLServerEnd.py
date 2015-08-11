@@ -31,7 +31,8 @@ class SQLServerEnd:
         return count[0][0]
 
 
-
+    def excecuteRawQuery(self, sqlString):
+        return self.sqlExecutor.ExecQuery(sqlString)
 
 def main():
     s = SQLServerEnd("user_basic_info")
