@@ -23,6 +23,26 @@ class SQLServerEnd:
                 str = str + " and "
         return str
 
+    def buildContidionString(self, conditionList, conditionValList):
+        str = ""
+        for i in range(0, len(conditionList)):
+            condtion = conditionList[i]
+            conditionVal = conditionValList[i]
+            operator = "="
+            str = str + condtion + " " + operator + " '" + conditionVal + "'"
+            if i != len(conditionList) - 1:
+                str = str + " and "
+        return str
+
+    def buildQueryString(self, queryList):
+        str = ""
+        for i in range(0, len(queryList)):
+            query = queryList[i]
+            str = str + query
+            if (i != len(queryList) - 1):
+                str = str + ', '
+        return str
+
 
 
     def selectCount(self, conditionList, conditionValList, operatorList):
@@ -30,16 +50,27 @@ class SQLServerEnd:
         count = self.sqlExecutor.ExecQuery(sqlString)
         return count[0][0]
 
+    def select(self, queryList, conditionList, condtionValList):
+        sqlString = "select " + self.buildQueryString(queryList) + " from " + self.tableName + " where " + self.buildContidionString(conditionList, condtionValList)
+        print sqlString
+        dbResult = self.sqlExecutor.ExecQuery(sqlString)
+        resultList = []
+        for item in dbResult:
+            dict = {}
+            for i in range(0, len(queryList)):
+                dict[queryList[i]] = item[i]
+            resultList.append(dict)
+        return resultList
 
     def excecuteRawQuery(self, sqlString):
         return self.sqlExecutor.ExecQuery(sqlString)
 
 def main():
     s = SQLServerEnd("user_basic_info")
-    conditionList = ["sex"]
-    conditionValList = ["male"]
-    operatorList =  ["="]
-    print s.selectCount(conditionList, conditionValList, operatorList)
+    query = ["nick_name"]
+    conditionList = ["id"]
+    condtionValList = ["108"]
+    print s.select(query, conditionList, condtionValList)
 
 
 if __name__ == '__main__':
