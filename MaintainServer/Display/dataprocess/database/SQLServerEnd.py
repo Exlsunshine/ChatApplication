@@ -12,7 +12,7 @@ class SQLServerEnd:
         self.tableName = tableName
         self.sqlExecutor = MSSQL(host=self.IPADDRESS, user = self.USER, pwd = self.PWD, db =  self.DATABASE)
 
-    def buildContidionString(self, conditionList, conditionValList, operatorList):
+    def buildContidionStringWithOperator(self, conditionList, conditionValList, operatorList):
         str = ""
         for i in range(0, len(conditionList)):
             condtion = conditionList[i]
@@ -46,7 +46,9 @@ class SQLServerEnd:
 
 
     def selectCount(self, conditionList, conditionValList, operatorList):
-        sqlString = "select count(*) from " + self.tableName + " where " + self.buildContidionString(conditionList, conditionValList, operatorList)
+
+        sqlString = "select count(*) from " + self.tableName + " where " + self.buildContidionStringWithOperator(conditionList, conditionValList, operatorList)
+
         count = self.sqlExecutor.ExecQuery(sqlString)
         return count[0][0]
 
