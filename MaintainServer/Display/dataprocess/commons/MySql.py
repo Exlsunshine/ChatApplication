@@ -29,9 +29,10 @@ class MSSQL:
 
 def main():
     ms = MSSQL(host="localhost", user = "sa", pwd = "007", db = "JMMSRDB")
-    resList = ms.ExecQuery("select id from user_basic_info")
-    for (id) in resList:
-        print str(id).decode("utf8")
+    resList = ms.ExecQuery("select count(*) from user_basic_info where sex = 'male'")
+    for (nums) in resList:
+        print nums
+
 
 if __name__ == '__main__':
     main()
