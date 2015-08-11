@@ -14,10 +14,12 @@ def getMapDictFromDataBase():
         dict[PROVINCE_DICT[k]] =  0
 
     sqlEnd = SQLServerEnd(USER_BASIC_TABLE_NAME)
-    resultList = sqlEnd.excecuteRawQuery("select hometown from user_basic_info")
+    queryList = ["hometown"]
 
-    for hometown in resultList:
-        province = hometown[0].split()[0]
+    resultList = sqlEnd.select(queryList)
+
+    for item in resultList:
+        province = item["hometown"].split()[0]
         try:
             dict[PROVINCE_DICT[province]] = dict[PROVINCE_DICT[province]] + 1
         except:

@@ -52,7 +52,6 @@ class SQLServerEnd:
 
     def select(self, queryList, conditionList, condtionValList):
         sqlString = "select " + self.buildQueryString(queryList) + " from " + self.tableName + " where " + self.buildContidionString(conditionList, condtionValList)
-        print sqlString
         dbResult = self.sqlExecutor.ExecQuery(sqlString)
         resultList = []
         for item in dbResult:
@@ -62,6 +61,18 @@ class SQLServerEnd:
             resultList.append(dict)
         return resultList
 
+    def select(self, queryList):
+        sqlString = "select " + self.buildQueryString(queryList) + " from " + self.tableName
+        dbResult = self.sqlExecutor.ExecQuery(sqlString)
+        resultList = []
+        for item in dbResult:
+            dict = {}
+            for i in range(0, len(queryList)):
+                dict[queryList[i]] = item[i]
+            resultList.append(dict)
+        return resultList
+
+
     def excecuteRawQuery(self, sqlString):
         return self.sqlExecutor.ExecQuery(sqlString)
 
@@ -70,7 +81,7 @@ def main():
     query = ["nick_name"]
     conditionList = ["id"]
     condtionValList = ["108"]
-    print s.select(query, conditionList, condtionValList)
+    print s.select(query)
 
 
 if __name__ == '__main__':
