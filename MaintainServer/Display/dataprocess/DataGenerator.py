@@ -5,6 +5,9 @@ __author__ = 'LJ'
 def getOnLineNumFromDataBase():
     return 300
 
+def getStartAppNumFromDataBase():
+    return 3000
+
 def getDownloadNumFromDataBase():
     return 300
 

@@ -6,7 +6,15 @@ from dataprocess.DataGenerator import *
 
 
 # Create your views here.
+class DataGenerator:
+    startAppNum = 3000
 
+    @classmethod
+    def getStartAppNum(cls):
+        import random
+        random_num = random.randint(0,10)
+        cls.startAppNum = cls.startAppNum + random_num
+        return cls.startAppNum
 
 def getRealtimeOnLineNum(request):
     import random
@@ -17,6 +25,11 @@ def getRealtimeOnLineNum(request):
         num = num + random_num
     else:
         num = num - random_num
+    return HttpResponse(num)
+
+def getStartAppNum(request):
+    import random
+    num = DataGenerator.getStartAppNum()
     return HttpResponse(num)
 
 def getDownloadNum(request):
