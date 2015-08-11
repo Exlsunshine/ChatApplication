@@ -1,22 +1,25 @@
 __author__ = 'LJ'
 
 
-from commons.MySql import *
+from database.SQLServerEnd import SQLServerEnd
 
-DATABASE = 'JMMSRDB'
-USER = 'sa'
-PWD = '007'
-IPADDRESS = '127.0.0.1'
+USER_BASIC_TABLE_NAME = "user_basic_info"
 
 def getMaleNumFromDataBase():
-    ms = MSSQL(host=IPADDRESS, user = USER, pwd = PWD, db = DATABASE)
-    maleNum = ms.ExecQuery("select count(*) as num from user_basic_info where sex = 'male'")
-    return maleNum[0][0]
+    conditionList = ["sex"]
+    conditionValList = ["male"]
+    operatorList =  ["="]
+    sqlEnd = SQLServerEnd(USER_BASIC_TABLE_NAME)
+    maleNum = sqlEnd.selectCount(conditionList, conditionValList, operatorList)
+    return maleNum
 
 def getFemaleNumFromDataBase():
-    ms = MSSQL(host=IPADDRESS, user = USER, pwd = PWD, db = DATABASE)
-    femaleNum = ms.ExecQuery("select count(*) from user_basic_info where sex = 'female'")
-    return femaleNum[0][0]
+    conditionList = ["sex"]
+    conditionValList = ["female"]
+    operatorList =  ["="]
+    sqlEnd = SQLServerEnd(USER_BASIC_TABLE_NAME)
+    femaleNum = sqlEnd.selectCount(conditionList, conditionValList, operatorList)
+    return femaleNum
 
 def getSexDictFromDataBase():
     maleNum = getMaleNumFromDataBase()
