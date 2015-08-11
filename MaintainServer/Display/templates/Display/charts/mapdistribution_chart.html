@@ -1,0 +1,178 @@
+<script type="text/javascript" src="static/chart/js/jquery-1.8.2.min.js"></script>
+		<style type="text/css">
+${demo.css}
+		</style>
+		<script type="text/javascript">
+$(function () {
+
+var dict = {{ mapDict|safe }};
+    // Prepare demo data
+    var data = [
+
+        {
+            "hc-key": "cn-sh",  //上海
+            "value": dict.sh
+        },
+        {
+            "hc-key": "cn-zj", //浙江
+            "value": dict.zj
+        },
+        {
+            "hc-key": "cn-gs", //甘肃
+            "value": dict.gs
+        },
+        {
+            "hc-key": "cn-nx", //宁夏
+            "value": dict.nx
+        },
+        {
+            "hc-key": "cn-sa",  //陕西
+            "value": dict.sa
+        },
+        {
+            "hc-key": "cn-ah",//安徽
+            "value": dict.ah
+        },
+        {
+            "hc-key": "cn-hu", //湖北
+            "value":dict.hu
+        },
+        {
+            "hc-key": "cn-gd", //广东
+            "value": dict.gd
+        },
+        {
+            "hc-key": "cn-fj",//福建
+            "value": dict.fj
+        },
+        {
+            "hc-key": "cn-bj", //北京
+            "value": dict.bj
+        },
+        {
+            "hc-key": "cn-hb",//河北
+            "value": dict.hb
+        },
+        {
+            "hc-key": "cn-sd", //山东
+            "value": dict.sd
+        },
+        {
+            "hc-key": "cn-tj", //天津
+            "value": dict.tj
+        },
+        {
+            "hc-key": "cn-js",//江苏
+            "value": dict.js
+        },
+        {
+            "hc-key": "cn-ha", //海南
+            "value": dict.ha
+        },
+        {
+            "hc-key": "cn-qh", //青海
+            "value": dict.qh
+        },
+        {
+            "hc-key": "cn-jl",//吉林
+            "value": dict.jl
+        },
+        {
+            "hc-key": "cn-xz", //西藏
+            "value": dict.xz
+        },
+        {
+            "hc-key": "cn-xj",//新疆
+            "value": dict.xj
+        },
+        {
+            "hc-key": "cn-he",//河南
+            "value": dict.he
+        },
+        {
+            "hc-key": "cn-nm",//内蒙
+            "value": dict.nm
+        },
+        {
+            "hc-key": "cn-hl", //黑龙江
+            "value": dict.hl
+        },
+        {
+            "hc-key": "cn-yn",//云南
+            "value": dict.yn
+        },
+        {
+            "hc-key": "cn-gx",//广西
+            "value": dict.gx
+        },
+        {
+            "hc-key": "cn-ln",//辽宁
+            "value": dict.ln
+        },
+        {
+            "hc-key": "cn-sc",//四川
+            "value": dict.sc
+        },
+        {
+            "hc-key": "cn-cq",//重庆
+            "value": dict.cq
+        },
+        {
+            "hc-key": "cn-gz",//贵州
+            "value": dict.gz
+        },
+        {
+            "hc-key": "cn-hn",//湖南
+            "value": dict.hn
+        },
+        {
+            "hc-key": "cn-sx",//山西
+            "value": dict.sx
+        },
+        {
+            "hc-key": "cn-jx",//江西
+            "value": dict.jx
+        }
+    ];
+
+    // Initiate the chart
+    $('#container').highcharts('Map', {
+
+        title : {
+            text : '用户家乡分布图'
+        },
+
+
+
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        colorAxis: {
+            min: 0
+        },
+
+        series : [{
+            data : data,
+            mapData: Highcharts.maps['countries/cn/custom/cn-all-sar-taiwan'],
+            joinBy: 'hc-key',
+            name: '人数',
+            states: {
+                hover: {
+                    color: '#BADA55'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}'
+            }
+        }]
+    });
+});
+
+		</script>
+<div id="container" style="min-width: 750px; height: 600px; margin: 0 auto"></div>

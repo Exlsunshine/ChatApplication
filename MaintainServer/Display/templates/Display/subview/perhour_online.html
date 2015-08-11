@@ -1,0 +1,9 @@
+{% extends 'Display/base/page_base.html' %}
+{% block content %}
+{% include 'Display/charts/perhour_online_chart.html' %}
+{% endblock %}
+
+{% block footer %}
+<script src="static/chart/js/highcharts.js"></script>
+<script src="static/chart/js/modules/exporting.js"></script>
+{% endblock%}

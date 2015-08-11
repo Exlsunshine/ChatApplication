@@ -1,0 +1,56 @@
+<script type="text/javascript"
+        src="static/chart/js/jquery-1.8.2.min.js"></script>
+<style type="text/css">
+    ${
+    demo
+    .css
+    }
+</style>
+<script type="text/javascript">
+	var perhouronline_list = {{perhouronline_list|safe}}
+	$(function() {
+		$('#container')
+				.highcharts(
+						{
+							title : {
+								text : '每小时在线人数',
+								x : -20
+							//center
+							},
+							xAxis : {
+								categories : [ '01:00', '02:00', '03:00',
+										'04:00', '05:00', '06:00', '07:00', '08:00',
+										'09:00', '10:00', '11:00' ,'12:00', '13:00', '14:00', '15:00',
+										'16:00', '17:00', '18:00', '19:00', '20:00',
+										'21:00', '22:00', '23:00', '24:00']
+							},
+							yAxis : {
+								title : {
+									text : '人数'
+								},
+								plotLines : [ {
+									value : 0,
+									width : 1,
+									color : '#808080'
+								} ]
+							},
+							tooltip : {
+								valueSuffix : '人'
+							},
+							legend: {
+           					 layout: 'vertical',
+         					   align: 'right',
+       						     verticalAlign: 'middle',
+        					    borderWidth: 0
+     						   },
+							series : [
+									{
+										name: '每小时在线人数',
+										data : perhouronline_list
+									} ,]
+						});
+	});
+</script>
+
+<div id="container"
+     style="min-width: 310px; height: 400px; margin: 0 auto"></div>
