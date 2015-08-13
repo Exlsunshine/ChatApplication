@@ -54,7 +54,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="QE0CcmzMbOQNNrHW6GH7mEGv" />
+            android:value="OnfYR7ADgSItWRE6dKYpAZle" />
 
         <activity
             android:name="com.yg.ui.login.WelcomeActivity"
@@ -142,7 +142,7 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55b9bd2b67e58eb1d1000057" >
+            android:value="55cab4ebe0f55ad2cf002d11" >
         </meta-data>
 
         <activity
