@@ -65,6 +65,11 @@ public class FragmentUserInfoSetting extends Fragment
 								   R.id.lj_userinfo_setting_portrait, R.id.lj_userinfo_setting_singoff,
 								   R.id.lj_userinfo_setting_about_layout, R.id.lj_userinfo_setting_about_text, R.id.lj_userinfo_setting_about_image};
 	
+	public FragmentUserInfoSetting()
+	{
+		super();
+	}
+	
 	public FragmentUserInfoSetting(Context context, HashMap<String, String> map) 
 	{
 		gChangeMap = map;

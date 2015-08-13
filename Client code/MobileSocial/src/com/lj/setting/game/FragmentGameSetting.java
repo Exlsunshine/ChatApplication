@@ -99,6 +99,11 @@ public class FragmentGameSetting extends Fragment
 		};
 	};
 	
+	public FragmentGameSetting()
+	{
+		super();
+	}
+	
 	private void initGameData()
 	{
 		new ThreadGetGameType(ConstantValues.user.getID(), gHandler).start();
