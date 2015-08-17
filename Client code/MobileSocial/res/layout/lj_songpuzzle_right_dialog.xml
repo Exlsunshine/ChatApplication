@@ -22,32 +22,47 @@
 	    android:layout_marginTop="15dp"
 	    android:gravity="center"
 	    android:textColor="#1E90FF"
+	    android:textSize="@dimen/lj_dialog_dis_textsize"
 	    android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingTop="10dp" />
+	<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@android:color/darker_gray" />
 	<TextView 
 	    android:id="@+id/lj_songpuzzle_dialog_useranswer"
 	    android:text="您的答案："
 	    android:layout_width="250dp"
         android:layout_height="wrap_content"
 	    android:layout_marginTop="15dp"
+	    android:textSize="@dimen/lj_dialog_dis_textsize"
 	    android:gravity="center"
 	    android:textColor="#1E90FF"
 	    android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingTop="10dp" />
+	<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@android:color/darker_gray" />
 
 	<TextView 
 	    android:id="@+id/lj_songpuzzle_dialog_status"
 	    android:text=""
 	    android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/lj_dialog_dis_textsize"
 	    android:layout_marginTop="15dp"
 	    android:gravity="center"
 	    android:textColor="#1E90FF"
 	    android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingTop="10dp" />
+	<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -63,6 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/white"
+            android:textSize="@dimen/lj_dialog_dis_textsize"
             android:gravity="center"
             android:text="下一首"
             android:textColor="#1E90FF" />

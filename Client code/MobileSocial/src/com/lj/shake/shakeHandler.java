@@ -98,7 +98,7 @@ public class shakeHandler extends Handler
 		{
 			public void run() 
 			{
-				for (int i = 0;i < 10; i++)
+				for (int i = 0;i <= 10; i++)
 				{
 					LatLng point = new LatLng(currentPoint.latitude + i * deltaLat, currentPoint.longitude + i * deltaLng);
 					MapStatus mMapStatus = new MapStatus.Builder().target(point).zoom(ConstantValues.InstructionCode.MAP_ZOOM_INITIALIZATION).build();
