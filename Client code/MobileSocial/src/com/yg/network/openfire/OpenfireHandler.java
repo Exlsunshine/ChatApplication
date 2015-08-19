@@ -220,7 +220,8 @@ public class OpenfireHandler
 						attributes.put("email", userName + "@foo.com");
 						attributes.put("name", "full_name" + userName);
 						
-					    accountManager.createAccount("REG_USERNAME", "REG_PASSWORD", attributes);
+//					    accountManager.createAccount("REG_USERNAME", "REG_PASSWORD", attributes);
+						accountManager.createAccount(userName, "123456", attributes);
 					} catch (XMPPException e) {
 					    Log.d(e.getMessage(), "failed to create user");
 					}
