@@ -17,19 +17,11 @@ class DataGenerator:
         return cls.startAppNum
 
 def getRealtimeOnLineNum(request):
-    import random
     num = getOnLineNumFromDataBase()
-    random_num = random.randint(10,20)
-    sign = random.randint(0, 1)
-    if (sign == 0):
-        num = num + random_num
-    else:
-        num = num - random_num
     return HttpResponse(num)
 
 def getStartAppNum(request):
-    import random
-    num = DataGenerator.getStartAppNum()
+    num = getStartAppNumFromDataBase()
     return HttpResponse(num)
 
 def getDownloadNum(request):

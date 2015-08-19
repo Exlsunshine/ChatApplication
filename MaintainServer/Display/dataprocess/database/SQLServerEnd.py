@@ -7,7 +7,7 @@ class SQLServerEnd:
     def __init__(self, tableName):
         self.USER = 'sa'
         self.PWD = '007'
-        self.IPADDRESS = '127.0.0.1'
+        self.IPADDRESS = '101.200.230.173'
         self.DATABASE = 'JMMSRDB'
         self.tableName = tableName
         self.sqlExecutor = MSSQL(host=self.IPADDRESS, user = self.USER, pwd = self.PWD, db =  self.DATABASE)
