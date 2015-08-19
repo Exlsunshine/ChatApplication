@@ -9,6 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+import com.yg.commons.ConstantValues;
+import com.yg.network.openfire.OpenfireHandler;
+
 public class UploadManager 
 {
 	private static final String BOUNDARY = "----WebKitFormBoundaryT1HoybnYeFOGFlBR";  
@@ -16,6 +19,17 @@ public class UploadManager
     private String newFileName;
     private String serverIP;
     private String serverPort;
+    
+    private OpenfireHandler handler = null;
+    private String url = null;
+    private String oID = null;
+    
+    public void setHandler(OpenfireHandler handler, String url, String oID)
+    {
+    	this.handler = handler;
+    	this.url = url;
+    	this.oID = oID;
+    }
     
     /**
      * @param uploadFile 需要上传的文件
@@ -98,7 +112,23 @@ public class UploadManager
         in.close();  
         out.close();  
         if (conn.getResponseCode() == 200) 
-            System.out.println("上传成功");  
+        {
+        	System.out.println("上传成功");  
+        	
+        	if (handler != null)
+        	{
+        		final String finalURL = ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG + this.url;
+        		new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						
+						handler.send(finalURL
+								, oID);
+					}
+				}).start();
+        	}
+        }
     }  
     
     /**

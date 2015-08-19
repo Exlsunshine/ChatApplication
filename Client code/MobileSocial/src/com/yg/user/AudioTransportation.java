@@ -1,6 +1,9 @@
 package com.yg.user;
 
 import java.io.File;
+
+import com.yg.network.openfire.OpenfireHandler;
+
 import android.util.Log;
 
 /**
@@ -19,7 +22,7 @@ public class AudioTransportation
 		
 	private WebServiceAPI imageApi = new WebServiceAPI(WEBSERVICE_AUDIO_PACKAGE, WEBSERVICE_AUDIO_CLASS);
 	
-	public String uploadAduio(int from_userid, int to_userid, File file) throws Exception
+	public String uploadAduio(int from_userid, int to_userid, File file, OpenfireHandler handler, String oID) throws Exception
 	{
 		String[] name = {"from_userid", "to_userid"};
 		Object[] values = {from_userid, to_userid};
@@ -32,6 +35,7 @@ public class AudioTransportation
 		String newFileName = audioUrl.substring(audioUrl.indexOf('/', 7) + 1, audioUrl.length());
 		String serverPort = audioUrl.substring(audioUrl.indexOf(':', 5) + 1, audioUrl.indexOf(':', 5) + 5);
 		UploadManager um = new UploadManager(file, newFileName, serverIP, serverPort);
+		um.setHandler(handler, result.toString(), oID);
 		um.excecuteUpload();
 		
 		return result.toString();
