@@ -12,12 +12,11 @@ def getDownloadNumFromDataBase():
     return 300
 
 def getMaxOnlineNumFromDataBase():
-    return 300
+    return 573
 
 def getPerHourOnLineNumFromDataBase():
     import random
     import time
-    print time.strftime("%H")
     list = []
 
 
