@@ -21,14 +21,16 @@ public class UploadManager
     private String serverPort;
     
     private OpenfireHandler handler = null;
+    private String flag = null;
     private String url = null;
     private String oID = null;
     
-    public void setHandler(OpenfireHandler handler, String url, String oID)
+    public void setHandler(OpenfireHandler handler, String url, String oID, String flag)
     {
     	this.handler = handler;
     	this.url = url;
     	this.oID = oID;
+    	this.flag = flag;
     }
     
     /**
@@ -117,7 +119,7 @@ public class UploadManager
         	
         	if (handler != null)
         	{
-        		final String finalURL = ConstantValues.InstructionCode.MESSAGE_AUDIO_FLAG + this.url;
+        		final String finalURL = this.flag + this.url;
         		new Thread(new Runnable() {
 					
 					@Override

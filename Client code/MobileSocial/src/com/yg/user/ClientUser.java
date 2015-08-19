@@ -433,23 +433,7 @@ public class ClientUser extends AbstractUser
 				//1	首先上传图片到服务器，并且获取一个图片在数据库中存放的id
 				//2 发送给other一条消息文本消息:"___msg_type_img_download_request_id_is_%d",其中%d是图片在数据库中存放的id
 				case ConstantValues.InstructionCode.MESSAGE_TYPE_IMAGE:
-					final String imgUrl = uploadImageToServer((ImageMessage)msg, other);
-					new Thread(new Runnable() {
-						
-						@Override
-						public void run() {
-							try {
-								Thread.sleep(3000);
-								ofhandler.send(ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG + imgUrl
-										, String.valueOf(other.getID()));
-							} catch (InterruptedException e1) {
-								e1.printStackTrace();
-							}
-							
-						}
-					}).start();
-					
-					
+					uploadImageToServer((ImageMessage)msg, other, ofhandler, String.valueOf(other.getID()));
 					break;
 				
 				//如果消息类型是音频：
@@ -486,13 +470,13 @@ public class ClientUser extends AbstractUser
 		return audioUrl;
 	}
 	
-	private String uploadImageToServer(ImageMessage msg, FriendUser other)
+	private String uploadImageToServer(ImageMessage msg, FriendUser other, OpenfireHandler handler, String oID)
 	{
 		ImageTransportation imgTransport = new ImageTransportation();
 		String imgUrl = null;
 		try
 		{
-			imgUrl = imgTransport.uploadImage(getID(), other.getID(), new File(msg.getContent()));
+			imgUrl = imgTransport.uploadImage(getID(), other.getID(), new File(msg.getContent()), handler, oID);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
