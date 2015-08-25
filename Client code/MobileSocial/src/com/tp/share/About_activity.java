@@ -131,8 +131,8 @@ public class About_activity extends Activity
     private void initSocialMedia()
     {
 		com.umeng.socialize.utils.Log.LOG = true;
-		String appIDWEIXIN = "wx3139a15c7d365561";
-		String appSecretIDWEIXIN = "d3892f80142ec4fe80fcd637a7f99cbb";
+		String appIDWEIXIN = "wx6480b587b5cbca1e";
+		String appSecretIDWEIXIN = "688c23b3aa2eae14e2171e2a98901718";
 		String appIDRenRen = "480957";
 		String apiKeyRenRen = "a4b4262af9894920ae188bb5707fb2a5";
 		String appSecretIDRenRen = "a9c7e88a28204078887f87fa980e8801";

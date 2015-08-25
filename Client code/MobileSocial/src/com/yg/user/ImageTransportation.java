@@ -4,6 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import org.kobjects.base64.Base64;
 
+import com.yg.commons.ConstantValues;
+import com.yg.network.openfire.OpenfireHandler;
+
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -48,7 +51,7 @@ public class ImageTransportation
 	 * @return 图片的下载链接
 	 * @throws Exception
 	 */
-	public String uploadImage(int from_userid, int to_userid, File file) throws Exception
+	public String uploadImage(int from_userid, int to_userid, File file, OpenfireHandler handler, String oID) throws Exception
 	{
 		String[] name = {"from_userid", "to_userid"};
 		Object[] values = {from_userid, to_userid};
@@ -60,6 +63,7 @@ public class ImageTransportation
 		String newFileName = imgUrl.substring(imgUrl.indexOf('/', 7) + 1, imgUrl.length());
 		String serverPort = imgUrl.substring(imgUrl.indexOf(':', 5) + 1, imgUrl.indexOf(':', 5) + 5);
 		UploadManager um = new UploadManager(file, newFileName, serverIP, serverPort);
+		um.setHandler(handler, result.toString(), oID, ConstantValues.InstructionCode.MESSAGE_IMAGE_FLAG);
 		um.excecuteUpload();
 		
 		return imgUrl;

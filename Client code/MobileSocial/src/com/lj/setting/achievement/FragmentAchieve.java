@@ -58,6 +58,11 @@ public class FragmentAchieve extends Fragment
 		};
 	};
 	
+	public FragmentAchieve()
+	{
+		super();
+	}
+	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{

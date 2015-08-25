@@ -28,7 +28,7 @@ public class DateUtil
 			Log.e(DEBUG_TAG, "输入的日期格式有误");
 			return null;
 		}
-		
+
 		Date current = null, early = null;
 		
 		try {
@@ -50,10 +50,10 @@ public class DateUtil
 		long hour = (diff - day * 3600 * 24) / 3600;
 		long min = (diff - day * 3600 * 24 - hour * 3600) / 60;
 		//long seconds = diff - day * 3600 * 24 - hour * 3600 - min * 60;
-		
+
 		if (day > 0 && (hour != 0 || min != 0))
 			day++;
-		
+
 		if ((day == 0) && (Math.abs(current.getDate() - early.getDate()) == 1))
 			return "昨天";
 		if (day == 1)
@@ -63,19 +63,19 @@ public class DateUtil
 		else if (day > 7)
 		{
 			if (current.getYear() == early.getYear())
-				return earlyDateStr.substring(5, 5);
+				return earlyDateStr.substring(5, 10);
 			else
 				return earlyDateStr.substring(0, 10);
 		}
-		
+
 		if (hour >= 1)
 			return String.valueOf(hour) + " 小时前";
-		
+
 		if (min > 1 && min < 5)
 			return "几分钟前";
 		if (min >= 5)
 			return String.valueOf(min) + " 分钟前";
-		
+
 		return "刚刚";
 	}
 	

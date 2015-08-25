@@ -22,7 +22,7 @@ public class EditWatcher implements TextWatcher
 	
 	public static boolean isTextLengthValid(String text)
 	{
-		int length = text.length();
+		int length = text.replace("\n", "").length();
 		return length >= MIN_TEXT_LENGTH && length <= MAX_TEXT_LENGTH;
 	}
 	

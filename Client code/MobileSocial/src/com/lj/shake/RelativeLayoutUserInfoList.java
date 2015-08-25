@@ -203,25 +203,34 @@ public class RelativeLayoutUserInfoList extends FrameLayout
 		gPhoneWidth = width;
 		gUserData = new UserDataModel(data);
 		
-		gUserInfoViewCenter = (FrameLayoutUserInfo)findViewById(R.id.lj_map_userinfo_center);
-		gUserInfoViewCenter.setOnTouchListener(userInfoCenterOnTouchListener);
-		gUserInfoViewCenter.setBeginGameTouchListener(beginGameOnTouchListener);
+		if (gUserInfoViewCenter == null)
+		{
+			gUserInfoViewCenter = (FrameLayoutUserInfo)findViewById(R.id.lj_map_userinfo_center);
+			gUserInfoViewCenter.setOnTouchListener(userInfoCenterOnTouchListener);
+			gUserInfoViewCenter.setBeginGameTouchListener(beginGameOnTouchListener);
+		}
 		FrameLayout.LayoutParams centerLayoutParams = (LayoutParams) gUserInfoViewCenter.getLayoutParams();
 		gViewWidth = gUserInfoViewCenter.getWidth();
 		gViewHeight = gUserInfoViewCenter.getHeight();
 		gCenterLeft = centerLayoutParams.leftMargin;
 		
-		gUserInfoViewLeft = new FrameLayoutUserInfo(context);
-		FrameLayout.LayoutParams leftLayoutParams = new LayoutParams(gViewWidth, gViewHeight);
-		leftLayoutParams.leftMargin = -gViewWidth + centerLayoutParams.leftMargin * 2 / 3;
-		gUserInfoViewLeft.setLayoutParams(leftLayoutParams);
-		this.addView(gUserInfoViewLeft);
+		if (gUserInfoViewLeft == null)
+		{
+			gUserInfoViewLeft = new FrameLayoutUserInfo(context);
+			FrameLayout.LayoutParams leftLayoutParams = new LayoutParams(gViewWidth, gViewHeight);
+			leftLayoutParams.leftMargin = -gViewWidth + centerLayoutParams.leftMargin * 2 / 3;
+			gUserInfoViewLeft.setLayoutParams(leftLayoutParams);
+			this.addView(gUserInfoViewLeft);
+		}
 		
-		gUserInfoViewRight = new FrameLayoutUserInfo(context);
-		FrameLayout.LayoutParams rightLayoutParams = new LayoutParams(gViewWidth, gViewHeight);
-		rightLayoutParams.leftMargin = gViewWidth + centerLayoutParams.leftMargin + centerLayoutParams.leftMargin * 1 / 3;
-		gUserInfoViewRight.setLayoutParams(rightLayoutParams);
-		this.addView(gUserInfoViewRight);
+		if (gUserInfoViewRight == null)
+		{
+			gUserInfoViewRight = new FrameLayoutUserInfo(context);
+			FrameLayout.LayoutParams rightLayoutParams = new LayoutParams(gViewWidth, gViewHeight);
+			rightLayoutParams.leftMargin = gViewWidth + centerLayoutParams.leftMargin + centerLayoutParams.leftMargin * 1 / 3;
+			gUserInfoViewRight.setLayoutParams(rightLayoutParams);
+			this.addView(gUserInfoViewRight);
+		}
 		
 		setData();
 	}
