@@ -620,8 +620,16 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 	{
 		if (requestCode == REQUEST_CODE_SIGNOFF && resultCode == RESULT_CODE_SIGNOFF)
 		{
-			ConstantValues.user.signoff(this);
-			finish();
+			Thread td = new Thread(new Runnable()
+			{
+				@Override
+				public void run() 
+				{
+					ConstantValues.user.signoff(MainActivity.this);
+					finish();
+				}
+			});
+			td.start();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}

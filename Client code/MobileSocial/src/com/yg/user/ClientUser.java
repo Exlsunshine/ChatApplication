@@ -398,6 +398,14 @@ public class ClientUser extends AbstractUser
 		loginInfo.logoff();
 		
 		ofhandler.signoff();
+		
+		String [] params = {"userID"};
+		Object [] vlaues = new Object[1];
+		params[0] = "userID";
+		vlaues[0] = String.valueOf(this.id);
+		
+		WebServiceAPI wsAPI = new WebServiceAPI(PACKAGE_NAME, CLASS_NAME);
+		Object ret = wsAPI.callFuntion("signOff", params, vlaues);
 	}
 
 	/**
